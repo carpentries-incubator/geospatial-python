@@ -15,8 +15,8 @@ objectives:
 keypoints:
 - "The GeoTIFF file format includes metadata about the raster data."
 - "To plot raster data with the `earthpy` package, we need to read in the image as a numpy array."
-- "`rasterio` stores CRS information in the PROJ4 dict format."
-- "Be careful when dealing with missing or bad data values."
+- "`rasterio` stores CRS information as a CRS object that can be converted to an EPSG code or PROJ4 string."
+- "The GeoTIFF file may or may not store the correct no data value(s). We can find the correct value(s) in the raster's external metadata or by plotting the raster."
 ---
 
 > ## Things You'll Need To Complete This Episode
@@ -460,9 +460,6 @@ in use. For instance, if your data ranges continuously from -20 to 100, 0 is
 not an acceptable `nodata` value! Or, for categories that number 1-15, 0 might be
 fine for `nodata`, but using -.000003 will force you to save the GeoTIFF on disk
 as a floating point raster, resulting in a bigger file. 
-
-In summary, if we are lucky, our GeoTIFF file has a tag that reveals the correct no data value. If we are 
-less lucky, we can find that information in the raster's external metadata or by plotting it.
 
 > ## Challenge
 > How can we find the assigned `nodata` value for our dataset when it is read in? How can we assign it to something else?
