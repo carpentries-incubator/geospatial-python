@@ -408,7 +408,7 @@ earthpy.plot.plot_rgb(
 {: .language-python}
 
 
-<img src="../fig/01-demonstrate-no-data-black.png" title="plot of chunk demonstrate-no-data-black" alt="plot of chunk demonstrate-no-data-black" width="612" style="display: block; margin: auto;" />
+<img src="../fig/01-demonstrate-no-data-black-3.png" title="plot of chunk demonstrate-no-data-black" alt="plot of chunk demonstrate-no-data-black" width="612" style="display: block; margin: auto;" />
 
 `rasterio` assigns a specific number as missing data to the `meta` attribute when the dataset is read, base don the file's own metadata. While the GeoTiff's `nodata` attribute is assigned to the value `-1.7e+308`, it turns out the missing data at the edges are represented by the value `0`. In order to run calculations on this image that ignore these edge values or plot he iamge without the nodata values being displayed on the color scale, we can mask out `0` values in our numpy array. 
 
@@ -424,7 +424,7 @@ earthpy.plot.plot_rgb(
 ~~~
 {: .language-python}
 
-<img src="../fig/01-demonstrate-no-data-masked.png" title="plot of chunk demonstrate-no-data-masked" alt="plot of chunk demonstrate-no-data-masked" width="612" style="display: block; margin: auto;" />
+<img src="../fig/01-demonstrate-no-data-masked-4.png" title="plot of chunk demonstrate-no-data-masked" alt="plot of chunk demonstrate-no-data-masked" width="612" style="display: block; margin: auto;" />
 
 The difference here shows up as ragged edges on the plot, rather than black
 spaces where there is no data.
@@ -441,7 +441,7 @@ earthpy.plot.plot_rgb(
 ~~~
 {: .language-python}
 
-<img src="../fig/01-demonstrate-mask.png" title="plot of chunk napink" alt="plot of chunk napink" width="612" style="display: block; margin: auto;" />
+<img src="../fig/01-demonstrate-mask-5.png" title="plot of chunk napink" alt="plot of chunk napink" width="612" style="display: block; margin: auto;" />
 
 From this plot we see something interesting, while our no data values were masked along the edges, the color channel's no data values don't all line up. The colored pixels at the edges between white black result from there being no data in one or two channels at a given pixel. `0` could conceivably
 represent a valid value for reflectance (the units of our pixel values) so it's good to make sure we are masking values at the edges and not valid data values within the image.
