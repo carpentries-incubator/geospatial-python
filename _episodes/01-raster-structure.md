@@ -161,11 +161,6 @@ earthpy.plot.plot_bands(
 Nice plot! We set the color scale to `viridis` which is a color-blindness friendly color scale.
 
 <img src="../fig/01-earthpy-surface-1.png" title="Raster plot with earthpy.plot using the viridis color scale" alt="Raster plot with earthpy.plot using the viridis color scale" width="612" style="display: block; margin: auto;" />
-> ## Plotting Tip
->
-> More information about the Viridis palette used above at
-> [R Viridis package documentation](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html).
-{: .callout}
 
 > ## Plotting Tip
 > For more aesthetic looking plots, matplotlib allows you to customize the style with `plt.style.use`. However, if you want more control of the look of your plot, matplotlib has many more functions to change the postion and appearnce of plot elements.
@@ -324,13 +319,11 @@ We can see that the elevation at our site ranges from 305.0700073m to
 ## Raster Bands
 The Digital Surface Model that we've been working with is a
 single band raster. This means that there is only one dataset stored in the
-raster: surface elevation in meters for one time period.
+raster: surface elevation in meters for one time period. However, a raster dataset can contain one or more bands.
 
-(TODO, update this image link?)
 ![Multi-band raster image](../images/dc-spatial-raster/single_multi_raster.png)
 
-A raster dataset can contain one or more bands. We can use the `.read()`
-function to import one single band from a single or multi-band raster. We can
+We can use the `.read()` function to import one single band from a single or multi-band raster. We can
 view the number of bands in a raster by looking at the `count` key of the `meta` python `dict`.
 
 
@@ -381,6 +374,7 @@ surface_model_HARV_arr_2D.shape
 ~~~
 {: .output}
 
+It's always a good idea to examine the shape of the raster array you are working with and make sure it's what you expect. Many functions, especially ones that plot images, expect a raster array to have a particular shape.
 
 Jump to a later episode in
 this series for information on working with multi-band rasters:
@@ -389,32 +383,70 @@ this series for information on working with multi-band rasters:
 ## Dealing with Missing Data
 
 Raster data often has a no data value associated with it. This is a value
-assigned to pixels where data is missing or no data were collected.
+assigned to pixels where data is missing or no data were collected. However, 
+there can be different cases that cause missing data, and it's common for other 
+values in a raster to represent different cases. The most common example is missing 
+data at the edges of rasters.
 
 By default the shape of a raster is always rectangular. So if we have a dataset
 that has a shape that isn't rectangular, some pixels at the edge of the raster
 will have no data values. This often happens when the data were collected by an
 sensor which only flew over some part of a defined region.
 
-In the image below, the pixels that are black have no data values. The sensor
+In the RGB image below, the pixels that are black have no data values. The sensor
 did not collect data in these areas.
-(TODO update these plots to be made with `earthpy` for consistency)
-<img src="../fig/rmd-01-demonstrate-no-data-black-ggplot-1.png" title="plot of chunk demonstrate-no-data-black-ggplot" alt="plot of chunk demonstrate-no-data-black-ggplot" width="612" style="display: block; margin: auto;" />
 
-In the next image, the black edges have been assigned no data values. Pytho's plotting libraries generally do not
-render pixels that contain a specified no data value. `rasterio` assigns a specific number as missing data
-to the `meta` attribute, `nodata`.
+~~~
+rgb_HARV = rasterio.open("NEON-DS-Airborne-Remote-Sensing/HARV/RGB_Imagery/HARV_RGB_Ortho.tif", "r")
+rgb_HARV_arr = rgb_HARV.read()
+earthpy.plot.plot_rgb(
+    rgb_HARV_arr,
+    title="RGB Image, NoData Values UnMasked",
+    figsize=(10, 6)
+)
+~~~
+{: .language-python}
+
+
+<img src="../fig/01-demonstrate-no-data-black.png" title="plot of chunk demonstrate-no-data-black" alt="plot of chunk demonstrate-no-data-black" width="612" style="display: block; margin: auto;" />
+
+`rasterio` assigns a specific number as missing data to the `meta` attribute when the dataset is read, base don the file's own metadata. While the GeoTiff's `nodata` attribute is assigned to the value `-1.7e+308`, it turns out the missing data at the edges are represented by the value `0`. In order to run calculations on this image that ignore these edge values or plot he iamge without the nodata values being displayed on the color scale, we can mask out `0` values in our numpy array. 
+
+In the next image, the black edges have been masked using `numpy.ma.masked_where()`, a function that assigns no data values where a condition is true.
+
+~~~
+rgb_HARV_masked_arr = np.ma.masked_where(rgb_HARV_arr==0, rgb_HARV_arr) #1st argument is the condition, second is the array to mask
+earthpy.plot.plot_rgb(
+    rgb_HARV_masked_arr,
+    title="RGB Image, NoData Values Masked",
+    figsize=(10, 6)
+)
+~~~
+{: .language-python}
+
+<img src="../fig/01-demonstrate-no-data-masked.png" title="plot of chunk demonstrate-no-data-masked" alt="plot of chunk demonstrate-no-data-masked" width="612" style="display: block; margin: auto;" />
 
 The difference here shows up as ragged edges on the plot, rather than black
 spaces where there is no data.
 
-<img src="../fig/rmd-01-demonstrate-no-data-ggplot-1.png" title="plot of chunk demonstrate-no-data-ggplot" alt="plot of chunk demonstrate-no-data-ggplot" width="612" style="display: block; margin: auto;" />
+If your raster already has `nodata` values set correctly but you aren't sure where they are, you can deliberately plot them in a particular colour. This can be useful when checking a dataset's coverage. For instance, sometimes data can be missing where a sensor could not 'see' its target data, and you may wish to locate that missing data and fill it in. With Python, we can plot a boolean array of `True/False` values from our masked array's `.mask` attribute. Since the mask array represents no data values as `True` and data values as `False`, we need to reverse our boolean array so that we can more clearly see where no data values have been masked in each of our color channels.
 
-If your raster already has `nodata` values set correctly but you aren't sure where they are, you can deliberately plot them in a particular colour. This can be useful when checking a dataset's coverage. For instance, sometimes data can be missing where a sensor could not 'see' its target data, and you may wish to locate that missing data and fill it in.
+~~~
+earthpy.plot.plot_rgb(
+    rgb_HARV_nan_arr.mask*-1, # mutliplying a boolean array by -1 reverses True and False values
+    title="Mask Array",
+    figsize=(10, 6),
+    ax=ax
+)
+~~~
+{: .language-python}
 
-To highlight `nodata` values in an `earthpy` plot, TODO show how to do this with `earthpy`
+<img src="../fig/01-demonstrate-mask.png" title="plot of chunk napink" alt="plot of chunk napink" width="612" style="display: block; margin: auto;" />
 
-<img src="../fig/rmd-01-napink-1.png" title="plot of chunk napink" alt="plot of chunk napink" width="612" style="display: block; margin: auto;" />
+From this plot we see something interesting, while our no data values were masked along the edges, the color channel's no data values don't all line up. The colored pixels at the edges between white black result from there being no data in one or two channels at a given pixel. `0` could conceivably
+represent a valid value for reflectance (the units of our pixel values) so it's good to make sure we are masking values at the edges and not valid data values within the image.
+
+Check out [the documentation](https://docs.scipy.org/doc/numpy/reference/maskedarray.generic.html) on the `numpy.ma` masked array module for more details. Regular numpy functions work with masked arrays like they do for regular numpy arrays, but ignore masked no data values.
 
 The value that is conventionally used to take note of missing data (the
 no data value) varies by the raster data type. For floating-point rasters,
@@ -427,15 +459,13 @@ be a) outside the range of valid values, and b) a value that fits the data type
 in use. For instance, if your data ranges continuously from -20 to 100, 0 is
 not an acceptable `nodata` value! Or, for categories that number 1-15, 0 might be
 fine for `nodata`, but using -.000003 will force you to save the GeoTIFF on disk
-as a floating point raster, resulting in a bigger file.
+as a floating point raster, resulting in a bigger file. 
 
-If we are lucky, our GeoTIFF file has a tag that reveals the no data value. If we are 
-less lucky, we can find that information in the raster's external metadata. If a `NoDataValue` was 
-stored in the GeoTIFF tag, when Python opens up the raster, it will assign each instance 
-of the value to `nodata`. Values of `nodata` will be ignored by Python as demonstrated above.
+In summary, if we are lucky, our GeoTIFF file has a tag that reveals the correct no data value. If we are 
+less lucky, we can find that information in the raster's external metadata or by plotting it.
 
 > ## Challenge
-> How can we find the nodata value for our dataset? How can we assign it to something else?
+> How can we find the assigned `nodata` value for our dataset when it is read in? How can we assign it to something else?
 >
 > > ## Answers
 > >
@@ -453,149 +483,9 @@ of the value to `nodata`. Values of `nodata` will be ignored by Python as demons
 > > ~~~
 > > -9999.0
 > > -3.4e+38
-> > 
 > > ~~~
 > > {: .output}
 > >
-> > `NoDataValue` are encoded as -9999.
+> > No data values are encoded as -9999. If we didn't make a copy of the meta and instead a) opened the file with both read and write permissions and b) changed the original, we would have changed the original file's no data value even after restarting the python kernel.
 > {: .solution}
 {: .callout}
-
-## Bad Data Values in Rasters
-
-Bad data values are different from `NoDataValue`s. Bad data values are values
-that fall outside of the applicable range of a dataset.
-
-Examples of Bad Data Values:
-
-* The normalized difference vegetation index (NDVI), which is a measure of
-greenness, has a valid range of -1 to 1. Any value outside of that range would
-be considered a "bad" or miscalculated value.
-* Reflectance data in an image will often range from 0-1 or 0-10,000 depending
-upon how the data are scaled. Thus a value greater than 1 or greater than 10,000
-is likely caused by an error in either data collection or processing.
-
-### Find Bad Data Values
-Sometimes a raster's metadata will tell us the range of expected values for a
-raster. Values outside of this range are suspect and we need to consider that
-when we analyze the data. Sometimes, we need to use some common sense and
-scientific insight as we examine the data - just as we would for field data to
-identify questionable values.
-
-Plotting data with appropriate highlighting can help reveal patterns in bad
-values and may suggest a solution. Below, reclassification is used to highlight
-elevation values over 400m with a contrasting colour.
-
-
-~~~
-Error in doColorRamp(colorMatrix, x, alpha, ifelse(is.na(na.color), "", : Not compatible with requested type: [type=NULL; target=double].
-~~~
-{: .error}
-
-## Create A Histogram of Raster Values
-
-We can explore the distribution of values contained within our raster using the
-`geom_histogram()` function which produces a histogram. Histograms are often
-useful in identifying outliers and bad data values in our raster data.
-
-
-~~~
-ggplot() +
-    geom_histogram(data = DSM_HARV_df, aes(HARV_dsmCrop))
-~~~
-{: .language-python}
-
-
-
-~~~
-`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-~~~
-{: .output}
-
-<img src="../fig/rmd-01-view-raster-histogram-1.png" title="plot of chunk view-raster-histogram" alt="plot of chunk view-raster-histogram" width="612" style="display: block; margin: auto;" />
-
-Notice that a warning message is thrown when Python creates the histogram.
-
-`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
-
-This warning is caused by a default setting in `geom_histogram` enforcing that there are
-30 bins for the data. We can define the number of bins we want in the histogram
-by using the `bins` value in the `geom_histogram()` function.
-
-
-
-~~~
-ggplot() +
-    geom_histogram(data = DSM_HARV_df, aes(HARV_dsmCrop), bins = 40)
-~~~
-{: .language-python}
-
-<img src="../fig/rmd-01-view-raster-histogram2-1.png" title="plot of chunk view-raster-histogram2" alt="plot of chunk view-raster-histogram2" width="612" style="display: block; margin: auto;" />
-
-Note that the shape of this histogram looks similar to the previous one that
-was created using the default of 30 bins. The distribution of elevation values
-for our `Digital Surface Model (DSM)` looks reasonable. It is likely there are
-no bad data values in this particular raster.
-
-> ## Challenge: Explore Raster Metadata
->
-> Use `GDALinfo()` to determine the following about the `NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_DSMhill.tif` file:
->
-> 1. Does this file have the same CRS as `DSM_HARV`?
-> 2. What is the `NoDataValue`?
-> 3. What is resolution of the raster data?
-> 4. How large would a 5x5 pixel area be on the Earth's surface?
-> 5. Is the file a multi- or single-band raster?
->
-> Notice: this file is a hillshade. We will learn about hillshades in the [Working with
-> Multi-band Rasters in R]({{ site.baseurl }}/05-raster-multi-band-in-r/)  episode.
-> >
-> > ## Answers
-> >
-> > 
-> > ~~~
-> > GDALinfo("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_DSMhill.tif")
-> > ~~~
-> > {: .language-python}
-> > 
-> > 
-> > 
-> > ~~~
-> > rows        1367 
-> > columns     1697 
-> > bands       1 
-> > lower left origin.x        731453 
-> > lower left origin.y        4712471 
-> > res.x       1 
-> > res.y       1 
-> > ysign       -1 
-> > oblique.x   0 
-> > oblique.y   0 
-> > driver      GTiff 
-> > projection  +proj=utm +zone=18 +datum=WGS84 +units=m +no_defs 
-> > file        data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_DSMhill.tif 
-> > apparent band summary:
-> >    GDType hasNoDataValue NoDataValue blockSize1 blockSize2
-> > 1 Float64           TRUE       -9999          1       1697
-> > apparent band statistics:
-> >         Bmin      Bmax     Bmean       Bsd
-> > 1 -0.7136298 0.9999997 0.3125525 0.4812939
-> > Metadata:
-> > AREA_OR_POINT=Area 
-> > ~~~
-> > {: .output}
-> > 1. If this file has the same CRS as DSM_HARV?  Yes: UTM Zone 18, WGS84, meters.
-> > 2. What format `NoDataValues` take?  -9999
-> > 3. The resolution of the raster data? 1x1
-> > 4. How large a 5x5 pixel area would be? 5mx5m How? We are given resolution of 1x1 and units in meters, therefore resolution of 5x5 means 5x5m.
-> > 5. Is the file a multi- or single-band raster?  Single.
-> {: .solution}
-{: .challenge}
-
-> ## More Resources
-> * [Read more about the `raster` package in R.](http://cran.r-project.org/package=raster)
-{: .callout}
-
-
-{% include links.md %}
-
