@@ -31,13 +31,16 @@ discuss some of the core metadata elements that we need to understand to work wi
 rasters, including Coordinate Reference Systems, no data values, and resolution. We will also explore missing and bad
 data values as stored in a raster and how Python handles these elements.
 
-We will use three packages in this episode to work with raster data -
-`rasterio` for reading and writing rasters, `scipy` for descriptive statistics, and `earthpy.plot` for plotting. Make sure that you have these packages installed and imported.
+We will use four packages in this episode to work with raster data -
+`rasterio` for reading and writing rasters, `scipy` for descriptive statistics, `numpy` for masking raster data and `earthpy.plot` for plotting. We will also use `matplotlib` to improve the aesthetics of our plot. Make sure that you have these packages installed and imported.
 
 
 ~~~
 import rasterio
+import scipy.stats
+import numpy
 import earthpy.plot
+import matplotlib.pyplot as plt
 ~~~
 {: .language-python}
 
@@ -84,13 +87,14 @@ surface_model_HARV.meta
 The first call to `rasterio.open()` opens the file and returns an object that we store in a variable, `surface_model_HARV`.
 This object has an attribute, `.meta`, which contains the metadata for the file we opened.
 
+This metadata is stored in the form of a python `dict`. The `driver` shows that we read in a GeoTIFF file, where the values are encoded as floating point numbers (`'dtype': 'float64'`), and the `nodata` value encoded as -9999.0. `'width': 1697` represents the 1697 columns in the raster and `'height': 1367` represents the number of rows. `'count': 1` represents the number of bands in the dataset, indicating that we're working with a single-band raster. The Coordinate Reference System, or `crs`, is reported by EPSG code as the `32618` in `CRS.from_epsg(32618)`. The `transform` represents the conversion between pixel coordinates and spatial coordinates.
 
-This metadata is stored in the form of a new data type, a `dict`, or dictionary. Dictionaries store
-key, value pairs. If we wanted to access the width of the file we opened, we can use the key 
+
+A python `dict` stores key, value pairs. If we wanted to access the width of the file we opened, we can use the key 
 `'width'` to select that value from the dictionary.
 
 ~~~
-surface_model.meta['width']
+surface_model_HARV.meta['width']
 ~~~
 {: .language-python}
 ~~~
@@ -100,12 +104,11 @@ surface_model.meta['width']
 
 The width value in this raster's meta is of type `int`, whereas the value for the key `nodata` is of type `float`. 
 Other keys, `crs` and `transform`, use custom objects defined by the `rasterio` to represent the coordinate reference 
-system, location, and resolution. We will be exploring this data throughout this episode. By the end of this episode, you will be able
-to understand and explain the metadata output.
+system, location, and resolution. We will be exploring this data throughout this episode. By the end of this episode, you will be able to understand and explain the metadata output.
 
 ## Open a Raster in Python
 
-Now that we've previewed the metadata for our GeoTIFF, let's import this
+Now that we've previewed the metadata for our GeoTIFF, let's load this
 raster dataset into Python as an array and explore its metadata more closely. We can use the `.read()` 
 function to read the first, and only, band of our raster.
 
@@ -113,7 +116,8 @@ function to read the first, and only, band of our raster.
 > To improve code
 > readability, file and object names should be used that make it clear what is in
 > the file. The data for this episode were collected from Harvard Forest so
-> we'll use a naming convention of `datatype_HARV`.
+> we'll use a naming convention of `datatype_HARV_arr`.
+> We'll add the 'arr' suffix to indicate this is an array.
 {: .callout}
 
 ~~~
@@ -147,7 +151,6 @@ To visualise this data in Python using `earthpy.plot`, all we need is our data i
 the color of our plot and plot labels.
 
 ~~~
-%matplotlib inline
 earthpy.plot.plot_bands(
     surface_model_HARV_arr,
     scale=False,
@@ -163,13 +166,11 @@ Nice plot! We set the color scale to `viridis` which is a color-blindness friend
 <img src="../fig/01-earthpy-surface-1.png" title="Raster plot with earthpy.plot using the viridis color scale" alt="Raster plot with earthpy.plot using the viridis color scale" width="612" style="display: block; margin: auto;" />
 
 > ## Plotting Tip
-> For more aesthetic looking plots, matplotlib allows you to customize the style with `plt.style.use`. However, if you want more control of the look of your plot, matplotlib has many more functions to change the postion and appearnce of plot elements.
+> For more aesthetic looking plots, matplotlib allows you to customize the style with `plt.style.use`. However, if you want more control of the look of your plot, matplotlib has many more functions to change the position and appearnce of plot elements.
 > > ## Show plot
 > >  Here is the result of using a ggplot like style for our surface model plot.
 > > 
 > > ~~~
-> > import matplotlib.pyplot as plt
-> > %matplotlib inline
 > > plt.style.use("ggplot")
 > > earthpy.plot.plot_bands(
 > >     surface_model_HARV_arr,
@@ -202,7 +203,7 @@ attribute.
 
 
 ~~~
-surface_model.crs
+surface_model_HARV.crs
 ~~~
 {: .language-python}
 
@@ -235,7 +236,7 @@ earthpy.epsg['32618']
 >
 > > ## Answers
 > > `+units=m` tells us that our data is in meters.
-> > We could also get this information from the attribute `surface_model.crs.linear_units`.
+> > We could also get this information from the attribute `surface_model_HARV.crs.linear_units`.
 > {: .solution}
 {: .challenge}
 
@@ -273,7 +274,6 @@ min/max elevation range at our site.
 We can compute these and other descriptive statistics with `scipy.stats.describe()`.
 
 ~~~
-import scipy.stats
 scipy.stats.describe(surface_model_HARV_arr, axis=None)
 ~~~
 {: .language-python}
@@ -290,7 +290,6 @@ argument so that statistics were computed for the whole array, rather than for e
 You could also get each of these values one by one using `numpy`. What if we wanted to calculate 25% and 75% quartiles?
 
 ~~~
-import numpy
 print(numpy.percentile(surface_model_HARV_arr, 25))
 print(numpy.percentile(surface_model_HARV_arr, 75))
 ~~~
@@ -323,7 +322,7 @@ raster: surface elevation in meters for one time period. However, a raster datas
 
 ![Multi-band raster image](../images/dc-spatial-raster/single_multi_raster.png)
 
-We can use the `.read()` function to import one single band from a single or multi-band raster. We can
+We can use the `.read()` function to load one single band from a single or multi-band raster. We can
 view the number of bands in a raster by looking at the `count` key of the `meta` python `dict`.
 
 
@@ -341,13 +340,13 @@ surface_model_HARV.meta['count']
 
 However, raster data can also be multi-band, meaning that one raster file
 contains data for more than one variable or time period for each cell. By
-default the `.read()` function imports all bands in a raster
+default the `.read()` function loads all bands in a raster
 regardless of whether it has one or more bands and places each in a third 
 axis of a numpy array in `[bands, rows, columns]` order. For example, even if 
 there is only 1 band in a raster, it will be placed in it's own band axis.
 
 ~~~
-surface_model_HARV_arr_3D = surface_model.read()
+surface_model_HARV_arr_3D = surface_model_HARV.read()
 surface_model_HARV_arr_3D.shape
 ~~~
 {: .language-python}
@@ -362,7 +361,7 @@ surface_model_HARV_arr_3D.shape
 Earlier, we read our raster in as a 2D array instead
 
 ~~~
-surface_model_HARV_arr_2D = surface_model.read(1)
+surface_model_HARV_arr_2D = surface_model_HARV.read(1)
 surface_model_HARV_arr_2D.shape
 ~~~
 {: .language-python}
@@ -382,11 +381,11 @@ this series for information on working with multi-band rasters:
 
 ## Dealing with Missing Data
 
-Raster data often has a no data value associated with it. This is a value
-assigned to pixels where data is missing or no data were collected. However, 
-there can be different cases that cause missing data, and it's common for other 
-values in a raster to represent different cases. The most common example is missing 
-data at the edges of rasters.
+Raster data often has a "no data value" associated with it and for raster datasets 
+read in by `rasterio` this value is referred to as `nodata`. This is a value assigned 
+to pixels where data is missing or no data were collected. However, there can be 
+different cases that cause missing data, and it's common for other values in a raster 
+to represent different cases. The most common example is missing data at the edges of rasters.
 
 By default the shape of a raster is always rectangular. So if we have a dataset
 that has a shape that isn't rectangular, some pixels at the edge of the raster
@@ -410,12 +409,12 @@ earthpy.plot.plot_rgb(
 
 <img src="../fig/01-demonstrate-no-data-black-3.png" title="plot of chunk demonstrate-no-data-black" alt="plot of chunk demonstrate-no-data-black" width="612" style="display: block; margin: auto;" />
 
-`rasterio` assigns a specific number as missing data to the `meta` attribute when the dataset is read, base don the file's own metadata. While the GeoTiff's `nodata` attribute is assigned to the value `-1.7e+308`, it turns out the missing data at the edges are represented by the value `0`. In order to run calculations on this image that ignore these edge values or plot he iamge without the nodata values being displayed on the color scale, we can mask out `0` values in our numpy array. 
+`rasterio` assigns a specific number as missing data to the `meta` attribute when the dataset is read, based on the file's own metadata. While the GeoTiff's `nodata` attribute is assigned to the value `-1.7e+308`, it turns out the missing data at the edges are represented by the value `0`. In order to run calculations on this image that ignore these edge values or plot he image without the nodata values being displayed on the color scale, we can mask out `0` values in our numpy array. 
 
 In the next image, the black edges have been masked using `numpy.ma.masked_where()`, a function that assigns no data values where a condition is true.
 
 ~~~
-rgb_HARV_masked_arr = np.ma.masked_where(rgb_HARV_arr==0, rgb_HARV_arr) #1st argument is the condition, second is the array to mask
+rgb_HARV_masked_arr = numpy.ma.masked_where(rgb_HARV_arr==0, rgb_HARV_arr) #1st argument is the condition, second is the array to mask
 earthpy.plot.plot_rgb(
     rgb_HARV_masked_arr,
     title="RGB Image, NoData Values Masked",
@@ -433,10 +432,9 @@ If your raster already has `nodata` values set correctly but you aren't sure whe
 
 ~~~
 earthpy.plot.plot_rgb(
-    rgb_HARV_nan_arr.mask*-1, # mutliplying a boolean array by -1 reverses True and False values
+    rgb_HARV_masked_arr.mask*-1, # mutliplying a boolean array by -1 reverses True and False values
     title="Mask Array",
-    figsize=(10, 6),
-    ax=ax
+    figsize=(10, 6)
 )
 ~~~
 {: .language-python}
