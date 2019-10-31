@@ -7,7 +7,7 @@
 # dc: Data Carpentry
 # lc: Library Carpentry
 # cp: Carpentries (to use for instructor traning for instance)
-carpentry: ""
+carpentry: "incubator"
 
 # Overall title for pages.
 title: "Geospatial Python"
@@ -49,17 +49,6 @@ workshop_repo: "https://github.com/carpentries/workshop-template"
 workshop_site: "https://carpentries.github.io/workshop-template"
 cc_by_human: "https://creativecommons.org/licenses/by/4.0/"
 
-# Surveys.
-swc_pre_survey: "https://www.surveymonkey.com/r/swc_pre_workshop_v1?workshop_id="
-swc_post_survey: "https://www.surveymonkey.com/r/swc_post_workshop_v1?workshop_id="
-training_post_survey: "https://www.surveymonkey.com/r/post-instructor-training"
-dc_pre_survey: "https://www.surveymonkey.com/r/dcpreworkshopassessment?workshop_id="
-dc_post_survey: "https://www.surveymonkey.com/r/dcpostworkshopassessment?workshop_id="
-lc_pre_survey: "https://www.surveymonkey.com/r/lcpreworkshopsurvey?workshop_id="
-lc_post_survey: "https://www.surveymonkey.com/r/lcpostworkshopsurvey?workshop_id="
-instructor_pre_survey: "https://www.surveymonkey.com/r/instructor_training_pre_survey?workshop_id="
-instructor_post_survey: "https://www.surveymonkey.com/r/instructor_training_post_survey?workshop_id="
-
 
 # Start time in minutes (0 to be clock-independent, 540 to show a start at 09:00 am).
 start_time: 0
@@ -99,3 +88,6 @@ exclude:
 
 # Turn on built-in syntax highlighting.
 highlighter: rouge
+
+# remote theme
+remote_theme: carpentries/carpentries-theme
