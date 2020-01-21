@@ -46,8 +46,8 @@ and to meet some of our community members.
 ## Where to Contribute
 
 1.  If you wish to change this lesson,
-    please work in <https://github.com/swcarpentry/FIXME>,
-    which can be viewed at <https://swcarpentry.github.io/FIXME>.
+    please work in <https://github.com/carpentries-incubator/geospatial-python>,
+    which can be viewed at <https://carpentries-incubator.github.io/geospatial-python/>.
 
 2.  If you wish to change the example lesson,
     please work in <https://github.com/carpentries/lesson-example>,
@@ -86,7 +86,8 @@ so fresh eyes are always welcome.
 ## What *Not* to Contribute
 
 Our lessons already contain more material than we can cover in a typical workshop,
-so we are usually *not* looking for more concepts or tools to add to them.
+so we are usually *not* looking for more concepts or tools to add to them (but for this 
+geospatial incubator lesson, we are looking for this since it is in alpha!).
 As a rule,
 if you want to introduce a new idea,
 you must (a) estimate how long it will take to teach
