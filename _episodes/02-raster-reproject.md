@@ -22,8 +22,8 @@ keypoints:
 Sometimes we encounter raster datasets that do not "line up" when plotted or
 analyzed. Rasters that don't line up are most often in different Coordinate
 Reference Systems (CRS), otherwise known as "projections". This episode explains how to deal with rasters in different, known CRSs. It
-will walk though reprojecting rasters in Python using the `reproject()`
-function in the `rasterio.warp` submodule.
+will first walk though the traditional method for reprojecting rasters in Python using the `reproject()`
+function in the `rasterio.warp` submodule. It will then show how to accomplish this with less lines using the `rioxarray` library.
 
 ## Raster Projection in R
 
@@ -43,10 +43,10 @@ import rasterio
 
 surface_model_HARV = rasterio.open("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif")
 
-terrain_model_HARV = rasterio.open("data/NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_dtmCrop_WGS84.tif")
+terrain_model_HARV_WGS84 = rasterio.open("data/NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_dtmCrop_WGS84.tif")
 ```
 
-Then, we inspect the CRS of each file to confirm that they are not the same. This is always a good first check to make when you load in a new dataset, since it determines if you can start doing any othe roperations between two geospatial datasets.
+Then, we inspect the CRS of each file to confirm that they are not the same. This is always a good first check to make when you load in a new dataset, since it determines if you can start doing any other operations between two geospatial datasets.
 
 ```python
 surface_model_HARV.crs
@@ -64,11 +64,11 @@ CRS.from_epsg(4326)
 
 Recall that the number within the output `CRS.from_epsg` is the EPSG code, which refers to a known projection. Using these CRS objects that are encoded in each raster file's metadata, we have all the information needed to reproject one raster onto the coordinate reference system of another. But which projection should we reproject to?
 
-Often it is useful to reproject your data into units that suit a particular task. If you want your map axis to communicate location on the globe, latitudfe and longitude can be most informative. In this case you would reproject your rasters to EPSG code 4326. If you want to measure distances and areas, it's better to choose a coordiante reference system that is in units of meters. EPSG code 32618 represents UTM zone 18N, which you can discover by entering the EPSG code into the website https://epsg.io or by using the `earthpy.epsg` dictionary to look up the proj4 string.
+Often it is useful to reproject your data into units that suit a particular task. If you want your map axis to communicate location on the globe, latitude and longitude can be most informative. In this case you would reproject your rasters to EPSG code 4326. If you want to measure distances and areas, it's better to choose a coordinate reference system that is in units of meters. EPSG code 32618 represents UTM zone 18N, which you can discover by entering the EPSG code into the website https://epsg.io or by using the `earthpy.epsg` dictionary to look up the proj4 string.
 
 ```python
 import earthpy
-earthpy.epsg("32618")
+earthpy.epsg["32618"]
 ```
 
 ```
@@ -77,7 +77,7 @@ earthpy.epsg("32618")
 
 We will reproject our DTM to meters using the CRS object that we can access from our DSM's `crs` attribute. If we use rasterio, this requires defining the metadata of our reprojected raster as well as saving the output to a new file before reading it back.
 
-Since we are reprojecting, the `transform` of our metadata will change. The transform converts pixel coordinates (row, column) into geospatial coordinates (latitude, longitiude), for example. We can create the new transform, crs, width, and height in our reprojected  output's metadata with `calculate_default_transform`.
+Since we are reprojecting, the `transform` of our metadata will change. The transform converts pixel coordinates (row, column) into geospatial coordinates (latitude, longitude), for example. We can create the new transform, crs, width, and height in our reprojected  output's metadata with `calculate_default_transform`.
 
 ```python
 from rasterio.warp import calculate_default_transform, reproject
@@ -100,13 +100,14 @@ This copy the metadata from our DTM and then updates it with the new transform a
 Then use the metadata `dict` to save our reprojected raster with the correct attributes:
 
 ```python
-reprojected_path = "data/NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_DTMhill_UTM18_rasterio.tif"
+reprojected_path = "data/NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_dtmCrop_UTM18_rasterio.tif"
 with rasterio.open(reprojected_path, "w", **reprojected_meta) as reprojected_data:
     reproject(
         source = rasterio.band(terrain_model_HARV_WGS84, 1), 
         destination = rasterio.band(reprojected_data, 1), 
-        src_crs=terrain_model_HARV.crs, 
-        dst_crs=terrain_model_HARV.crs)
+        src_crs=terrain_model_HARV_WGS84.crs, 
+        dst_crs=surface_model_HARV.crs)
+
 ```
 
 There's a lot of lines in the above example so let's break it down piece by piece. The python `with` statement allows us to create a rasterio object in write mode. You can think of this object, `reprojected_data` as a pointer to a file location that will store the result of `reproject`. When we call `reproject()` and use the `destination` argument to specify that the destination is at `reprojected_data`, we are specifying that the output of the function should be stored at the file path and with the file metadata corresponding to `reprojected_data`. The `source` and `destination` arguments must be numpy arrays or rasterio `Band` objects and here we choose to define them as single band objects.
@@ -117,7 +118,7 @@ There's a lot of lines in the above example so let's break it down piece by piec
 > in mind as we work with raster data. You can choose different resampling methods that affect how the data are transferred from one grid to another. For example, you could specify an argument in `reproject` to choose nearest neighbor resampling like so: `resampling=Resampling.nearest`. See the function [documentation](https://rasterio.readthedocs.io/en/latest/api/rasterio.warp.html#rasterio.warp.reproject) for more details.
 {: .callout}
 
-We can read the file back in if we would like to use it for calcualtions or plotting. When we open the file, we need to call the `read()` function to get a numpy array. 
+We can read the file back in if we would like to use it for calculations or plotting. When we open the file, we need to call the `read()` function to get a numpy array. 
 
 ```python
 reprojected_tif = rasterio.open(reprojected_path)
@@ -126,9 +127,9 @@ terrain_model_HARV_arr_UTM18_rasterio = reprojected_tif.read()
 
 This is a lot of code just for a single reprojection right? In some cases, you may want to use the functions shown above to reproject, since rasterio gives you fine grained control over the metadata that is written to the file, and plus there are many helpful examples online of rasterio use cases to draw from. 
 
-However, there is a much simpler way to accomplish this same reprojection. With `xarray`, a library for loading and calcualting with labeled N-dimensional arrays, and `rioxarray`, an extension that wraps `rasterio` to provide geospatial operations for xarray objects, we can accomplish the reprojection in 1 line of code.
+However, there is a much simpler way to accomplish this same reprojection. With `xarray`, a library for loading and calculating with labeled N-dimensional arrays, and `rioxarray`, an extension that wraps `rasterio` to provide geospatial operations for xarray objects, we can accomplish the reprojection in 1 line of code.
 
-Reading in the data with xarray looks similar to using `rasterio` directly, but the output is a an xarray object that you can instantly use in calculations. Calling the variable also prints out all the metadata information for the geotiff (spatial information is not printed if you don't import rioxarray first).
+Reading in the data with xarray looks similar to using `rasterio` directly, but the output is a xarray object called a `DataArray`. You can use a `xarray.DataArray` in calculations just like a numpy array. Calling the variable name of the `DataArray` also prints out all of its metadata information. Geospatial information is not read in if you don't import rioxarray before calling the `open_rasterio` function.
 
 ```python
 import xarray
@@ -201,7 +202,7 @@ Attributes:
 
 > ## Data Tip
 > You might wonder why the result of `terrain_model_HARV_xarr.rio.reproject()` shows `-9999` at the edges whereas when we read in the data, 
-`surface_model_HARV_xarr` did not show the `-9999` values. This is because xarray by default will wait until the last necessary moment before actually running the computations on an xarray DataArray. This form of evaluation is called lazy, as opposed to eager, where functions are always computed when they are called. If you ever want a lazy DataArray to reveal it's underlying values, you can use the `.compute()` function. Xarray will only show the values in the corners of the array.
+`surface_model_HARV_xarr` did not show the `-9999` values. This is because xarray by default will wait until the last necessary moment before actually running the computations on an xarray DataArray. This form of evaluation is called lazy, as opposed to eager, where functions are always computed when they are called. If you ever want a lazy DataArray to reveal it's underlying values, you can use the `.compute()` function. `xarray` will only show the values in the corners of the array.
 > > ## Show code
 > > 
 > > ```python
@@ -312,16 +313,17 @@ terrain_model_HARV_xarr_UTM18.rio.to_raster(reprojected_path)
 {: .challenge}
 
 
-Let's plot our handiwork so far! We can use `xarray's` plot function to show the DTM. But if we run the following code, something doesn't look right ...
+Let's plot our handiwork so far! We can use the `xarray.DataArray.plot` function to show the DTM. But if we run the following code, something doesn't look right ...
 
 ```python
 import matplotlib.pyplot as plt
 terrain_model_HARV_xarr_UTM18.plot(cmap="viridis")
 plt.title("Harvard Forest Digital Terrain Model")
 ```
+<img src="../fig/02-bad-DTM-plot-01.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
 
 > ## Challenge
-> Whoops! What did we forget to do?
+> Whoops! What did we forget to do to the DTM DataArray before plotting?
 >
 > > ## Answers
 > > Our array has a `nodata` value, `-9999.0`, which causes the color
@@ -332,11 +334,11 @@ plt.title("Harvard Forest Digital Terrain Model")
 > > ```python
 import matplotlib.pyplot as plt
 terrain_model_HARV_xarr_UTM18_valid = terrain_model_HARV_xarr_UTM18.where(
-    terrain_model_HARV_xarr_UTM18 != terrain_model_HARV_xarr_UTM18.rio.nodata
+    terrain_model_HARV_xarr_UTM18 != terrain_model_HARV_xarr_UTM18.rio.nodata)
 terrain_model_HARV_xarr_UTM18_valid.plot(cmap="viridis")
 plt.title("Harvard Forest Digital Terrain Model")
 > > ```
-> > <img src="../fig/02-HARV-reprojected-DTM-01.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
+> > <img src="../fig/02-HARV-reprojected-DTM-02.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
 > {: .solution}
 {: .challenge}
 
@@ -362,8 +364,8 @@ plt.title("Reprojected Surface Model")
 terrain_model_HARV_SJER.where(terrain_model_HARV_SJER != terrain_model_HARV_SJER.rio.nodata).plot()
 plt.title("Terrain Model")
 > > ```
-> > <img src="../fig/02-SJER-DSM-02.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
-> > <img src="../fig/02-SJER-DTM-03.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
+> > <img src="../fig/02-SJER-DSM-03.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
+> > <img src="../fig/02-SJER-DTM-04.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
 > {: .solution}
 {: .challenge}
 
