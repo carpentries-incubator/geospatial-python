@@ -9,9 +9,9 @@ objectives:
 - "Reproject a raster in Python using rasterio."
 - "Accomplish the same task with rioxarray and xarray."
 keypoints:
-- "In order to plot two raster data sets together, they must be in the same CRS."
-- "Use the `rasterio.warp.reproject()` function to convert between CRSs."
-- "rioxarray and xarray provide simpler syntax for accomplishing some geospatial operations."
+- "In order to plot or do calculations with two raster data sets, they must be in the same CRS."
+- "rioxarray and xarray provide simple syntax for accomplishing fundamental geospatial operations."
+- "rioxarray is built on top of rasterio, and you can use rasterio directly to accomplish fundamental geospatial operations."
 ---
 
 > ## Things You’ll Need To Complete This Episode
