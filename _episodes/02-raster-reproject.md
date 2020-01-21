@@ -43,7 +43,7 @@ import rasterio
 
 surface_model_HARV = rasterio.open("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif")
 
-terrain_model_HARV = rasterio.open("data/NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_DTMhill_WGS84.tif")
+terrain_model_HARV = rasterio.open("data/NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_dtmCrop_WGS84.tif")
 ```
 
 Then, we inspect the CRS of each file to confirm that they are not the same. This is always a good first check to make when you load in a new dataset, since it determines if you can start doing any othe roperations between two geospatial datasets.
@@ -56,7 +56,7 @@ CRS.from_epsg(32618)
 ```
 
 ```python
-terrain_model_HARV.crs
+terrain_model_HARV_WGS84.crs
 ```
 ```
 CRS.from_epsg(4326)
@@ -83,10 +83,10 @@ Since we are reprojecting, the `transform` of our metadata will change. The tran
 from rasterio.warp import calculate_default_transform, reproject
 
 transform, width, height = calculate_default_transform(
-    terrain_model_HARV.crs, surface_model_HARV.crs, terrain_model_HARV.width, terrain_model_HARV.height, *terrain_model_HARV.bounds)
+    terrain_model_HARV_WGS84.crs, surface_model_HARV.crs, terrain_model_HARV_WGS84.width, terrain_model_HARV_WGS84.height, *terrain_model_HARV_WGS84.bounds)
 
 destination_crs = surface_model_HARV.crs
-reprojected_meta = terrain_model_HARV.meta.copy()
+reprojected_meta = terrain_model_HARV_WGS84.meta.copy()
 reprojected_meta.update({
         'crs': destination_crs,
         'transform': transform,
@@ -100,10 +100,10 @@ This copy the metadata from our DTM and then updates it with the new transform a
 Then use the metadata `dict` to save our reprojected raster with the correct attributes:
 
 ```python
-reprojected_path = "data/NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_DTMhill_UTM18.tif"
+reprojected_path = "data/NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_DTMhill_UTM18_rasterio.tif"
 with rasterio.open(reprojected_path, "w", **reprojected_meta) as reprojected_data:
     reproject(
-        source = rasterio.band(terrain_model_HARV, 1), 
+        source = rasterio.band(terrain_model_HARV_WGS84, 1), 
         destination = rasterio.band(reprojected_data, 1), 
         src_crs=terrain_model_HARV.crs, 
         dst_crs=terrain_model_HARV.crs)
@@ -250,6 +250,13 @@ Coordinates:
     spatial_ref  int64 0
 ```
 
+And we can also save our DataArray that we created with `rioxarray` to a file.
+
+```python
+reprojected_path = "data/NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_dtmCrop_UTM18_rioxarray.tif"
+terrain_model_HARV_xarr_UTM18.rio.to_raster(reprojected_path)
+```
+
 > ## Exercise
 > Inspect the metadata for `terrain_model_HARV_xarr_UTM18` and 
 > `surface_model_HARV_xarr`. Are the projections the same? What 
@@ -293,48 +300,70 @@ Coordinates:
 > > print(surface_model_HARV_xarr.shape)
 > > ```
 > > ```
-> > (1, 1493, 1796)
+> > (1, 1492, 1801)
 > > (1, 1367, 1697)
 > > ```
 > > The shapes are not the same which means these data cover 
-> > slightly different extents and locations. We will need to 
-> > align these DataArrays before running any calculations. 
-> > `rioxarray` provides functionality to align multiple 
-> > geospatial DataArrays.
+> > slightly different extents and locations. In the next episode 
+> > we will need to align these DataArrays before running any 
+> > calculations. `rioxarray` provides functionality to align 
+> > multiple geospatial DataArrays.
 > {: .solution}
 {: .challenge}
 
 
-Let's plot our handiwork so far! We can use `xarray's` plot function to show the DTM. `rioxarray` will work behind the scenes to put the units on the x and y axis.
+Let's plot our handiwork so far! We can use `xarray's` plot function to show the DTM. But if we run the following code, something doesn't look right ...
 
-### TODO figure out why nodata value is a string and I can't reproject the WGS84 DTM I saved back to UTM in this example with rioxarray. terrain_model_HARV_xarr_UTM18 does not exist yet because of the transform error in this issue https://github.com/corteva/rioxarray/issues/78
-
-```
+```python
 import matplotlib.pyplot as plt
-terrain_model_HARV_xarr_UTM18.where(
-    terrain_model_HARV_xarr_UTM18!=terrain_model_HARV_xarr_UTM18.rio.nodata).plot(cmap="viridis")
+terrain_model_HARV_xarr_UTM18.plot(cmap="viridis")
 plt.title("Harvard Forest Digital Terrain Model")
 ```
 
-> ## Challenge: Reproject, then Plot a Digital Terrain Model
-> Create a map of the
-> [San Joaquin Experimental Range](https://www.neonscience.org/field-sites/field-sites-map/SJER)
-> field site using the `SJER_DSMhill_WGS84.tif` and `SJER_dsmCrop.tif` files.
-> 
-> Reproject the data as necessary to make things line up!
+> ## Challenge
+> Whoops! What did we forget to do?
+>
 > > ## Answers
-> >
-> > 
-> >
+> > Our array has a `nodata` value, `-9999.0`, which causes the color
+> > of our plot to be stretched over too wide a range. We'd like to
+> > only display valid values, so before plotting we can filter out
+> > the nodata values using the `where()` function and the 
+> > `.rio.nodata` attribute of our DataArray.
+> > ```python
+import matplotlib.pyplot as plt
+terrain_model_HARV_xarr_UTM18_valid = terrain_model_HARV_xarr_UTM18.where(
+    terrain_model_HARV_xarr_UTM18 != terrain_model_HARV_xarr_UTM18.rio.nodata
+terrain_model_HARV_xarr_UTM18_valid.plot(cmap="viridis")
+plt.title("Harvard Forest Digital Terrain Model")
+> > ```
+> > <img src="../fig/02-HARV-reprojected-DTM-01.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
 > {: .solution}
->
-> If you completed the San Joaquin plotting challenge in the
-> [Plot Raster Data in R]({{ site.baseurl }}/02-raster-plot/)
-> episode, how does the map you just created compare to that map?
+{: .challenge}
+
+
+> ## Challenge: Reproject, then Plot a Digital Terrain Model
+> Create 2 maps in a UTM projection of the
+> [San Joaquin Experimental Range](https://www.neonscience.org/field-sites/field-sites-map/SJER)
+> field site, using the`SJER_dtmCrop.tif` and `SJER_dsmCrop_WGS84.tif` files. Use `rioxarray`, 
+> `xarray`, and `matplotlib.pyplot` (to add a title). Reproject the data as necessary to make 
+> sure each map is in the same projection!
 >
 > > ## Answers
-> > The maps look identical. Which is what they should be as the only difference
-> > is this one was reprojected from WGS84 to UTM prior to plotting.
+> > ```python
+import xarray
+import rioxarray
+import matplotlib.pyplot as plt
+terrain_model_HARV_SJER = xarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/SJER/DTM/SJER_dtmCrop.tif")
+surface_model_HARV_SJER = xarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop_WGS84.tif")
+reprojected_surface_model = surface_model_HARV_SJER.rio.reproject(dst_crs=terrain_model_HARV_SJER.rio.crs)
+reprojected_surface_model.rio.to_raster("data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop_WGS84.tif")
+reprojected_surface_model.where(reprojected_surface_model != reprojected_surface_model.rio.nodata).plot()
+plt.title("Reprojected Surface Model")
+terrain_model_HARV_SJER.where(terrain_model_HARV_SJER != terrain_model_HARV_SJER.rio.nodata).plot()
+plt.title("Terrain Model")
+> > ```
+> > <img src="../fig/02-SJER-DSM-02.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
+> > <img src="../fig/02-SJER-DTM-03.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
 > {: .solution}
 {: .challenge}
 

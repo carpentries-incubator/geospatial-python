@@ -1,22 +1,17 @@
 ---
-title: "Intro to Raster Data in Python"
+title: "Raster Time Series Data in Python"
 teaching: 40
 exercises: 20
 questions:
--  "What is a raster dataset?"
--  "How do I work with and plot raster data in Python?"
--  "How can I handle missing or bad data values for a raster?"
+- "How can I view and and plot data for different times of the year?"
 objectives:
--  "Describe the fundamental attributes of a raster dataset."
--  "Explore raster attributes and metadata using Python."
--  "Read rasters into Python using the `rasterio` package."
--  "Plot a raster file in Python using the `earthpy` package."
--  "Describe the difference between single- and multi-band rasters."
+- "Understand the format of a time series raster dataset."
+- "Work with time series rasters."
+- "Import a set of rasters stored in a single directory."
+- "Create a multi-paneled plot."
+- "Convert character data to `datetime` format."
 keypoints:
-- "The GeoTIFF file format includes metadata about the raster data."
-- "To plot raster data with the `earthpy` package, we need to read in the image as a numpy array."
-- "`rasterio` stores CRS information in the PROJ4 dict format."
-- "Be careful when dealing with missing or bad data values."
+
 ---
 FIXME
 
