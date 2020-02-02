@@ -132,11 +132,10 @@ However, there is a much simpler way to accomplish this same reprojection. With 
 Reading in the data with xarray looks similar to using `rasterio` directly, but the output is a xarray object called a `DataArray`. You can use a `xarray.DataArray` in calculations just like a numpy array. Calling the variable name of the `DataArray` also prints out all of its metadata information. Geospatial information is not read in if you don't import rioxarray before calling the `open_rasterio` function.
 
 ```python
-import xarray
 import rioxarray
 
-surface_model_HARV_xarr = xarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif")
-terrain_model_HARV_xarr = xarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_dtmCrop_WGS84.tif")
+surface_model_HARV_xarr = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif")
+terrain_model_HARV_xarr = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_dtmCrop_WGS84.tif")
 
 surface_model_HARV_xarr
 ```
@@ -339,6 +338,7 @@ terrain_model_HARV_xarr_UTM18_valid.plot(cmap="viridis")
 plt.title("Harvard Forest Digital Terrain Model")
 > > ```
 > > <img src="../fig/02-HARV-reprojected-DTM-02.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
+> > If we had instead read in `terrain_model_HARV_xarr_UTM18`, the raster's `nodata` value would be masked and we would not need to use the `where()` function to do the masking before plotting.
 > {: .solution}
 {: .challenge}
 
@@ -348,20 +348,28 @@ plt.title("Harvard Forest Digital Terrain Model")
 > [San Joaquin Experimental Range](https://www.neonscience.org/field-sites/field-sites-map/SJER)
 > field site, using the`SJER_dtmCrop.tif` and `SJER_dsmCrop_WGS84.tif` files. Use `rioxarray`, 
 > `xarray`, and `matplotlib.pyplot` (to add a title). Reproject the data as necessary to make 
-> sure each map is in the same projection!
+> sure each map is in the same UTM projection and save the reprojected file with the file name
+> "data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop_WGS84.tif".
 >
 > > ## Answers
+> > If we read in these files with the argument `masked=True`, then the nodata values will be masked automatically and set to `numpy.nan`, or Not a Number.
+> > This can make plotting easier since only valid raster values will be shown. However, it's important to remember that `numpy.nan` values still take up 
+> > space in our raster just like `nodata values`, and thus they still affect the shape of the raster. In the next lesson, we will examine how to prepare 
+> > rasters of different shapes for calculations.
 > > ```python
-import xarray
 import rioxarray
 import matplotlib.pyplot as plt
-terrain_model_HARV_SJER = xarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/SJER/DTM/SJER_dtmCrop.tif")
-surface_model_HARV_SJER = xarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop_WGS84.tif")
+terrain_model_HARV_SJER = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/SJER/DTM/SJER_dtmCrop.tif", masked=True)
+surface_model_HARV_SJER = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop_WGS84.tif", masked=True)
 reprojected_surface_model = surface_model_HARV_SJER.rio.reproject(dst_crs=terrain_model_HARV_SJER.rio.crs)
+
+plt.figure()
+reprojected_surface_model.plot()
+plt.title("SJER Reprojected Surface Model")
 reprojected_surface_model.rio.to_raster("data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop_WGS84.tif")
-reprojected_surface_model.where(reprojected_surface_model != reprojected_surface_model.rio.nodata).plot()
-plt.title("Reprojected Surface Model")
-terrain_model_HARV_SJER.where(terrain_model_HARV_SJER != terrain_model_HARV_SJER.rio.nodata).plot()
+
+plt.figure()
+terrain_model_HARV_SJER.plot()
 plt.title("Terrain Model")
 > > ```
 > > <img src="../fig/02-SJER-DSM-03.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
