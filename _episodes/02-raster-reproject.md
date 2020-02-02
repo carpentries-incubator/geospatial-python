@@ -311,7 +311,6 @@ terrain_model_HARV_xarr_UTM18.rio.to_raster(reprojected_path)
 > {: .solution}
 {: .challenge}
 
-
 Let's plot our handiwork so far! We can use the `xarray.DataArray.plot` function to show the DTM. But if we run the following code, something doesn't look right ...
 
 ```python
@@ -338,36 +337,26 @@ terrain_model_HARV_xarr_UTM18_valid.plot(cmap="viridis")
 plt.title("Harvard Forest Digital Terrain Model")
 > > ```
 > > <img src="../fig/02-HARV-reprojected-DTM-02.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
-> > If we had instead read in `terrain_model_HARV_xarr_UTM18`, the raster's `nodata` value would be masked and we would not need to use the `where()` function to do the masking before plotting.
+> > If we had saved `terrain_model_HARV_xarr_UTM18` to a file and then read it in with `open_rasterio`'s `masked=True` argument the raster's `nodata` value would be masked and we would not need to use the `where()` function to do the masking before plotting.
 > {: .solution}
 {: .challenge}
 
 
 > ## Challenge: Reproject, then Plot a Digital Terrain Model
-> Create 2 maps in a UTM projection of the
-> [San Joaquin Experimental Range](https://www.neonscience.org/field-sites/field-sites-map/SJER)
-> field site, using the`SJER_dtmCrop.tif` and `SJER_dsmCrop_WGS84.tif` files. Use `rioxarray`, 
-> `xarray`, and `matplotlib.pyplot` (to add a title). Reproject the data as necessary to make 
-> sure each map is in the same UTM projection and save the reprojected file with the file name
-> "data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop_WGS84.tif".
+> Create 2 maps in a UTM projection of the [San Joaquin Experimental Range](https://www.neonscience.org/field-sites/field-sites-map/SJER) field site, using the`SJER_dtmCrop.tif` and `SJER_dsmCrop_WGS84.tif` files. Use `rioxarray` and `matplotlib.pyplot` (to add a title). Reproject the data as necessary to make sure each map is in the same UTM projection and save the reprojected file with the file name "data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop_WGS84.tif".
 >
 > > ## Answers
-> > If we read in these files with the argument `masked=True`, then the nodata values will be masked automatically and set to `numpy.nan`, or Not a Number.
-> > This can make plotting easier since only valid raster values will be shown. However, it's important to remember that `numpy.nan` values still take up 
-> > space in our raster just like `nodata values`, and thus they still affect the shape of the raster. In the next lesson, we will examine how to prepare 
-> > rasters of different shapes for calculations.
+> > If we read in these files with the argument `masked=True`, then the nodata values will be masked automatically and set to `numpy.nan`, or Not a Number. This can make plotting easier since only valid raster values will be shown. However, it's important to remember that `numpy.nan` values still take up space in our raster just like `nodata values`, and thus they still affect the shape of the raster. In the next lesson, we will examine how to prepare rasters of different shapes for calculations.
 > > ```python
 import rioxarray
 import matplotlib.pyplot as plt
 terrain_model_HARV_SJER = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/SJER/DTM/SJER_dtmCrop.tif", masked=True)
 surface_model_HARV_SJER = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop_WGS84.tif", masked=True)
 reprojected_surface_model = surface_model_HARV_SJER.rio.reproject(dst_crs=terrain_model_HARV_SJER.rio.crs)
-
 plt.figure()
 reprojected_surface_model.plot()
 plt.title("SJER Reprojected Surface Model")
 reprojected_surface_model.rio.to_raster("data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop_WGS84.tif")
-
 plt.figure()
 terrain_model_HARV_SJER.plot()
 plt.title("Terrain Model")
