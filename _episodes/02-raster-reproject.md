@@ -315,6 +315,7 @@ Let's plot our handiwork so far! We can use the `xarray.DataArray.plot` function
 
 ```python
 import matplotlib.pyplot as plt
+plt.figure()
 terrain_model_HARV_xarr_UTM18.plot(cmap="viridis")
 plt.title("Harvard Forest Digital Terrain Model")
 ```
@@ -330,9 +331,9 @@ plt.title("Harvard Forest Digital Terrain Model")
 > > the nodata values using the `where()` function and the 
 > > `.rio.nodata` attribute of our DataArray.
 > > ```python
-import matplotlib.pyplot as plt
 terrain_model_HARV_xarr_UTM18_valid = terrain_model_HARV_xarr_UTM18.where(
     terrain_model_HARV_xarr_UTM18 != terrain_model_HARV_xarr_UTM18.rio.nodata)
+plt.figure()
 terrain_model_HARV_xarr_UTM18_valid.plot(cmap="viridis")
 plt.title("Harvard Forest Digital Terrain Model")
 > > ```
@@ -348,8 +349,6 @@ plt.title("Harvard Forest Digital Terrain Model")
 > > ## Answers
 > > If we read in these files with the argument `masked=True`, then the nodata values will be masked automatically and set to `numpy.nan`, or Not a Number. This can make plotting easier since only valid raster values will be shown. However, it's important to remember that `numpy.nan` values still take up space in our raster just like `nodata values`, and thus they still affect the shape of the raster. In the next lesson, we will examine how to prepare rasters of different shapes for calculations.
 > > ```python
-import rioxarray
-import matplotlib.pyplot as plt
 terrain_model_HARV_SJER = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/SJER/DTM/SJER_dtmCrop.tif", masked=True)
 surface_model_HARV_SJER = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop_WGS84.tif", masked=True)
 reprojected_surface_model = surface_model_HARV_SJER.rio.reproject(dst_crs=terrain_model_HARV_SJER.rio.crs)
