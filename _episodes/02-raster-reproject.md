@@ -358,7 +358,7 @@ plt.title("SJER Reprojected Surface Model")
 reprojected_surface_model.rio.to_raster("data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop_WGS84.tif")
 plt.figure()
 terrain_model_HARV_SJER.plot()
-plt.title("Terrain Model")
+plt.title("SJER Terrain Model")
 > > ```
 > > <img src="../fig/02-SJER-DSM-03.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
 > > <img src="../fig/02-SJER-DTM-04.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
