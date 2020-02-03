@@ -13,10 +13,9 @@ Data Carpentry's aim is to teach researchers basic concepts, skills, and tools f
 > the data and install everything before working through this lesson. 
 > 
 > This workshop assumes no prior experience with the tools covered in the workshop. However, learners with prior
-> experience working with geospatial data may be able to skip the 
-> [Geospatial Project Organization and Management](https://www.datacarpentry.org/organization-geospatial/) lesson. 
+> experience working with geospatial data may be able to skip episodes 1-4, which focus on geospatial concepts and project management. 
 > Similarly, learners who have prior experience with the `Python` programming language may wish to skip the 
-> [Introduction to Python for Geospatial Data](https://www.datacarpentry.org/python-intro-geospatial/) lesson.
+> [Plotting and Programming in Python](https://swcarpentry.github.io/python-novice-gapminder/index.html) lesson.
 >
 > To get started, follow the directions in the [Setup](setup.html) tab to
 > get access to the required software and data for this workshop.
@@ -55,10 +54,10 @@ Data Carpentry's aim is to teach researchers basic concepts, skills, and tools f
 
 # Workshop Overview
 
-| Lesson    | Overview |
+| Lesson Starting Points   | Overview |
 | ------- | ---------- |
-| [Introduction to Geospatial Concepts](http://www.datacarpentry.org/organization-geospatial/) | Understand data structures and common storage and transfer formats for spatial data. |
-| [Introduction to Python for Geospatial Data](http://www.datacarpentry.org/python-intro-geospatial) | Import data into Python, calculate summary statistics, and create publication-quality graphics. |
-| [Introduction to Geospatial Raster and Vector Data with Python](http://www.datacarpentry.org/python-raster-vector-geospatial) | Open, work with, and plot vector and raster-format spatial data in Python. |
+| [Episode 1: Introduction to Raster Data]({{ site.baseurl }}/01-intro-raster-data/) | Understand data structures and common storage and transfer formats for spatial data. Start here if you want to understand fundamental geospatial concepts like coordinate reference systems, rasters, and vectors.|
+| [Plotting and Programming in Python](https://swcarpentry.github.io/python-novice-gapminder/index.html) | Import data into Python, calculate summary statistics, create publication-quality graphics. Start here if you have an understanding of geospatial concepts but want to learn Python fundamentals. |
+| [Episode 5: Intro to Raster Data in Python]({{ site.baseurl }}/05-raster-structure/) | Open, work with, and plot vector and raster-format spatial data in Python. Start here if you already have a good grasp of geospatial concepts and a working knowledge of Python.|
 
 {% include links.md %}

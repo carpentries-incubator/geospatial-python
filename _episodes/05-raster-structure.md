@@ -484,3 +484,5 @@ as a floating point raster, resulting in a bigger file.
 > > No data values are encoded as -9999. If we didn't make a copy of the meta and instead a) opened the file with both read and write permissions and b) changed the original, we would have changed the original file's no data value even after restarting the python kernel.
 > {: .solution}
 {: .callout}
+
+{% include links.md %}

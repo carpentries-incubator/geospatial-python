@@ -360,8 +360,8 @@ plt.figure()
 terrain_model_HARV_SJER.plot()
 plt.title("SJER Terrain Model")
 > > ```
-> > <img src="../fig/02-SJER-DSM-03.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
-> > <img src="../fig/02-SJER-DTM-04.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
+> > <img src="../fig/02-SJER-DSM-03.png" title="SJER-DSM-03" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
+> > <img src="../fig/02-SJER-DTM-04.png" title="SJER-DTM-04" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
 > {: .solution}
 {: .challenge}
 

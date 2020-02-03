@@ -30,5 +30,4 @@ If the workshop audience is experienced in both R and geospatial concepts, this 
 
 ## Common problems
 
-
 {% include links.md %}
