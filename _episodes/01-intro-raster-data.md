@@ -64,15 +64,6 @@ A map of elevation for Harvard Forest derived from the [NEON AOP LiDAR sensor](h
 is below. Elevation is represented as continuous numeric variable in this map. The legend
 shows the continuous range of values in the data from around 300 to 420 meters.
 
-```{r elevation-map, echo=FALSE}
-# render DSM for tutorial content background
-# for demonstration only, code not shown
-ggplot() +
-  geom_raster(data = DSM_HARV_df , aes(x = x, y = y, fill = HARV_dsmCrop)) +
-  ggtitle("Continuous Elevation Map - NEON Harvard Forest Field Site") +
-  coord_quickmap()
-```
-
 Some rasters contain categorical data where each pixel represents a discrete
 class such as a landcover type (e.g., "forest" or "grassland") rather than a
 continuous value such as elevation or temperature. Some examples of classified
