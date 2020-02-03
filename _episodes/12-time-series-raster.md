@@ -1,5 +1,5 @@
 ---
-title: "Raster Time Series Data in Python"
+title: "Raster Time Series Data in Python FIXME"
 teaching: 40
 exercises: 20
 questions:

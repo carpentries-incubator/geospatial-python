@@ -1,5 +1,5 @@
 ---
-title: "Manipulate Raster Data in Python"
+title: "Manipulate Raster Data in Python FIXME"
 teaching: 40
 exercises: 20
 questions:

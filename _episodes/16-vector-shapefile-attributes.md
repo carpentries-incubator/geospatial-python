@@ -1,5 +1,5 @@
 ---
-title: "Explore and Plot by Shapefile Attributes"
+title: "Explore and Plot by Shapefile Attributes FIXME"
 teaching: 40
 exercises: 20
 questions:

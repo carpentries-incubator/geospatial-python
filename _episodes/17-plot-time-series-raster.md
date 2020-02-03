@@ -1,5 +1,5 @@
 ---
-title: "Create Publication-quality Graphics"
+title: "Create Publication-quality Graphics FIXME"
 teaching: 40
 exercises: 20
 questions:

@@ -104,6 +104,7 @@ dependencies:
   - geopandas
   - rioxarray
   - geocube
+  - earthpy
   - ipyleaflet
 ```
 
