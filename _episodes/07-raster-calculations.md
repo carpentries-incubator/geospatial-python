@@ -181,7 +181,7 @@ by default writes the output file to your working directory unless you specify a
 full file path.
 
 ```python
-os.mkdir("./data/outputs/")
+os.mkdirs("./data/outputs/", exist_ok=True)
 canopy_height_xarr_HARV.rio.to_raster("./data/outputs/CHM_HARV.tif")
 ```
 
@@ -236,17 +236,20 @@ plt.title("Canopy Height Model for San Joaquin Experimental Range, Z Units: Mete
 plt.savefig("fig/03-SJER-CHM-map-05.png")
 canopy_height_SJER_xarr.rio.to_raster("./data/outputs/CHM_SJER.tif")
 > > ```
-> >
+> > 
+> > ![](../fig/03-SJER-CHM-05.png) 
+> > 
 > > 4) Compare the SJER and HARV CHMs. 
 > > Tree heights are much shorter in SJER. You can confirm this by 
 > > looking at the histograms of the two CHMs. 
 > >
 > > ```python
+fig, ax = plt.figure(figsize=(9,6))
+canopy_height_HARV_xarr.plot.hist(ax = ax, bins=50, color = "green")
 plt.figure(figsize=(9,6))
-canopy_height_HARV_xarr.plot.hist(bins=50)
-plt.figure(figsize=(9,6))
-canopy_height_SJER_xarr.plot.hist(bins=50)
+canopy_height_SJER_xarr.plot.hist(ax = ax, bins=50, color = "brown")
 > > ```
+> > ![](../fig/03-hist_compare-06.png) 
 > {: .solution}
 {: .challenge}
 
