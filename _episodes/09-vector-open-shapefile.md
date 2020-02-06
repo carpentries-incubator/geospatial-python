@@ -1,5 +1,5 @@
 ---
-title: "Open and Plot Shapefiles in Python FIXME"
+title: "Open and Plot Shapefiles in Python"
 teaching: 20
 exercises: 10
 questions:
