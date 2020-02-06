@@ -15,11 +15,6 @@ keypoints:
 - "JupyterLab provides a user-friendly interface for working with Python."
 ---
 
-```{r, include=FALSE}
-source("../bin/chunk-options.R")
-source("../setup.R")
-knitr_fig_path("04-")
-```
 
 ## Standalone Software Packages 
 

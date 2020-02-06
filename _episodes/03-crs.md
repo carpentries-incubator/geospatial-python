@@ -12,12 +12,6 @@ keypoints:
 - "A coordinate reference system includes datum, projection, and additional parameters specific to the dataset."
 ---
 
-```{r, include=FALSE}
-source("../bin/chunk-options.R")
-source("../setup.R")
-knitr_fig_path("03-")
-```
-
 ## Coordinate Reference Systems
 
 A data structure cannot be considered geospatial unless it is accompanied by

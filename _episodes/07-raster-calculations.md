@@ -218,9 +218,11 @@ are what you expect.
 > > ```python
 surface_model_SJER_xarr = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop.tif", masked=True)
 terrain_model_SJER_xarr_UTM18 = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/SJER/DTM/SJER_dtmCrop_WGS84.tif", masked=True)
+print(terrain_model_SJER_xarr_UTM18.shape)
+print(surface_model_SJER_xarr.shape)
 > > ```
 > >
-> > 2) Using the larger raster, reproject and clip to the extent of the smaller raster using `reproject_match`. The calculate the CHM.
+> > 2) Reproject and clip one raster to the extent of the smaller raster using `reproject_match`. Your output raster, may have nodata values at the border, these are fine and can be removed for later calculations if needed. Then,calculate the CHM.
 > >
 > > ```python
 terrain_model_SJER_xarr_UTM18_matched = terrain_model_SJER_xarr_UTM18.rio.reproject_match(surface_model_SJER_xarr)
@@ -249,7 +251,6 @@ canopy_height_HARV_xarr.plot.hist(ax = ax, bins=50, color = "green")
 plt.figure(figsize=(9,6))
 canopy_height_SJER_xarr.plot.hist(ax = ax, bins=50, color = "brown")
 > > ```
-> > ![](../fig/03-hist_compare-06.png) 
 > {: .solution}
 {: .challenge}
 

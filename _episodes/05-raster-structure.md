@@ -44,14 +44,14 @@ import matplotlib.pyplot as plt
 ~~~
 {: .language-python}
 
-> ## Introduce the Data (TODO update link)
+> ## Introduce the Data
 >
 > A brief introduction to the datasets can be found on the 
-> [Geospatial workshop homepage](https://datacarpentry.org/geospatial-workshop/#data).
+> [Geospatial workshop homepage](https://rbavery.github.io/geospatial-python/setup.html).
 > 
 > For more detailed information about the datasets, check
 out the [Geospatial workshop data
-page](http://datacarpentry.org/geospatial-workshop/data/).
+page](https://rbavery.github.io/geospatial-python/).
 {: .callout}
 
 ## View Raster File Attributes
@@ -68,8 +68,6 @@ surface_model_HARV = rasterio.open("data/NEON-DS-Airborne-Remote-Sensing/HARV/DS
 surface_model_HARV.meta
 ~~~
 {: .language-python}
-
-
 
 ~~~
 {'driver': 'GTiff',
@@ -150,7 +148,7 @@ The output of `.read()` is a numpy array, which is abbreviated with `...` since 
 To visualise this data in Python using `earthpy.plot`, all we need is our data in a numpy array and some options to control
 the color of our plot and plot labels.
 
-~~~
+```python
 earthpy.plot.plot_bands(
     surface_model_HARV_arr,
     scale=False,
@@ -158,8 +156,7 @@ earthpy.plot.plot_bands(
     title="Digital Surface Model Without Hillshade",
     figsize=(10, 6)
 )
-~~~
-
+```
 
 Nice plot! We set the color scale to `viridis` which is a color-blindness friendly color scale.
 
