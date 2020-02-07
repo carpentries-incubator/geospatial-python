@@ -7,7 +7,7 @@ questions:
 objectives:
 - "Know the difference between point, line, and polygon vector elements."
 - "Load point, line, and polygon shapefiles with `geopandas`."
-- "Access the attributes of a spatial object with `gepandas`."
+- "Access the attributes of a spatial object with `geopandas`."
 keypoints:
 - "Shapefile metadata include geometry type, CRS, and extent."
 - "Load spatial objects into Python with the `geopandas.read_file()` method."
@@ -27,7 +27,7 @@ vector data together and combine them into a single plot.
 
 ## Import Shapefiles
 
-We will use the `gepandas` package to work with vector data in Python. We will also use the
+We will use the `geopandas` package to work with vector data in Python. We will also use the
 `rioxarray`. 
 
 ```python
