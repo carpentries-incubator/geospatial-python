@@ -1,6 +1,6 @@
 ---
 title: "Intro to Raster Data in Python"
-teaching: 60
+teaching: 40
 exercises: 20
 questions:
 -  "What is a raster dataset?"
