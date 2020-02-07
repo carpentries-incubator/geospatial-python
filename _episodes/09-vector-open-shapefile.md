@@ -178,7 +178,6 @@ different features.
 > Answer the following questions:
 > 
 > 1. What type of Python spatial object is created when you import each layer? 
->    Hint, you'll need to access the `geometry` column of the file to check this.
 > 
 > 2. What is the CRS and extent (bounds) for each object?
 > 
