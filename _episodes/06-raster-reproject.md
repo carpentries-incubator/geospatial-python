@@ -152,7 +152,7 @@ terrain_HARV_UTM18.rio.to_raster(reprojected_path)
 > >
 > > ```python
 > > # view crs for DTM
-> > print(terrain_HARV_UTM18 .rio.crs)
+> > print(terrain_HARV_UTM18.rio.crs)
 > >
 > > # view crs for DSM
 > > print(surface_HARV.rio.crs)
@@ -165,7 +165,7 @@ terrain_HARV_UTM18.rio.to_raster(reprojected_path)
 > > 
 > > ```python
 > > # view noddata value for DTM
-> > print(terrain_HARV_UTM18 .rio.nodata)
+> > print(terrain_HARV_UTM18.rio.nodata)
 > >
 > > # view nodata value for DSM
 > > print(surface_HARV.rio.nodata)
@@ -180,7 +180,7 @@ terrain_HARV_UTM18.rio.to_raster(reprojected_path)
 > > 
 > > ```python
 > > # view shape for DTM
-> > print(terrain_HARV_UTM18 .shape)
+> > print(terrain_HARV_UTM18.shape)
 > >
 > > # view shape for DSM
 > > print(surface_HARV.shape)
@@ -202,7 +202,7 @@ Let's plot our handiwork so far! We can use the `xarray.DataArray.plot` function
 ```python
 import matplotlib.pyplot as plt
 plt.figure()
-terrain_HARV_UTM18 .plot(cmap="viridis")
+terrain_HARV_UTM18.plot(cmap="viridis")
 plt.title("Harvard Forest Digital Terrain Model")
 ```
 <img src="../fig/02-bad-DTM-plot-01.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
@@ -217,10 +217,10 @@ plt.title("Harvard Forest Digital Terrain Model")
 > > the nodata values using the `where()` function and the 
 > > `.rio.nodata` attribute of our DataArray.
 > > ```python
-terrain_HARV_UTM18 _valid = terrain_HARV_UTM18 .where(
-    terrain_HARV_UTM18  != terrain_HARV_UTM18 .rio.nodata)
+terrain_HARV_UTM18 _valid = terrain_HARV_UTM18.where(
+    terrain_HARV_UTM18  != terrain_HARV_UTM18.rio.nodata)
 plt.figure()
-terrain_HARV_UTM18 _valid.plot(cmap="viridis")
+terrain_HARV_UTM18_valid.plot(cmap="viridis")
 plt.title("Harvard Forest Digital Terrain Model")
 > > ```
 > > <img src="../fig/02-HARV-reprojected-DTM-02.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
@@ -233,7 +233,7 @@ plt.title("Harvard Forest Digital Terrain Model")
 > Create 2 maps in a UTM projection of the [San Joaquin Experimental Range](https://www.neonscience.org/field-sites/field-sites-map/SJER) field site, using the`SJER_dtmCrop.tif` and `SJER_dsmCrop_WGS84.tif` files. Use `rioxarray` and `matplotlib.pyplot` (to add a title). Reproject the data as necessary to make sure each map is in the same UTM projection and save the reprojected file with the file name "data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop_WGS84.tif".
 >
 > > ## Answers
-> > If we read in these files with the argument `masked=True`, then the nodata values will be masked automatically and set to `numpy.nan`, or Not a Number. This can make plotting easier since only valid raster values will be shown. However, it's important to remember that `numpy.nan` values still take up space in our raster just like `nodata values`, and thus they still affect the shape of the raster. Rasters need to be the same shape for raster math to work in python. In the next lesson, we will examine how to prepare rasters of different shapes for calculations.
+> > If we read in these files with the argument `masked=True`, then the nodata values will be masked automatically and set to `numpy.nan`, or Not a Number. This can make plotting easier since only valid raster values will be shown. However, it's important to remember that `numpy.nan` values still take up space in our raster just like `nodata` values, and thus they still affect the shape of the raster. Rasters need to be the same shape for raster math to work in python. In the next lesson, we will examine how to prepare rasters of different shapes for calculations.
 > > ```python
 terrain_HARV_SJER = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/SJER/DTM/SJER_dtmCrop.tif", masked=True)
 surface_HARV_SJER = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop_WGS84.tif", masked=True)

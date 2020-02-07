@@ -121,7 +121,7 @@ aoi_boundary_HARV.bounds
 
 The spatial extent of a shapefile or `shapely` spatial object represents the geographic "edge" or location that is the furthest north, south east and west. Thus is represents the overall geographic coverage of the spatial object. Image Source: National Ecological Observatory Network (NEON).
 
-![Extent image](../images/dc-spatial-vector/spatial_extent.png)
+![Extent image](../fig/dc-spatial-vector/spatial_extent.png)
 
 We can convert these coordinates to a bounding box or acquire the index the dataframe to access the geometry. Either of these polygons can be used to clip rasters (more on that later). 
 

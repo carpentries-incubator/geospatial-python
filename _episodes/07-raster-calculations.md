@@ -162,7 +162,7 @@ canopy_height_classified.plot()
 
 
 > ## Plot Tip
-> This plot looks nice but it's legend could be improved. `matplotlib.pyplot` has all the tools needed to create a custom legend with unique labels for our classified map. See the [Earth Lab's lesson](https://www.earthdatascience.org/courses/earth-analytics-python/lidar-raster-data/classify-plot-raster-data-in-python/) for more details.
+> This plot looks nice but its legend could be improved. `matplotlib.pyplot` has all the tools needed to create a custom legend with unique labels for our classified map. See the [Earth Lab's lesson](https://www.earthdatascience.org/courses/earth-analytics-python/lidar-raster-data/classify-plot-raster-data-in-python/) for more details.
 {: .callout}
 
 
