@@ -125,6 +125,25 @@ The spatial extent of a shapefile or `shapely` spatial object represents the geo
 
 We can convert these coordinates to a bounding box or acquire the index the dataframe to access the geometry. Either of these polygons can be used to clip rasters (more on that later). 
 
+## Reading a Shapefile from a csv
+
+So far we have been loading file formats that were specifically built to hold spatial information. But often, point data is stored in table format, with a column for the x coordinates and a column for the y coordinates. The easiest way to get this type of data into a GeoDataFrame is with the `geopandas` function `geopandas.points_from_xy`, which takes list-like sequences of x and y coordinates. In this case, we can get these list-like sequences from columns of a pandas `DataFrame` that we get from `read_csv`.
+
+```python
+# we get the projection of the point data from our Canopy Height Model, 
+# after examining the pandas DataFrame and seeing that the CRSs are the same
+import rioxarray
+CHM_HARV <-
+  rioxarray.open("data/NEON-DS-Airborne-Remote-Sensing/HARV/CHM/HARV_chmCrop.tif")
+
+# plotting locations in CRS coordinates using CHM_HARV's CRS
+plot_locations_HARV =
+  pd.read_csv("data/NEON-DS-Site-Layout-Files/HARV/HARV_PlotLocations.csv")
+plot_locations_HARV = gpd.GeoDataFrame(plot_locations_HARV, 
+                    geometry=gpd.points_from_xy(plot_locations_HARV.easting, plot_locations_HARV.northing), 
+                    crs=CHM_HARV.rio.crs)
+```
+
 
 ## Plotting a Shapefile
 

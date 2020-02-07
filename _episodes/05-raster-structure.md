@@ -200,14 +200,14 @@ attribute.
 
 
 ~~~
-surface_model_HARV.crs
+print(surface_model_HARV.crs)
 ~~~
 {: .language-python}
 
 
 
 ~~~
-CRS.from_epsg(32618)
+EPSG:32618
 ~~~
 {: .output}
 
@@ -219,14 +219,10 @@ earthpy.epsg['32618']
 ~~~
 {: .language-python}
 
-
-
 ~~~
 '+proj=utm +zone=18 +datum=WGS84 +units=m +no_defs'
 ~~~
 {: .output}
-
-
 
 > ## Challenge
 > What units are our data in?
