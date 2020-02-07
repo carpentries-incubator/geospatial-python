@@ -33,7 +33,7 @@ Data Carpentry's aim is to teach researchers basic concepts, skills, and tools f
 > There are four data sets included, all of which are available 
 > [on Figshare](https://figshare.com/articles/Spatio_temporal_Series_Teaching_Data_Subsets/2009586)
 > under a CC-BY license. You can download all of the data used in this workshop by clicking 
-> [this download link](https://ndownloader.figshare.com/articles/2009586/versions/10). 
+> [this download link](https://ndownloader.figshare.com/files/21618735). 
 > Clicking the download link will download all of the files as a single compressed
 > (`.zip`) file. To expand this file, double click the folder icon in your file navigator application (for Macs, this is the Finder 
 > application).

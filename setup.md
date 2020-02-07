@@ -10,7 +10,7 @@ This workshop is designed to be run on your local machine. First, you will need 
 ## Data
 
 You can download all of the data used in this workshop by clicking
-[this download link](https://ndownloader.figshare.com/files/21528414). The file is 155.38 MB.
+[this download link](https://ndownloader.figshare.com/files/21618735). The file is 155.38 MB.
 
 Clicking the download link will automatically download all of the files to your default download directory as a single compressed
 (`.zip`) file. To expand this file, double click the folder icon in your file navigator application (for Macs, this is the Finder application).
