@@ -42,7 +42,7 @@ The shapefiles that we will import are:
 located at the [NEON Harvard Forest field site](https://www.neonscience.org/field-sites/field-sites-map/HARV).
 
 The first shapefile that we will open contains the boundary of our study area
-(or our Area Of Interest or AOI, hence the name `aoiBoundary`). To import
+(or our Area Of Interest or AOI, hence the name `aoi_boundary`). To import
 shapefiles we use the `geopandas` function `read_file()`.
 
 Let's import our AOI:
