@@ -1,6 +1,6 @@
 ---
 title: "Intro to Raster Data in Python"
-teaching: 40
+teaching: 60
 exercises: 20
 questions:
 -  "What is a raster dataset?"
@@ -49,7 +49,7 @@ out the [Geospatial workshop data
 page](https://rbavery.github.io/geospatial-python/).
 {: .callout}
 
-## View Raster File Attributes
+## Open a Raster and View Raster File Attributes
 
 We will be working with a series of GeoTIFF files in this lesson. The
 GeoTIFF format contains a set of embedded tags with metadata about the raster
@@ -82,84 +82,72 @@ Attributes:
 {: .output}
 
 The first call to `rioxarray.open_rasterio()` opens the file and returns an object that we store in a variable, `surface_HARV`.
-This object has a couple attributes that are accessed like `.rio.crs`, `.rio.nodata`, and `.rio.bounds`, which contain the metadata for the file we opened.
 
-This metadata is stored in the form of a python `dict`. The `driver` shows that we read in a GeoTIFF file, where the values are encoded as floating point numbers (`'dtype': 'float64'`), and the `nodata` value encoded as -9999.0. `'width': 1697` represents the 1697 columns in the raster and `'height': 1367` represents the number of rows. `'count': 1` represents the number of bands in the dataset, indicating that we're working with a single-band raster. The Coordinate Reference System, or `crs`, is reported by EPSG code as the `32618` in `CRS.from_epsg(32618)`. The `transform` represents the conversion between pixel coordinates and spatial coordinates.
+The output tells us that we are looking at an `xarray.DataArray`, with `1` band, `1367` columns, and `1697` rows. We can also see the number of pixel values in the `DataArray`, and the type of those pixel values, which is floating point, or (`float64`). The `DataArray` also stores different values for the coordinates of the `DataArray`. When using `rioxarray`, the term coordinates refers to spatial coordinates like `x` and `y` but also the `band` coordinate. Each of these sequences of values has its own data type, like `float64` for the spatial coordinates
+ and `int64` for the `band` coordinate. The `transform` represents the conversion between array coordinates (non-spatial) and spatial coordinates.
 
+This `DataArray` object also has a couple attributes that are accessed like `.rio.crs`, `.rio.nodata`, and `.rio.bounds()`, which contain the metadata for the file we opened. Note that many of the metadata are accessed as attributes without `()`, but `bounds()` is a function and needs parentheses. 
 
-A python `dict` stores key, value pairs. If we wanted to access the width of the file we opened, we can use the key 
-`'width'` to select that value from the dictionary.
+```python
+print(surface_HARV.rio.crs)
+print(surface_HARV.rio.nodata)
+print(surface_HARV.rio.bounds())
+print(surface_HARV.rio.width)
+print(surface_HARV.rio.height)
+```
 
-~~~
-surface_HARV.meta['width']
-~~~
-{: .language-python}
-~~~
+```
+EPSG:32618
+-9999.0
+(731453.0, 4712471.0, 733150.0, 4713838.0)
 1697
-~~~
-{: .output}
+1367
+```
 
-The width value in this raster's meta is of type `int`, whereas the value for the key `nodata` is of type `float`. 
-Other keys, `crs` and `transform`, use custom objects defined by the `rasterio` to represent the coordinate reference 
-system, location, and resolution. We will be exploring this data throughout this episode. By the end of this episode, you will be able to understand and explain the metadata output.
+The Coordinate Reference System, or `surface_HARV.rio.crs`, is reported as the string `EPSG:32618`. The `nodata` value is encoded as -9999.0 and the bounding box corners of our raster are represented by the output of `.bounds()` as a `tuple` (like a list but you can't edit it). The height and width match what we saw when we printed the `DataArray`, but by using `.rio.width` we can access these values if we need them in calculations.
 
-## Open a Raster in Python
-
-Now that we've previewed the metadata for our GeoTIFF, let's load this
-raster dataset into Python as an array and explore its metadata more closely. We can use the `.read()` 
-function to read the first, and only, band of our raster.
+ We will be exploring this data throughout this episode. By the end of this episode, you will be able to understand and explain the metadata output.
 
 > ## Data Tip - Object names
 > To improve code
 > readability, file and object names should be used that make it clear what is in
 > the file. The data for this episode were collected from Harvard Forest so
-> we'll use a naming convention of `datatype_HARV_arr`.
-> We'll add the 'arr' suffix to indicate this is an array.
+> we'll use a naming convention of `datatype_HARV`.
 {: .callout}
 
+After viewing the attributes of our raster, we can exmine the raw value sof the array with `.values`:
+
 ~~~
-surface_HARV_arr = surface_HARV.read(1)
-surface_HARV.read(1)
+surface_HARV.values
 ~~~
 {: .language-python}
 
-
-
 ~~~
-array([[408.76998901, 408.22998047, 406.52999878, ..., 345.05999756,
-        345.13998413, 344.97000122],
-       [407.04998779, 406.61999512, 404.97998047, ..., 345.20999146,
-        344.97000122, 345.13998413],
-       [407.05999756, 406.02999878, 403.54998779, ..., 345.07000732,
-        345.08999634, 345.17999268],
-       ...,
-       [367.91000366, 370.19000244, 370.58999634, ..., 311.38998413,
-        310.44998169, 309.38998413],
-       [370.75997925, 371.50997925, 363.41000366, ..., 314.70999146,
-        309.25      , 312.01998901],
-       [369.95999146, 372.6000061 , 372.42999268, ..., 316.38998413,
-        309.86999512, 311.20999146]])
+array([[[408.76998901, 408.22998047, 406.52999878, ..., 345.05999756,
+         345.13998413, 344.97000122],
+        [407.04998779, 406.61999512, 404.97998047, ..., 345.20999146,
+         344.97000122, 345.13998413],
+        [407.05999756, 406.02999878, 403.54998779, ..., 345.07000732,
+         345.08999634, 345.17999268],
+        ...,
+        [367.91000366, 370.19000244, 370.58999634, ..., 311.38998413,
+         310.44998169, 309.38998413],
+        [370.75997925, 371.50997925, 363.41000366, ..., 314.70999146,
+         309.25      , 312.01998901],
+        [369.95999146, 372.6000061 , 372.42999268, ..., 316.38998413,
+         309.86999512, 311.20999146]]])
 ~~~
 {: .output}
 
-The output of `.read()` is a numpy array, which is abbreviated with `...` since the array is too large for the output console.
-
-To visualise this data in Python using `earthpy.plot`, all we need is our data in a numpy array and some options to control
-the color of our plot and plot labels.
+This can give us a quick view of the values of our array, but only at the corners. Since our raster is loaded in python as a `DataArray` type, we can plot this in one line similar to a pandas `DataFrame` with `DataArray.plot()`.
 
 ```python
-earthpy.plot.plot_bands(
-    surface_HARV_arr,
-    scale=False,
-    cmap="viridis",
-    title="Digital Surface Model Without Hillshade",
-    figsize=(10, 6)
-)
+surface_HARV.plot()
 ```
 
-Nice plot! We set the color scale to `viridis` which is a color-blindness friendly color scale.
+<img src="../fig/01-surface-plot-01.png" title="Raster plot with rioxarray using the viridis color scale" alt="Raster plot with earthpy.plot using the viridis color scale" width="612" style="display: block; margin: auto;" />
 
-<img src="../fig/01-earthpy-surface-1.png" title="Raster plot with earthpy.plot using the viridis color scale" alt="Raster plot with earthpy.plot using the viridis color scale" width="612" style="display: block; margin: auto;" />
+Nice plot! Notice that `rioxarray` helpfully allows us to plot this raster with spatial coordinates on the x and y axis (this is not the default in many cases with other functions or libraries).
 
 > ## Plotting Tip
 > For more aesthetic looking plots, matplotlib allows you to customize the style with `plt.style.use`. However, if you want more control of the look of your plot, matplotlib has many more functions to change the position and appearnce of plot elements.
@@ -167,18 +155,13 @@ Nice plot! We set the color scale to `viridis` which is a color-blindness friend
 > >  Here is the result of using a ggplot like style for our surface model plot.
 > > 
 > > ~~~
+> > import matplotlib.pyplot as plt
 > > plt.style.use("ggplot")
-> > earthpy.plot.plot_bands(
-> >     surface_HARV_arr,
-> >     scale=False,
-> >     cmap="viridis",
-> >     title="Digital Surface Model Without Hillshade",
-> >     figsize=(10, 6)
-> > )
+> > surface_HARV.plot()
 > > ~~~
 > > {: .language-python}
 > > 
-> > <img src="../fig/01-earthpy-ggplot-style-2.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
+> > <img src="../fig/01-rioxarray-ggplot-style-2.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
 > {: .solution}
 {: .callout}
 
@@ -186,9 +169,8 @@ This map shows the elevation of our study site in Harvard Forest. From the
 legend, we can see that the maximum elevation is ~400, but we can't tell whether
 this is 400 feet or 400 meters because the legend doesn't show us the units. We
 can look at the metadata of our object to see what the units are. Much of the
-metadata that we're interested in is part of the CRS, and it can also be accessed 
-by calling other attributes besides `meta`. We introduced the concept of a CRS in [an earlier
-lesson](https://datacarpentry.org/organization-geospatial/03-crs) (TODO replace link).
+metadata that we're interested in is part of the CRS, and it can be accessed with `.rio.crs`. We introduced the concept of a CRS in [an earlier
+lesson]() (TODO replace link).
 
 Now we will see how features of the CRS appear in our data file and what
 meanings they have.

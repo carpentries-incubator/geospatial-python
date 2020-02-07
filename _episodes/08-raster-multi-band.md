@@ -10,8 +10,7 @@ objectives:
 - "Plot multi-band color image rasters in R using the `earthpy` package."
 keypoints:
 - "A single raster file can contain multiple bands or layers."
-- "Use the `earthpy.stack()` function to load all bands spread across individual files into Python"
-- "Individual bands within a stack can be accessed, analyzed, and visualized using the same functions as single bands."
+- "Individual bands within a DataArray can be accessed, analyzed, and visualized using the same plot function as single bands."
 ---
 FIXME
 

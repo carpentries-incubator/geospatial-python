@@ -67,29 +67,10 @@ we have worked with in this workshop:
 * Vegetation plot locations (marked with white dots)-- black
 * A canopy height model (CHM) in GeoTIFF format -- green
 
-```{r view-extents, echo = FALSE}
-# code not shown, for demonstration purposes only
-# create CHM as a shapefile
-CHM_HARV_sp <- st_as_sf(CHM_HARV_df, coords = c("x", "y"), crs = utm18nCRS)
-# approximate the boundary box with a random sample of raster points
-CHM_rand_sample <- sample_n(CHM_HARV_sp, 10000)
-lines_HARV <- st_read("data/NEON-DS-Site-Layout-Files/HARV/HARV_roads.shp")
-plots_HARV <- st_read("data/NEON-DS-Site-Layout-Files/HARV/PlotLocations_HARV.shp")
-```
 
-```{r compare-data-extents, echo = FALSE}
+```python
 # code not shown, for demonstration purposes only 
-ggplot() +
-  geom_sf(data = st_convex_hull(st_union(CHM_rand_sample)), fill = "green") +
-  geom_sf(data = st_convex_hull(st_union(lines_HARV)),
-          fill = "purple", alpha =  0.2) +
-  geom_sf(data = lines_HARV, aes(color = TYPE), size = 1) +
-  geom_sf(data = aoi_boundary_HARV, fill = "blue") +
-  geom_sf(data = st_convex_hull(st_union(plot_locations_sp_HARV)),
-          fill = "black", alpha = 0.4) +
-  geom_sf(data = plots_HARV, color = "white") +
-  theme(legend.position = "none") + 
-  coord_sf()
+
 
 ```
 

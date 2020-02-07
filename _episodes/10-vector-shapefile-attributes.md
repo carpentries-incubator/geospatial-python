@@ -177,7 +177,7 @@ We already know that we have four different `TYPE` levels in the lines_HARV obje
 
 ```python
 import matplotlib.pyplot as plt
-plt.style.use("fivethirtyeight")
+plt.style.use("ggplot")
 lines_HARV.plot(column="TYPE", linewidth=3, legend=True, figsize=(16,10))
 ```
 
