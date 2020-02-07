@@ -48,7 +48,7 @@ Let's load them again with `open_rasterio` using the argument `masked=True`.
 ```python
 import rioxarray
 
-surface_model_HARV_xarr = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif", masked=True)
+surface_HARV_xarr = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif", masked=True)
 terrain_model_HARV_xarr_UTM18 = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_dtmCrop_UTM18_rioxarray.tif", masked=True)
 ```
 
@@ -62,7 +62,7 @@ We can now use the `reproject_match` function, which both reprojects and clips
 a raster to the CRS and extent of another raster.
 
 ```python
-terrain_model_reprojected_matched = terrain_model_HARV_xarr_UTM18.rio.reproject_match(surface_model_HARV_xarr)
+terrain_model_reprojected_matched = terrain_model_HARV_xarr_UTM18.rio.reproject_match(surface_HARV_xarr)
 ```
 
 In fact, we could have used reproject_match on the original DTM model, "HARV_dtmCrop_WGS84.tif". If we had, this would mean one less time our DTM 
@@ -74,7 +74,7 @@ We'll use `rioxarray` so that we can easily plot our result and keep
 track of the metadata for our CHM.
 
 ```python
-canopy_height_xarr_HARV = surface_model_HARV_xarr - terrain_model_HARV_xarr_UTM18_matched
+canopy_height_xarr_HARV = surface_HARV_xarr - terrain_model_HARV_xarr_UTM18_matched
 canopy_height_xarr_HARV.compute()
 ```
 
@@ -170,7 +170,7 @@ canopy_height_classified.plot()
 When we computed the CHM, the output no longer contains reference to a nodata value, like `-9999.0`, which was associated with the DTM and DSM. Some calculations, like `numpy.digitize` can remove all geospatial metadata. Of what can be lost, the CRS and nodata value are particularly important to keep track of. Before we export the product of our calculation to a Geotiff with the `to_raster` function, we need to reassign this metadata.
 
 ```python
-canopy_height_xarr_HARV.rio.write_crs(surface_model_HARV_xarr.rio.crs, inplace=True)
+canopy_height_xarr_HARV.rio.write_crs(surface_HARV_xarr.rio.crs, inplace=True)
 canopy_height_xarr_HARV.rio.set_nodata(-9999.0, inplace=True)
 ```
 

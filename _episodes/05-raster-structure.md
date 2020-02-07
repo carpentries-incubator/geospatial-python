@@ -31,16 +31,11 @@ discuss some of the core metadata elements that we need to understand to work wi
 rasters, including Coordinate Reference Systems, no data values, and resolution. We will also explore missing and bad
 data values as stored in a raster and how Python handles these elements.
 
-We will use four packages in this episode to work with raster data -
-`rasterio` for reading and writing rasters, `scipy` for descriptive statistics, `numpy` for masking raster data and `earthpy.plot` for plotting. We will also use `matplotlib` to improve the aesthetics of our plot. Make sure that you have these packages installed and imported.
-
+We will use 1 package in this episode to work with raster data -
+`rioxarray`, which is based on the popular `rasterio` package for working with rasters and `xarray` for working with multi-dimensional arrays.  Make sure that you have `rioxarray` installed and imported.
 
 ~~~
-import rasterio
-import scipy.stats
-import numpy
-import earthpy.plot
-import matplotlib.pyplot as plt
+import rioxarray
 ~~~
 {: .language-python}
 
@@ -58,32 +53,36 @@ page](https://rbavery.github.io/geospatial-python/).
 
 We will be working with a series of GeoTIFF files in this lesson. The
 GeoTIFF format contains a set of embedded tags with metadata about the raster
-data. We can use the function `rasterio.open()` to get metadata about our raster
-data before we read the whole file into Python. This let's you get a quick look at
-the shape and attributes of your data.
+data. We can use the function `rioxarray.open_rasterio()` to read the geotiff file and 
+then inspect this metadata. By calling the variable name in the jupyter notebook
+we can get a quick look at the shape and attributes of the data.
 
 
 ~~~
-surface_model_HARV = rasterio.open("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif")
-surface_model_HARV.meta
+surface_HARV = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif")
+surface_HARV
 ~~~
 {: .language-python}
 
 ~~~
-{'driver': 'GTiff',
- 'dtype': 'float64',
- 'nodata': -9999.0,
- 'width': 1697,
- 'height': 1367,
- 'count': 1,
- 'crs': CRS.from_epsg(32618),
- 'transform': Affine(1.0, 0.0, 731453.0,
-        0.0, -1.0, 4713838.0)}
+<xarray.DataArray (band: 1, y: 1367, x: 1697)>
+[2319799 values with dtype=float64]
+Coordinates:
+  * band         (band) int64 1
+  * y            (y) float64 4.714e+06 4.714e+06 ... 4.712e+06 4.712e+06
+  * x            (x) float64 7.315e+05 7.315e+05 ... 7.331e+05 7.331e+05
+    spatial_ref  int64 0
+Attributes:
+    transform:     (1.0, 0.0, 731453.0, 0.0, -1.0, 4713838.0)
+    _FillValue:    -9999.0
+    scales:        (1.0,)
+    offsets:       (0.0,)
+    grid_mapping:  spatial_ref
 ~~~
 {: .output}
 
-The first call to `rasterio.open()` opens the file and returns an object that we store in a variable, `surface_model_HARV`.
-This object has an attribute, `.meta`, which contains the metadata for the file we opened.
+The first call to `rioxarray.open_rasterio()` opens the file and returns an object that we store in a variable, `surface_HARV`.
+This object has a couple attributes that are accessed like `.rio.crs`, `.rio.nodata`, and `.rio.bounds`, which contain the metadata for the file we opened.
 
 This metadata is stored in the form of a python `dict`. The `driver` shows that we read in a GeoTIFF file, where the values are encoded as floating point numbers (`'dtype': 'float64'`), and the `nodata` value encoded as -9999.0. `'width': 1697` represents the 1697 columns in the raster and `'height': 1367` represents the number of rows. `'count': 1` represents the number of bands in the dataset, indicating that we're working with a single-band raster. The Coordinate Reference System, or `crs`, is reported by EPSG code as the `32618` in `CRS.from_epsg(32618)`. The `transform` represents the conversion between pixel coordinates and spatial coordinates.
 
@@ -92,7 +91,7 @@ A python `dict` stores key, value pairs. If we wanted to access the width of the
 `'width'` to select that value from the dictionary.
 
 ~~~
-surface_model_HARV.meta['width']
+surface_HARV.meta['width']
 ~~~
 {: .language-python}
 ~~~
@@ -119,8 +118,8 @@ function to read the first, and only, band of our raster.
 {: .callout}
 
 ~~~
-surface_model_HARV_arr = surface_model_HARV.read(1)
-surface_model_HARV.read(1)
+surface_HARV_arr = surface_HARV.read(1)
+surface_HARV.read(1)
 ~~~
 {: .language-python}
 
@@ -150,7 +149,7 @@ the color of our plot and plot labels.
 
 ```python
 earthpy.plot.plot_bands(
-    surface_model_HARV_arr,
+    surface_HARV_arr,
     scale=False,
     cmap="viridis",
     title="Digital Surface Model Without Hillshade",
@@ -170,7 +169,7 @@ Nice plot! We set the color scale to `viridis` which is a color-blindness friend
 > > ~~~
 > > plt.style.use("ggplot")
 > > earthpy.plot.plot_bands(
-> >     surface_model_HARV_arr,
+> >     surface_HARV_arr,
 > >     scale=False,
 > >     cmap="viridis",
 > >     title="Digital Surface Model Without Hillshade",
@@ -200,7 +199,7 @@ attribute.
 
 
 ~~~
-print(surface_model_HARV.crs)
+print(surface_HARV.crs)
 ~~~
 {: .language-python}
 
@@ -229,7 +228,7 @@ earthpy.epsg['32618']
 >
 > > ## Answers
 > > `+units=m` tells us that our data is in meters.
-> > We could also get this information from the attribute `surface_model_HARV.crs.linear_units`.
+> > We could also get this information from the attribute `surface_HARV.crs.linear_units`.
 > {: .solution}
 {: .challenge}
 
@@ -241,7 +240,7 @@ each `+` we see the CRS element being defined. For example projection (`proj=`)
 and datum (`datum=`).
 
 ### UTM Proj4 String
-Our projection string for `surface_model_HARV` specifies the UTM projection as follows:
+Our projection string for `surface_HARV` specifies the UTM projection as follows:
 
 `'+proj=utm +zone=18 +datum=WGS84 +units=m +no_defs'`
 
@@ -264,17 +263,10 @@ It is useful to know the minimum or maximum values of a raster dataset. In this
 case, given we are working with elevation data, these values represent the
 min/max elevation range at our site.
 
-We can compute these and other descriptive statistics with `scipy.stats.describe()`.
+We can compute these and other descriptive statistics with `min` and `max`
 
 ~~~
-scipy.stats.describe(surface_model_HARV_arr, axis=None)
-~~~
-{: .language-python}
 
-
-
-~~~
-DescribeResult(nobs=2319799, minmax=(305.07000732421875, 416.0699768066406), mean=359.8531180291444, variance=317.96928806118814, skewness=-0.04227854491703972, kurtosis=-0.7242596053501216)
 ~~~
 
 The information above includes a report of the number of observations, min and max values, mean, and variance. We specified the `axis=None` 
@@ -283,8 +275,8 @@ argument so that statistics were computed for the whole array, rather than for e
 You could also get each of these values one by one using `numpy`. What if we wanted to calculate 25% and 75% quartiles?
 
 ~~~
-print(numpy.percentile(surface_model_HARV_arr, 25))
-print(numpy.percentile(surface_model_HARV_arr, 75))
+print(numpy.percentile(surface_HARV_arr, 25))
+print(numpy.percentile(surface_HARV_arr, 75))
 ~~~
 {: .language-python}
 
@@ -320,7 +312,7 @@ view the number of bands in a raster by looking at the `count` key of the `meta`
 
 
 ~~~
-surface_model_HARV.meta['count']
+surface_HARV.meta['count']
 ~~~
 {: .language-python}
 
@@ -339,8 +331,8 @@ axis of a numpy array in `[bands, rows, columns]` order. For example, even if
 there is only 1 band in a raster, it will be placed in it's own band axis.
 
 ~~~
-surface_model_HARV_arr_3D = surface_model_HARV.read()
-surface_model_HARV_arr_3D.shape
+surface_HARV_arr_3D = surface_HARV.read()
+surface_HARV_arr_3D.shape
 ~~~
 {: .language-python}
 
@@ -354,8 +346,8 @@ surface_model_HARV_arr_3D.shape
 Earlier, we read our raster in as a 2D array instead
 
 ~~~
-surface_model_HARV_arr_2D = surface_model_HARV.read(1)
-surface_model_HARV_arr_2D.shape
+surface_HARV_arr_2D = surface_HARV.read(1)
+surface_HARV_arr_2D.shape
 ~~~
 {: .language-python}
 
@@ -459,8 +451,8 @@ as a floating point raster, resulting in a bigger file.
 > >
 > > 
 > > ~~~
-> > print(surface_model_HARV.nodata)
-> > changed_meta_copy = surface_model_HARV.meta.copy()
+> > print(surface_HARV.nodata)
+> > changed_meta_copy = surface_HARV.meta.copy()
 > > changed_meta_copy['nodata'] = -3.4e+38
 > > print(changed_meta_copy)
 > > ~~~

@@ -41,7 +41,7 @@ First, we need to read in the DSM and DTM rasters.
 ```python
 import rasterio
 
-surface_model_HARV = rasterio.open("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif")
+surface_HARV = rasterio.open("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif")
 
 terrain_model_HARV_WGS84 = rasterio.open("data/NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_dtmCrop_WGS84.tif")
 ```
@@ -49,7 +49,7 @@ terrain_model_HARV_WGS84 = rasterio.open("data/NEON-DS-Airborne-Remote-Sensing/H
 Then, we inspect the CRS of each file to confirm that they are not the same. This is always a good first check to make when you load in a new dataset, since it determines if you can start doing any other operations between two geospatial datasets.
 
 ```python
-surface_model_HARV.crs
+surface_HARV.crs
 ```
 ```
 CRS.from_epsg(32618)
@@ -83,9 +83,9 @@ Since we are reprojecting, the `transform` of our metadata will change. The tran
 from rasterio.warp import calculate_default_transform, reproject
 
 transform, width, height = calculate_default_transform(
-    terrain_model_HARV_WGS84.crs, surface_model_HARV.crs, terrain_model_HARV_WGS84.width, terrain_model_HARV_WGS84.height, *terrain_model_HARV_WGS84.bounds)
+    terrain_model_HARV_WGS84.crs, surface_HARV.crs, terrain_model_HARV_WGS84.width, terrain_model_HARV_WGS84.height, *terrain_model_HARV_WGS84.bounds)
 
-destination_crs = surface_model_HARV.crs
+destination_crs = surface_HARV.crs
 reprojected_meta = terrain_model_HARV_WGS84.meta.copy()
 reprojected_meta.update({
         'crs': destination_crs,
@@ -106,7 +106,7 @@ with rasterio.open(reprojected_path, "w", **reprojected_meta) as reprojected_dat
         source = rasterio.band(terrain_model_HARV_WGS84, 1), 
         destination = rasterio.band(reprojected_data, 1), 
         src_crs=terrain_model_HARV_WGS84.crs, 
-        dst_crs=surface_model_HARV.crs)
+        dst_crs=surface_HARV.crs)
 
 ```
 
@@ -134,10 +134,10 @@ Reading in the data with xarray looks similar to using `rasterio` directly, but 
 ```python
 import rioxarray
 
-surface_model_HARV_xarr = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif")
+surface_HARV_xarr = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif")
 terrain_model_HARV_xarr = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_dtmCrop_WGS84.tif")
 
-surface_model_HARV_xarr
+surface_HARV_xarr
 ```
 
 ```
@@ -161,7 +161,7 @@ Attributes:
 The metadata of the raster is also included within attributes of the `rio` attribute.
 
 ```python
-surface_model_HARV_xarr.rio.crs
+surface_HARV_xarr.rio.crs
 ```
 ```
 CRS.from_epsg(32618)
@@ -170,7 +170,7 @@ CRS.from_epsg(32618)
 And then, it is one line to reproject the DTM to the DSM projection if we use `xarray` and `rioxarray`. `dst_crs` stands for the CRS of the destination, or the result fo the reproject operation.
 
 ```python
-terrain_model_HARV_xarr_UTM18 = terrain_model_HARV_xarr.rio.reproject(dst_crs=surface_model_HARV_xarr.rio.crs)
+terrain_model_HARV_xarr_UTM18 = terrain_model_HARV_xarr.rio.reproject(dst_crs=surface_HARV_xarr.rio.crs)
 
 terrain_model_HARV_xarr_UTM18
 ```
@@ -201,11 +201,11 @@ Attributes:
 
 > ## Data Tip
 > You might wonder why the result of `terrain_model_HARV_xarr.rio.reproject()` shows `-9999` at the edges whereas when we read in the data, 
-`surface_model_HARV_xarr` did not show the `-9999` values. This is because xarray by default will wait until the last necessary moment before actually running the computations on an xarray DataArray. This form of evaluation is called lazy, as opposed to eager, where functions are always computed when they are called. If you ever want a lazy DataArray to reveal it's underlying values, you can use the `.compute()` function. `xarray` will only show the values in the corners of the array.
+`surface_HARV_xarr` did not show the `-9999` values. This is because xarray by default will wait until the last necessary moment before actually running the computations on an xarray DataArray. This form of evaluation is called lazy, as opposed to eager, where functions are always computed when they are called. If you ever want a lazy DataArray to reveal it's underlying values, you can use the `.compute()` function. `xarray` will only show the values in the corners of the array.
 > > ## Show code
 > > 
 > > ```python
-> > surface_model_HARV_xarr.compute()
+> > surface_HARV_xarr.compute()
 > > ```
     <xarray.DataArray (band: 1, y: 1367, x: 1697)>
     array([[[408.76998901, 408.22998047, 406.52999878, ..., 345.05999756,
@@ -259,7 +259,7 @@ terrain_model_HARV_xarr_UTM18.rio.to_raster(reprojected_path)
 
 > ## Exercise
 > Inspect the metadata for `terrain_model_HARV_xarr_UTM18` and 
-> `surface_model_HARV_xarr`. Are the projections the same? What 
+> `surface_HARV_xarr`. Are the projections the same? What 
 > metadata attributes are different? How might this affect 
 > calculations we make between arrays?
 > > ## Solution
@@ -269,7 +269,7 @@ terrain_model_HARV_xarr_UTM18.rio.to_raster(reprojected_path)
 > > print(terrain_model_HARV_xarr_UTM18.rio.crs)
 > >
 > > # view crs for DSM
-> > print(surface_model_HARV_xarr.rio.crs)
+> > print(surface_HARV_xarr.rio.crs)
 > > ```
 > > ```
 > > EPSG:32618
@@ -282,7 +282,7 @@ terrain_model_HARV_xarr_UTM18.rio.to_raster(reprojected_path)
 > > print(terrain_model_HARV_xarr_UTM18.rio.nodata)
 > >
 > > # view nodata value for DSM
-> > print(surface_model_HARV_xarr.rio.nodata)
+> > print(surface_HARV_xarr.rio.nodata)
 > > ```
 > > ```
 > > -9999.0
@@ -297,7 +297,7 @@ terrain_model_HARV_xarr_UTM18.rio.to_raster(reprojected_path)
 > > print(terrain_model_HARV_xarr_UTM18.shape)
 > >
 > > # view shape for DSM
-> > print(surface_model_HARV_xarr.shape)
+> > print(surface_HARV_xarr.shape)
 > > ```
 > > ```
 > > (1, 1492, 1801)
@@ -350,8 +350,8 @@ plt.title("Harvard Forest Digital Terrain Model")
 > > If we read in these files with the argument `masked=True`, then the nodata values will be masked automatically and set to `numpy.nan`, or Not a Number. This can make plotting easier since only valid raster values will be shown. However, it's important to remember that `numpy.nan` values still take up space in our raster just like `nodata values`, and thus they still affect the shape of the raster. Rasters need to be the same shape for raster math to work in python. In the next lesson, we will examine how to prepare rasters of different shapes for calculations.
 > > ```python
 terrain_model_HARV_SJER = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/SJER/DTM/SJER_dtmCrop.tif", masked=True)
-surface_model_HARV_SJER = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop_WGS84.tif", masked=True)
-reprojected_surface_model = surface_model_HARV_SJER.rio.reproject(dst_crs=terrain_model_HARV_SJER.rio.crs)
+surface_HARV_SJER = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop_WGS84.tif", masked=True)
+reprojected_surface_model = surface_HARV_SJER.rio.reproject(dst_crs=terrain_model_HARV_SJER.rio.crs)
 plt.figure()
 reprojected_surface_model.plot()
 plt.title("SJER Reprojected Surface Model")
