@@ -128,7 +128,7 @@ that only two feature lines in our spatial object have the attribute
 `TYPE == footpath`. We can plot only the footpath lines:
 
 ```python
-footpath_HArv.plot()
+footpath_HARV.plot()
 ```
 
 There are two features in our footpaths subset. Why does the plot look like
