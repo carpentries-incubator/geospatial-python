@@ -108,7 +108,7 @@ dependencies:
   - ipyleaflet
 ```
 
-Save the file and exit your text editor. In the terminal, navigate to the directory where you save dthe environment.yml file using the `cd` command. 
+Save the file and exit your text editor. In the terminal, navigate to the directory where you saved the environment.yml file using the `cd` command.
 Then run
 `conda env create -f environment.yml`
 

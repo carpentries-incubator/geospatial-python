@@ -1,6 +1,6 @@
 ---
 title: "Intro to Raster Data in Python"
-teaching: 60
+teaching: 40
 exercises: 20
 questions:
 -  "What is a raster dataset?"
@@ -181,7 +181,7 @@ attribute.
 
 
 ~~~
-print(surface_HARV.crs)
+print(surface_HARV.rio.crs)
 ~~~
 {: .language-python}
 
@@ -196,6 +196,7 @@ You can convert the EPSG code to a PROJ4 string with `earthpy.epsg`, another pyt
 PROJ4 strings (values)
 
 ~~~
+import earthpy
 earthpy.epsg['32618']
 ~~~
 {: .language-python}
@@ -269,8 +270,9 @@ argument so that statistics were computed for the whole array, rather than for e
 You could also get each of these values one by one using `numpy`. What if we wanted to calculate 25% and 75% quartiles?
 
 ~~~
-print(numpy.percentile(surface_HARV_arr, 25))
-print(numpy.percentile(surface_HARV_arr, 75))
+import numpy
+print(numpy.percentile(surface_HARV, 25))
+print(numpy.percentile(surface_HARV, 75))
 ~~~
 {: .language-python}
 
@@ -343,7 +345,7 @@ From this plot we see something interesting, while our no data values were maske
 
 While this plot tells us where we have no data values, the color scale look strange, because our plotting function expects image values to be normalized between a certain range (0-1 or 0-255). By using `surface_HARV.plot.imshow` with the `robust=True` argument, we can normalize our data by the maximum and minimum to fit our data between the correct range for plotting purposes.
 ~~~
-rgb_HARV_masked.plot.imshow(robust=True)
+rgb_HARV.plot.imshow(robust=True)
 ~~~
 {: .language-python}
 

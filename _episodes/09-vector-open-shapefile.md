@@ -7,7 +7,7 @@ questions:
 objectives:
 - "Know the difference between point, line, and polygon vector elements."
 - "Load point, line, and polygon shapefiles with `geopandas`."
-- "Access the attributes of a spatial object with `gepandas`."
+- "Access the attributes of a spatial object with `geopandas`."
 keypoints:
 - "Shapefile metadata include geometry type, CRS, and extent."
 - "Load spatial objects into Python with the `geopandas.read_file()` method."
@@ -27,7 +27,7 @@ vector data together and combine them into a single plot.
 
 ## Import Shapefiles
 
-We will use the `gepandas` package to work with vector data in Python. We will also use the
+We will use the `geopandas` package to work with vector data in Python. We will also use the
 `rioxarray`. 
 
 ```python
@@ -42,7 +42,7 @@ The shapefiles that we will import are:
 located at the [NEON Harvard Forest field site](https://www.neonscience.org/field-sites/field-sites-map/HARV).
 
 The first shapefile that we will open contains the boundary of our study area
-(or our Area Of Interest or AOI, hence the name `aoiBoundary`). To import
+(or our Area Of Interest or AOI, hence the name `aoi_boundary`). To import
 shapefiles we use the `geopandas` function `read_file()`.
 
 Let's import our AOI:
@@ -178,7 +178,6 @@ different features.
 > Answer the following questions:
 > 
 > 1. What type of Python spatial object is created when you import each layer? 
->    Hint, you'll need to access the `geometry` column of the file to check this.
 > 
 > 2. What is the CRS and extent (bounds) for each object?
 > 
