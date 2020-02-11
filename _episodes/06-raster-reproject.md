@@ -1,6 +1,6 @@
 ---
 title: "Reproject Raster Data with Rioxarray"
-teaching: 40
+teaching: 60
 exercises: 20
 questions:
 - "How do I work with raster data sets that are in different projections?"
@@ -21,123 +21,31 @@ keypoints:
 
 Sometimes we encounter raster datasets that do not "line up" when plotted or
 analyzed. Rasters that don't line up are most often in different Coordinate
-Reference Systems (CRS), otherwise known as "projections". This episode explains how to deal with rasters in different, known CRSs. It
-will first walk though the traditional method for reprojecting rasters in Python using the `reproject()`
-function in the `rasterio.warp` submodule. It will then show how to accomplish this with less lines using the `rioxarray` library.
+Reference Systems (CRS), otherwise known as "projections". This episode explains how to line up rasters in different, known CRSs.
 
 ## Raster Projection in R
 
-If you loaded two rasters with different projections in QGIS 3 or ArcMap/ArcPro, you'd see that they would align since these software reproject "on-the-fly". But with R or Python, you'll need to reproject your data yourself with the `reproject()` function in order to plot or use these rasters together in calculations.
+If you loaded two rasters with different projections in QGIS 3 or ArcMap/ArcPro, you'd see that they would align since these software reproject "on-the-fly". But with R or Python, you'll need to reproject your data yourself in order to plot or use these rasters together in calculations.
 
 For this episode, we will be working with the Harvard Forest Digital Terrain
 Model (DTM). This differs from the surface model data we've been working with so
 far in that the digital terrain model (DTM) includes the tops of trees, while
 the digital surface model (DSM) shows the ground level beneath the tree canopy. 
-Our goal is to get these data into the same projection with `reproject()` so that
+
+Our goal is to get these data into the same projection with the `rioxarray.reproject()` function so that
 we can use both rasters to calculate tree canopy height, also called a Canopy Height Model (CHM).
 
 First, we need to read in the DSM and DTM rasters.
-
-```python
-import rasterio
-
-surface_model_HARV = rasterio.open("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif")
-
-terrain_model_HARV_WGS84 = rasterio.open("data/NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_dtmCrop_WGS84.tif")
-```
-
-Then, we inspect the CRS of each file to confirm that they are not the same. This is always a good first check to make when you load in a new dataset, since it determines if you can start doing any other operations between two geospatial datasets.
-
-```python
-surface_model_HARV.crs
-```
-```
-CRS.from_epsg(32618)
-```
-
-```python
-terrain_model_HARV_WGS84.crs
-```
-```
-CRS.from_epsg(4326)
-```
-
-Recall that the number within the output `CRS.from_epsg` is the EPSG code, which refers to a known projection. Using these CRS objects that are encoded in each raster file's metadata, we have all the information needed to reproject one raster onto the coordinate reference system of another. But which projection should we reproject to?
-
-Often it is useful to reproject your data into units that suit a particular task. If you want your map axis to communicate location on the globe, latitude and longitude can be most informative. In this case you would reproject your rasters to EPSG code 4326. If you want to measure distances and areas, it's better to choose a coordinate reference system that is in units of meters. EPSG code 32618 represents UTM zone 18N, which you can discover by entering the EPSG code into the website https://epsg.io or by using the `earthpy.epsg` dictionary to look up the proj4 string.
-
-```python
-import earthpy
-earthpy.epsg["32618"]
-```
-
-```
-'+proj=utm +zone=18 +datum=WGS84 +units=m +no_defs'
-```
-
-We will reproject our DTM to meters using the CRS object that we can access from our DSM's `crs` attribute. If we use rasterio, this requires defining the metadata of our reprojected raster as well as saving the output to a new file before reading it back.
-
-Since we are reprojecting, the `transform` of our metadata will change. The transform converts pixel coordinates (row, column) into geospatial coordinates (latitude, longitude), for example. We can create the new transform, crs, width, and height in our reprojected  output's metadata with `calculate_default_transform`.
-
-```python
-from rasterio.warp import calculate_default_transform, reproject
-
-transform, width, height = calculate_default_transform(
-    terrain_model_HARV_WGS84.crs, surface_model_HARV.crs, terrain_model_HARV_WGS84.width, terrain_model_HARV_WGS84.height, *terrain_model_HARV_WGS84.bounds)
-
-destination_crs = surface_model_HARV.crs
-reprojected_meta = terrain_model_HARV_WGS84.meta.copy()
-reprojected_meta.update({
-        'crs': destination_crs,
-        'transform': transform,
-        'width': width,
-        'height': height
-})
-
-```
-This copy the metadata from our DTM and then updates it with the new transform and other metadata info that the reprojected output will have.
-
-Then use the metadata `dict` to save our reprojected raster with the correct attributes:
-
-```python
-reprojected_path = "data/NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_dtmCrop_UTM18_rasterio.tif"
-with rasterio.open(reprojected_path, "w", **reprojected_meta) as reprojected_data:
-    reproject(
-        source = rasterio.band(terrain_model_HARV_WGS84, 1), 
-        destination = rasterio.band(reprojected_data, 1), 
-        src_crs=terrain_model_HARV_WGS84.crs, 
-        dst_crs=surface_model_HARV.crs)
-
-```
-
-There's a lot of lines in the above example so let's break it down piece by piece. The python `with` statement allows us to create a rasterio object in write mode. You can think of this object, `reprojected_data` as a pointer to a file location that will store the result of `reproject`. When we call `reproject()` and use the `destination` argument to specify that the destination is at `reprojected_data`, we are specifying that the output of the function should be stored at the file path and with the file metadata corresponding to `reprojected_data`. The `source` and `destination` arguments must be numpy arrays or rasterio `Band` objects and here we choose to define them as single band objects.
-
-> ## Data Tip
-> When we reproject a raster, we
-> move it from one "grid" to another. Thus, we are modifying the data! Keep this
-> in mind as we work with raster data. You can choose different resampling methods that affect how the data are transferred from one grid to another. For example, you could specify an argument in `reproject` to choose nearest neighbor resampling like so: `resampling=Resampling.nearest`. See the function [documentation](https://rasterio.readthedocs.io/en/latest/api/rasterio.warp.html#rasterio.warp.reproject) for more details.
-{: .callout}
-
-We can read the file back in if we would like to use it for calculations or plotting. When we open the file, we need to call the `read()` function to get a numpy array. 
-
-```python
-reprojected_tif = rasterio.open(reprojected_path)
-terrain_model_HARV_arr_UTM18_rasterio = reprojected_tif.read()
-```
-
-This is a lot of code just for a single reprojection right? In some cases, you may want to use the functions shown above to reproject, since rasterio gives you fine grained control over the metadata that is written to the file, and plus there are many helpful examples online of rasterio use cases to draw from. 
-
-However, there is a much simpler way to accomplish this same reprojection. With `xarray`, a library for loading and calculating with labeled N-dimensional arrays, and `rioxarray`, an extension that wraps `rasterio` to provide geospatial operations for xarray objects, we can accomplish the reprojection in 1 line of code.
 
 Reading in the data with xarray looks similar to using `rasterio` directly, but the output is a xarray object called a `DataArray`. You can use a `xarray.DataArray` in calculations just like a numpy array. Calling the variable name of the `DataArray` also prints out all of its metadata information. Geospatial information is not read in if you don't import rioxarray before calling the `open_rasterio` function.
 
 ```python
 import rioxarray
 
-surface_model_HARV_xarr = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif")
-terrain_model_HARV_xarr = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_dtmCrop_WGS84.tif")
+surface_HARV = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif")
+terrain_HARV = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_dtmCrop_WGS84.tif")
 
-surface_model_HARV_xarr
+surface_HARV
 ```
 
 ```
@@ -158,21 +66,12 @@ Attributes:
     AREA_OR_POINT:  Area
 ```
 
-The metadata of the raster is also included within attributes of the `rio` attribute.
+We can use the CRS attribute from one of our datasets to reproject the other dataset so that they are both in the same projection. The only argument that is required is the `dst_crs` argument, which takes the CRS of the result of the reprojection.
 
 ```python
-surface_model_HARV_xarr.rio.crs
-```
-```
-CRS.from_epsg(32618)
-```
+terrain_HARV_UTM18 = terrain_HARV.rio.reproject(dst_crs=surface_HARV.rio.crs)
 
-And then, it is one line to reproject the DTM to the DSM projection if we use `xarray` and `rioxarray`. `dst_crs` stands for the CRS of the destination, or the result fo the reproject operation.
-
-```python
-terrain_model_HARV_xarr_UTM18 = terrain_model_HARV_xarr.rio.reproject(dst_crs=surface_model_HARV_xarr.rio.crs)
-
-terrain_model_HARV_xarr_UTM18
+terrain_HARV_UTM18 
 ```
 
 ```
@@ -200,12 +99,12 @@ Attributes:
 ```
 
 > ## Data Tip
-> You might wonder why the result of `terrain_model_HARV_xarr.rio.reproject()` shows `-9999` at the edges whereas when we read in the data, 
-`surface_model_HARV_xarr` did not show the `-9999` values. This is because xarray by default will wait until the last necessary moment before actually running the computations on an xarray DataArray. This form of evaluation is called lazy, as opposed to eager, where functions are always computed when they are called. If you ever want a lazy DataArray to reveal it's underlying values, you can use the `.compute()` function. `xarray` will only show the values in the corners of the array.
+> You might wonder why the result of `terrain_HARV.rio.reproject()` shows `-9999` at the edges whereas when we read in the data, 
+`surface_HARV` did not show the `-9999` values. This is because xarray by default will wait until the last necessary moment before actually running the computations on an xarray DataArray. This form of evaluation is called lazy, as opposed to eager, where functions are always computed when they are called. If you ever want a lazy DataArray to reveal it's underlying values, you can use the `.compute()` function. `rioxarray` will only show the values in the corners of the array.
 > > ## Show code
 > > 
 > > ```python
-> > surface_model_HARV_xarr.compute()
+> > surface_HARV.compute()
 > > ```
     <xarray.DataArray (band: 1, y: 1367, x: 1697)>
     array([[[408.76998901, 408.22998047, 406.52999878, ..., 345.05999756,
@@ -237,39 +136,26 @@ Attributes:
 > {: .solution}
 {: .callout}
 
-
- We can compare the results with the `rasterio.warp.reproject` method to make sure they are the same.
-
-```python
-(terrain_model_HARV_xarr_UTM18 == terrain_model_HARV_arr_UTM18_rasterio).all()
-```
-```
-<xarray.DataArray ()>
-array(True)
-Coordinates:
-    spatial_ref  int64 0
-```
-
-And we can also save our DataArray that we created with `rioxarray` to a file.
+And we can also save our DataArray that we created with `rioxarray` to a file.s
 
 ```python
-reprojected_path = "data/NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_dtmCrop_UTM18_rioxarray.tif"
-terrain_model_HARV_xarr_UTM18.rio.to_raster(reprojected_path)
+reprojected_path = "data/NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_dtmCrop_UTM18.tif"
+terrain_HARV_UTM18.rio.to_raster(reprojected_path)
 ```
 
 > ## Exercise
-> Inspect the metadata for `terrain_model_HARV_xarr_UTM18` and 
-> `surface_model_HARV_xarr`. Are the projections the same? What 
+> Inspect the metadata for `terrain_HARV_UTM18 ` and 
+> `surface_HARV`. Are the projections the same? What 
 > metadata attributes are different? How might this affect 
 > calculations we make between arrays?
 > > ## Solution
 > >
 > > ```python
 > > # view crs for DTM
-> > print(terrain_model_HARV_xarr_UTM18.rio.crs)
+> > print(terrain_HARV_UTM18.rio.crs)
 > >
 > > # view crs for DSM
-> > print(surface_model_HARV_xarr.rio.crs)
+> > print(surface_HARV.rio.crs)
 > > ```
 > > ```
 > > EPSG:32618
@@ -279,10 +165,10 @@ terrain_model_HARV_xarr_UTM18.rio.to_raster(reprojected_path)
 > > 
 > > ```python
 > > # view noddata value for DTM
-> > print(terrain_model_HARV_xarr_UTM18.rio.nodata)
+> > print(terrain_HARV_UTM18.rio.nodata)
 > >
 > > # view nodata value for DSM
-> > print(surface_model_HARV_xarr.rio.nodata)
+> > print(surface_HARV.rio.nodata)
 > > ```
 > > ```
 > > -9999.0
@@ -294,10 +180,10 @@ terrain_model_HARV_xarr_UTM18.rio.to_raster(reprojected_path)
 > > 
 > > ```python
 > > # view shape for DTM
-> > print(terrain_model_HARV_xarr_UTM18.shape)
+> > print(terrain_HARV_UTM18.shape)
 > >
 > > # view shape for DSM
-> > print(surface_model_HARV_xarr.shape)
+> > print(surface_HARV.shape)
 > > ```
 > > ```
 > > (1, 1492, 1801)
@@ -316,7 +202,7 @@ Let's plot our handiwork so far! We can use the `xarray.DataArray.plot` function
 ```python
 import matplotlib.pyplot as plt
 plt.figure()
-terrain_model_HARV_xarr_UTM18.plot(cmap="viridis")
+terrain_HARV_UTM18.plot(cmap="viridis")
 plt.title("Harvard Forest Digital Terrain Model")
 ```
 <img src="../fig/02-bad-DTM-plot-01.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
@@ -331,14 +217,14 @@ plt.title("Harvard Forest Digital Terrain Model")
 > > the nodata values using the `where()` function and the 
 > > `.rio.nodata` attribute of our DataArray.
 > > ```python
-terrain_model_HARV_xarr_UTM18_valid = terrain_model_HARV_xarr_UTM18.where(
-    terrain_model_HARV_xarr_UTM18 != terrain_model_HARV_xarr_UTM18.rio.nodata)
+terrain_HARV_UTM18 _valid = terrain_HARV_UTM18.where(
+    terrain_HARV_UTM18  != terrain_HARV_UTM18.rio.nodata)
 plt.figure()
-terrain_model_HARV_xarr_UTM18_valid.plot(cmap="viridis")
+terrain_HARV_UTM18_valid.plot(cmap="viridis")
 plt.title("Harvard Forest Digital Terrain Model")
 > > ```
 > > <img src="../fig/02-HARV-reprojected-DTM-02.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
-> > If we had saved `terrain_model_HARV_xarr_UTM18` to a file and then read it in with `open_rasterio`'s `masked=True` argument the raster's `nodata` value would be masked and we would not need to use the `where()` function to do the masking before plotting.
+> > If we had saved `terrain_HARV_UTM18 ` to a file and then read it in with `open_rasterio`'s `masked=True` argument the raster's `nodata` value would be masked and we would not need to use the `where()` function to do the masking before plotting.
 > {: .solution}
 {: .challenge}
 
@@ -347,17 +233,17 @@ plt.title("Harvard Forest Digital Terrain Model")
 > Create 2 maps in a UTM projection of the [San Joaquin Experimental Range](https://www.neonscience.org/field-sites/field-sites-map/SJER) field site, using the`SJER_dtmCrop.tif` and `SJER_dsmCrop_WGS84.tif` files. Use `rioxarray` and `matplotlib.pyplot` (to add a title). Reproject the data as necessary to make sure each map is in the same UTM projection and save the reprojected file with the file name "data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop_WGS84.tif".
 >
 > > ## Answers
-> > If we read in these files with the argument `masked=True`, then the nodata values will be masked automatically and set to `numpy.nan`, or Not a Number. This can make plotting easier since only valid raster values will be shown. However, it's important to remember that `numpy.nan` values still take up space in our raster just like `nodata values`, and thus they still affect the shape of the raster. Rasters need to be the same shape for raster math to work in python. In the next lesson, we will examine how to prepare rasters of different shapes for calculations.
+> > If we read in these files with the argument `masked=True`, then the nodata values will be masked automatically and set to `numpy.nan`, or Not a Number. This can make plotting easier since only valid raster values will be shown. However, it's important to remember that `numpy.nan` values still take up space in our raster just like `nodata` values, and thus they still affect the shape of the raster. Rasters need to be the same shape for raster math to work in python. In the next lesson, we will examine how to prepare rasters of different shapes for calculations.
 > > ```python
-terrain_model_HARV_SJER = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/SJER/DTM/SJER_dtmCrop.tif", masked=True)
-surface_model_HARV_SJER = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop_WGS84.tif", masked=True)
-reprojected_surface_model = surface_model_HARV_SJER.rio.reproject(dst_crs=terrain_model_HARV_SJER.rio.crs)
+terrain_HARV_SJER = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/SJER/DTM/SJER_dtmCrop.tif", masked=True)
+surface_HARV_SJER = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop_WGS84.tif", masked=True)
+reprojected_surface_model = surface_HARV_SJER.rio.reproject(dst_crs=terrain_HARV_SJER.rio.crs)
 plt.figure()
 reprojected_surface_model.plot()
 plt.title("SJER Reprojected Surface Model")
 reprojected_surface_model.rio.to_raster("data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop_WGS84.tif")
 plt.figure()
-terrain_model_HARV_SJER.plot()
+terrain_HARV_SJER.plot()
 plt.title("SJER Terrain Model")
 > > ```
 > > <img src="../fig/02-SJER-DSM-03.png" title="SJER-DSM-03" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />

@@ -6,7 +6,7 @@ title: "Workshop data"
 ## NEON Spatio-temporal Teaching Data Subset
 
 Available on FigShare: 
-[NEON Spatio-temporal Teaching Data Subset](https://figshare.com/articles/Spatio_temporal_Series_Teaching_Data_Subsets/2009586).
+[NEON Spatio-temporal Teaching Data Subset](https://ndownloader.figshare.com/files/21618735).
 
 **CITATION:** Data Skills Teaching Data Subsets, NEON; Wasser, Leah; Jones, Megan A. (2016): 
 NEON Spatio-temporal Teaching Data Subset. figshare. Fileset. https://doi.org/10.6084/m9.figshare.2009586.v10 
@@ -17,7 +17,7 @@ how our aquatic and terrestrial ecosystems are changing. The data used in these 
 * San Joaquin Experimental Range (SJER) - California, USA - [fieldsite description](https://www.neonscience.org/field-sites/field-sites-map/SJER)
  
 You can download all of the data used in this workshop by clicking 
-[this download link](https://ndownloader.figshare.com/articles/2009586/versions/10). 
+[this download link](https://ndownloader.figshare.com/files/21618735). 
 Clicking the download link will automatically download all of the files to your default download directory as a single compressed
 (`.zip`) file. To expand this file, double click the folder icon in your file navigator application (for Macs, this is the Finder 
 application).

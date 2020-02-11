@@ -1,6 +1,6 @@
 ---
 title: "Raster Calculations in Python"
-teaching: 30
+teaching: 40
 exercises: 20
 questions:
 - "How do I subtract one raster from another and extract pixel values for defined locations?"
@@ -48,8 +48,8 @@ Let's load them again with `open_rasterio` using the argument `masked=True`.
 ```python
 import rioxarray
 
-surface_model_HARV_xarr = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif", masked=True)
-terrain_model_HARV_xarr_UTM18 = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_dtmCrop_UTM18_rioxarray.tif", masked=True)
+surface_HARV = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif", masked=True)
+terrain_HARV_UTM18 = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_dtmCrop_UTM18.tif", masked=True)
 ```
 
 ## Raster Math
@@ -62,7 +62,7 @@ We can now use the `reproject_match` function, which both reprojects and clips
 a raster to the CRS and extent of another raster.
 
 ```python
-terrain_model_reprojected_matched = terrain_model_HARV_xarr_UTM18.rio.reproject_match(surface_model_HARV_xarr)
+terrain_HARV_matched = terrain_HARV_UTM18.rio.reproject_match(surface_HARV)
 ```
 
 In fact, we could have used reproject_match on the original DTM model, "HARV_dtmCrop_WGS84.tif". If we had, this would mean one less time our DTM 
@@ -74,8 +74,8 @@ We'll use `rioxarray` so that we can easily plot our result and keep
 track of the metadata for our CHM.
 
 ```python
-canopy_height_xarr_HARV = surface_model_HARV_xarr - terrain_model_HARV_xarr_UTM18_matched
-canopy_height_xarr_HARV.compute()
+canopy_HARV = surface_HARV - terrain_HARV_matched
+canopy_HARV.compute()
 ```
 
 We can now plot the output CHM. If we use the argument `robust=True`, our plot's color values
@@ -83,7 +83,7 @@ are stretched between the 2nd and 98th percentiles of the data, which results in
 
 ```python
 import matplotlib.pyplot as plt # in case it has not been imported recently
-canopy_height_xarr_HARV.plot(cmap="viridis")
+canopy_HARV.plot(cmap="viridis")
 plt.title("Canopy Height Model for Harvard Forest, Z Units: Meters")
 ```
 <img src="../fig/03-HARV-CHM-map-01.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
@@ -96,8 +96,8 @@ Maps are great but it can also be informative to plot histograms of values to be
 
 ```python
 plt.figure()
-plt.style.use('fivethirtyeight') # adds a style to improve the aesthetics
-canopy_height_xarr_HARV.plot.hist()
+plt.style.use('ggplot') # adds a style to improve the aesthetics
+canopy_HARV.plot.hist()
 plt.title("Histogram of Canopy Height in Meters")
 ```
 ![](../fig/03-HARV-CHM-histo-02.png) 
@@ -106,17 +106,17 @@ plt.title("Histogram of Canopy Height in Meters")
 > 
 > It's often a good idea to explore the range of values in a raster dataset just like we might explore a dataset that we collected in the field. The histogram we just made is a good start but there's more we can do to improve our understanding of the data.
 > 
-> 1. What is the min and maximum value for the Harvard Forest Canopy Height Model (`canopy_height_xarr`) that we just created?
+> 1. What is the min and maximum value for the Harvard Forest Canopy Height Model (`canopy_HARV`) that we just created?
 > 2. Plot a histogram with 100 bins instead of 8. What do you notice that wasn't clear before?
-> 3. Plot the `canopy_height_xarr` raster using breaks that make sense for the data. Include an appropriate color palette for the data, plot title and no axes ticks / labels.
+> 3. Plot the `canopy_HARV` raster using breaks that make sense for the data. Include an appropriate color palette for the data, plot title and no axes ticks / labels.
 > 
 > > ## Answers
 > > 
 > > 1) Recall, if there were nodata values in our raster like `-9999.0`, 
 > > we would need to filter them out with `.where()`.
 > > ```python
-> > canopy_height_xarr_HARV.min().values
-> > canopy_height_xarr_HARV.max().values
+> > canopy_HARV.min().values
+> > canopy_HARV.max().values
 > > ```
 > > ```
 > > array(-1.)
@@ -124,7 +124,7 @@ plt.title("Histogram of Canopy Height in Meters")
 > > ```
 > > 2) Increasing the number of bins gives us a much clearer view of the distribution.
 > > ```python
-canopy_height_xarr_HARV.plot.hist(bins=50)
+canopy_HARV.plot.hist(bins=50)
 > > ```
 > > ![](../fig/03-HARV-CHM-histo-50bins-03.png) 
 > {: .solution}
@@ -139,21 +139,21 @@ can reduce the complexity of our map by classifying it. Classification involves 
 import numpy as np
 
 # Defines the bins for pixel values
-class_bins = [canopy_height_xarr_HARV.min().values, 2, 10, 20, np.inf]
+class_bins = [canopy_HARV.min().values, 2, 10, 20, np.inf]
 
 # Classifies the original canopy height model array
-canopy_height_classified = np.digitize(canopy_height_xarr_HARV, class_bins)
+canopy_height_classified = np.digitize(canopy_HARV, class_bins)
 print(type(canopy_height_classified))
 ```
 ```
 <class 'numpy.ndarray'>
 ```
 
-The result is a `numpy.ndarray`, but we can put this into a DataArray along with the spatial metadata from our `canopy_height_xarr`, so that our resulting plot shows the spatial coordinates.
+The result is a `numpy.ndarray`, but we can put this into a DataArray along with the spatial metadata from our `canopy_HARV`, so that our resulting plot shows the spatial coordinates.
 
 ```python
 import xarray
-canopy_height_classified = xarray.DataArray(canopy_height_classes, coords = canopy_height_xarr_HARV.coords)
+canopy_height_classified = xarray.DataArray(canopy_height_classes, coords = canopy_HARV.coords)
 plt.style.use("default")
 plt.figure()
 canopy_height_classified.plot()
@@ -162,7 +162,7 @@ canopy_height_classified.plot()
 
 
 > ## Plot Tip
-> This plot looks nice but it's legend could be improved. `matplotlib.pyplot` has all the tools needed to create a custom legend with unique labels for our classified map. See the [Earth Lab's lesson](https://www.earthdatascience.org/courses/earth-analytics-python/lidar-raster-data/classify-plot-raster-data-in-python/) for more details.
+> This plot looks nice but its legend could be improved. `matplotlib.pyplot` has all the tools needed to create a custom legend with unique labels for our classified map. See the [Earth Lab's lesson](https://www.earthdatascience.org/courses/earth-analytics-python/lidar-raster-data/classify-plot-raster-data-in-python/) for more details.
 {: .callout}
 
 
@@ -170,8 +170,8 @@ canopy_height_classified.plot()
 When we computed the CHM, the output no longer contains reference to a nodata value, like `-9999.0`, which was associated with the DTM and DSM. Some calculations, like `numpy.digitize` can remove all geospatial metadata. Of what can be lost, the CRS and nodata value are particularly important to keep track of. Before we export the product of our calculation to a Geotiff with the `to_raster` function, we need to reassign this metadata.
 
 ```python
-canopy_height_xarr_HARV.rio.write_crs(surface_model_HARV_xarr.rio.crs, inplace=True)
-canopy_height_xarr_HARV.rio.set_nodata(-9999.0, inplace=True)
+canopy_HARV.rio.write_crs(surface_HARV.rio.crs, inplace=True)
+canopy_HARV.rio.set_nodata(-9999.0, inplace=True)
 ```
 
 When we write this raster object to a GeoTIFF file we'll name it
@@ -182,7 +182,7 @@ full file path.
 
 ```python
 os.mkdirs("./data/outputs/", exist_ok=True)
-canopy_height_xarr_HARV.rio.to_raster("./data/outputs/CHM_HARV.tif")
+canopy_HARV.rio.to_raster("./data/outputs/CHM_HARV.tif")
 ```
 
 > ## Challenge: Explore the NEON San Joaquin Experimental Range Field Site
@@ -198,12 +198,12 @@ in Massachusetts.
 > 
 > Import the SJER DSM and DTM raster files and create a Canopy Height Model.
 > Then compare the two sites. Be sure to name your Python objects and outputs
-> carefully, as follows: objectType_SJER (e.g. `DSM_SJER` or `surface_model_SJER`). This will help you
+> carefully, as follows: objectType_SJER (e.g. `surface_SJER`). This will help you
 > keep track of data from different sites!
 > 
 > 0. You should have the DSM and DTM data for the SJER site already
 > loaded from the 
-> [Plot Raster Data in R]({{ site.baseurl }}/02-raster-reproject/)
+> [Reproject Raster Data with Rioxarray]({{ site.baseurl }}/06-raster-reproject/)
 episode.) Don't forget to check the CRSs and units of the data. 
 > 1. Create a CHM from the two raster layers and check to make sure the data
 are what you expect.
@@ -216,27 +216,27 @@ are what you expect.
 > > 1) Read in the data again if you haven't already with `masked=True`.
 > >
 > > ```python
-surface_model_SJER_xarr = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop.tif", masked=True)
-terrain_model_SJER_xarr_UTM18 = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/SJER/DTM/SJER_dtmCrop_WGS84.tif", masked=True)
-print(terrain_model_SJER_xarr_UTM18.shape)
-print(surface_model_SJER_xarr.shape)
+surface_SJER = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop.tif", masked=True)
+terrain_SJER_UTM18 = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/SJER/DTM/SJER_dtmCrop_WGS84.tif", masked=True)
+print(terrain_SJER_UTM18.shape)
+print(surface_SJER.shape)
 > > ```
 > >
 > > 2) Reproject and clip one raster to the extent of the smaller raster using `reproject_match`. Your output raster, may have nodata values at the border, these are fine and can be removed for later calculations if needed. Then,calculate the CHM.
 > >
 > > ```python
-terrain_model_SJER_xarr_UTM18_matched = terrain_model_SJER_xarr_UTM18.rio.reproject_match(surface_model_SJER_xarr)
-canopy_height_SJER_xarr = surface_model_SJER_xarr - terrain_model_SJER_xarr_UTM18_matched
+terrain_SJER_UTM18_matched = terrain_SJER_UTM18.rio.reproject_match(surface_SJER)
+canopy_SJER = surface_SJER - terrain_SJER_UTM18_matched
 > > ```
 > > 
 > > 3) Plot the CHM with the same color map as HARV and save the CHM to the `outputs` folder.
 > >
 > > ```python
 plt.figure()
-canopy_height_SJER_xarr.plot(robust=True, cmap="viridis")
+canopy_SJER.plot(robust=True, cmap="viridis")
 plt.title("Canopy Height Model for San Joaquin Experimental Range, Z Units: Meters")
 plt.savefig("fig/03-SJER-CHM-map-05.png")
-canopy_height_SJER_xarr.rio.to_raster("./data/outputs/CHM_SJER.tif")
+canopy_SJER.rio.to_raster("./data/outputs/CHM_SJER.tif")
 > > ```
 > > 
 > > ![](../fig/03-SJER-CHM-05.png) 
@@ -249,7 +249,7 @@ canopy_height_SJER_xarr.rio.to_raster("./data/outputs/CHM_SJER.tif")
 fig, ax = plt.figure(figsize=(9,6))
 canopy_height_HARV_xarr.plot.hist(ax = ax, bins=50, color = "green")
 plt.figure(figsize=(9,6))
-canopy_height_SJER_xarr.plot.hist(ax = ax, bins=50, color = "brown")
+canopy_SJER.plot.hist(ax = ax, bins=50, color = "brown")
 > > ```
 > {: .solution}
 {: .challenge}

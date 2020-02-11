@@ -10,7 +10,7 @@ This workshop is designed to be run on your local machine. First, you will need 
 ## Data
 
 You can download all of the data used in this workshop by clicking
-[this download link](https://ndownloader.figshare.com/files/21528414). The file is 155.38 MB.
+[this download link](https://ndownloader.figshare.com/files/21618735). The file is 155.38 MB.
 
 Clicking the download link will automatically download all of the files to your default download directory as a single compressed
 (`.zip`) file. To expand this file, double click the folder icon in your file navigator application (for Macs, this is the Finder application).
@@ -108,7 +108,7 @@ dependencies:
   - ipyleaflet
 ```
 
-Save the file and exit your text editor. In the terminal, navigate to the directory where you save dthe environment.yml file using the `cd` command. 
+Save the file and exit your text editor. In the terminal, navigate to the directory where you saved the environment.yml file using the `cd` command.
 Then run
 `conda env create -f environment.yml`
 
