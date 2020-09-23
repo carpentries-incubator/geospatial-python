@@ -3,21 +3,43 @@ layout: page
 title: Setup
 ---
 
-# Overview
+## Setting up your Lesson Directory and Getting the Data
 
-This workshop is designed to be run on your local machine. First, you will need to download the data we use in the workshop. Then, you need to install python and the python libraries used in this lesson. We provide instructions below to install all dependencies with a single conda command after installing Python for Anaconda. If you have already installed Python 3 with Anaconda, you can skip Step 1. 
+  1. Open the terminal/shell:
+     * On **Windows**, open **Git Bash**. 
+     * On **Mac OS** or **Linux**, open the **Terminal** app.
 
-However, if you have installed Python without Anaconda, you will need to complete Step 1 (there is no need to uninstall the other python installations). We recommend Anaconda and the conda package manager, since they make installing geospatial python packages easier.
+  2. Change your working directory to your **Desktop** :
 
-## Data
+      ```bash
+      cd ~/Desktop
+      ```
 
-You can download all of the data used in this workshop by clicking
-[this download link](https://ndownloader.figshare.com/files/21618735). The file is 155.38 MB.
+  3. Create a new directory on your Desktop called `geospatial-python` and change into it:
 
-Clicking the download link will automatically download all of the files to your default download directory as a single compressed
-(`.zip`) file. To expand this file, double click the folder icon in your file navigator application (for Macs, this is the Finder application).
+      ```bash
+      mkdir geospatial-python
+      cd geospatial-python
+      ```
 
-## Installation Step 1. Installing Python Using Anaconda
+  4. Download the data that will be used in this lesson. There are two ways you can do this:
+
+     * **Web browser:** [**Click here**](https://ndownloader.figshare.com/files/21618735) to download the zip file. When it finishes, move the zip file into the `geospatial-python` directory we created above and unzip the file.
+     * **Terminal:**
+
+      ```bash
+      curl -L --output NEON-GEO-PYTHON-DATASETS.zip https://ndownloader.figshare.com/files/21618735
+      ```
+
+     The file should begin to download. When it is complete, unzip it by entering the following command:
+
+      ```bash
+      unzip NEON-GEO-PYTHON-DATASETS.zip
+      ```
+     You should now have a directory named `data` within `geospatial-python`. Use the `ls` command to confirm.
+
+
+## Installing Python Using Anaconda
 
 [Python][python] is a popular language for scientific computing, and great for
 general-purpose programming as well. Installing all of its scientific packages
@@ -80,49 +102,156 @@ If you run into any difficulties, please request help before the workshop begins
         press enter to prepend Anaconda to your `PATH` (this makes the Anaconda 
         distribution your user's default Python).
 
-## Installation Step 2. Setting up the workshop environment with conda
+## Setting up the workshop environment with conda
 
-Once you have installed Anaconda, you should have access to the `conda` command in your terminal. Right-click and Save As this [`environment.yml`](files/environment.yaml) file in your `geospatial-python` folder. It contains the following names of python libraries that are required to run the lesson:
+Once you have installed Anaconda, you should have access to the `conda` command in your terminal. 
 
-```
-name: geospatial
-channels:
-  - conda-forge
-dependencies:
-# Jupyter Lab
-  - jupyterlab
-# Python scientific libraries
-  - numpy
-  - scipy
-  - scikit-image
-  - matplotlib
-  - xarray
-# Geospatial libraries
-  - rasterio
-  - gdal
-  - geopandas
-  - rioxarray
-  - geocube
-  - earthpy
-  - ipyleaflet
-```
+1. Test that this is so by running the `conda` command in the terminal. You should get an output that looks like this:
 
-Save the file and exit your text editor. In the terminal, navigate to the directory where you saved the environment.yml file using the `cd` command.
-Then run
-`conda env create -f environment.yml`
+    ```bash
+    → conda                    
+    usage: conda [-h] [-V] command ...
 
-This will install the minimal set of packages that you need to complete the workshop. This environment includes a separate python installation and set 
-of packages that is completely independent from your Anaconda installation (we installed Anaconda to get the `conda` package manager).
+    conda is a tool for managing and deploying applications, environments and packages.
 
-When installation completes, run `conda activate geospatial` to activate your environment. Now, when you call `python` or `jupyter`, you will be using 
-these programs from your geospatial environment rather than your default Anaconda python installation. If you close the terminal, you will need to 
-reactivate this environment with `conda activate geospatial` to use the python libraries required for the lesson and to start a jupyter notebook that can access these libraries.
+    Options:
+
+    positional arguments:
+      command
+        clean        Remove unused packages and caches.
+        compare      Compare packages between conda environments.
+        config       Modify configuration values in .condarc. This is modeled
+                    after the git config command. Writes to the user .condarc
+                    file (/home/rave/.condarc) by default.
+        create       Create a new conda environment from a list of specified
+                    packages.
+        help         Displays a list of available conda commands and their help
+                    strings.
+        info         Display information about current conda install.
+        init         Initialize conda for shell interaction. [Experimental]
+        install      Installs a list of packages into a specified conda
+                    environment.
+        list         List linked packages in a conda environment.
+        package      Low-level conda package utility. (EXPERIMENTAL)
+        remove       Remove a list of packages from a specified conda environment.
+        uninstall    Alias for conda remove.
+        run          Run an executable in a conda environment. [Experimental]
+        search       Search for packages and display associated information. The
+                    input is a MatchSpec, a query language for conda packages.
+                    See examples below.
+        update       Updates conda packages to the latest compatible version.
+        upgrade      Alias for conda update.
+
+    optional arguments:
+      -h, --help     Show this help message and exit.
+      -V, --version  Show the conda version number and exit.
+
+    conda commands available from other packages:
+      env
+    ```
+
+2. Right-click and Save Link As this [**link to the virutal environment file.**](files/environment.yaml) Name it `environment.yaml` and save it to your `geospatial-python` folder. The `environment.yaml` contains the names of python libraries that are required to run the lesson:
+
+    ```
+    name: geospatial
+    channels:
+      - conda-forge
+    dependencies:
+    # Jupyter Lab
+      - jupyterlab
+    # Python scientific libraries
+      - numpy
+      - scipy
+      - scikit-image
+      - matplotlib
+      - xarray
+    # Geospatial libraries
+      - rasterio
+      - gdal
+      - geopandas
+      - rioxarray
+      - geocube
+      - earthpy
+      - ipyleaflet
+    ```
+<a name="env-create-anchor"></a>
+3. In the terminal, navigate to the directory where you saved the `environment.yml` file using the `cd` command.
+Then run:
+
+    ```bash
+    conda env create -f environment.yml
+    ```
+
+    `conda` should begin to locate, download, and install the Python libraries listed in the `environment.yml` file. _This may take several minutes to complete._
+
+    When installation has finished you should see the following message in the terminal:
+
+    ```bash
+    # To activate this environment, use
+    #    $ conda activate geospatial
+    #
+    # To deactivate an active environment, use
+    #    $ conda deactivate
+    ```
+
+    > ## IMPORTANT
+    > If your terminal responds to the above command with `conda: command not found` see the > <<troubleshooting>> section.
+    {: .callout}
+
+4. Activate the `geospatial` virtual environment:
+    ```bash
+    conda activate geospatial
+    ```
+
+    If successful, the text `(base)` in your terminal prompt will now read `(geospatial)` indicating that you are now in the Anaconda virtual environment named `geospatial`. The command `which python` should confirm that we're using the Python installation in the `geospatial` virtual environment. For example:
+
+    ```bash
+    % which python
+    > /Users/your-username/anaconda3/envs/geospatial/bin/python
+                                          ^^^^^^^^^^
+    ```
+
+    > ## IMPORTANT
+    > If you close the terminal, you will need to 
+    reactivate this environment with `conda activate geospatial` to use the python libraries required for the lesson and to start jupyter lab, which is also installed din the `geospatial` environment.
+    {: .callout}
+
 
 ## Starting Jupyterlab
 
 In order to follow the lessons on using Python (episode 5 and onward), you should launch JupyterLab 
 after activating the geospatial conda environment in your working directory that contains the data you downloaded. 
 See [Starting JupyterLab](https://swcarpentry.github.io/python-novice-gapminder/01-run-quit/#starting-jupyterlab) for guidance.
+
+If all of the steps above completed successfully you are ready to follow along with the lesson!
+
+## Troubleshooting `conda: command not found`
+
+* **Windows users:** use the _Start Menu_ to [**open the _Anaconda Prompt_**](https://docs.anaconda.com/anaconda/install/verify-install/#conda) and [continue from the beginning of step 3](#env-create-anchor) in the section *Setting up the workshop environment with conda*.
+* **Mac OS and Linux users:**
+
+1. First, find out where Anaconda is installed.
+
+    The typical install location is in your `$HOME` directory (i.e., `/Users/your-username/`) so use `ls ~` to check whether an `anaconda3` directory is present in your home directory:
+
+    ```bash
+    % ls ~
+    > Applications      Downloads       Pictures
+      anaconda3         Library         Public
+      Desktop           Movies      
+      Documents         Music
+    ```
+
+    If, like above, you see a directory called `anaconda3` in the output we're in good shape. If not, **contact the instructor for help**.
+
+2. Activate the `conda` command-line program by entering the following command:
+
+    ```bash
+    source ~/anaconda3/bin/activate
+    ```
+    If all goes well, nothing will print to the terminal and your prompt will now have `(base)` floating around somewhere on the left. This is an indication that you are in the base Anaconda environment.
+
+    [Continue from the beginning of step 3](#env-create-anchor) to complete the creation of the `geospatial` virtual environment.
 
 [anaconda]: https://www.anaconda.com/
 [anaconda-mac]: https://www.anaconda.com/download/#macos
