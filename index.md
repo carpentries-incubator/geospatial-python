@@ -12,8 +12,7 @@ Data Carpentry's aim is to teach researchers basic concepts, skills, and tools f
 > workflow. To most effectively use these materials, please make sure to download 
 > the data and install everything before working through this lesson. 
 > 
-> This workshop assumes no prior experience with the tools covered in the workshop. However, learners with prior
-> experience working with geospatial data may be able to skip episodes 1-4, which focus on geospatial concepts and project management. 
+> This workshop assumes no prior experience with the tools covered in the workshop. However, **learners with prior experience working with geospatial data may be able to skip episodes 1-4, which focus on geospatial concepts and tools.** 
 > Similarly, learners who have prior experience with the `Python` programming language may wish to skip the 
 > [Plotting and Programming in Python](https://swcarpentry.github.io/python-novice-gapminder/index.html) lesson.
 >
@@ -30,9 +29,7 @@ Data Carpentry's aim is to teach researchers basic concepts, skills, and tools f
 > * Harvard Forest (HARV) - Massachusetts, USA - [fieldsite description](https://www.neonscience.org/field-sites/field-sites-map/HARV)
 > * San Joaquin Experimental Range (SJER) - California, USA - [fieldsite description](https://www.neonscience.org/field-sites/field-sites-map/SJER)
 > 
-> There are four data sets included, all of which are available 
-> [on Figshare](https://figshare.com/articles/Spatio_temporal_Series_Teaching_Data_Subsets/2009586)
-> under a CC-BY license. You can download all of the data used in this workshop by clicking 
+> You can download all of the data used in this workshop by clicking 
 > [this download link](https://ndownloader.figshare.com/files/21618735). 
 > Clicking the download link will download all of the files as a single compressed
 > (`.zip`) file. To expand this file, double click the folder icon in your file navigator application (for Macs, this is the Finder 
@@ -44,11 +41,8 @@ Data Carpentry's aim is to teach researchers basic concepts, skills, and tools f
 > | Dataset | File name | Description |
 > | ---- | ------| ---- | 
 > | Site layout shapefiles | NEON-DS-Site-Layout-Files.zip | A set of shapefiles for the NEON's Harvard Forest field site and US and (some) state boundary layers. | 
-> | Meteorological data |  NEON-DS-Met-Time-Series.zip | Precipitation, temperature and other variables collected from a flux tower at the NEON Harvard Forest site
 > | Airborne remote sensing data | NEON-DS-Airborne-RemoteSensing.zip | LiDAR data collected by the NEON Airborne Observation Platform (AOP) and processed at NEON including a canopy height model, digital elevation model and digital surface model for NEON's Harvard Forest and San Joaquin Experimental Range field sites. | 
-> | Landstat 7 NDVI raster data | NEON-DS-Landsat-NDVI.zip | 2011 NDVI data product derived from Landsat 7 and processed by USGS cropped to NEON's Harvard Forest and San Joaquin Experimental Range field sites | 
 > 
-> [More information on this dataset](data)
 > 
 {: .prereq} 
 

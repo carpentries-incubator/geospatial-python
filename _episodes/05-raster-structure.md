@@ -57,7 +57,6 @@ data. We can use the function `rioxarray.open_rasterio()` to read the geotiff fi
 then inspect this metadata. By calling the variable name in the jupyter notebook
 we can get a quick look at the shape and attributes of the data.
 
-
 ~~~
 surface_HARV = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif")
 surface_HARV
@@ -145,7 +144,7 @@ This can give us a quick view of the values of our array, but only at the corner
 surface_HARV.plot()
 ```
 
-<img src="../fig/01-surface-plot-01.png" title="Raster plot with rioxarray using the viridis color scale" alt="Raster plot with earthpy.plot using the viridis color scale" width="612" style="display: block; margin: auto;" />
+<img src="../fig/05-surface-plot-01.png" title="Raster plot with rioxarray using the viridis color scale" alt="Raster plot with earthpy.plot using the viridis color scale" width="612" style="display: block; margin: auto;" />
 
 Nice plot! Notice that `rioxarray` helpfully allows us to plot this raster with spatial coordinates on the x and y axis (this is not the default in many cases with other functions or libraries).
 
@@ -161,7 +160,7 @@ Nice plot! Notice that `rioxarray` helpfully allows us to plot this raster with 
 > > ~~~
 > > {: .language-python}
 > > 
-> > <img src="../fig/01-rioxarray-ggplot-style-2.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
+> > <img src="../fig/05-rioxarray-ggplot-style-02.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
 > {: .solution}
 {: .callout}
 
@@ -339,17 +338,17 @@ did not collect data in these areas. `rioxarray` assigns a specific number as mi
 rgb_HARV.plot.imshow()
 ```
 
-<img src="../fig/01-no-data-plot-02.png" title="plot of chunk demonstrate-no-data-black" alt="plot of chunk demonstrate-no-data-black" width="612" style="display: block; margin: auto;" />
+<img src="../fig/05-no-data-plot-03.png" title="plot of demonstrate-no-data-black" alt="plot of demonstrate-no-data-black" width="612" style="display: block; margin: auto;" />
 
 From this plot we see something interesting, while our no data values were masked along the edges, the color channel's no data values don't all line up. The colored pixels at the edges between white black result from there being no data in one or two channels at a given pixel. `0` could conceivably represent a valid value for reflectance (the units of our pixel values) so it's good to make sure we are masking values at the edges and not valid data values within the image.
 
-While this plot tells us where we have no data values, the color scale look strange, because our plotting function expects image values to be normalized between a certain range (0-1 or 0-255). By using `surface_HARV.plot.imshow` with the `robust=True` argument, we can normalize our data by the maximum and minimum to fit our data between the correct range for plotting purposes.
+While this plot tells us where we have no data values, the color scale look strange, because our plotting function expects image values to be normalized between a certain range (0-1 or 0-255). By using `surface_HARV.plot.imshow` with the `robust=True` argument, we can display values between the 2nd and 98th percentile, providing better color contrast.
 ~~~
 rgb_HARV.plot.imshow(robust=True)
 ~~~
 {: .language-python}
 
-<img src="../fig/01-true-color-plot-03.png" title="plot of chunk demonstrate-no-data-masked" alt="plot of chunk demonstrate-no-data-masked" width="612" style="display: block; margin: auto;" />
+<img src="../fig/05-true-color-plot-04.png" title="plot of demonstrate-no-data-masked" alt="plot of demonstrate-no-data-masked" width="612" style="display: block; margin: auto;" />
 
 The value that is conventionally used to take note of missing data (the
 no data value) varies by the raster data type. For floating-point rasters,

@@ -5,7 +5,9 @@ title: Setup
 
 # Overview
 
-This workshop is designed to be run on your local machine. First, you will need to download the data we use in the workshop. Then, you need to set up your machine to analyze and process geospatial data. We provide instructions below to either install all dependencies with a single conda command after installing Python for Anaconda. If you have already installed Python with Anaconda, you can skip Step 1. However, if you have installed Python differently, you will need to complete Step 1 (there is no need to uninstall other python installations). We recommend Anaconda and the conda package manager, since they make installing geospatial python packages easier.
+This workshop is designed to be run on your local machine. First, you will need to download the data we use in the workshop. Then, you need to install python and the python libraries used in this lesson. We provide instructions below to install all dependencies with a single conda command after installing Python for Anaconda. If you have already installed Python 3 with Anaconda, you can skip Step 1. 
+
+However, if you have installed Python without Anaconda, you will need to complete Step 1 (there is no need to uninstall the other python installations). We recommend Anaconda and the conda package manager, since they make installing geospatial python packages easier.
 
 ## Data
 
@@ -14,8 +16,6 @@ You can download all of the data used in this workshop by clicking
 
 Clicking the download link will automatically download all of the files to your default download directory as a single compressed
 (`.zip`) file. To expand this file, double click the folder icon in your file navigator application (for Macs, this is the Finder application).
-
-For a full description of the data used in this workshop see the [data page](data).
 
 ## Installation Step 1. Installing Python Using Anaconda
 
@@ -82,8 +82,7 @@ If you run into any difficulties, please request help before the workshop begins
 
 ## Installation Step 2. Setting up the workshop environment with conda
 
-Once you have installed Anaconda, you should have access to the `conda` command in your terminal. Create a new file called 
-`environment.yml` and copy and paste the following text
+Once you have installed Anaconda, you should have access to the `conda` command in your terminal. Right-click and Save As this [`environment.yml`](files/environment.yaml) file in your `geospatial-python` folder. It contains the following names of python libraries that are required to run the lesson:
 
 ```
 name: geospatial
@@ -117,7 +116,7 @@ of packages that is completely independent from your Anaconda installation (we i
 
 When installation completes, run `conda activate geospatial` to activate your environment. Now, when you call `python` or `jupyter`, you will be using 
 these programs from your geospatial environment rather than your default Anaconda python installation. If you close the terminal, you will need to 
-reactivate this environment.
+reactivate this environment with `conda activate geospatial` to use the python libraries required for the lesson and to start a jupyter notebook that can access these libraries.
 
 ## Starting Jupyterlab
 

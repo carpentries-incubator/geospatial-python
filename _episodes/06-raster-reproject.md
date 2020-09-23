@@ -136,7 +136,7 @@ Attributes:
 > {: .solution}
 {: .callout}
 
-And we can also save our DataArray that we created with `rioxarray` to a file.s
+And we can also save our DataArray that we created with `rioxarray` to a file.
 
 ```python
 reprojected_path = "data/NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_dtmCrop_UTM18.tif"
@@ -205,7 +205,7 @@ plt.figure()
 terrain_HARV_UTM18.plot(cmap="viridis")
 plt.title("Harvard Forest Digital Terrain Model")
 ```
-<img src="../fig/02-bad-DTM-plot-01.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
+<img src="../fig/06-bad-DTM-plot-01.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
 
 > ## Challenge
 > Whoops! What did we forget to do to the DTM DataArray before plotting?
@@ -217,13 +217,13 @@ plt.title("Harvard Forest Digital Terrain Model")
 > > the nodata values using the `where()` function and the 
 > > `.rio.nodata` attribute of our DataArray.
 > > ```python
-terrain_HARV_UTM18 _valid = terrain_HARV_UTM18.where(
+terrain_HARV_UTM18_valid = terrain_HARV_UTM18.where(
     terrain_HARV_UTM18  != terrain_HARV_UTM18.rio.nodata)
 plt.figure()
 terrain_HARV_UTM18_valid.plot(cmap="viridis")
 plt.title("Harvard Forest Digital Terrain Model")
 > > ```
-> > <img src="../fig/02-HARV-reprojected-DTM-02.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
+> > <img src="../fig/06-HARV-reprojected-DTM-02.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
 > > If we had saved `terrain_HARV_UTM18 ` to a file and then read it in with `open_rasterio`'s `masked=True` argument the raster's `nodata` value would be masked and we would not need to use the `where()` function to do the masking before plotting.
 > {: .solution}
 {: .challenge}
@@ -246,8 +246,8 @@ plt.figure()
 terrain_HARV_SJER.plot()
 plt.title("SJER Terrain Model")
 > > ```
-> > <img src="../fig/02-SJER-DSM-03.png" title="SJER-DSM-03" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
-> > <img src="../fig/02-SJER-DTM-04.png" title="SJER-DTM-04" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
+> > <img src="../fig/06-SJER-DSM-03.png" title="SJER-DSM-03" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
+> > <img src="../fig/06-SJER-DTM-04.png" title="SJER-DTM-04" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
 > {: .solution}
 {: .challenge}
 

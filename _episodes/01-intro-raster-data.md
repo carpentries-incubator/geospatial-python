@@ -64,6 +64,8 @@ A map of elevation for Harvard Forest derived from the [NEON AOP LiDAR sensor](h
 is below. Elevation is represented as continuous numeric variable in this map. The legend
 shows the continuous range of values in the data from around 300 to 420 meters.
 
+![Continuous Elevation Map: HARV Field Site](../fig/01-continuous-elevation-HARV-plot-01.png)
+
 Some rasters contain categorical data where each pixel represents a discrete
 class such as a landcover type (e.g., "forest" or "grassland") rather than a
 continuous value such as elevation or temperature. Some examples of classified
@@ -81,6 +83,8 @@ al., 2015, Completion of the 2011 National Land Cover Database for the
 conterminous United States-Representing a decade of land cover change
 information. Photogrammetric Engineering and Remote Sensing, v. 81, no. 5, p.
 345-354)
+
+![Classified Canopy Height Model: HARV Field Site](../fig/07-HARV-CHM-class-04.png)
 
 The map above shows elevation data for the NEON Harvard Forest field
 site. We will be working with data from this site later in the workshop. 

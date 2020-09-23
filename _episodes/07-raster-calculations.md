@@ -85,8 +85,9 @@ are stretched between the 2nd and 98th percentiles of the data, which results in
 import matplotlib.pyplot as plt # in case it has not been imported recently
 canopy_HARV.plot(cmap="viridis")
 plt.title("Canopy Height Model for Harvard Forest, Z Units: Meters")
+plt.ticklabel_format(style="plain") # use this if the title overlaps the scientific notation of the y axis
 ```
-<img src="../fig/03-HARV-CHM-map-01.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
+<img src="../fig/07-HARV-CHM-map-01.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
 
 
 Notice that the range of values for the output CHM is between 0 and 30 
@@ -100,7 +101,7 @@ plt.style.use('ggplot') # adds a style to improve the aesthetics
 canopy_HARV.plot.hist()
 plt.title("Histogram of Canopy Height in Meters")
 ```
-![](../fig/03-HARV-CHM-histo-02.png) 
+![](../fig/07-HARV-CHM-histo-02.png) 
 
 > ## Challenge: Explore CHM Raster Values
 > 
@@ -126,7 +127,7 @@ plt.title("Histogram of Canopy Height in Meters")
 > > ```python
 canopy_HARV.plot.hist(bins=50)
 > > ```
-> > ![](../fig/03-HARV-CHM-histo-50bins-03.png) 
+> > ![](../fig/07-HARV-CHM-histo-50bins-03.png) 
 > {: .solution}
 {: .challenge}
 
@@ -142,8 +143,8 @@ import numpy as np
 class_bins = [canopy_HARV.min().values, 2, 10, 20, np.inf]
 
 # Classifies the original canopy height model array
-canopy_height_classified = np.digitize(canopy_HARV, class_bins)
-print(type(canopy_height_classified))
+canopy_height_classes = np.digitize(canopy_HARV, class_bins)
+type(canopy_height_classes)
 ```
 ```
 <class 'numpy.ndarray'>
@@ -153,18 +154,37 @@ The result is a `numpy.ndarray`, but we can put this into a DataArray along with
 
 ```python
 import xarray
+from matplotlib.colors import ListedColormap
+import earthpy.plot as ep
+
+# Define color map of the map legend
+height_colors = ["gray", "y", "yellowgreen", "g", "darkgreen"]
+height_cmap = ListedColormap(height_colors)
+
+# Define class names for the legend
+category_names = [
+    "No Vegetation",
+    "Bare Area",
+    "Low Canopy",
+    "Medium Canopy",
+    "Tall Canopy",
+]
+
+# we need to know in what order the legend items should be arranged
+category_indices = list(range(len(category_names)))
+
+# we put the numpy array in and xarray DataArray so that the plot is made with coordinates
 canopy_height_classified = xarray.DataArray(canopy_height_classes, coords = canopy_HARV.coords)
+
+#Making the plot
 plt.style.use("default")
 plt.figure()
-canopy_height_classified.plot()
+im = canopy_height_classified.plot(cmap=height_cmap, add_colorbar=False)
+ep.draw_legend(im_ax=im, classes = category_indices, titles=category_names) # earthpy helps us by drawing a legend given an existing image plot and legend items, plus indices
+plt.title("Classfied Canopy Height Model - NEON Harvard Forest Field Site")
+plt.ticklabel_format(style="plain")
 ```
-![](../fig/03-HARV-CHM-class-04.png) 
-
-
-> ## Plot Tip
-> This plot looks nice but its legend could be improved. `matplotlib.pyplot` has all the tools needed to create a custom legend with unique labels for our classified map. See the [Earth Lab's lesson](https://www.earthdatascience.org/courses/earth-analytics-python/lidar-raster-data/classify-plot-raster-data-in-python/) for more details.
-{: .callout}
-
+![](../fig/07-HARV-CHM-class-04.png) 
 
 ## Reassigning Geospatial Metadata and Exporting a GeoTIFF
 When we computed the CHM, the output no longer contains reference to a nodata value, like `-9999.0`, which was associated with the DTM and DSM. Some calculations, like `numpy.digitize` can remove all geospatial metadata. Of what can be lost, the CRS and nodata value are particularly important to keep track of. Before we export the product of our calculation to a Geotiff with the `to_raster` function, we need to reassign this metadata.
@@ -181,7 +201,8 @@ by default writes the output file to your working directory unless you specify a
 full file path.
 
 ```python
-os.mkdirs("./data/outputs/", exist_ok=True)
+import os
+os.makedirs("./data/outputs/", exist_ok=True)
 canopy_HARV.rio.to_raster("./data/outputs/CHM_HARV.tif")
 ```
 
@@ -235,21 +256,20 @@ canopy_SJER = surface_SJER - terrain_SJER_UTM18_matched
 plt.figure()
 canopy_SJER.plot(robust=True, cmap="viridis")
 plt.title("Canopy Height Model for San Joaquin Experimental Range, Z Units: Meters")
-plt.savefig("fig/03-SJER-CHM-map-05.png")
+os.makedirs("fig", exist_ok=True)
 canopy_SJER.rio.to_raster("./data/outputs/CHM_SJER.tif")
 > > ```
 > > 
-> > ![](../fig/03-SJER-CHM-05.png) 
+> > ![](../fig/07-SJER-CHM-05.png) 
 > > 
 > > 4) Compare the SJER and HARV CHMs. 
 > > Tree heights are much shorter in SJER. You can confirm this by 
 > > looking at the histograms of the two CHMs. 
 > >
 > > ```python
-fig, ax = plt.figure(figsize=(9,6))
-canopy_height_HARV_xarr.plot.hist(ax = ax, bins=50, color = "green")
-plt.figure(figsize=(9,6))
-canopy_SJER.plot.hist(ax = ax, bins=50, color = "brown")
+fig, ax = plt.subplots(figsize=(9,6))
+canopy_HARV.plot.hist(ax = ax, bins=50, color = "green")
+canopy_SJER.plot.hist(ax = ax, bins=50, color = "blue")
 > > ```
 > {: .solution}
 {: .challenge}
