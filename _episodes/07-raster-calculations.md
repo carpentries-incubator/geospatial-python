@@ -255,12 +255,13 @@ canopy_SJER = surface_SJER - terrain_SJER_UTM18_matched
 > > ```python
 plt.figure()
 canopy_SJER.plot(robust=True, cmap="viridis")
+plt.ticklabel_format(style="plain")
 plt.title("Canopy Height Model for San Joaquin Experimental Range, Z Units: Meters")
 os.makedirs("fig", exist_ok=True)
 canopy_SJER.rio.to_raster("./data/outputs/CHM_SJER.tif")
 > > ```
 > > 
-> > ![](../fig/07-SJER-CHM-05.png) 
+> > ![](../fig/07-SJER-CHM-map-05.png) 
 > > 
 > > 4) Compare the SJER and HARV CHMs. 
 > > Tree heights are much shorter in SJER. You can confirm this by 
