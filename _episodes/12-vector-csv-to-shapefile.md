@@ -6,9 +6,10 @@ questions:
 - "How can I import CSV files as shapefiles in Python?"
 objectives:
 - "Import .csv files containing x,y coordinate locations as a GeoDataFrame."
-- "Export a spatial object to a .geojson file."
+- "Export a spatial object to a .shp file."
 keypoints:
 - "Know the projection (if any) of your point data prior to converting to a spatial object."
+- "This projection information can be used to convert a text file with spatial columns into a shapefile (or GeoJSON) with geopandas."
 
 ---
 ```python
@@ -19,10 +20,10 @@ import matplotlib.pyplot as plt
 
 ```python
 # Learners will have this data loaded from earlier episodes
-lines_HARV = gpd.read_file("/data/2009586/NEON-DS-Site-Layout-Files/HARV/HARV_roads.shp")
-aoi_boundary_HARV = gpd.read_file("/data/2009586/NEON-DS-Site-Layout-Files/HARV/HarClip_UTMZ18.shp")
-country_boundary_US = gpd.read_file("/data/2009586/NEON-DS-Site-Layout-Files/US-Boundary-Layers/US-Boundary-Dissolved-States.shp")
-point_HARV = gpd.read_file("/data/2009586/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp")
+lines_HARV = gpd.read_file("data/NEON-DS-Site-Layout-Files/HARV/HARV_roads.shp")
+aoi_boundary_HARV = gpd.read_file("data/NEON-DS-Site-Layout-Files/HARV/HarClip_UTMZ18.shp")
+country_boundary_US = gpd.read_file("data/NEON-DS-Site-Layout-Files/US-Boundary-Layers/US-Boundary-Dissolved-States.shp")
+point_HARV = gpd.read_file("data/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp")
 ```
 
 > ## Things You’ll Need To Complete This Episode
@@ -46,8 +47,8 @@ shapefile can be imported into any GIS software.
 * Create a map showing vegetation height with plot locations layered on top.
 
 Spatial data are sometimes stored in a text file format (`.txt` or `.csv`). If
-the text file has an associated `x` and `y` location column, then we can
-convert it into `geopandas GeoDataFrame` with point geometry. The `GeoDataFrame` allows us to store both the `x,y` values that represent the coordinate location
+the text file has an associated `x` and `y` or `lat` and `lon` location column, then we can
+convert the tabular text file into a `geopandas.GeoDataFrame`. This will have a column containing the point geometry. The `GeoDataFrame` allows us to store both the `x,y` values that represent the coordinate location
 of each point and the associated attribute data - or columns describing each
 feature in the spatial object.
 
@@ -59,7 +60,7 @@ locations at the NEON Harvard Forest Field Site (`HARV_PlotLocations.csv`) and l
 that new object:
 
 ```python
-plot_locations_HARV = pd.read_csv("~/data/2009586/NEON-DS-Site-Layout-Files/HARV/HARV_PlotLocations.csv")
+plot_locations_HARV = pd.read_csv("data/NEON-DS-Site-Layout-Files/HARV/HARV_PlotLocations.csv")
 
 plot_locations_HARV.info()
 ```
@@ -82,9 +83,9 @@ this by looking at the first five rows of our data.
 
 
 ```python 
-plot_locations_HARV["easting"].head()
+print(plot_locations_HARV["easting"].head())
 
-plot_locations_HARV["northing"].head()
+print(plot_locations_HARV["northing"].head())
 ```
 We have coordinate values in our data frame. In order to convert our
 `DataFrame` to a `GeoDataFrame`, we also need to know the CRS
@@ -92,21 +93,18 @@ associated with those coordinate values.
 
 There are several ways to figure out the CRS of spatial data in text format.
 
-1. We can check the file metadata in hopes that the CRS was recorded in the
-data.
-2. We can explore the file itself to see if CRS information is embedded in the
-file header or somewhere in the data columns.
+1. We can infer from the range of numbers in the coordinate column if the values represent latitude/longitude (in which case, we can use a WGS84 projection) or another coordinate system.
+2. If the values are not in latitude/longitude, we can check the file metadata, which may be in a separate file or listed somewhere in the text file itself. The file header or separate data columns are possible locations for CRS related storing metadata.
 
 Following the `easting` and `northing` columns, there is a `geodeticDa` and a
 `utmZone` column. These appear to contain CRS information
 (`datum` and `projection`). Let's view those next.
 
 ```python
-plot_locations_HARV["geodeticDa"].head()
-plot_locations_HARV["utmZone"].head()
+print(plot_locations_HARV["geodeticDa"].head())
+print(plot_locations_HARV["utmZone"].head())
 ```
-It is not typical to store CRS information in a column. But this particular
-file contains CRS information this way. The `geodeticDa` and `utmZone` columns
+The `geodeticDa` and `utmZone` columns
 contain the information that helps us determine the CRS:
 
 * `geodeticDa`: WGS84  -- this is geodetic datum WGS84
@@ -134,6 +132,7 @@ non-spatial `DataFrame` into an `GeoDataFrame` with point geometry.
 
 Next, let's create a `crs` object that we can use to define the CRS of our
 `GeoDataFrame` when we create it.
+
 ```python 
 utm18nCRS = point_HARV.crs
 utm18nCRS
@@ -179,41 +178,21 @@ plt.title("AOI Boundary Plot")
 plt.show()
 ```
 
-When we plot the two layers together, `ggplot` sets the plot boundaries
-so that they are large enough to include all of the data included in all of the layers.
-That's really handy!
-
 > ## Challenge - Import & Plot Additional Points
 >
-> We want to add two phenology plots to our existing map of vegetation plot
-> locations.
+> We want to add two phenology plots to our existing map of vegetation plot locations.
 >
-> Import the .csv: `HARV/HARV_2NewPhenPlots.csv` into Python and do the following:
+> Import the .csv: `data/NEON-DS-Site-Layout-Files/HARV/HARV_2NewPhenPlots.csv` and do the following:
 >
 > 1. Find the X and Y coordinate locations. Which value is X and which value is Y?
 > 2. These data were collected in a geographic coordinate system (WGS84). Convert
-> the `DataFrame` into a `GeoDataFrame`.
+> the dataframe into an `geopandas.GeoDataFrame`.
 > 3. Plot the new points with the plot location points from above. Be sure to add
 > a legend. Use a different symbol for the 2 new points!
->
-> ## Challenge - Import & Plot Additional Points
->
-> We want to add two phenology plots to our existing map of vegetation plot
-> locations.
->
-> Import the .csv: `HARV/HARV_2NewPhenPlots.csv` into R and do the following:
->
-> 1. Find the X and Y coordinate locations. Which value is X and which value is Y?
-> 2. These data were collected in a geographic coordinate system (WGS84). Convert
-> the dataframe into an `sf` object.
-> 3. Plot the new points with the plot location points from above. Be sure to add
-> a legend. Use a different symbol for the 2 new points!
->
-
+> 
 > > ## Answers
 > > ```python
-> > newplot_locations_HARV = pd.read_csv("/home/alex/data/2009586/NEON-DS-Site-Layout-Files/HARV/HARV_2NewPhenPlots.csv")
-> >
+> > newplot_locations_HARV = pd.read_csv("data/NEON-DS-Site-Layout-Files/HARV/HARV_2NewPhenPlots.csv")
 > > newplot_locations_HARV.info()
 > > ```
 > >
@@ -239,7 +218,7 @@ That's really handy!
 > >```
 > >
 > > ```python
-> > plot_locations_HARV_gdf.to_file("/data/2009586/NEON-DS-Site-Layout-Files/HARV/plot_locations_HARV_gdf.shp", driver="ESRI Shapefile")
+> > plot_locations_HARV_gdf.to_file("data/NEON-DS-Site-Layout-Files/HARV/plot_locations_HARV_gdf.shp", driver="ESRI Shapefile")
 > > ```
 > {: .solution}
 {: .challenge}
