@@ -9,12 +9,12 @@ This repository generates the corresponding lesson website from [The Carpentries
 We welcome all contributions to improve the lesson! Maintainers will do their best to help you if you have any
 questions, concerns, or experience any difficulties along the way.
 
-The[Contribution Guide](CONTRIBUTING.md) gives an overview of how to make contributions more genrally (i.e., how to use Github, make a pull request, etc).
+The [Contribution Guide](CONTRIBUTING.md) gives an overview of how to make contributions more genrally (i.e., how to use Github, make a pull request, etc).
 There are [more detailed guidelines][lesson-example] on proper formatting, ways to render the lesson locally, and even
 how to write new Carpentries episodes.
 
 For this geospatial python lesson in particular, some epiusodes are ready to be taught and some episodes have yet to be added. The general workflow for adding a new episode involves copying and then adapting the corresponding episode from [Introduction to Geospatial Raster and Vector Data with R](https://github.com/datacarpentry/r-raster-vector-geospatial), which serves as a template for this lesson. Usually I do the following:
-1. Copy the contents of the R geospatial lesson to this repo to a file in the `episodes` folder.
+1. Copy the contents of the R geospatial lesson to this repo to a file in the `_episodes` folder.
 2. Change the text to better match with preceding text, update references to Python and Python packages, remove references to R.
 3. Update the code, workout examples and challenges, and test them in a notebook as if I were a learner.
 4. Include plots, challenge outputs in the episode markdown file.
