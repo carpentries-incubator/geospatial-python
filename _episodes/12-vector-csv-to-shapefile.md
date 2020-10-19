@@ -191,23 +191,26 @@ plt.show()
 > a legend. Use a different symbol for the 2 new points!
 > 
 > > ## Answers
+> > First we read in the phenology data as a DataFrame then display some relevant metadata. 
+> > 
 > > ```python
 > > newplot_locations_HARV = pd.read_csv("data/NEON-DS-Site-Layout-Files/HARV/HARV_2NewPhenPlots.csv")
 > > newplot_locations_HARV.info()
 > > ```
-> >
+> > 
+> > We see that `decimalLon` and `decimalLat` are the relevant X, Y coordinate locations, respectively. Next we create a variable to store coordinate reference information for the phenology points (same as `country_boundary_US` GeoDataFrame)
+> > 
 > > ```python
 > > geogCRS = country_boundary_US.crs
-> > geogCRS
 > > ```
-> >
+> > 
+> > Then we convert from the DataFrame to a GeoDataFrame by using the `points_from_xy` method and specifying the `crs` of the point data.
+> > 
 > > ```python
 > > newplot_locations_HARV_gdf = gpd.GeoDataFrame(newplot_locations_HARV, geometry=gpd.points_from_xy(newplot_locations_HARV.decimalLon, newplot_locations_HARV.decimalLat), crs=geogCRS)
 > > ```
 > >
-> > ```python
-> > newplot_locations_HARV_gdf.crs
-> > ```
+> > Finally, we display `plot_locations` and phenology data on the same matplotlib figure. Furthermore, we project the phenology data to match the coordinate reference system of `plot_locations_HARV_gdf`. This is accomplished using the `to_crs` method. 
 > >
 > > ```python
 > > fig, ax = plt.subplots()
@@ -216,10 +219,6 @@ plt.show()
 > > plt.title("Map of All Plot Locations")
 > > plt.show()
 > >```
-> >
-> > ```python
-> > plot_locations_HARV_gdf.to_file("data/NEON-DS-Site-Layout-Files/HARV/plot_locations_HARV_gdf.shp", driver="ESRI Shapefile")
-> > ```
 > {: .solution}
 {: .challenge}
 
