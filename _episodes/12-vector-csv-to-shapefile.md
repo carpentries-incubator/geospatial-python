@@ -162,6 +162,8 @@ plot_locations_HARV_gdf.plot(ax=ax)
 plt.title("Map of Plot Locations")
 plt.show()
 ```
+<img src="../fig/12-simple-plot-points-01.png" title="plot of points" alt="plot of points" width="612" style="display: block; margin: auto;" />
+
 ## Plot Extent
 
 In
@@ -177,6 +179,8 @@ aoi_boundary_HARV.plot(ax=ax, facecolor="None", edgecolor="orange")
 plt.title("AOI Boundary Plot")
 plt.show()
 ```
+
+<img src="../fig/12-aoi-with-points-plot-02.png" title="plot of aoi and points" alt="plot of aoi and points" width="612" style="display: block; margin: auto;" />
 
 > ## Challenge - Import & Plot Additional Points
 >
@@ -219,6 +223,7 @@ plt.show()
 > > plt.title("Map of All Plot Locations")
 > > plt.show()
 > >```
+> > <img src="../fig/12-phenology-with-points-plot-03.png" title="plot of phenology points and points" alt="plot of phenology points and points" width="612" style="display: block; margin: auto;" />
 > {: .solution}
 {: .challenge}
 
