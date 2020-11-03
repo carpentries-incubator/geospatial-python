@@ -2,6 +2,9 @@
 
 [![Create a Slack Account with us](https://img.shields.io/badge/Create_Slack_Account-The_Carpentries-071159.svg)](https://swc-slack-invite.herokuapp.com/)
 
+## The Lesson
+Check out https://carpentries-incubator.github.io/geospatial-python/ to view the lesson as it currently stands. Episodes 1-7 and Episode 12 are currently complete. Epsiodes 1-7 have been taught previously in workshop settings, read more about that experience and feedback [here](https://carpentries.org/blog/2020/03/teaching-a-new-geospatial-python-lesson/). Other episodes still need to be fleshed out and we welcome contributions!
+
 ## Contributing
 
 We welcome all contributions to improve the lesson! Maintainers will do their best to help you if you have any questions, concerns, or experience any difficulties along the way.
@@ -14,8 +17,7 @@ Look for the tag ![good_first_issue](https://img.shields.io/badge/-good%20first%
 
 We are looking for more active developers of this lesson and there are many lessons that have yet to be developed! So there are many Good First Issues, too many too list. If you are interested in developing a lesson, create a new Github Issue or comment on an existing one.
 
-Check out the [Contribution Guide](CONTRIBUTING.md) and[more detailed guidelines][lesson-example] on proper formatting, how to preview the lesson locally, and
-how to write new episodes. 
+Check out the [Contribution Guide](CONTRIBUTING.md) and [more detailed guidelines][lesson-example] on proper formatting, how to preview the lesson locally, and how to write new episodes for this lesson. 
 
 
 ## Maintainer(s)
