@@ -19,18 +19,6 @@ We are looking for more active developers of this lesson and there are many less
 Check out the [Contribution Guide](CONTRIBUTING.md) and[more detailed guidelines][lesson-example] on proper formatting, how to preview the lesson locally, and
 how to write new episodes. 
 
-This lesson would not be possible without the many contributions from the authors of the [Introduction to Geospatial Raster and Vector Data with R](https://github.com/datacarpentry/r-raster-vector-geospatial) and [Introduction to Geospatial Concepts](https://github.com/datacarpentry/organization-geospatial) lessons, which serve as a template for this one.
-
-Data Carpentry Introduction to Geospatial Raster and Vector Data with R
-Leah Wasser; Megan A. Jones; Joseph Stachelek; Lachlan Deer; Zack Brym; Lauren O'Brien; Ana Costa Conrado; Aateka Shashank; Kristina Riemer; Anne Fouilloux; Juan Fung; Marchand; Tracy Teal; Sergio Marconi; James Holmquist; Mike Smorul; Punam Amratia; Erin Becker; Katrin Leinweber
-Editors: Joseph Stachelek; Lauren O'Brien; Jane Wyngaard
-https://doi.org/10.5281/zenodo.1404424
-
- 
-Data Carpentry Introduction to Geospatial Concepts
-Leah Wasser; Megan A. Jones; Lauren O'Brien; Joseph Stachelek; Tom Wright; Tracy Teal; Dev Paudel; Jane Wyngaard; Anne Fouilloux; Bidhyananda Yadav; Chris Prener; Tyson Swetnam; Erin Becker; Katrin Leinweber
-Editor(s): Tyson Swetnam; Chris Prener
-https://doi.org/10.5281/zenodo.1404414
 
 ## Maintainer(s)
 
@@ -54,3 +42,17 @@ The current maintainer of this lesson is
 To cite this lesson, please consult with [CITATION](CITATION)
 
 [lesson-example]: https://carpentries.github.io/lesson-example
+
+## Thanks Geospatial R Authors!
+This lesson would not be possible without the many contributions from the authors of the [Introduction to Geospatial Raster and Vector Data with R](https://github.com/datacarpentry/r-raster-vector-geospatial) and [Introduction to Geospatial Concepts](https://github.com/datacarpentry/organization-geospatial) lessons. These lessons have served as templates for this geospatial python lesson.
+
+Data Carpentry Introduction to Geospatial Raster and Vector Data with R
+Leah Wasser; Megan A. Jones; Joseph Stachelek; Lachlan Deer; Zack Brym; Lauren O'Brien; Ana Costa Conrado; Aateka Shashank; Kristina Riemer; Anne Fouilloux; Juan Fung; Marchand; Tracy Teal; Sergio Marconi; James Holmquist; Mike Smorul; Punam Amratia; Erin Becker; Katrin Leinweber
+Editors: Joseph Stachelek; Lauren O'Brien; Jane Wyngaard
+https://doi.org/10.5281/zenodo.1404424
+
+ 
+Data Carpentry Introduction to Geospatial Concepts
+Leah Wasser; Megan A. Jones; Lauren O'Brien; Joseph Stachelek; Tom Wright; Tracy Teal; Dev Paudel; Jane Wyngaard; Anne Fouilloux; Bidhyananda Yadav; Chris Prener; Tyson Swetnam; Erin Becker; Katrin Leinweber
+Editor(s): Tyson Swetnam; Chris Prener
+https://doi.org/10.5281/zenodo.1404414
