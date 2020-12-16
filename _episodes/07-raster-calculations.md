@@ -5,10 +5,10 @@ exercises: 20
 questions:
 - "How do I subtract one raster from another and extract pixel values for defined locations?"
 objectives:
-- "Perform a subtraction between two rasters using python's builtin math operators to generate a Canopy Height Model (CHM)."
+- "Perform a subtraction between two rasters using python's built-in math operators to generate a Canopy Height Model (CHM)."
 - "Calculate a classified raster using the CHM values."
 keypoints:
-- "Python's built in math operators are fast and simple options for raster math."
+- "Python's built-in math operators are fast and simple options for raster math."
 - "numpy.digitize can be used to classify raster values in order to generate a less complicated map."
 - "DataArrays can be created from scratch from numpy arrays as well as read in from existing files."
 ---
@@ -21,14 +21,11 @@ keypoints:
 We often want to combine values of and perform calculations on rasters to create
 a new output raster. This episode covers how to subtract one raster from
 another using basic raster math. It also covers how to extract pixel values from a 
-set of locations - for example a buffer region around locations at a field site.
+set of locations - for example, a buffer region around locations at a field site.
 
 ## Raster Calculations in Python & Canopy Height Models
 We often want to perform calculations on two or more rasters to create a new
-output raster. For example, if we are interested in mapping the heights of trees
-across an entire field site, we might want to calculate the difference between
-the Digital Surface Model (DSM, tops of trees) and the
-Digital Terrain Model (DTM, ground level). The resulting dataset is referred to
+output raster. For example, suppose we are interested in mapping the heights of trees across an entire field site. In that case, we might want to calculate the difference between the Digital Surface Model (DSM, tops of trees) and the Digital Terrain Model (DTM, ground level). The resulting dataset is referred to
 as a Canopy Height Model (CHM) and represents the actual height of trees,
 buildings, etc. with the influence of ground elevation removed.
 
@@ -54,10 +51,10 @@ terrain_HARV_UTM18 = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensi
 
 ## Raster Math
 We can perform raster calculations by subtracting (or adding,
-multiplying, etc) two rasters. In the geospatial world, we call this
+multiplying, etc.) two rasters. In the geospatial world, we call this
 "raster math", and typically it refers to operations on rasters that 
 have the same width and height (including `nodata` pixels). We saw from 
-the last episode's challenge that this is not the case with out DTM and DSM. Even though the `reproject` function gets our rasters into the same CRS, they have slighlty different extents.
+the last episode's challenge that this is not the case without DTM and DSM. Even though the `reproject` function gets our rasters into the same CRS, they have slightly different extents.
 We can now use the `reproject_match` function, which both reprojects and clips
 a raster to the CRS and extent of another raster.
 
@@ -65,7 +62,7 @@ a raster to the CRS and extent of another raster.
 terrain_HARV_matched = terrain_HARV_UTM18.rio.reproject_match(surface_HARV)
 ```
 
-In fact, we could have used reproject_match on the original DTM model, "HARV_dtmCrop_WGS84.tif". If we had, this would mean one less time our DTM 
+We could have used reproject_match on the original DTM model, "HARV_dtmCrop_WGS84.tif". If we had, this would mean one less time our DTM 
 was interpolated with reprojection, though this has a negligible impact on 
 the data for our purposes.
 
@@ -93,7 +90,7 @@ plt.ticklabel_format(style="plain") # use this if the title overlaps the scienti
 Notice that the range of values for the output CHM is between 0 and 30 
 meters. Does this make sense for trees in Harvard Forest?
 
-Maps are great but it can also be informative to plot histograms of values to better understand the distribution. We can accomplish this using a built-in xarray method we have been already been using, `plot`
+Maps are great, but it can also be informative to plot histograms of values to better understand the distribution. We can accomplish this using a built-in xarray method we have already been using, `plot`
 
 ```python
 plt.figure()
@@ -187,7 +184,7 @@ plt.ticklabel_format(style="plain")
 ![](../fig/07-HARV-CHM-class-04.png) 
 
 ## Reassigning Geospatial Metadata and Exporting a GeoTIFF
-When we computed the CHM, the output no longer contains reference to a nodata value, like `-9999.0`, which was associated with the DTM and DSM. Some calculations, like `numpy.digitize` can remove all geospatial metadata. Of what can be lost, the CRS and nodata value are particularly important to keep track of. Before we export the product of our calculation to a Geotiff with the `to_raster` function, we need to reassign this metadata.
+When we computed the CHM, the output no longer contains a reference to a nodata value, like `-9999.0`, which was associated with the DTM and DSM. Some calculations, like `numpy.digitize` can remove all geospatial metadata. Of what can be lost, the CRS and nodata value are particularly important to keep track of. Before we export the product of our calculation to a Geotiff with the `to_raster` function, we need to reassign this metadata.
 
 ```python
 canopy_HARV.rio.write_crs(surface_HARV.rio.crs, inplace=True)
