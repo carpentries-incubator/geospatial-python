@@ -29,9 +29,9 @@ and vector data. Raster data is stored as a grid of values which are rendered on
 map as pixels. Each pixel value represents an area on the Earth's surface. Vector data structures represent specific features on the
 Earth's surface, and
 assign attributes to those features. Vector data structures
-will be discussed in more detail in [the next episode]({{ base.url }}/02-intro-vector-data/).
+will be discussed in more detail in [the next episode](https://carpentries-incubator.github.io/geospatial-python/02-intro-vector-data/index.html).
 
-The [R for Raster and Vector Data](https://datacarpentry.org/r-raster-vector-geospatial/)
+The [Python for Raster and Vector Data](https://carpentries-incubator.github.io/geospatial-python/)
 lesson will focus on how to work with both raster and vector 
 data sets, therefore it is essential that we understand the 
 basic structures of these types of data and the types of data
@@ -40,7 +40,7 @@ that they can be used to represent.
 ## About Raster Data
 
 Raster data is any pixelated (or gridded) data where each pixel is associated
-with a specific geographical location. The value of a pixel can be
+with a specific geographic location. The value of a pixel can be
 continuous (e.g. elevation) or categorical (e.g. land use). If this sounds
 familiar, it is because this data structure is very common: it's how
 we represent any digital image. A geospatial raster is only different
@@ -61,7 +61,7 @@ Some examples of continuous rasters include:
 3. Elevation values for a region.
 
 A map of elevation for Harvard Forest derived from the [NEON AOP LiDAR sensor](http://www.neonscience.org/data-collection/airborne-remote-sensing)
-is below. Elevation is represented as continuous numeric variable in this map. The legend
+is below. Elevation is represented as a continuous numeric variable in this map. The legend
 shows the continuous range of values in the data from around 300 to 420 meters.
 
 ![Continuous Elevation Map: HARV Field Site](../fig/01-continuous-elevation-HARV-plot-01.png)
@@ -89,7 +89,7 @@ information. Photogrammetric Engineering and Remote Sensing, v. 81, no. 5, p.
 The map above shows elevation data for the NEON Harvard Forest field
 site. We will be working with data from this site later in the workshop. 
 In this map, the elevation data (a continuous variable) has been divided
-up into categories to yield a categorical raster. 
+into categories to yield a categorical raster. 
 
 > ## Advantages and Disadvantages
 > 
@@ -123,7 +123,7 @@ up into categories to yield a categorical raster.
 ### Extent
 
 The spatial extent is the geographic area that the raster data covers. 
-The spatial extent of an R spatial object represents the geographic edge or
+The spatial extent of an object represents the geographic edge or
 location that is the furthest north, south, east and west. In other words, extent
 represents the overall geographic coverage of the spatial object.
 
@@ -170,13 +170,13 @@ as tags. These tags should include the following raster metadata:
 1. Extent
 2. Resolution
 3. Coordinate Reference System (CRS) - we will introduce this concept in [a
-   later episode]({{ base.url }}/03-crs/)
+   later episode](https://carpentries-incubator.github.io/geospatial-python/03-crs/index.html)
 4. Values that represent missing data (`NoDataValue`) - we will introduce this
-   concept in [a later lesson](https://datacarpentry.org/r-raster-vector-geospatial/01-raster-structure/index.html).
+   concept in [a later episode](https://carpentries-incubator.github.io/geospatial-python/05-raster-structure/index.html).
 
 We will discuss these attributes in more detail in [a later
-lesson](https://datacarpentry.org/r-raster-vector-geospatial/01-raster-structure/index.html).
-In that lesson, we will also learn how to use R to extract raster attributes
+episode](https://carpentries-incubator.github.io/geospatial-python/05-raster-structure/index.html).
+In that episode, we will also learn how to use Python to extract raster attributes
 from a GeoTIFF file.
 
 > ## More Resources on the  `.tif` format
@@ -214,7 +214,7 @@ resolution, and CRS.
 > Multi-band raster data might also contain:
 > 
 > 1. **Time series:** the same variable, over the same area, over time. 
-> We will be working with time series data in the [Plot Raster Data in Python]({{ site.baseurl }}/013-plot-time-series-raster/) episode.
+> We will be working with time series data in the [Plot Raster Data in Python](https://carpentries-incubator.github.io/geospatial-python/15-time-series-raster/index.html) episode.
 > 2. **Multi or hyperspectral imagery:** image rasters that have 4 or
 > more (multi-spectral) or more than 10-15 (hyperspectral) bands. We
 > won't be working with this type of data in this workshop, but you can
