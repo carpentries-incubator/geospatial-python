@@ -385,30 +385,77 @@ In the code above we use the `quantile()` function to calculate the 2nd and 98th
 > Let's explore what happens with NoData values when working with and plotting
 > rasters. We will use the `HARV_Ortho_wNA.tif` GeoTIFF file in the
 > `NEON-DS-Airborne-Remote-Sensing/HARV/RGB_Imagery/` directory.
-> 1. Load the multi-band raster into Python.
-> 2. View the file's attributes. Are there `NoData` values assigned for this file? (Hint: this value is sometimes called `FillValue`)
-> 3. If so, what is the `NoData` value?
-> 4. How many bands does this raster have?
-> 5. Plot the raster as a true-color image.
-> 6. What happened to the black edges in the plot?
-> 7. What does this tell us about the difference in the data structure between `HARV_Ortho_wNA.tif` and `HARV_RGB_Ortho.tif`. How can you check?
+> 1. Load the multi-band raster into Python and view the file's attributes. Are there `NoData` values assigned for this file? (Hint: this value is sometimes called `__FillValue`)
+> 2. If so, what is the `NoData` value?
+> 3. How many bands does this raster have?
+> 4. Plot the raster as a true-color image.
+> 5. What happened to the black edges in the plot?
+> 6. What does this tell us about the difference in the data structure between `HARV_Ortho_wNA.tif` and `HARV_RGB_Ortho.tif`. How can you check?
 >
 > > ## Answers
-> > 1. First, load the raster into Python using `rasterio.open_rasterio()`.
-> > <!-- TODO: add code snippet -->
-> > 2. Inspect the `DataArray` object's attributes.
-> > <!-- TODO: add sample output -->
-> > 3. The `NoData`, or `FillValue`, of this raster is -9999.
-> > 4. The raster has 3 bands.
-> > 5. <!-- TODO: add image of true-color plot -->
-> > 6. The black edges are not plotted. <!-- TODO: FYI this differs from the R
-> > implementation. Need to use `where()` to mask NoData manually in Python.-->
-> > 7. Both datasets have `NoData` values, however, in `rgb_stack_HARV` the `NoData`
+> > 1) Load the raster into Python using `rasterio.open_rasterio()` and inspect the object's attributes with the `print()` function:
+> >
+> > ~~~
+> > rgb_stack_HARV_wNA = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/HARV/RGB_Imagery/HARV_Ortho_wNA.tif")
+> > print(rgb_stack_HARV_wNA)
+> > ~~~
+> > {: .language-python}
+> >
+> > ~~~
+> > <xarray.DataArray (band: 3, y: 2317, x: 3073)>
+> > [21360423 values with dtype=float64]
+> > Coordinates:
+> >   * band         (band) int64 1 2 3
+> >   * y            (y) float64 4.714e+06 4.714e+06 ... 4.713e+06 4.713e+06
+> >   * x            (x) float64 7.32e+05 7.32e+05 7.32e+05 ... 7.328e+05 7.328e+05
+> >     spatial_ref  int64 0
+> > Attributes:
+> >     STATISTICS_MAXIMUM:  255
+> >     STATISTICS_MEAN:     107.83651227531
+> >     STATISTICS_MINIMUM:  0
+> >     STATISTICS_STDDEV:   30.019177549096
+> >     transform:           (0.25, 0.0, 731998.5, 0.0, -0.25, 4713535.5)
+> >     _FillValue:          -9999.0
+> >     scale_factor:        1.0
+> >     add_offset:          0.0
+> >     grid_mapping:        spatial_ref
+> > ~~~
+> > {: .output}
+> >
+> > 2) The `NoData` value of this raster is -9999 (see `_FillValue` in output above). We can confirm this by accessing the `NoData` value directly:
+> >
+> > ~~~
+> > print(rgb_stack_HARV_wNA.rio.nodata)
+> > ~~~
+> > {: .language-python}
+> >
+> > ~~~
+> > -9999.0
+> > ~~~
+> > {: .output}
+> >
+> > 3) The raster has 3 bands (see first line in output of answer 1).
+> >
+> > 4) Plot the figure:
+<!-- TODO: plotting without using where() to mask NoData results in an improperly stretched RGB image. Alternately, the file can be read in using the `masked=True` keyword argument in answer 1, but that removes `_FillValue` from the attributes and querying `rio.nodata` returns `nan` rather than `-9999.0`. Sticking with this potentially confusing approach for now... -->
+> >
+> > ~~~
+> > rgb_stack_HARV_wNA.where(rgb_stack_HARV_wNA != -9999.0).plot.imshow(robust=True)
+> > ~~~
+> > {: .language-python}
+> >
+> > Before plotting we use the `where()` function to mask all data values equal to `-9999.0`.
+> >
+> > <img src="../fig/08-NoData-RGB-plot-07.png"/>
+> > 
+> > 6) The black edges are not plotted because we explicitly mask out the `NoData` values when plotting. Compare against the true-color plots earlier in the episode.
+> >
+> > 7) ??? <!-- TODO: the answer in the R version of this lesson does not align with Python/rioxarray's default behavior. According to the R lesson, the tif file for `rgb_stack_HARV` lacks a NoData value in the metadata and R subsequently does not set a value when the file is read. In Python, it seems that rioxarray automatically sets this value to -1.7e+308 (the min/max value of a double in C) and subsequently treats it as 0 when plotting (???). Need to find clarity on this... -->
 > {: .solution}
 {: .challenge}
 
-<!--TODO: there doesn't seem to be a great way to view all methods associated
-with an object in Python. Need to explore this further...-->
+<!-- TODO: there doesn't seem to be a great way to view all methods associated
+with an object in Python. Need to explore this further... -->
 > ## Challenge: What Functions Can Be Used on a Python Object of a Particular Class?
 >
 > 1. What methods can be used on the `rgb_stack_HARV` object?
@@ -417,7 +464,7 @@ with an object in Python. Need to explore this further...-->
 >
 > > ## Answers
 > >
-> > 1. We can see a list of all methods (and accessible attributes) for `rgb_stack_HARV` by typing the variable name followed by a period and then hitting the TAB key. Or by using the built-in `dir()` function.
+> > 1) We can see a list of all methods (and accessible attributes) for `rgb_stack_HARV` by typing the variable name followed by a period and then hitting the TAB key. Or by using the built-in `dir()` function.
 > >
 > > ~~~ 
 > > dir(rgb_stack_HARV)
@@ -428,11 +475,22 @@ with an object in Python. Need to explore this further...-->
 > > ['STATISTICS_MAXIMUM', 'STATISTICS_MEAN', 'STATISTICS_MINIMUM', 'STATISTICS_STDDEV', ... , 'where', 'x', 'y']
 > > ~~~
 > > {: .output}
-> > 2. Use the same approach to view the methods and attributes of `rgb_stack_HARV_NA`.
-> > 3. Compare the output.
+> >
+> > 2) Use same approach as above in combination with the `sel()` function to view the methods and attributes of the object containing a single band.
+> > ~~~ 
+> > dir(rgb_stack_HARV.sel(band=1))
+> > ~~~
+> > {: .language-python}
+> >
+> > > > ~~~
+> > ['STATISTICS_MAXIMUM', 'STATISTICS_MEAN', 'STATISTICS_MINIMUM', 'STATISTICS_STDDEV', ... , 'where', 'x', 'y']
+> > ~~~
+> > {: .output}
+> >
+> > 3) Compare the output programmatically:
 > >
 > > ~~~
-> > (dir(rgb_stack_HARV) == dir(rgb_stack_HARV_NA))
+> > dir(rgb_stack_HARV) == dir(rgb_stack_HARV.sel(band=1))
 > > ~~~
 > > {: .language-python}
 > >
