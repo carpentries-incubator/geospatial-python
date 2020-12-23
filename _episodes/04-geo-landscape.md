@@ -60,7 +60,7 @@ The [Open Source Geospatial Foundation (OSGEO)](http://www.osgeo.org/) supports 
   and geodatabase management applications. ESRI provides several licenced platforms for
   performing GIS, including [ArcGIS](https://www.arcgis.com/home/index.html), 
   [ArcGIS Online](http://www.esri.com/software/arcgis/arcgisonline), and 
-  [Portal for ArcGIS](http://server.arcgis.com/en/portal/) a stand alone version of
+  [Portal for ArcGIS](http://server.arcgis.com/en/portal/) a standalone version of
   ArGIS Online which you host locally. ESRI welcomes development on their platforms
   through their [DevLabs](https://developers.arcgis.com/). ArcGIS software can be
   installed using 
@@ -68,7 +68,7 @@ The [Open Source Geospatial Foundation (OSGEO)](http://www.osgeo.org/) supports 
   * Pitney Bowes produce [MapInfo Professional](https://www.pitneybowes.com/us/location-intelligence/geographic-information-systems/mapinfo-pro.html), 
   which was one of the earliest desktop GIS programs on the market. 
   * [Hexagon Geospatial Power Portfolio](https://www.hexagongeospatial.com/products/power-portfolio) 
-  includes many geospatial tools including ENVI and ERDAS Imagine, both are powerful software for remote sensing.
+  includes many geospatial tools including ERDAS Imagine, powerful software for remote sensing.
   * [Manifold](http://www.manifold.net/) is a desktop GIS that emphasizes speed through
   the use of parallel and GPU processing. 
 
@@ -86,15 +86,15 @@ The [Open Source Geospatial Foundation (OSGEO)](http://www.osgeo.org/) supports 
   * [ArcGIS Online](http://www.arcgis.com/features/features.html) provides access to
   thousands of maps and base layers.
 
-Private companies have that released SDK platforms for large scale GIS analysis:
+Private companies have released SDK platforms for large scale GIS analysis:
 
  * [Kepler.gl](http://kepler.gl/#/) is Uber's toolkit for handling large datasets (i.e. Uber's data archive).
  * [Boundless Geospatial](https://boundlessgeo.com/) is built upon OSGEO software for enterprise solutions. 
 
-Publically funded open-source platforms for large scale GIS analysis:
+Publicly funded open-source platforms for large scale GIS analysis:
 
- * [PanGEO](http://pangeo.io/) for the Earth Sciences. This community organization also supports python libraries like xarray, iris, dask, jupyter, and many other packages.
- * [Sepal.io](https://sepal.io/) by [FAO Openforis](http://www.openforis.org/tools/geospatial-toolkit.html) utilizing EOS satellite imagery and cloud resources for global forest monitoring.
+ * [PANGEO](http://pangeo.io/) for the Earth Sciences. This community organization also supports python libraries like xarray, iris, dask, jupyter, and many other packages.
+ * [Sepal.io](https://sepal.io/) by [FAO Open Foris](http://www.openforis.org/) utilizing EOS satellite imagery and cloud resources for global forest monitoring.
 
 ## GUI vs CLI 
 
@@ -120,7 +120,7 @@ Downsides of using a GUI include:
   
 In scientific computing, the lack of reproducibility in point-and-click software has
 come to be viewed as a critical weakness. As such, scripted CLI-style workflows are
-again becoming popular, which leads us to another approach to doing GIS: via a
+again becoming popular, which leads us to another approach to doing GIS — via a
 programming language. This is the approach we will be using throughout this workshop.
   
 ## GIS in programming languages 
@@ -134,7 +134,7 @@ Higher-level scripting languages like Python and R are easier to learn and use. 
 now have their own packages that wrap up those geospatial processing libraries and make
 them easy to access and use safely. A key example is the Java Topology Suite (JTS),
 which is implemented in C++ as GEOS. GEOS is accessible in Python via the `shapely`
-package (and `geopandas`, which make suse of `shapely`) and in R via `sf`. R and Python 
+package (and `geopandas`, which makes use of `shapely`) and in R via `sf`. R and Python 
 also have interface packages for GDAL, and for specific GIS apps. 
 
 This last point is a huge advantage for GIS-by-programming; these interface packages
@@ -151,11 +151,11 @@ These packages along with the `matplotlib` package are all we need for spatial d
 An overview of these and other Python spatial packages can be [accessed here](https://medium.com/@chrieke/essential-geospatial-python-libraries-5d82fcc38731). 
   
 As a programming language, Python can be a CLI tool. However, using
-Python together with an IDE (Integrated Development Environment) application
+Python together with an [Integrated Development Environment](https://www.codecademy.com/articles/what-is-an-ide) (IDE) application
 allows some GUI features to become part of your workflow. IDEs allow the best of both
 worlds. They provide a place to visually examine data and other software objects,
 interact with your file system, and draw plots and maps, but your activities are still
-command-driven - recordable and reproducible. There are several IDEs available for Python.
+command-driven: recordable and reproducible. There are several IDEs available for Python.
 [JupyterLab](https://jupyter.org/) is well-developed and the most widely used option for data science 
 in Python. [VSCode](https://code.visualstudio.com/docs/python/python-tutorial) and [Spyder](https://www.spyder-ide.org/)
 are other popular options for data science.
