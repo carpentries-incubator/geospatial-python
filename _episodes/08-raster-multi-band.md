@@ -366,6 +366,18 @@ of potential values to increase the visual contrast of the image.
 
 ![Image Stretch](../fig/dc-spatial-raster/imageStretch_dark.jpg)
 
+It is possible to perform a custom stretch when plotting multi-band rasters with `imshow()` by using the keyword arguments `vmin` and `vmax`. For example, here's how we can use `vmin` and `vmax` to recreate the output of `imshow(robust=True)`:
+
+~~~
+rgb_stack_HARV.plot.imshow(figsize=(9,7),
+                     vmin=rgb_stack_HARV.quantile(0.02),
+                     vmax=rgb_stack_HARV.quantile(0.98))
+~~~
+{: .language-python}
+
+<img src="../fig/08-custom-stretch-plot-06.png"/>
+
+In the code above we use the `quantile()` function to calculate the 2nd and 98th quantiles of the data values in `rgb_stack_HARV` and pass those values to `vmin` and `max`, respectively.
 
 <!-- TODO: complete TODOs in challenge below -->
 > ## Challenge: NoData Values
