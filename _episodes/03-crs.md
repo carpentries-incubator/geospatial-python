@@ -25,7 +25,7 @@ information connects data to the Earth's surface using a mathematical model.
 > will use only CRS throughout this workshop.
 {: .callout}
 
-The CRS associated with a dataset tells your mapping software (for example R)
+The CRS associated with a dataset tells your mapping software (for example Python)
 where the raster is located in geographic space. It also tells the mapping
 software what method should be used to flatten or project the raster in
 geographic space.
@@ -51,7 +51,7 @@ analysis.
 CRS information has three components:
 
 * **Datum:** A model of the shape of the earth. It has angular units (i.e.
-degrees) and defines the starting point (i.e. where is (0,0)?) so the angles
+degrees) and defines the starting point (i.e. where is [0,0]?) so the angles
 reference a meaningful spot on the earth. Common global datums are WGS84 and
 NAD83. Datums can also be local - fit to a particular area of the globe, but
 ill-fitting outside the area of intended use. In this workshop, we will use the
@@ -71,10 +71,10 @@ parameters depends on what is needed by each specific projection.
 > ## Orange Peel Analogy
 > 
 > A common analogy employed to teach projections is the orange peel analogy. If
-> you imagine that the earth is an orange, how you peel it and then flatten the
+> you imagine that the Earth is an orange, how you peel it and then flatten the
 > peel is similar to how projections get made.
 > 
-> * A datum is the choice of fruit to use. Is the earth an orange, a lemon, a
+> * A datum is the choice of fruit to use. Is the Earth an orange, a lemon, a
 >   lime, a grapefruit?
 >
 > ![Datum Fruit Example](../fig/citrus.jpg)
@@ -100,11 +100,11 @@ To decide if a projection is right for your data, answer these questions:
   *  What is the area of minimal distortion?  
   *  What aspect of the data does it preserve?  
 
-[University of Colorado's Map Projections](https://www.colorado.edu/geography/gcraft/notes/mapproj/mapproj_f.html) and the [Department of Geo-Information Processing](http://kartoweb.itc.nl/geometrics/map%20projections/mappro.html) has a good discussion of these aspects of projections. Online tools like [Projection Wizard](http://projectionwizard.org/) can also help you discover projections that might be a good fit for your data.  
+[Peter Dana from the University of Colorado at Boulder](https://foote.geography.uconn.edu/gcraft/notes/mapproj/mapproj_f.html) and the [Department of Geo-Information Processing](http://kartoweb.itc.nl/geometrics/map%20projections/mappro.html) has a good discussion of these aspects of projections. Online tools like [Projection Wizard](http://projectionwizard.org/) can also help you discover projections that might be a good fit for your data.  
 
 > ## Data Tip 
 >
-> Take the time to figure identify a projection that is suited for your project.
+> Take the time to identify a projection that is suited for your project.
 > You don't have to stick to the ones that are popular.
 {: .callout}
 
@@ -113,16 +113,14 @@ To decide if a projection is right for your data, answer these questions:
 There are several common systems in use for storing and transmitting CRS
 information, as well as translating among different CRSs. These systems
 generally comply with ISO 19111. Common systems for describing CRSs include
-EPSG, OGC WKT, PROJ strings.
+EPSG, OGC WKT, and PROJ strings.
 
 # EPSG
 The [EPSG system](http://www.epsg.org) is a database of CRS information maintained by the
 International Association of Oil and Gas Producers. The dataset contains both CRS definitions and
 information on how to safely convert data from one CRS to another. Using EPSG is easy as every
-CRS has a integer identifier, e.g. WGS84 is EPSG:4326. The downside is that you can only use the
-CRSs EPSG defines and cannot customise them (some datasets do not have EPSG codes). Detailed information on the structure of
-the EPSG dataset is 
-[available on their website](http://www.epsg.org/GuidanceNotes). [epsg.io](http://epsg.io/) is an 
+CRS has an integer identifier, e.g. WGS84 is EPSG:4326. The downside is that you can only use the
+CRSs defined by EPSG and cannot customise them (some datasets do not have EPSG codes). [epsg.io](http://epsg.io/) is an 
 excellent website for finding suitable projections by location or for finding information about a 
 particular EPSG code.
 
@@ -133,7 +131,7 @@ software libraries. WKT is a nested list of geodetic parameters. The structure o
 that the CRS information is more transparent than in EPSG, but can be more difficult to read and
 compare than PROJ since it is meant to necessarily represent more complex CRS information. Additionally, 
 the WKT standard is implemented inconsistently across various software platforms, and the spec itself has 
-[some known issues](http://gdal.org/wktproblems.html)).
+some known issues.
 
 # PROJ
 [PROJ](http://proj4.org/) is an open-source library for storing, representing
@@ -151,11 +149,11 @@ it easy to read and interpret.
 
 A PROJ4 string includes the following information: 
 
-* **proj=:** the projection of the data
-* **zone=:** the zone of the data (this is specific to the UTM projection)
-* **datum=:** the datum use
-* **units=:** the units for the coordinates of the data
-* **ellps=:** the ellipsoid (how the earth's  roundness is calculated) for
+* **proj:** the projection of the data
+* **zone:** the zone of the data (this is specific to the UTM projection)
+* **datum:** the datum used
+* **units:** the units for the coordinates of the data
+* **ellps:** the ellipsoid (how the earth's  roundness is calculated) for
 the data
 
 Note that the zone is unique to the UTM projection. Not all CRSs will have a
