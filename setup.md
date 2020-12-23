@@ -150,14 +150,14 @@ Once you have installed Anaconda, you should have access to the `conda` command 
       env
     ```
 
-2. Right-click and Save Link As this [**link to the virutal environment file.**](files/environment.yaml) Name it `environment.yaml` and save it to your `geospatial-python` folder. The `environment.yaml` contains the names of python libraries that are required to run the lesson:
+2. Right-click and "Save Link As..." this [**link to the virtual environment file.**](files/environment.yaml) Name it `environment.yml` and save it to your `geospatial-python` folder. The `environment.yml` contains the names of python libraries that are required to run the lesson:
 
     ```
     name: geospatial
     channels:
       - conda-forge
     dependencies:
-    # Jupyter Lab
+    # JupyterLab
       - jupyterlab
     # Python scientific libraries
       - numpy
@@ -170,9 +170,8 @@ Once you have installed Anaconda, you should have access to the `conda` command 
       - gdal
       - geopandas
       - rioxarray
-      - geocube
       - earthpy
-      - ipyleaflet
+      - descartes # necessary for geopandas plotting
     ```
 <a name="env-create-anchor"></a>
 3. In the terminal, navigate to the directory where you saved the `environment.yml` file using the `cd` command.
@@ -213,11 +212,11 @@ Then run:
 
     > ## IMPORTANT
     > If you close the terminal, you will need to 
-    reactivate this environment with `conda activate geospatial` to use the python libraries required for the lesson and to start jupyter lab, which is also installed din the `geospatial` environment.
+    reactivate this environment with `conda activate geospatial` to use the python libraries required for the lesson and to start JupyterLab, which is also installed in the `geospatial` environment.
     {: .callout}
 
 
-## Starting Jupyterlab
+## Starting JupyterLab
 
 In order to follow the lessons on using Python (episode 5 and onward), you should launch JupyterLab 
 after activating the geospatial conda environment in your working directory that contains the data you downloaded. 
