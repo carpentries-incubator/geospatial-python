@@ -1,5 +1,5 @@
 ---
-title: "Work With Multi-Band Rasters in Python FIXME"
+title: "Work With Multi-Band Rasters in Python"
 teaching: 40
 exercises: 20
 questions:
