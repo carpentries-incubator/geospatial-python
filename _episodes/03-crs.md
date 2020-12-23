@@ -131,7 +131,7 @@ software libraries. WKT is a nested list of geodetic parameters. The structure o
 that the CRS information is more transparent than in EPSG, but can be more difficult to read and
 compare than PROJ since it is meant to necessarily represent more complex CRS information. Additionally, 
 the WKT standard is implemented inconsistently across various software platforms, and the spec itself has 
-some known issues.
+[some known issues](https://gdal.org/tutorials/wktproblems.html).
 
 # PROJ
 [PROJ](http://proj4.org/) is an open-source library for storing, representing
