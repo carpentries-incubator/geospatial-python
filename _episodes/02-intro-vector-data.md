@@ -32,7 +32,7 @@ locations, the location of individual trees, or the location of survey plots.
 * **Lines:** Lines are composed of many (at least 2) points that are connected.
 For instance, a road or a stream may be represented by a line. This line is
 composed of a series of segments, each "bend" in the road or stream represents a
-vertex that has defined x, y location.
+vertex that has a defined x, y location.
 
 * **Polygons:** A polygon consists of 3 or more vertices that are connected and
 closed. The outlines of survey plot boundaries, lakes, oceans, and states or
@@ -65,8 +65,8 @@ Vector data has some important advantages:
   * Data storage can be very efficient compared to rasters  
   
 The downsides of vector data include:
-  * potential loss of detail compared to raster  
-  * potential bias in datasets - what didn't get recorded?  
+  * Potential loss of detail compared to raster  
+  * Potential bias in datasets - what didn't get recorded?  
   * Calculations involving multiple vector layers need to do math on the
     geometry as well as the attributes, so can be slow compared to raster math.
 
@@ -81,7 +81,7 @@ their features to real-world locations.
 
 Like raster data, vector data can also come in many different formats. For this
 workshop, we will use the Shapefile format which has the extension `.shp`. A
-`.shp` file stores the geographic coordinates of each vertice in the vector, as
+`.shp` file stores the geographic coordinates of each vertex in the vector, as
 well as metadata including:
 
 * **Extent** - the spatial extent of the shapefile (i.e. geographic area that
