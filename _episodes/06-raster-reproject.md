@@ -3,8 +3,8 @@ title: "Reproject Raster Data with Rioxarray"
 teaching: 60
 exercises: 20
 questions:
+- "How do I call a DataArray to print out its metadata information?"
 - "How do I work with raster data sets that are in different projections?"
-- ""
 objectives:
 - "Reproject a raster in Python using rasterio."
 - "Accomplish the same task with rioxarray and xarray."
