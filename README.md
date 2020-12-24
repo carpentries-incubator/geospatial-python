@@ -15,33 +15,18 @@ nicely explained in the chapter [Contributing to a Project](http://git-scm.com/b
 by Scott Chacon.
 Look for the tag ![good_first_issue](https://img.shields.io/badge/-good%20first%20issue-gold.svg). This indicates that the mantainers will welcome a pull request fixing this issue.  
 
-We are looking for more active developers of this lesson and there are many lessons that have yet to be developed! So there are many Good First Issues, too many too list. If you are interested in developing a lesson, create a new Github Issue or comment on an existing one.
+We are looking for more active developers of this lesson. Edits to existing lesson episodes or additions to new episodes are welcome. If you are interested in contributing a new episode, you can either start by creating a new Github Issue to start discussion or dive in and submit a new Pull Request.
 
-Check out the [Contribution Guide](CONTRIBUTING.md) and [more detailed guidelines][lesson-example] on proper formatting, how to preview the lesson locally, and how to write new episodes for this lesson. 
-
-
-## Maintainer(s)
-
-The current maintainer of this lesson is 
-
-* Ryan Avery
-
-
-## Authors
+Check out the [Contribution Guide](CONTRIBUTING.md) and [more detailed guidelines][lesson-example] on proper formatting, how to preview the lesson locally, and how to write new episodes. 
 
 <h1 align="center"> ️💚️ Thanks Contributors! 💚 </h1>
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section. Created with https://www.tablesgenerator.com/markdown_tables# -->
 <!-- prettier-ignore -->
-| [<img src="https://github.com/rbavery.png" width="100px;"/><br /><sub><b>Ryan Avery</b></sub>](https://github.com/rbavery) 	| [<img src="https://github.com/marwahaha.png" width="100px;"/><br /><sub><b>Kunal Marwaha</b></sub>](https://github.com/marwahaha) 	| [<img src="https://github.com/alex-pakalniskis.png" width="100px;"/><br /><sub><b>Alex Pakalniskis</b></sub>](https://github.com/alex-pakalniskis) 	|
-|----------------------------------------------------------------------------------------------------------------------------	|-----------------------------------------------------------------------------------------------------------------------------------	|----------------------------------------------------------------------------------------------------------------------------------------------------	|
+|  [<img src="https://github.com/rbavery.png" width="100px;"/><br /><sub><b>Ryan Avery</b></sub>](https://github.com/rbavery)  |  [<img src="https://github.com/marwahaha.png" width="100px;"/><br /><sub><b>Kunal Marwaha</b></sub>](https://github.com/marwahaha)  |  [<img src="https://github.com/alex-pakalniskis.png" width="100px;"/><br /><sub><b>Alex Pakalniskis</b></sub>](https://github.com/alex-pakalniskis)  | [<img src="https://github.com/bmcandr.png" width="100px;"/><br /><sub><b>Brendan McAndrew</b></sub>](https://github.com/bmcandr)                     | [<img src="https://github.com/seanemccartney.png" width="100px;"/><br /><sub><b>Sean McCartney</b></sub>](https://github.com/seanemccartney)         |
+|:----------------------------------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------:|------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ---------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
 <!-- ALL-CONTRIBUTORS-LIST:END -->
-
-## Citation
-
-To cite this lesson, please consult with [CITATION](CITATION)
-
-[lesson-example]: https://carpentries.github.io/lesson-example
 
 ## Thanks Geospatial R Authors!
 This lesson would not be possible without the many contributions from the authors of the [Introduction to Geospatial Raster and Vector Data with R](https://github.com/datacarpentry/r-raster-vector-geospatial) and [Introduction to Geospatial Concepts](https://github.com/datacarpentry/organization-geospatial) lessons. These lessons have served as templates for this geospatial python lesson.
@@ -56,3 +41,15 @@ Data Carpentry Introduction to Geospatial Concepts
 Leah Wasser; Megan A. Jones; Lauren O'Brien; Joseph Stachelek; Tom Wright; Tracy Teal; Dev Paudel; Jane Wyngaard; Anne Fouilloux; Bidhyananda Yadav; Chris Prener; Tyson Swetnam; Erin Becker; Katrin Leinweber
 Editor(s): Tyson Swetnam; Chris Prener
 https://doi.org/10.5281/zenodo.1404414
+
+## Maintainer(s)
+
+The current maintainer of this lesson is 
+
+* Ryan Avery
+
+## Citation
+
+To cite this lesson, please consult with [CITATION](CITATION)
+
+[lesson-example]: https://carpentries.github.io/lesson-example
