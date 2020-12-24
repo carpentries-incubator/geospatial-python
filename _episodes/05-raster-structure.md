@@ -233,7 +233,7 @@ Our projection string for `surface_HARV` specifies the UTM projection as follows
 * **datum=WGS84:** the datum is WGS84 (the datum refers to the  0,0 reference for
 the coordinate system used in the projection)
 * **units=m:** the units for the coordinates are in meters
-* **no_defs:** ensures that no defaults are read from the defaults files.
+* **no_defs:** This attribute is nearly obsolete and [can be ignored](https://github.com/OSGeo/PROJ/issues/494).
 
 Note that the zone is unique to the UTM projection. Not all CRSs will have a
 zone. Image source: Chrismurf at English Wikipedia, via [Wikimedia Commons](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system#/media/File:Utm-zones-USA.svg) (CC-BY).
