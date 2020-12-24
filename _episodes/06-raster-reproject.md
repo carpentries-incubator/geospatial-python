@@ -3,8 +3,8 @@ title: "Reproject Raster Data with Rioxarray"
 teaching: 60
 exercises: 20
 questions:
+- "How do I call a DataArray to print out its metadata information?"
 - "How do I work with raster data sets that are in different projections?"
-- ""
 objectives:
 - "Reproject a raster in Python using rasterio."
 - "Accomplish the same task with rioxarray and xarray."
@@ -23,14 +23,11 @@ Sometimes we encounter raster datasets that do not "line up" when plotted or
 analyzed. Rasters that don't line up are most often in different Coordinate
 Reference Systems (CRS), otherwise known as "projections". This episode explains how to line up rasters in different, known CRSs.
 
-## Raster Projection in Python
+## Raster Projection in R
 
-If you loaded two rasters with different projections in QGIS or ArcGIS, you'd see that they would align since these software reproject "on-the-fly". But with R or Python, you'll need to reproject your data yourself in order to plot or use these rasters together in calculations.
+If you loaded two rasters with different projections in QGIS 3 or ArcMap/ArcPro, you'd see that they would align since these software reproject "on-the-fly". But with R or Python, you'll need to reproject your data yourself in order to plot or use these rasters together in calculations.
 
-For this episode, we will be working with the Harvard Forest Digital Terrain
-Model (DTM). This differs from the surface model data we've been working with so
-far in that the digital terrain model (DTM) includes the tops of trees, while
-the digital surface model (DSM) shows the ground level beneath the tree canopy. 
+For this episode, we will be working with the Harvard Forest Digital Terrain Model (DTM). This differs from the digital surface model (DSM) data we've been working with in that the DTM shows the ground level beneath the tree canopy, while the DSM includes the tops of trees, other natural features, as well as built features. 
 
 Our goal is to get these data into the same projection with the `rioxarray.reproject()` function so that
 we can use both rasters to calculate tree canopy height, also called a Canopy Height Model (CHM).
@@ -39,74 +36,43 @@ First, we need to read in the DSM and DTM rasters.
 
 Reading in the data with xarray looks similar to using `rasterio` directly, but the output is a xarray object called a `DataArray`. You can use a `xarray.DataArray` in calculations just like a numpy array. Calling the variable name of the `DataArray` also prints out all of its metadata information. Geospatial information is not read in if you don't import rioxarray before calling the `open_rasterio` function.
 
-~~~
+```python
 import rioxarray
 
 surface_HARV = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif")
 terrain_HARV = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_dtmCrop_WGS84.tif")
 
 surface_HARV
-~~~
-{: .language-python}
+```
 
-~~~
-xarray.DataArray band: 1, y: 1367, x: 1697
+```
+<xarray.DataArray (band: 1, y: 1367, x: 1697)>
 [2319799 values with dtype=float64]
 Coordinates:
-band       (band)   int64    1
- y          (y)    float64   4.714e+06 4.714e+06 ... 4.712e+06
- x          (x)    float64   7.315e+05 7.315e+05 ... 7.331e+05
-spatial_ref ()      int64    0
+  * band     (band) int64 1
+  * y        (y) float64 4.714e+06 4.714e+06 4.714e+06 ... 4.712e+06 4.712e+06
+  * x        (x) float64 7.315e+05 7.315e+05 7.315e+05 ... 7.331e+05 7.331e+05
 Attributes:
-STATISTICS_MAXIMUM: 416.06997680664
-STATISTICS_MEAN: 359.85311802914
-STATISTICS_MINIMUM: 305.07000732422
-STATISTICS_STDDEV: 17.83169335933
-_FillValue: -9999.0
-scale_factor: 1.0
-add_offset: 0.0
-grid_mapping: spatial_ref
-~~~
-{: .output}
+    transform:      (1.0, 0.0, 731453.0, 0.0, -1.0, 4713838.0)
+    crs:            +init=epsg:32618
+    res:            (1.0, 1.0)
+    is_tiled:       0
+    nodatavals:     (-3.4e+38,)
+    scales:         (1.0,)
+    offsets:        (0.0,)
+    AREA_OR_POINT:  Area
+```
 
-To read the spatial reference in the output you may have to click on the icon “Show/Hide attributes” on the right side of the row of spatial_ref. After showing all attributes for spatial_ref we can see the datum and projection are WGS 84 / UTM zone 18N respectively. UTM zone 18N is a regional projection with associated coordinate system to more accurately capture distance, shape and/or area around the Harvard Forest.
+We can use the CRS attribute from one of our datasets to reproject the other dataset so that they are both in the same projection. The only argument that is required is the `dst_crs` argument, which takes the CRS of the result of the reprojection.
 
-Now let’s print out the metadata information for Harvard Forest’s DTM to compare the two CRSs.
-
-~~~
-terrain_HARV
-~~~
-{: .language-python}
-
-~~~
-xarray.DataArray band: 1, y: 1172, x: 1939
-[2272508 values with dtype=float64]
-Coordinates:
-band       (band)       int64       1
- y          (y)        float64      42.54 42.54 42.54 ... 42.53 42.53
- x          (x)        float64      -72.18 -72.18 ... -72.16 -72.16
-spatial_ref ()          int64       0
-Attributes:
-_FillValue: -9999.0
-scale_factor: 1.0
-add_offset: 0.0
-grid_mapping: spatial_ref
-~~~
-{: .output}
-
-We see the DTM is in an unprojected geographic coordinate system, using WGS84 as the datum and a coordinate system that spans the entire planet (i.e. latitude and longitude). This means that every location on the planet is defined using the SAME coordinate system and the same units. Geographic coordinate reference systems are best for global analysis but not for capturing distance, shape and/or area on a local scale.
-
-We can use the CRS attribute from one of our datasets to reproject the other dataset so that they are both in the same projection. The only argument that is required is the `dst_crs` argument (standing for destination coordinate reference system), which takes the CRS of the result of the reprojection.
-
-~~~
+```python
 terrain_HARV_UTM18 = terrain_HARV.rio.reproject(dst_crs=surface_HARV.rio.crs)
 
 terrain_HARV_UTM18 
-~~~
-{: .language-python}
+```
 
-~~~
-xarray.DataArray band: 1, y: 1492, x: 1801
+```
+<xarray.DataArray (band: 1, y: 1493, x: 1796)>
 array([[[-9999., -9999., -9999., ..., -9999., -9999., -9999.],
         [-9999., -9999., -9999., ..., -9999., -9999., -9999.],
         [-9999., -9999., -9999., ..., -9999., -9999., -9999.],
@@ -115,17 +81,19 @@ array([[[-9999., -9999., -9999., ..., -9999., -9999., -9999.],
         [-9999., -9999., -9999., ..., -9999., -9999., -9999.],
         [-9999., -9999., -9999., ..., -9999., -9999., -9999.]]])
 Coordinates:
-x            (x)       float64       7.314e+05 7.314e+05 ... 7.332e+05
-y            (y)       float64       4.714e+06 4.714e+06 ... 4.712e+06
-band       (band)       int64        1
-spatial_ref  ()         int64        0
+  * x            (x) float64 7.314e+05 7.314e+05 ... 7.332e+05 7.332e+05
+  * y            (y) float64 4.714e+06 4.714e+06 ... 4.712e+06 4.712e+06
+  * band         (band) int64 1
+    spatial_ref  int64 0
 Attributes:
-scale_factor: 1.0
-add_offset: 0.0
-grid_mapping: spatial_ref
-_FillValue: -9999.0
-~~~
-{: .output}
+    transform:      (1.001061424448915, 0.0, 731402.3156760389, 0.0, -1.00106...
+    scales:         (1.0,)
+    offsets:        (0.0,)
+    AREA_OR_POINT:  Area
+    _FillValue:     -9999.0
+    grid_mapping:   spatial_ref
+
+```
 
 > ## Data Tip
 > You might wonder why the result of `terrain_HARV.rio.reproject()` shows `-9999` at the edges whereas when we read in the data, 
@@ -253,7 +221,7 @@ terrain_HARV_UTM18_valid.plot(cmap="viridis")
 plt.title("Harvard Forest Digital Terrain Model")
 > > ```
 > > <img src="../fig/06-HARV-reprojected-DTM-02.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
-> > If we had saved `terrain_HARV_UTM18` to a file and then read it in with `open_rasterio`'s `masked=True` argument, the raster's `nodata` value would be masked and we would not need to use the `where()` function to do the masking before plotting.
+> > If we had saved `terrain_HARV_UTM18 ` to a file and then read it in with `open_rasterio`'s `masked=True` argument the raster's `nodata` value would be masked and we would not need to use the `where()` function to do the masking before plotting.
 > {: .solution}
 {: .challenge}
 
@@ -262,7 +230,7 @@ plt.title("Harvard Forest Digital Terrain Model")
 > Create 2 maps in a UTM projection of the [San Joaquin Experimental Range](https://www.neonscience.org/field-sites/field-sites-map/SJER) field site, using the`SJER_dtmCrop.tif` and `SJER_dsmCrop_WGS84.tif` files. Use `rioxarray` and `matplotlib.pyplot` (to add a title). Reproject the data as necessary to make sure each map is in the same UTM projection and save the reprojected file with the file name "data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop_WGS84.tif".
 >
 > > ## Answers
-> > If we read in these files with the argument `masked=True`, then the nodata values will be masked automatically and set to `numpy.nan`, or Not a Number. This can make plotting easier since only valid raster values will be shown. However, it's important to remember that `numpy.nan` values still take up space in our raster just like `nodata` values, and thus they still affect the shape of the raster. Rasters need to be the same shape for raster math to work in Python. In the next lesson, we will examine how to prepare rasters of different shapes for calculations.
+> > If we read in these files with the argument `masked=True`, then the nodata values will be masked automatically and set to `numpy.nan`, or Not a Number. This can make plotting easier since only valid raster values will be shown. However, it's important to remember that `numpy.nan` values still take up space in our raster just like `nodata` values, and thus they still affect the shape of the raster. Rasters need to be the same shape for raster math to work in python. In the next lesson, we will examine how to prepare rasters of different shapes for calculations.
 > > ```python
 terrain_HARV_SJER = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/SJER/DTM/SJER_dtmCrop.tif", masked=True)
 surface_HARV_SJER = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop_WGS84.tif", masked=True)
