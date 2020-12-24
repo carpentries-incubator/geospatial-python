@@ -82,28 +82,30 @@ Attributes:
 
 The first call to `rioxarray.open_rasterio()` opens the file and returns an object that we store in a variable, `surface_HARV`.
 
-The output tells us that we are looking at an `xarray.DataArray`, with `1` band, `1367` columns, and `1697` rows. We can also see the number of pixel values in the `DataArray`, and the type of those pixel values, which is floating point, or (`float64`). The `DataArray` also stores different values for the coordinates of the `DataArray`. When using `rioxarray`, the term coordinates refers to spatial coordinates like `x` and `y` but also the `band` coordinate. Each of these sequences of values has its own data type, like `float64` for the spatial coordinates
+The output tells us that we are looking at an `xarray.DataArray`, with `1` band, `1367` rows, and `1697` columns. We can also see the number of pixel values in the `DataArray`, and the type of those pixel values, which is floating point, or (`float64`). The `DataArray` also stores different values for the coordinates of the `DataArray`. When using `rioxarray`, the term coordinates refers to spatial coordinates like `x` and `y` but also the `band` coordinate. Each of these sequences of values has its own data type, like `float64` for the spatial coordinates
  and `int64` for the `band` coordinate. The `transform` represents the conversion between array coordinates (non-spatial) and spatial coordinates.
 
 This `DataArray` object also has a couple attributes that are accessed like `.rio.crs`, `.rio.nodata`, and `.rio.bounds()`, which contain the metadata for the file we opened. Note that many of the metadata are accessed as attributes without `()`, but `bounds()` is a function and needs parentheses. 
 
-```python
+~~~
 print(surface_HARV.rio.crs)
 print(surface_HARV.rio.nodata)
 print(surface_HARV.rio.bounds())
 print(surface_HARV.rio.width)
 print(surface_HARV.rio.height)
-```
+~~~
+{: .language-python}
 
-```
+~~~
 EPSG:32618
 -9999.0
 (731453.0, 4712471.0, 733150.0, 4713838.0)
 1697
 1367
-```
+~~~
+{: .output}
 
-The Coordinate Reference System, or `surface_HARV.rio.crs`, is reported as the string `EPSG:32618`. The `nodata` value is encoded as -9999.0 and the bounding box corners of our raster are represented by the output of `.bounds()` as a `tuple` (like a list but you can't edit it). The height and width match what we saw when we printed the `DataArray`, but by using `.rio.width` we can access these values if we need them in calculations.
+The Coordinate Reference System, or `surface_HARV.rio.crs`, is reported as the string `EPSG:32618`. The `nodata` value is encoded as -9999.0 and the bounding box corners of our raster are represented by the output of `.bounds()` as a `tuple` (like a list but you can't edit it). The height and width match what we saw when we printed the `DataArray`, but by using `.rio.width` and `.rio.height` we can access these values if we need them in calculations.
 
  We will be exploring this data throughout this episode. By the end of this episode, you will be able to understand and explain the metadata output.
 
@@ -114,7 +116,7 @@ The Coordinate Reference System, or `surface_HARV.rio.crs`, is reported as the s
 > we'll use a naming convention of `datatype_HARV`.
 {: .callout}
 
-After viewing the attributes of our raster, we can examine the raw value sof the array with `.values`:
+After viewing the attributes of our raster, we can examine the raw values of the array with `.values`:
 
 ~~~
 surface_HARV.values
@@ -149,7 +151,7 @@ surface_HARV.plot()
 Nice plot! Notice that `rioxarray` helpfully allows us to plot this raster with spatial coordinates on the x and y axis (this is not the default in many cases with other functions or libraries).
 
 > ## Plotting Tip
-> For more aesthetic looking plots, matplotlib allows you to customize the style with `plt.style.use`. However, if you want more control of the look of your plot, matplotlib has many more functions to change the position and appearnce of plot elements.
+> For more aesthetic looking plots, matplotlib allows you to customize the style with `plt.style.use`. However, if you want more control of the look of your plot, matplotlib has many more functions to change the position and appearance of plot elements.
 > > ## Show plot
 > >  Here is the result of using a ggplot like style for our surface model plot.
 > > 
@@ -169,7 +171,7 @@ legend, we can see that the maximum elevation is ~400, but we can't tell whether
 this is 400 feet or 400 meters because the legend doesn't show us the units. We
 can look at the metadata of our object to see what the units are. Much of the
 metadata that we're interested in is part of the CRS, and it can be accessed with `.rio.crs`. We introduced the concept of a CRS in [an earlier
-lesson]() (TODO replace link).
+episode](https://carpentries-incubator.github.io/geospatial-python/03-crs/index.html).
 
 Now we will see how features of the CRS appear in our data file and what
 meanings they have.
@@ -191,7 +193,7 @@ EPSG:32618
 ~~~
 {: .output}
 
-You can convert the EPSG code to a PROJ4 string with `earthpy.epsg`, another python `dict` which maps epsg codes (keys) to
+You can convert the EPSG code to a PROJ4 string with `earthpy.epsg`, another python package which maps EPSG codes (keys) to
 PROJ4 strings (values)
 
 ~~~
@@ -210,7 +212,7 @@ earthpy.epsg['32618']
 >
 > > ## Answers
 > > `+units=m` tells us that our data is in meters.
-> > We could also get this information from the attribute `surface_HARV.crs.linear_units`.
+> > We could also get this information from the attribute `surface_HARV.rio.crs.linear_units`.
 > {: .solution}
 {: .challenge}
 
@@ -231,8 +233,7 @@ Our projection string for `surface_HARV` specifies the UTM projection as follows
 * **datum=WGS84:** the datum is WGS84 (the datum refers to the  0,0 reference for
 the coordinate system used in the projection)
 * **units=m:** the units for the coordinates are in meters
-* **ellps=WGS84:** the ellipsoid (how the earth's  roundness is calculated) for
-the data is WGS84. This isn't reported here since this is often the same as the datum. TODO does this merit a better explanation?
+* **no_defs:** This attribute is nearly obsolete and [can be ignored](https://github.com/OSGeo/PROJ/issues/494).
 
 Note that the zone is unique to the UTM projection. Not all CRSs will have a
 zone. Image source: Chrismurf at English Wikipedia, via [Wikimedia Commons](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system#/media/File:Utm-zones-USA.svg) (CC-BY).
@@ -245,13 +246,17 @@ It is useful to know the minimum or maximum values of a raster dataset. In this
 case, given we are working with elevation data, these values represent the
 min/max elevation range at our site.
 
-We can compute these and other descriptive statistics with `min` and `max`
+We can compute these and other descriptive statistics with `min`, `max`, `mean`, and `std`.
 
 ~~~
 print(surface_HARV.min())
 print(surface_HARV.max())
+print(surface_HARV.mean())
+print(surface_HARV.std())
 ~~~
-```
+{: .language-python}
+
+~~~
 <xarray.DataArray ()>
 array(305.07000732)
 Coordinates:
@@ -260,11 +265,19 @@ Coordinates:
 array(416.06997681)
 Coordinates:
     spatial_ref  int64 0
+<xarray.DataArray ()>
+array(359.85311803)
+Coordinates:
+    spatial_ref  int64 0
+<xarray.DataArray ()>
+array(17.83168952)
+Coordinates:
+    spatial_ref  int64 0
+~~~
+{: .output}
 
-```
 
-The information above includes a report of the number of observations, min and max values, mean, and variance. We specified the `axis=None` 
-argument so that statistics were computed for the whole array, rather than for each row in the array.
+The information above includes a report of the min, max, mean, and standard deviation values, along with the data type.
 
 You could also get each of these values one by one using `numpy`. What if we wanted to calculate 25% and 75% quartiles?
 
@@ -300,7 +313,7 @@ raster: surface elevation in meters for one time period. However, a raster datas
 
 ![Multi-band raster image](../images/dc-spatial-raster/single_multi_raster.png)
 
-We can view the number of bands in a raster by looking at the `.shape` attribute of the `DataArray`. The band number comes first when geotiffs are red with the `.open_rasterio()` function.
+We can view the number of bands in a raster by looking at the `.shape` attribute of the `DataArray`. The band number comes first when GeoTiffs are read with the `.open_rasterio()` function.
 
 ~~~
 rgb_HARV = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/HARV/RGB_Imagery/HARV_RGB_Ortho.tif")
@@ -328,21 +341,22 @@ to represent different cases. The most common example is missing data at the edg
 
 By default the shape of a raster is always rectangular. So if we have a dataset
 that has a shape that isn't rectangular, some pixels at the edge of the raster
-will have no data values. This often happens when the data were collected by an
+will have no data values. This often happens when the data were collected by a
 sensor which only flew over some part of a defined region.
 
 In the RGB image below, the pixels that are black have no data values. The sensor
-did not collect data in these areas. `rioxarray` assigns a specific number as missing data to the `.rio.nodata` attribute when the dataset is read, based on the file's own metadata. the GeoTiff's `nodata` attribute is assigned to the value `-1.7e+308`and in order to run calculations on this image that ignore these edge values or plot the image without the nodata values being displayed on the color scale, `rioxarray` masks them out. 
+did not collect data in these areas. `rioxarray` assigns a specific number as missing data to the `.rio.nodata` attribute when the dataset is read, based on the file's own metadata. The GeoTiff's `nodata` attribute is assigned to the value `-1.7e+308` and in order to run calculations on this image that ignore these edge values or plot the image without the nodata values being displayed on the color scale, `rioxarray` masks them out. 
 
 ```python
+# The imshow() function in the pyplot module of the matplotlib library is used to display data as an image.
 rgb_HARV.plot.imshow()
 ```
 
 <img src="../fig/05-no-data-plot-03.png" title="plot of demonstrate-no-data-black" alt="plot of demonstrate-no-data-black" width="612" style="display: block; margin: auto;" />
 
-From this plot we see something interesting, while our no data values were masked along the edges, the color channel's no data values don't all line up. The colored pixels at the edges between white black result from there being no data in one or two channels at a given pixel. `0` could conceivably represent a valid value for reflectance (the units of our pixel values) so it's good to make sure we are masking values at the edges and not valid data values within the image.
+From this plot we see something interesting, while our no data values were masked along the edges, the color channel's no data values don't all line up. The colored pixels at the edges between white and black result from there being no data in one or two bands at a given pixel. `0` could conceivably represent a valid value for reflectance (the units of our pixel values) so it's good to make sure we are masking values at the edges and not valid data values within the image.
 
-While this plot tells us where we have no data values, the color scale look strange, because our plotting function expects image values to be normalized between a certain range (0-1 or 0-255). By using `surface_HARV.plot.imshow` with the `robust=True` argument, we can display values between the 2nd and 98th percentile, providing better color contrast.
+While this plot tells us where we have no data values, the color scale looks strange, because our plotting function expects image values to be normalized between a certain range (0-1 or 0-255). By using `surface_HARV.plot.imshow` with the `robust=True` argument, we can display values between the 2nd and 98th percentile, providing better color contrast.
 ~~~
 rgb_HARV.plot.imshow(robust=True)
 ~~~
@@ -356,8 +370,8 @@ the figure `-3.4e+38` is a common default, and for integers, `-9999` is
 common. Some disciplines have specific conventions that vary from these
 common values.
 
-In some cases, other `nodata` values may be more appropriate. An `nodata` value should
-be a) outside the range of valid values, and b) a value that fits the data type
+In some cases, other `nodata` values may be more appropriate. A `nodata` value should
+be, a) outside the range of valid values, and b) a value that fits the data type
 in use. For instance, if your data ranges continuously from -20 to 100, 0 is
 not an acceptable `nodata` value! Or, for categories that number 1-15, 0 might be
 fine for `nodata`, but using -.000003 will force you to save the GeoTIFF on disk
