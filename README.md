@@ -9,7 +9,7 @@ Check out https://carpentries-incubator.github.io/geospatial-python/ to view the
 
 We welcome all contributions to improve the lesson! Maintainers will do their best to help you if you have any questions, concerns, or experience any difficulties along the way.
 
-Please see the current list of [issues][https://github.com/carpentries-incubator/geospatial-python/issues] for ideas for contributing to this
+Please see the current list of [issues](https://github.com/carpentries-incubator/geospatial-python/issues) for ideas for contributing to this
 repository. For making your contribution, we use the GitHub flow, which is
 nicely explained in the chapter [Contributing to a Project](http://git-scm.com/book/en/v2/GitHub-Contributing-to-a-Project) in Pro Git
 by Scott Chacon.
