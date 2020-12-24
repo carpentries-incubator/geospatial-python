@@ -110,16 +110,13 @@ earlier episode]({{ site.baseurl }}/05-raster-structure). The shape, `(band: 3, 
 > based on two other packages: `rasterio` and `xarray`.
 >
 > `xarray` is a great tool for manipulating and anayzing data in labeled
-> multi-dimensional arrays, but it cannot read or write GeoTIFF (i.e., `.tif`)
-> files such as those used in this lesson. The `rasterio` package *can* read and
-> write GeoTIFF files, but provides limited functionality for data analysis
-> compared to `xarray`. While it is possible to manually create an `xarray`
-> object from a GeoTIFF, it is a tedious process. This is where `rioxarray`
-> comes in.
+> multi-dimensional arrays, but it cannot compute common geospatial operations like clipping and reprojecting. It also cannot write GeoTIFF (i.e., `.tif`)
+> files, such as those used in this lesson. The `rasterio` package *can* do common geospatial operations and
+> write GeoTIFF files, but `rasterio` provides limited functionality for data analysis, visualization, and parallel computation on arrays
+> compared to `xarray`. This is where `rioxarray` comes in.
 >
 > The `open_rasterio()` function provided by `rioxarray` uses the `rasterio`
-> package to read GeoTIFF files directly into `xarray.DataArray` objects. Using
-> existing packages in this way allows us to avoid "reinventing the wheel."
+> package to read GeoTIFF files directly into `xarray.DataArray` objects that have an additional `.rio` attribute for accessing geospatial operations like `.rio.reproject()`. Building on top of existing packages in this way allows packages like `rioxarray` to avoid "reinventing the wheel."
 >
 {: .callout}
 
@@ -301,7 +298,7 @@ rgb_band2_HARV.plot.imshow(figsize=(9,7), cmap="Greys")
 {: .challenge}
 
 We don't always have to create a new variable to explore or plot each band in a
-raster, however. We can select a band using the `sel()` function described
+raster. We can select a band using the `sel()` function described
 earlier and then call another function on its output in the same line, a
 practice called "method chaining". For example, let's use method
 chaining to create a histogram of band 1.
@@ -345,7 +342,7 @@ While this plot tells us where we have no data values, the color scale look
 strange, because our plotting function expects image values to be normalized
 between a certain range (0-1 or 0-255). By using `rgb_stack_HARV.plot.imshow`
 with the `robust=True` argument, we can display values between the 2nd and 98th
-percentile, providing better color contrast.
+percentile, providing better color contrast, just like in [episode 5](https://carpentries-incubator.github.io/geospatial-python/05-raster-structure/index.html).
 
 ~~~
 rgb_stack_HARV.plot.imshow(figsize=(9,7), robust=True)
@@ -382,7 +379,7 @@ In the code above we use the `quantile()` function to calculate the 2nd and 98th
 <!-- TODO: complete TODOs in challenge below -->
 > ## Challenge: NoData Values
 >
-> Let's explore what happens with NoData values when working with and plotting
+> Let's explore what happens with NoData values when plotting multi-band
 > rasters. We will use the `HARV_Ortho_wNA.tif` GeoTIFF file in the
 > `NEON-DS-Airborne-Remote-Sensing/HARV/RGB_Imagery/` directory.
 > 1. Load the multi-band raster into Python and view the file's attributes. Are there `NoData` values assigned for this file? (Hint: this value is sometimes called `__FillValue`)
