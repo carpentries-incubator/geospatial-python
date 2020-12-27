@@ -5,8 +5,8 @@ exercises: 20
 questions:
 - "How do I subtract one raster from another and extract pixel values for defined locations?"
 objectives:
-- "Perform a subtraction between two rasters using python's built-in math operators to generate a Canopy Height Model (CHM)."
-- "Calculate a classified raster using the CHM values."
+- "Perform a subtraction between two rasters using Python's built-in math operators to generate a Canopy Height Model (CHM)."
+- "Reclassify a continuous raster to a categorical raster using the CHM values."
 keypoints:
 - "Python's built-in math operators are fast and simple options for raster math."
 - "numpy.digitize can be used to classify raster values in order to generate a less complicated map."
@@ -66,7 +66,7 @@ We could have used reproject_match on the original DTM model, "HARV_dtmCrop_WGS8
 was interpolated with reprojection, though this has a negligible impact on 
 the data for our purposes.
 
-Let's subtract the DTM from the DSM to create a Canopy Height Model. 
+Let's subtract the DTM from the DSM to create a Canopy Height Model (CHM). 
 We'll use `rioxarray` so that we can easily plot our result and keep 
 track of the metadata for our CHM.
 
@@ -90,7 +90,7 @@ plt.ticklabel_format(style="plain") # use this if the title overlaps the scienti
 Notice that the range of values for the output CHM is between 0 and 30 
 meters. Does this make sense for trees in Harvard Forest?
 
-Maps are great, but it can also be informative to plot histograms of values to better understand the distribution. We can accomplish this using a built-in xarray method we have already been using, `plot`
+Maps are great, but it can also be informative to plot histograms of values to better understand the distribution. We can accomplish this using a built-in xarray method we have already been using: `plot`
 
 ```python
 plt.figure()
@@ -105,7 +105,7 @@ plt.title("Histogram of Canopy Height in Meters")
 > It's often a good idea to explore the range of values in a raster dataset just like we might explore a dataset that we collected in the field. The histogram we just made is a good start but there's more we can do to improve our understanding of the data.
 > 
 > 1. What is the min and maximum value for the Harvard Forest Canopy Height Model (`canopy_HARV`) that we just created?
-> 2. Plot a histogram with 100 bins instead of 8. What do you notice that wasn't clear before?
+> 2. Plot a histogram with 50 bins instead of 8. What do you notice that wasn't clear before?
 > 3. Plot the `canopy_HARV` raster using breaks that make sense for the data. Include an appropriate color palette for the data, plot title and no axes ticks / labels.
 > 
 > > ## Answers
@@ -116,10 +116,11 @@ plt.title("Histogram of Canopy Height in Meters")
 > > canopy_HARV.min().values
 > > canopy_HARV.max().values
 > > ```
-> > ```
+> > ~~~
 > > array(-1.)
 > > array(38.16998291)
-> > ```
+> > ~~~
+> > {: .output}
 > > 2) Increasing the number of bins gives us a much clearer view of the distribution.
 > > ```python
 canopy_HARV.plot.hist(bins=50)
@@ -131,7 +132,7 @@ canopy_HARV.plot.hist(bins=50)
 ## Classifying Continuous Rasters in Python
 
 Now that we have a sense of the distribution of our canopy height raster, we 
-can reduce the complexity of our map by classifying it. Classification involves sorting raster values into unique classes, and in python, we can accomplish this using the `numpy.digitize` function. 
+can reduce the complexity of our map by classifying it. Classification involves sorting raster values into unique classes, and in Python, we can accomplish this using the `numpy.digitize` function. 
 
 ```python
 import numpy as np
@@ -143,9 +144,10 @@ class_bins = [canopy_HARV.min().values, 2, 10, 20, np.inf]
 canopy_height_classes = np.digitize(canopy_HARV, class_bins)
 type(canopy_height_classes)
 ```
-```
-<class 'numpy.ndarray'>
-```
+~~~
+numpy.ndarray
+~~~
+{: .output}
 
 The result is a `numpy.ndarray`, but we can put this into a DataArray along with the spatial metadata from our `canopy_HARV`, so that our resulting plot shows the spatial coordinates.
 
@@ -170,7 +172,7 @@ category_names = [
 # we need to know in what order the legend items should be arranged
 category_indices = list(range(len(category_names)))
 
-# we put the numpy array in and xarray DataArray so that the plot is made with coordinates
+# we put the numpy array in a xarray DataArray so that the plot is made with coordinates
 canopy_height_classified = xarray.DataArray(canopy_height_classes, coords = canopy_HARV.coords)
 
 #Making the plot
@@ -183,16 +185,16 @@ plt.ticklabel_format(style="plain")
 ```
 ![](../fig/07-HARV-CHM-class-04.png) 
 
-## Reassigning Geospatial Metadata and Exporting a GeoTIFF
-When we computed the CHM, the output no longer contains a reference to a nodata value, like `-9999.0`, which was associated with the DTM and DSM. Some calculations, like `numpy.digitize` can remove all geospatial metadata. Of what can be lost, the CRS and nodata value are particularly important to keep track of. Before we export the product of our calculation to a Geotiff with the `to_raster` function, we need to reassign this metadata.
+## Reassigning Geospatial Metadata and Exporting a GeoTiff
+When we computed the CHM, the output no longer contains a reference to a nodata value, like `-9999.0`, which was associated with the DTM and DSM. Some calculations, like `numpy.digitize` can remove all geospatial metadata. Of what can be lost, the CRS and nodata value are particularly important to keep track of. Before we export the product of our calculation to a GeoTiff with the `to_raster` function, we need to reassign this metadata.
 
 ```python
 canopy_HARV.rio.write_crs(surface_HARV.rio.crs, inplace=True)
 canopy_HARV.rio.set_nodata(-9999.0, inplace=True)
 ```
 
-When we write this raster object to a GeoTIFF file we'll name it
-`CHM_HARV.tiff`. This name allows us to quickly remember both what the data
+When we write this raster object to a GeoTiff file we'll name it
+`CHM_HARV.tif`. This name allows us to quickly remember both what the data
 contains (CHM data) and for where (HARVard Forest). The `to_raster()` function
 by default writes the output file to your working directory unless you specify a
 full file path.
@@ -222,11 +224,11 @@ in Massachusetts.
 > 0. You should have the DSM and DTM data for the SJER site already
 > loaded from the 
 > [Reproject Raster Data with Rioxarray]({{ site.baseurl }}/06-raster-reproject/)
-episode.) Don't forget to check the CRSs and units of the data. 
+episode. Don't forget to check the CRSs and units of the data. 
 > 1. Create a CHM from the two raster layers and check to make sure the data
 are what you expect.
 > 2. Plot the CHM from SJER.
-> 3. Export the SJER CHM as a GeoTIFF.
+> 3. Export the SJER CHM as a GeoTiff.
 > 4. Compare the vegetation structure of the Harvard Forest and San Joaquin
 > Experimental Range.
 > 
@@ -240,7 +242,7 @@ print(terrain_SJER_UTM18.shape)
 print(surface_SJER.shape)
 > > ```
 > >
-> > 2) Reproject and clip one raster to the extent of the smaller raster using `reproject_match`. Your output raster, may have nodata values at the border, these are fine and can be removed for later calculations if needed. Then,calculate the CHM.
+> > 2) Reproject and clip one raster to the extent of the smaller raster using `reproject_match`. Your output raster may have nodata values at the border. Nodata values are fine and can be removed for later calculations if needed. The lines of code below assign a variable to the reprojected terrain raster and calculate a CHM for SJER.
 > >
 > > ```python
 terrain_SJER_UTM18_matched = terrain_SJER_UTM18.rio.reproject_match(surface_SJER)
