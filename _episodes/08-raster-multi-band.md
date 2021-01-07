@@ -376,7 +376,6 @@ rgb_stack_HARV.plot.imshow(figsize=(9,7),
 
 In the code above we use the `quantile()` function to calculate the 2nd and 98th quantiles of the data values in `rgb_stack_HARV` and pass those values to `vmin` and `max`, respectively.
 
-<!-- TODO: complete TODOs in challenge below -->
 > ## Challenge: NoData Values
 >
 > Let's explore what happens with NoData values when plotting multi-band
@@ -385,10 +384,10 @@ In the code above we use the `quantile()` function to calculate the 2nd and 98th
 > 1. Load the multi-band raster into Python and view the file's attributes. Are there `NoData` values assigned for this file? (Hint: this value is sometimes called `__FillValue`)
 > 2. If so, what is the `NoData` value?
 > 3. How many bands does this raster have?
-> 4. Plot the raster as a true-color image.
-> 5. What happened to the black edges in the plot?
-> 6. What does this tell us about the difference in the data structure between `HARV_Ortho_wNA.tif` and `HARV_RGB_Ortho.tif`. How can you check?
->
+> 4. Plot the raster as a true-color image, using the `robust` argument.
+> 5. Why does the plot show incorrect color stretching even though we used the `robust` argument? Hint: Look at the 2nd percentile of the data array with `np.percentile`.
+> 6. What does this tell us about the differences between `HARV_Ortho_wNA.tif` and `HARV_RGB_Ortho.tif`. How can you check?
+> 7. Plot the figure correctly by masking `NoData` values using the `.where()` method from episode 6 and `robust=True`.
 > > ## Answers
 > > 1) Load the raster into Python using `rasterio.open_rasterio()` and inspect the object's attributes with the `print()` function:
 > >
@@ -434,28 +433,44 @@ In the code above we use the `quantile()` function to calculate the 2nd and 98th
 > > 3) The raster has 3 bands (see first line in output of answer 1).
 > >
 > > 4) Plot the figure:
-<!-- TODO: plotting without using where() to mask NoData results in an improperly stretched RGB image. Alternately, the file can be read in using the `masked=True` keyword argument in answer 1, but that removes `_FillValue` from the attributes and querying `rio.nodata` returns `nan` rather than `-9999.0`. Sticking with this potentially confusing approach for now... -->
+> > ~~~
+> > rgb_stack_HARV_wNA.plot.imshow(robust=True)
+> > ~~~
+> > {: .language-python}
 > >
+> > This figure is incorrect because, even though we used `robust=True`, the color stretch is incorrect. This is not a bug!
+> >
+> > <img src="../fig/08-NoData-RGB-plot-07.png"/>
+> > 
+> > 6) Besides having a different `NoData` value, there are more `NoData` values in `HARV_Ortho_wNA.tif` than in `HARV_RGB_Ortho.tif`. There are so many that the `NoData` value is the 2nd percentile. We can check how many of the values in the array are `NoData` values. 
+> > ~~~
+> > number_of_nodata_values = rgb_stack_HARV_wNA.where(rgb_stack_HARV_wNA == -9999.0).count() 
+> > number_of_values = rgb_stack_HARV_wNA.size
+> > print(float(number_of_nodata_values / number_of_values))
+> > ~~~
+> > {: .language-python}
+> >
+> > ~~~
+> > 0.0525384258542071
+> > ~~~
+> > About 5% of all values are `NoData` in `HARV_Ortho_wNA.tif`.
+> > {: .output}
+> >
+> > 7) Before plotting we use the `where()` function to mask all data values equal to `-9999.0`. This plots the figure correctly:
 > > ~~~
 > > rgb_stack_HARV_wNA.where(rgb_stack_HARV_wNA != -9999.0).plot.imshow(robust=True)
 > > ~~~
 > > {: .language-python}
 > >
-> > Before plotting we use the `where()` function to mask all data values equal to `-9999.0`.
+> > `robust=True` is still required to select the 2nd percentile and 98th percentile for color stretching, otherwise the larger amount of `NoData` values causes another incorrect color stretch.
 > >
-> > <img src="../fig/08-NoData-RGB-plot-07.png"/>
-> > 
-> > 6) The black edges are not plotted because we explicitly mask out the `NoData` values when plotting. Compare against the true-color plots earlier in the episode.
-> >
-> > 7) ??? <!-- TODO: the answer in the R version of this lesson does not align with Python/rioxarray's default behavior. According to the R lesson, the tif file for `rgb_stack_HARV` lacks a NoData value in the metadata and R subsequently does not set a value when the file is read. In Python, it seems that rioxarray automatically sets this value to -1.7e+308 (the min/max value of a double in C) and subsequently treats it as 0 when plotting (???). Need to find clarity on this... -->
+> > <img src="../fig/08-NoData-RGB-plot-correct-07.png"/>
 > {: .solution}
 {: .challenge}
 
-<!-- TODO: there doesn't seem to be a great way to view all methods associated
-with an object in Python. Need to explore this further... -->
 > ## Challenge: What Functions Can Be Used on a Python Object of a Particular Class?
 >
-> 1. What methods can be used on the `rgb_stack_HARV` object?
+> 1. What methods can be used on the `rgb_stack_HARV` object? Use Python's built-in `dir` function to find out.
 > 2. What methods can be used on a single band within `rgb_stack_HARV`?
 > 3. Is there a difference? Why?
 >
