@@ -21,7 +21,7 @@ keypoints:
 
 Starting with this episode, we will be moving from working with raster
 data to working with vector data. In this episode, we will open and plot point, line and polygon vector data
-stored in shapefile format in R. These data refer to the [NEON Harvard Forest field site](https://www.neonscience.org/field-sites/field-sites-map/HARV), which we have been working with in previous
+stored in shapefile format in Python. These data refer to the [NEON Harvard Forest field site](https://www.neonscience.org/field-sites/field-sites-map/HARV), which we have been working with in previous
 episodes. In later episodes, we will learn how to work with raster and
 vector data together and combine them into a single plot.
 
@@ -36,13 +36,13 @@ import geopandas as gpd
 
 The shapefiles that we will import are:
 
-* A polygon shapefile representing our field site boundary,
-* A line shapefile representing roads, and
+* A polygon shapefile representing our field site boundary
+* A line shapefile representing roads
 * A point shapefile representing the location of the [Fisher flux tower](https://www.neonscience.org/data-collection/flux-tower-measurements)
-located at the [NEON Harvard Forest field site](https://www.neonscience.org/field-sites/field-sites-map/HARV).
+located at the [NEON Harvard Forest field site](https://www.neonscience.org/field-sites/field-sites-map/HARV)
 
 The first shapefile that we will open contains the boundary of our study area
-(or our Area Of Interest or AOI, hence the name `aoi_boundary`). To import
+(or our Area Of Interest [AOI], hence the name `aoi_boundary`). To import
 shapefiles we use the `geopandas` function `read_file()`.
 
 Let's import our AOI:
@@ -80,50 +80,62 @@ Each `GeoDataFrame` has a `"geometry"` column that contains geometries. In the c
 We can view shapefile metadata using the `.crs`, `.bounds` and `.type` attributes. First, let's view the
 geometry type for our AOI shapefile. To view the geometry type, we use the `pandas` method `.type` function on the `GeoDataFrame`, `aoi_boundary_HARV`.
 
-```
+~~~
 aoi_boundary_HARV.type
-```
-```
-shapely.geometry.polygon.Polygon
-```
+~~~
+{: .language-python}
+~~~
+0    Polygon
+dtype: object
+~~~
+{: .output}
 
 To view the CRS metadata:
 
 
-```python
+~~~
 aoi_boundary_HARV.crs
-```
+~~~
+{: .language-python}
 
-```
-{'init': 'epsg:32618'}
-```
+~~~
+<Projected CRS: EPSG:32618>
+Name: WGS 84 / UTM zone 18N
+Axis Info [cartesian]:
+- E[east]: Easting (metre)
+- N[north]: Northing (metre)
+Area of Use:
+- name: World - N hemisphere - 78°W to 72°W - by country
+- bounds: (-78.0, 0.0, -72.0, 84.0)
+Coordinate Operation:
+- name: UTM zone 18N
+- method: Transverse Mercator
+Datum: World Geodetic System 1984
+- Ellipsoid: WGS 84
+- Prime Meridian: Greenwich
+~~~
+{: .output}
 
-```
-import earthpy
-earthpy.epsg['32618']
-```
-```
-'+proj=utm +zone=18 +datum=WGS84 +units=m +no_defs'
-```
-
-Our data in the CRS **UTM zone 18N**. The CRS is critical to 
+Our data is in the CRS **UTM zone 18N**. The CRS is critical to 
 interpreting the object's extent values as it specifies units. To find
 the extent of our AOI in the projected coordinates, we can use the `.bounds()` function: 
 
-```python
+~~~
 aoi_boundary_HARV.bounds
-```
+~~~
+{: .language-python}
 
-```
+~~~
             minx          miny           maxx          maxy
 0  732128.016925  4.713209e+06  732251.102892  4.713359e+06
-```
+~~~
+{: .output}
 
-The spatial extent of a shapefile or `shapely` spatial object represents the geographic "edge" or location that is the furthest north, south east and west. Thus is represents the overall geographic coverage of the spatial object. Image Source: National Ecological Observatory Network (NEON).
+The spatial extent of a shapefile or `shapely` spatial object represents the geographic "edge" or location that is the furthest north, south, east, and west. Thus, it is represents the overall geographic coverage of the spatial object. Image Source: National Ecological Observatory Network (NEON).
 
 ![Extent image](../fig/dc-spatial-vector/spatial_extent.png)
 
-We can convert these coordinates to a bounding box or acquire the index the dataframe to access the geometry. Either of these polygons can be used to clip rasters (more on that later). 
+We can convert these coordinates to a bounding box or acquire the index of the dataframe to access the geometry. Either of these polygons can be used to clip rasters (more on that later). 
 
 ## Reading a Shapefile from a csv
 
