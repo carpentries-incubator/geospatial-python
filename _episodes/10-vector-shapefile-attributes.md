@@ -17,7 +17,7 @@ keypoints:
 # learners will have this data loaded from previous episodes
 point_HARV = gpd.read_file("data/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp")
 lines_HARV = gpd.read_file("data/NEON-DS-Site-Layout-Files/HARV/HARV_roads.shp")
-aoi_boundary_HARV <- gpd.read_file(
+aoi_boundary_HARV = gpd.read_file(
   "data/NEON-DS-Site-Layout-Files/HARV/HarClip_UTMZ18.shp")
 ```
 
