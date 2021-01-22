@@ -379,8 +379,7 @@ In the code above we use the `quantile()` function to calculate the 2nd and 98th
 > ## Challenge: NoData Values
 >
 > Let's explore what happens with NoData values when plotting multi-band
-> rasters. We will use the `HARV_Ortho_wNA.tif` GeoTIFF file in the
-> `NEON-DS-Airborne-Remote-Sensing/HARV/RGB_Imagery/` directory.
+> rasters. We will use the `HARV_Ortho_wNA.tif` GeoTIFF file in the `NEON-DS-Airborne-Remote-Sensing/HARV/RGB_Imagery/` directory.
 > 1. Load the multi-band raster into Python and view the file's attributes. Are there `NoData` values assigned for this file? (Hint: this value is sometimes called `__FillValue`)
 > 2. If so, what is the `NoData` value?
 > 3. How many bands does this raster have?
@@ -388,6 +387,7 @@ In the code above we use the `quantile()` function to calculate the 2nd and 98th
 > 5. Why does the plot show incorrect color stretching even though we used the `robust` argument? Hint: Look at the 2nd percentile of the data array with `np.percentile`.
 > 6. What does this tell us about the differences between `HARV_Ortho_wNA.tif` and `HARV_RGB_Ortho.tif`. How can you check?
 > 7. Plot the figure correctly by masking `NoData` values using the `.where()` method from episode 6 and `robust=True`.
+> 
 > > ## Answers
 > > 1) Load the raster into Python using `rasterio.open_rasterio()` and inspect the object's attributes with the `print()` function:
 > >
