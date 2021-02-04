@@ -150,7 +150,7 @@ Once you have installed Anaconda, you should have access to the `conda` command 
       env
     ```
 
-2. Right-click and "Save Link As..." this [**link to the virtual environment file.**](files/environment.yaml) Name it `environment.yml` and save it to your `geospatial-python` folder. The `environment.yml` contains the names of python libraries that are required to run the lesson:
+2. Right-click and "Save Link As..." this [**link to the virtual environment file.**](files/environment.yaml) Name it `environment.yaml` and save it to your `geospatial-python` folder. The `environment.yaml` contains the names of python libraries that are required to run the lesson:
 
     ```
     name: geospatial
@@ -174,14 +174,14 @@ Once you have installed Anaconda, you should have access to the `conda` command 
       - descartes # necessary for geopandas plotting
     ```
 <a name="env-create-anchor"></a>
-3. In the terminal, navigate to the directory where you saved the `environment.yml` file using the `cd` command.
+3. In the terminal, navigate to the directory where you saved the `environment.yaml` file using the `cd` command.
 Then run:
 
     ```bash
-    conda env create -f environment.yml
+    conda env create -f environment.yaml
     ```
 
-    `conda` should begin to locate, download, and install the Python libraries listed in the `environment.yml` file. _This may take several minutes to complete._
+    `conda` should begin to locate, download, and install the Python libraries listed in the `environment.yaml` file. _This may take several minutes to complete._
 
     When installation has finished you should see the following message in the terminal:
 
