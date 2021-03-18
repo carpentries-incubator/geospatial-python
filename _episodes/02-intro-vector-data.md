@@ -85,7 +85,7 @@ files, among which `.shp`, `.shx`, and `.bdf` files are mandatory. `.shp` file s
 the feature geometry itself; `.shx` is a positional index of the feature geometry to 
 allow seeking forwards and backwards quicklythe geographic coordinates of each vertex
 in the vector, and `.dbf` is columnar attributes for each shape. Other non-mandatory but
-very important files are `.prj` and `'shp.xml` files. `.prj` file indicates the Coordinate 
+very important files are `.prj` and `shp.xml` files. `.prj` file indicates the Coordinate 
 reference system (CRS), and `.shp.xml` contains the metadata. Together the Shapefile
 includes the following information:
 
