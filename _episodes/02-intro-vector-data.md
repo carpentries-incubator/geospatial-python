@@ -80,9 +80,14 @@ their features to real-world locations.
 ## Vector Data Format for this Workshop
 
 Like raster data, vector data can also come in many different formats. For this
-workshop, we will use the Shapefile format which has the extension `.shp`. A
-`.shp` file stores the geographic coordinates of each vertex in the vector, as
-well as metadata including:
+workshop, we will use the Shapefile format. A Shapefile formate consists of multiple
+files, among which `.shp`, `.shx`, and `.bdf` files are mandatory. `.shp` file stores 
+the feature geometry itself; `.shx` is a positional index of the feature geometry to 
+allow seeking forwards and backwards quicklythe geographic coordinates of each vertex
+in the vector, and `.dbf` is columnar attributes for each shape. Other non-mandatory but
+very important files are `.prj` and `'shp.xml` files. `.prj` file indicates the Coordinate 
+reference system (CRS), and `.shp.xml` contains the metadata. Together the Shapefile
+includes the following information:
 
 * **Extent** - the spatial extent of the shapefile (i.e. geographic area that
 the shapefile covers). The spatial extent for a shapefile represents the
