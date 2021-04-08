@@ -32,7 +32,10 @@ rasters, including Coordinate Reference Systems, no data values, and resolution.
 data values as stored in a raster and how Python handles these elements.
 
 We will use 1 package in this episode to work with raster data -
-`rioxarray`, which is based on the popular `rasterio` package for working with rasters and `xarray` for working with multi-dimensional arrays.  Make sure that you have `rioxarray` installed and imported.
+[`rioxarray`](https://corteva.github.io/rioxarray/stable/),
+which is based on the popular [`rasterio`](https://rasterio.readthedocs.io/en/latest/) package
+for working with rasters and [`xarray`](http://xarray.pydata.org/en/stable/) for working with multi-dimensional arrays.
+Make sure that you have `rioxarray` installed and imported.
 
 ~~~
 import rioxarray
