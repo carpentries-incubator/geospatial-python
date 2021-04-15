@@ -51,8 +51,9 @@ countries are often represented by polygons.
 > objects. Use the definitions above to identify which features
 > are represented by which vector type.
 > 
+> ![Vector Type Examples](../fig/dc-spatial-vector/vector_types_examples.png)
+> 
 > > ## Solution
-> > ![Vector Type Examples](../fig/dc-spatial-vector/vector_types_examples.png)
 > > State boundaries are polygons. The Fisher Tower location is
 > > a point. There are no line features shown. 
 > {: .solution}
