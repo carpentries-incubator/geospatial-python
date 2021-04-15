@@ -157,7 +157,7 @@ Once you have installed Anaconda, you should have access to the `conda` command 
 code on the Terminal:
    
     ```bash
-    conda create -n geospatial -c conda-forge \
+    conda create -n geospatial -c conda-forge -y \
       jupyterlab numpy scipy scikit-image matplotlib \
       xarray rasterio gdal geopandas rioxarray earthpy descartes 
    
@@ -166,9 +166,9 @@ code on the Terminal:
    _Please note that this step may take several minutes to complete._
 
    In this command, the `-n` argument specifies the environment name, the `-c` argument specifies the Conda channel
-   where the libraries are hosted, and the following arguments are the names of the libraries we are going to use.
-   As you can see, geospatial analysis requires many libraries! Luckily, package managers like `conda` facilitate
-   the process of installing and managing them.
+   where the libraries are hosted, and the `-y` argument spares the need for confirmation. The following arguments are
+   the names of the libraries we are going to use. As you can see, geospatial analysis requires many libraries!
+   Luckily, package managers like `conda` facilitate the process of installing and managing them.
     
    If the above command does not work, it's also possible to create the environment from a file:
     
