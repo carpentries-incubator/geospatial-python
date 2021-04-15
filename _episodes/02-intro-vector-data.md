@@ -108,7 +108,9 @@ objects in a single shapefile.
 > ## More Resources
 >
 > More about shapefiles can be found on
-> [Wikipedia](https://en.wikipedia.org/wiki/Shapefile)
+> [Wikipedia.](https://en.wikipedia.org/wiki/Shapefile) Shapefiles are often publicly 
+> available from government services, such as [this page from the US Census Bureau][us-cb] or
+> [this one from Australia's Data.gov.au website](https://data.gov.au/data/dataset?res_format=SHP).
 {: .callout}
 
 > ## Why not both?
@@ -122,5 +124,7 @@ objects in a single shapefile.
 > effects of particular data manipulations are more predictable if you are
 > confident that all of your input data has the same characteristics.
 {: .callout}
+
+[us-cb]: https://www.census.gov/geographies/mapping-files/time-series/geo/carto-boundary-file.html
 
 {% include links.md %}
