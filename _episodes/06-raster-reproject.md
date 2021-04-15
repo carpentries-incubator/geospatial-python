@@ -135,33 +135,36 @@ _FillValue: -9999.0
 > > ```python
 > > surface_HARV.compute()
 > > ```
-    <xarray.DataArray (band: 1, y: 1367, x: 1697)>
-    array([[[408.76998901, 408.22998047, 406.52999878, ..., 345.05999756,
-      345.13998413, 344.97000122],
-    [407.04998779, 406.61999512, 404.97998047, ..., 345.20999146,
-      344.97000122, 345.13998413],
-    [407.05999756, 406.02999878, 403.54998779, ..., 345.07000732,
-      345.08999634, 345.17999268],
-    ...,
-    [367.91000366, 370.19000244, 370.58999634, ..., 311.38998413,
-      310.44998169, 309.38998413],
-    [370.75997925, 371.50997925, 363.41000366, ..., 314.70999146,
-      309.25      , 312.01998901],
-    [369.95999146, 372.6000061 , 372.42999268, ..., 316.38998413,
-      309.86999512, 311.20999146]]])
-    Coordinates:
-    * band     (band) int64 1
-    * y        (y) float64 4.714e+06 4.714e+06 4.714e+06 ... 4.712e+06 4.712e+06
-    * x        (x) float64 7.315e+05 7.315e+05 7.315e+05 ... 7.331e+05 7.331e+05
-    Attributes:
-        transform:      (1.0, 0.0, 731453.0, 0.0, -1.0, 4713838.0)
-        crs:            +init=epsg:32618
-        res:            (1.0, 1.0)
-        is_tiled:       0
-        nodatavals:     (-3.4e+38,)
-        scales:         (1.0,)
-        offsets:        (0.0,)
-        AREA_OR_POINT:  Area
+> > ```
+> >    <xarray.DataArray (band: 1, y: 1367, x: 1697)>
+> >    array([[[408.76998901, 408.22998047, 406.52999878, ..., 345.05999756,
+> >      345.13998413, 344.97000122],
+> >    [407.04998779, 406.61999512, 404.97998047, ..., 345.20999146,
+> >      344.97000122, 345.13998413],
+> >    [407.05999756, 406.02999878, 403.54998779, ..., 345.07000732,
+> >      345.08999634, 345.17999268],
+> >    ...,
+> >    [367.91000366, 370.19000244, 370.58999634, ..., 311.38998413,
+> >      310.44998169, 309.38998413],
+> >    [370.75997925, 371.50997925, 363.41000366, ..., 314.70999146,
+> >      309.25      , 312.01998901],
+> >    [369.95999146, 372.6000061 , 372.42999268, ..., 316.38998413,
+> >      309.86999512, 311.20999146]]])
+> >    Coordinates:
+> >    * band     (band) int64 1
+> >    * y        (y) float64 4.714e+06 4.714e+06 4.714e+06 ... 4.712e+06 4.712e+06
+> >    * x        (x) float64 7.315e+05 7.315e+05 7.315e+05 ... 7.331e+05 7.331e+05
+> >    Attributes:
+> >        transform:      (1.0, 0.0, 731453.0, 0.0, -1.0, 4713838.0)
+> >        crs:            +init=epsg:32618
+> >        res:            (1.0, 1.0)
+> >        is_tiled:       0
+> >        nodatavals:     (-3.4e+38,)
+> >        scales:         (1.0,)
+> >        offsets:        (0.0,)
+> >        AREA_OR_POINT:  Area
+> > ```
+> > {: .output}
 > {: .solution}
 {: .callout}
 
@@ -190,6 +193,7 @@ terrain_HARV_UTM18.rio.to_raster(reprojected_path)
 > > EPSG:32618
 > > EPSG:32618
 > > ```
+> > {: .output}
 > > Good, the CRSs are the same. But ...
 > > 
 > > ```python
@@ -203,6 +207,7 @@ terrain_HARV_UTM18.rio.to_raster(reprojected_path)
 > > -9999.0
 > > -3.4e+38
 > > ```
+> > {: .output}
 > > The nodata values are different. Before we plot or calculate 
 > > both of these DataArrays together, we should make sure they 
 > > have the same nodata value. Furthermore ...
@@ -218,6 +223,7 @@ terrain_HARV_UTM18.rio.to_raster(reprojected_path)
 > > (1, 1492, 1801)
 > > (1, 1367, 1697)
 > > ```
+> > {: .output}
 > > The shapes are not the same which means these data cover 
 > > slightly different extents and locations. In the next episode 
 > > we will need to align these DataArrays before running any 
