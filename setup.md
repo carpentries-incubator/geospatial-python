@@ -153,9 +153,31 @@ Once you have installed Anaconda, you should have access to the `conda` command 
       env
     ```
 
-2. Right-click and "Save Link As..." this [**link to the virtual environment file.**](files/environment.yaml)
+2. Create the environment using the `conda create` command. It's possible to paste the following
+code on the Terminal:
+   
+    ```bash
+    conda create -n geospatial -c conda-forge \
+      jupyterlab numpy scipy scikit-image matplotlib \
+      xarray rasterio gdal geopandas rioxarray earthpy descartes 
+   
+    ```
+   
+   _Please note that this step may take several minutes to complete._
+
+   In this command, the `-n` argument specifies the environment name, the `-c` argument specifies the Conda channel
+   where the libraries are hosted, and the following arguments are the names of the libraries we are going to use.
+   As you can see, geospatial analysis requires many libraries! Luckily, package managers like `conda` facilitate
+   the process of installing and managing them.
+    
+   If the above command does not work, it's also possible to create the environment from a file:
+    
+   Right-click and "Save Link As..." on this link:
+   
+   [https://carpentries-incubator.github.io/geospatial-python/files/environment.yaml](files/environment.yaml)
+   
    Name it `environment.yaml` and save it to your `geospatial-python` folder.
-   The `environment.yaml` contains the names of python libraries that are required to run the lesson:
+   The `environment.yaml` contains the names of Python libraries that are required to run the lesson:
 
     ```
     name: geospatial
@@ -178,25 +200,16 @@ Once you have installed Anaconda, you should have access to the `conda` command 
       - earthpy
       - descartes # necessary for geopandas plotting
     ```
-<a name="env-create-anchor"></a>
-3. In the terminal, navigate to the directory where you saved the `environment.yaml` file using the `cd` command.
-Then run:
+   
+    In the terminal, navigate to the directory where you saved the `environment.yaml` file using the `cd` command.
+    Then run:
 
     ```bash
     conda env create -f environment.yaml
     ```
 
     `conda` should begin to locate, download, and install the Python libraries listed in the `environment.yaml` file.
-   _This may take several minutes to complete._
    
-    If the above command does not work, it's also possible to create the environment from scratch:
-   
-    ```bash
-    conda create -n geospatial -c conda-forge \
-      jupyterlab numpy scipy scikit-image matplotlib \
-      xarray rasterio gdal geopandas rioxarray earthpy descartes 
-    ```
-
     When installation has finished you should see the following message in the terminal:
 
     ```bash
@@ -211,7 +224,7 @@ Then run:
     > If your terminal responds to the above command with `conda: command not found` see the > <<troubleshooting>> section.
     {: .callout}
 
-4. Activate the `geospatial` virtual environment:
+3. Activate the `geospatial` virtual environment:
     ```bash
     conda activate geospatial
     ```
