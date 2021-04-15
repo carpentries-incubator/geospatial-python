@@ -105,7 +105,7 @@ individual shapefile can only contain one vector type (all points, all lines
 or all polygons). You will not find a mixture of point, line and polygon
 objects in a single shapefile.
 
-> ## More Resources
+> ## More Resources on Shapefiles
 >
 > More about shapefiles can be found on
 > [Wikipedia.](https://en.wikipedia.org/wiki/Shapefile) Shapefiles are often publicly 
