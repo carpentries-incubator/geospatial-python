@@ -188,6 +188,14 @@ Then run:
 
     `conda` should begin to locate, download, and install the Python libraries listed in the `environment.yaml` file.
    _This may take several minutes to complete._
+   
+    If the above command does not work, it's also possible to create the environment from scratch:
+   
+    ```bash
+    conda create -n geospatial -c conda-forge \
+      jupyterlab numpy scipy scikit-image matplotlib \
+      xarray rasterio gdal geopandas rioxarray earthpy descartes 
+    ```
 
     When installation has finished you should see the following message in the terminal:
 
