@@ -58,7 +58,8 @@ you are ready to go as soon as the workshop begins.
 
 2. Download the Python 3 installer for Windows.
 
-3. Double-click the executable and install Python 3 using the recommended settings. Make sure that **Register Anaconda as my default Python 3.x** option is checked - it should be in the latest version of Anaconda
+3. Double-click the executable and install Python 3 using the recommended settings. Make sure that **Register Anaconda
+   as my default Python 3.x** option is checked - it should be in the latest version of Anaconda
 
 ### Mac OS X - [Video tutorial][video-mac]
 
@@ -66,7 +67,9 @@ you are ready to go as soon as the workshop begins.
 
 2. Download the Python 3 installer for OS X. These instructions assume that you use the graphical installer `.pkg` file.
 
-3. Follow the Python 3 installation instructions. Make sure that the install location is set to "Install only for me" so Anaconda will install its files locally, relative to your home directory. Installing the software for all users tends to create problems in the long run and should be avoided.
+3. Follow the Python 3 installation instructions. Make sure that the install location is set to "Install only for me" so
+   Anaconda will install its files locally, relative to your home directory. Installing the software for all users tends
+   to create problems in the long run and should be avoided.
 
 
 ### Linux
@@ -150,7 +153,31 @@ Once you have installed Anaconda, you should have access to the `conda` command 
       env
     ```
 
-2. Right-click and "Save Link As..." this [**link to the virtual environment file.**](files/environment.yaml) Name it `environment.yaml` and save it to your `geospatial-python` folder. The `environment.yaml` contains the names of python libraries that are required to run the lesson:
+2. Create the environment using the `conda create` command. It's possible to paste the following
+code on the Terminal:
+   
+    ```bash
+    conda create -n geospatial -c conda-forge -y \
+      jupyterlab numpy scipy scikit-image matplotlib \
+      xarray rasterio gdal geopandas rioxarray earthpy descartes 
+   
+    ```
+   
+   _Please note that this step may take several minutes to complete._
+
+   In this command, the `-n` argument specifies the environment name, the `-c` argument specifies the Conda channel
+   where the libraries are hosted, and the `-y` argument spares the need for confirmation. The following arguments are
+   the names of the libraries we are going to use. As you can see, geospatial analysis requires many libraries!
+   Luckily, package managers like `conda` facilitate the process of installing and managing them.
+    
+   If the above command does not work, it's also possible to create the environment from a file:
+    
+   Right-click and "Save Link As..." on this link:
+   
+   [https://carpentries-incubator.github.io/geospatial-python/files/environment.yaml](files/environment.yaml)
+   
+   Name it `environment.yaml` and save it to your `geospatial-python` folder.
+   The `environment.yaml` contains the names of Python libraries that are required to run the lesson:
 
     ```
     name: geospatial
@@ -173,16 +200,16 @@ Once you have installed Anaconda, you should have access to the `conda` command 
       - earthpy
       - descartes # necessary for geopandas plotting
     ```
-<a name="env-create-anchor"></a>
-3. In the terminal, navigate to the directory where you saved the `environment.yaml` file using the `cd` command.
-Then run:
+   
+    In the terminal, navigate to the directory where you saved the `environment.yaml` file using the `cd` command.
+    Then run:
 
     ```bash
     conda env create -f environment.yaml
     ```
 
-    `conda` should begin to locate, download, and install the Python libraries listed in the `environment.yaml` file. _This may take several minutes to complete._
-
+    `conda` should begin to locate, download, and install the Python libraries listed in the `environment.yaml` file.
+   
     When installation has finished you should see the following message in the terminal:
 
     ```bash
@@ -197,12 +224,14 @@ Then run:
     > If your terminal responds to the above command with `conda: command not found` see the > <<troubleshooting>> section.
     {: .callout}
 
-4. Activate the `geospatial` virtual environment:
+3. Activate the `geospatial` virtual environment:
     ```bash
     conda activate geospatial
     ```
 
-    If successful, the text `(base)` in your terminal prompt will now read `(geospatial)` indicating that you are now in the Anaconda virtual environment named `geospatial`. The command `which python` should confirm that we're using the Python installation in the `geospatial` virtual environment. For example:
+    If successful, the text `(base)` in your terminal prompt will now read `(geospatial)` indicating that you are now in
+    the Anaconda virtual environment named `geospatial`. The command `which python` should confirm that we're using the
+    Python installation in the `geospatial` virtual environment. For example:
 
     ```bash
     % which python
@@ -212,7 +241,8 @@ Then run:
 
     > ## IMPORTANT
     > If you close the terminal, you will need to 
-    reactivate this environment with `conda activate geospatial` to use the python libraries required for the lesson and to start JupyterLab, which is also installed in the `geospatial` environment.
+    reactivate this environment with `conda activate geospatial` to use the Python libraries required for the lesson and
+   > to start JupyterLab, which is also installed in the `geospatial` environment.
     {: .callout}
 
 
@@ -220,18 +250,21 @@ Then run:
 
 In order to follow the lessons on using Python (episode 5 and onward), you should launch JupyterLab 
 after activating the geospatial conda environment in your working directory that contains the data you downloaded. 
-See [Starting JupyterLab](https://swcarpentry.github.io/python-novice-gapminder/01-run-quit/#starting-jupyterlab) for guidance.
+See [Starting JupyterLab][starting-jupyterlab] for guidance.
 
 If all of the steps above completed successfully you are ready to follow along with the lesson!
 
 ## Troubleshooting `conda: command not found`
 
-* **Windows users:** use the _Start Menu_ to [**open the _Anaconda Prompt_**](https://docs.anaconda.com/anaconda/install/verify-install/#conda) and [continue from the beginning of step 3](#env-create-anchor) in the section *Setting up the workshop environment with conda*.
+* **Windows users:** use the _Start Menu_ to
+  [**open the _Anaconda Prompt_**](https://docs.anaconda.com/anaconda/install/verify-install/#conda) and
+  [continue from the beginning of step 3](#env-create-anchor) in the section *Setting up the workshop environment with conda*.
 * **Mac OS and Linux users:**
 
 1. First, find out where Anaconda is installed.
 
-    The typical install location is in your `$HOME` directory (i.e., `/Users/your-username/`) so use `ls ~` to check whether an `anaconda3` directory is present in your home directory:
+    The typical install location is in your `$HOME` directory (i.e., `/Users/your-username/`) so use `ls ~` to check
+   whether an `anaconda3` directory is present in your home directory:
 
     ```bash
     % ls ~
@@ -248,7 +281,8 @@ If all of the steps above completed successfully you are ready to follow along w
     ```bash
     source ~/anaconda3/bin/activate
     ```
-    If all goes well, nothing will print to the terminal and your prompt will now have `(base)` floating around somewhere on the left. This is an indication that you are in the base Anaconda environment.
+    If all goes well, nothing will print to the terminal and your prompt will now have `(base)` floating around somewhere
+    on the left. This is an indication that you are in the base Anaconda environment.
 
     [Continue from the beginning of step 3](#env-create-anchor) to complete the creation of the `geospatial` virtual environment.
 
@@ -258,6 +292,7 @@ If all of the steps above completed successfully you are ready to follow along w
 [anaconda-windows]: https://www.anaconda.com/download/#windows
 [gapminder]: https://en.wikipedia.org/wiki/Gapminder_Foundation
 [jupyter]: http://jupyter.org/
+[starting-jupyterlab]: https://swcarpentry.github.io/python-novice-gapminder/01-run-quit/#starting-jupyterlab
 [python]: https://python.org
 [video-mac]: https://www.youtube.com/watch?v=TcSAln46u9U
 [video-windows]: https://www.youtube.com/watch?v=xxQ0mzZ8UvA
