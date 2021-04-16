@@ -153,22 +153,6 @@ surface_HARV.plot()
 
 Nice plot! Notice that `rioxarray` helpfully allows us to plot this raster with spatial coordinates on the x and y axis (this is not the default in many cases with other functions or libraries).
 
-> ## Plotting Tip
-> For more aesthetic looking plots, matplotlib allows you to customize the style with `plt.style.use`. However, if you want more control of the look of your plot, matplotlib has many more functions to change the position and appearance of plot elements.
-> > ## Show plot
-> >  Here is the result of using a ggplot like style for our surface model plot.
-> > 
-> > ~~~
-> > import matplotlib.pyplot as plt
-> > plt.style.use("ggplot")
-> > surface_HARV.plot()
-> > ~~~
-> > {: .language-python}
-> > 
-> > <img src="../fig/05-rioxarray-ggplot-style-02.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
-> {: .solution}
-{: .callout}
-
 This map shows the elevation of our study site in Harvard Forest. From the
 legend, we can see that the maximum elevation is ~400, but we can't tell whether
 this is 400 feet or 400 meters because the legend doesn't show us the units. We
