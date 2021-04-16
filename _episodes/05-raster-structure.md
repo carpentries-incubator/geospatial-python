@@ -196,47 +196,103 @@ EPSG:32618
 ~~~
 {: .output}
 
-You can convert the EPSG code to a PROJ4 string with `earthpy.epsg`, another python package which maps EPSG codes (keys) to
-PROJ4 strings (values)
+To just print the EPSG code number as an `int`, we can access the `.epsg` attribute:
 
 ~~~
-import earthpy
-earthpy.epsg['32618']
+print(surface_HARV.rio.crs.epsg)
+~~~
+{: .language-python}
+
+
+
+~~~
+32618
+~~~
+{: .output}
+
+EPSG codes are great for succinctly representing a particular coordinate reference system. But what if we want to see information about the CRS? For that, we can use `pyproj`, a library for representing and working with coordinate reference systems.
+
+~~~
+from pyproj import CRS
+epsg = surface_HARV.rio.crs.epsg
+crs = CRS(epsg)
+crs
 ~~~
 {: .language-python}
 
 ~~~
-'+proj=utm +zone=18 +datum=WGS84 +units=m +no_defs'
+<Projected CRS: EPSG:32618>
+Name: WGS 84 / UTM zone 18N
+Axis Info [cartesian]:
+- E[east]: Easting (metre)
+- N[north]: Northing (metre)
+Area of Use:
+- name: World - N hemisphere - 78°W to 72°W - by country
+- bounds: (-78.0, 0.0, -72.0, 84.0)
+Coordinate Operation:
+- name: UTM zone 18N
+- method: Transverse Mercator
+Datum: World Geodetic System 1984
+- Ellipsoid: WGS 84
+- Prime Meridian: Greenwich
 ~~~
 {: .output}
 
+The `CRS` class from the `pyproj` library allows us to create a `CRS` object with methods and attributes for accessing specific information about a CRS, or the detailed summary shown above.
+
+A particularly useful attribute is `area_of_use`, which shows the geographic bounds that the CRS is intended to be used.
+
+~~~
+crs.area_of_use
+~~~
+{: .language-python}
+
+~~~
+AreaOfUse(name=World - N hemisphere - 78°W to 72°W - by country, west=-78.0, south=0.0, east=-72.0, north=84.0)
+~~~
+{: .output}
+
+
 > ## Challenge
-> What units are our data in?
+> What units are our data in? See if you can find a method to examine this information using `help(crs)` or `dir(crs)`
 >
 > > ## Answers
-> > `+units=m` tells us that our data is in meters.
+> > `crs.axis_info` tells us that our CRS for our raster has two axis and both are in meters.
 > > We could also get this information from the attribute `surface_HARV.rio.crs.linear_units`.
 > {: .solution}
 {: .challenge}
 
-## Understanding CRS in Proj4 Format
-Let's break down the pieces of `proj4` string. The string contains all of the individual CRS
-elements that Python or another GIS might need. Each element is specified with a
-`+` sign, similar to how a `.csv` file is delimited or broken up by a `,`. After
-each `+` we see the CRS element being defined. For example projection (`proj=`)
+## Understanding pyproj CRS Summary
+Let's break down the pieces of the `pyproj` CRS summary. The string contains all of the individual CRS
+elements that Python or another GIS might need, separated into distinct sections.
 and datum (`datum=`).
 
-### UTM Proj4 String
-Our projection string for `surface_HARV` specifies the UTM projection as follows:
+### UTM pyproj summary
+Our UTM projection is summarized as follows:
 
-`'+proj=utm +zone=18 +datum=WGS84 +units=m +no_defs'`
+~~~
+<Projected CRS: EPSG:32618>
+Name: WGS 84 / UTM zone 18N
+Axis Info [cartesian]:
+- E[east]: Easting (metre)
+- N[north]: Northing (metre)
+Area of Use:
+- name: World - N hemisphere - 78°W to 72°W - by country
+- bounds: (-78.0, 0.0, -72.0, 84.0)
+Coordinate Operation:
+- name: UTM zone 18N
+- method: Transverse Mercator
+Datum: World Geodetic System 1984
+- Ellipsoid: WGS 84
+- Prime Meridian: Greenwich
+~~~
+{: .output}
 
-* **proj=utm:** the projection is UTM, UTM has several zones.
-* **zone=18:** the zone is 18
-* **datum=WGS84:** the datum is WGS84 (the datum refers to the  0,0 reference for
-the coordinate system used in the projection)
-* **units=m:** the units for the coordinates are in meters
-* **no_defs:** This attribute is nearly obsolete and [can be ignored](https://github.com/OSGeo/PROJ/issues/494).
+* **Name** the projection is UTM zone 18N, UTM has several zones. The underlying datum is WGS84.
+* **Axis Info** The CRS has two axis, east and north, in meter units.
+* **Area of Use** The projection is used for a particular range of longitudes `- 78°W to 72°W` in the northern hemisphere (the upper latitudes)
+* **Coordinate Operation** The operation to project the coordinates (if it si projected) on to a cartesian (x, y) plane. Transverse mercator is accurate for areas with longitudinal widths of a few degrees, hence the distinct UTM zones.
+* **Datum** Details about the datum, or the reference point for coordinates. `WGS 84` and `NAD 1983` are common datums. `NAD 1983` is [set to be replaced in 2022](https://en.wikipedia.org/wiki/Datum_of_2022).
 
 Note that the zone is unique to the UTM projection. Not all CRSs will have a
 zone. Image source: Chrismurf at English Wikipedia, via [Wikimedia Commons](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system#/media/File:Utm-zones-USA.svg) (CC-BY).
