@@ -210,11 +210,11 @@ print(surface_HARV.rio.crs.epsg)
 ~~~
 {: .output}
 
-EPSG codes are great for succinctly representing a particular Coordinate Reference System. But what if we want to see information about the CRS. For that, we can use `pyproj`.
+EPSG codes are great for succinctly representing a particular coordinate reference system. But what if we want to see information about the CRS? For that, we can use `pyproj`, a library for representing and working with coordinate reference systems.
 
 ~~~
 from pyproj import CRS
-epsg = surface_HARV.rio.crs.to_epsg()
+epsg = surface_HARV.rio.crs.epsg
 crs = CRS(epsg)
 crs
 ~~~
