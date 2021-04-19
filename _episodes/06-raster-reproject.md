@@ -235,10 +235,7 @@ terrain_HARV_UTM18.rio.to_raster(reprojected_path)
 Let's plot our handiwork so far! We can use the `xarray.DataArray.plot` function to show the DTM. But if we run the following code, something doesn't look right ...
 
 ```python
-import matplotlib.pyplot as plt
-plt.figure()
 terrain_HARV_UTM18.plot(cmap="viridis")
-plt.title("Harvard Forest Digital Terrain Model")
 ```
 <img src="../fig/06-bad-DTM-plot-01.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
 
@@ -254,15 +251,67 @@ plt.title("Harvard Forest Digital Terrain Model")
 > > ```python
 terrain_HARV_UTM18_valid = terrain_HARV_UTM18.where(
     terrain_HARV_UTM18  != terrain_HARV_UTM18.rio.nodata)
-plt.figure()
 terrain_HARV_UTM18_valid.plot(cmap="viridis")
-plt.title("Harvard Forest Digital Terrain Model")
 > > ```
 > > <img src="../fig/06-HARV-reprojected-DTM-02.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
 > > If we had saved `terrain_HARV_UTM18` to a file and then read it in with `open_rasterio`'s `masked=True` argument, the raster's `nodata` value would be masked and we would not need to use the `where()` function to do the masking before plotting.
 > {: .solution}
 {: .challenge}
 
+<!-- Add callout block here -->
+
+> ## Plotting Tip
+> There are many ways to improve this plot. Matplotlib offers lots of different functions to change the position and
+> appearance of plot elements. To plot with Matplotlib, you need to import the `pyplot` module. 
+> Something that would really improve our figure is adding a title. This can be done with the `plt.title()` function.
+> 
+> Try importing Matplotlib and adding a title to the figure.
+> > ## Importing `pyplot` and adding a title
+> > Here's how we can use `pyplot` functions to modify elements in our graph.
+> > 
+> > ~~~
+> > import matplotlib.pyplot as plt
+> > terrain_HARV_UTM18_valid.plot()
+> > plt.title("Harvard Forest Digital Terrain Model")
+> > ~~~
+> > {: .language-python}
+> >
+> > <img src="../fig/06-HARV-reprojected-DTM-02-title.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
+> >
+> > Because `xarray` has Matplotlib under the hood, we don't need to modify our original plotting method.
+> {: .solution}
+{: .callout}
+
+> ## Customizing plots with Matplotlib
+> 
+> Now that you've added a title to your plot, look for other ways to customize your plot with Matplotlib. One possible way
+> to quickly customize a plot is with the `plt.style.use()` function. You can check available styles with `plt.style.available`.
+> 
+> Another useful function for the plots we are making is `plt.ticklabel_format(style="plain")`. This will ensure that our
+> ticks are not truncated, making our plot nicer.
+> 
+> Try customizing your plot with the functions above or any other `pyplot` parameter.
+> 
+> > ## Styles and formatting
+> >  Here is the result of using a ggplot like style for our digital terrain plot.
+> > 
+> > ~~~
+> > plt.style.use("ggplot")
+> > terrain_HARV_UTM18_valid.plot()
+> > plt.title("Harvard Forest Digital Terrain Model")
+> > plt.ticklabel_format(style="plain")
+> > ~~~
+> > {: .language-python}
+> > 
+> > <img src="../fig/06-HARV-reprojected-DTM-02-styles.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
+> >
+> > Notice that `plt.style.use()` comes before and both `plt.title()` and `plt.ticklabel_format` come after the `.plot()`
+> > function. This because `plt.style.use()` is a `pyplot` wide setting, while the latter two functions apply only to our
+> > current figure.
+> >
+> > Quick tip: for all following plots in our lesson, use the `plt.title` and `plt.ticklabel_format` functions.
+> {: .solution}
+{: .callout}
 
 > ## Challenge: Reproject, then Plot a Digital Terrain Model
 > Create 2 maps in a UTM projection of the [San Joaquin Experimental Range](https://www.neonscience.org/field-sites/field-sites-map/SJER) field site, using the`SJER_dtmCrop.tif` and `SJER_dsmCrop_WGS84.tif` files. Use `rioxarray` and `matplotlib.pyplot` (to add a title). Reproject the data as necessary to make sure each map is in the same UTM projection and save the reprojected file with the file name "data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop_WGS84.tif".
