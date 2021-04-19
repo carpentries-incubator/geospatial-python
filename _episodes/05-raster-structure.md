@@ -180,10 +180,10 @@ EPSG:32618
 ~~~
 {: .output}
 
-To just print the EPSG code number as an `int`, we can access the `.epsg` attribute:
+To just print the EPSG code number as an `int`, we use the `.to_epsg()` method:
 
 ~~~
-print(surface_HARV.rio.crs.epsg)
+print(surface_HARV.rio.crs.to_epsg())
 ~~~
 {: .language-python}
 
@@ -198,7 +198,7 @@ EPSG codes are great for succinctly representing a particular coordinate referen
 
 ~~~
 from pyproj import CRS
-epsg = surface_HARV.rio.crs.epsg
+epsg = surface_HARV.rio.crs.to_epsg()
 crs = CRS(epsg)
 crs
 ~~~
