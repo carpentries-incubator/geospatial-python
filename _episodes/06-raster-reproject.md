@@ -32,12 +32,10 @@ Model (DTM). This differs from the surface model data we've been working with so
 far in that the digital terrain model (DTM) includes the tops of trees, while
 the digital surface model (DSM) shows the ground level beneath the tree canopy. 
 
-Our goal is to get these data into the same projection with the `rioxarray.reproject()` function so that
+Our goal is to get these data into the same projection with the `rioxarray.reproject_match()` function so that
 we can use both rasters to calculate tree canopy height, also called a Canopy Height Model (CHM).
 
 First, we need to read in the DSM and DTM rasters.
-
-Reading in the data with xarray looks similar to using `rasterio` directly, but the output is a xarray object called a `DataArray`. You can use a `xarray.DataArray` in calculations just like a numpy array. Calling the variable name of the `DataArray` also prints out all of its metadata information. Geospatial information is not read in if you don't import rioxarray before calling the `open_rasterio` function.
 
 ~~~
 import rioxarray
@@ -69,28 +67,27 @@ grid_mapping: spatial_ref
 ~~~
 {: .output}
 
-To read the spatial reference in the output you may have to click on the icon “Show/Hide attributes” on the right side of the row of spatial_ref. After showing all attributes for spatial_ref we can see the datum and projection are WGS 84 / UTM zone 18N respectively. UTM zone 18N is a regional projection with associated coordinate system to more accurately capture distance, shape and/or area around the Harvard Forest.
-
-Now let’s print out the metadata information for Harvard Forest’s DTM to compare the two CRSs.
+To read the spatial reference in the output you click on the icon “Show/Hide attributes” on the right side of the `spatial_ref` row. You can also print the Well-known Text projection string.
 
 ~~~
-terrain_HARV
+surface_HARV.rio.crs.wkt
 ~~~
 {: .language-python}
 
 ~~~
-xarray.DataArray band: 1, y: 1172, x: 1939
-[2272508 values with dtype=float64]
-Coordinates:
-band       (band)       int64       1
- y          (y)        float64      42.54 42.54 42.54 ... 42.53 42.53
- x          (x)        float64      -72.18 -72.18 ... -72.16 -72.16
-spatial_ref ()          int64       0
-Attributes:
-_FillValue: -9999.0
-scale_factor: 1.0
-add_offset: 0.0
-grid_mapping: spatial_ref
+'PROJCS["WGS 84 / UTM zone 18N",GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]],PROJECTION["Transverse_Mercator"],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",-75],PARAMETER["scale_factor",0.9996],PARAMETER["false_easting",500000],PARAMETER["false_northing",0],UNIT["metre",1,AUTHORITY["EPSG","9001"]],AXIS["Easting",EAST],AXIS["Northing",NORTH],AUTHORITY["EPSG","32618"]]'
+~~~
+{: .output}
+
+We can see the datum and projection are UTM zone 18N and WGS 84 respectively. UTM zone 18N is a regional projection with an associated coordinate system to more accurately capture distance, shape and/or area around the Harvard Forest.
+
+~~~
+terrain_HARV.rio.crs.wkt
+~~~
+{: .language-python}
+
+~~~
+'GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AXIS["Latitude",NORTH],AXIS["Longitude",EAST],AUTHORITY["EPSG","4326"]]'
 ~~~
 {: .output}
 
@@ -99,7 +96,7 @@ We see the DTM is in an unprojected geographic coordinate system, using WGS84 as
 We can use the CRS attribute from one of our datasets to reproject the other dataset so that they are both in the same projection. The only argument that is required is the `dst_crs` argument (standing for destination coordinate reference system), which takes the CRS of the result of the reprojection.
 
 ~~~
-terrain_HARV_UTM18 = terrain_HARV.rio.reproject(dst_crs=surface_HARV.rio.crs)
+terrain_HARV_UTM18 = terrain_HARV.rio.reproject_match(surface_HARV)
 
 terrain_HARV_UTM18 
 ~~~
@@ -127,48 +124,17 @@ _FillValue: -9999.0
 ~~~
 {: .output}
 
-> ## Data Tip
-> You might wonder why the result of `terrain_HARV.rio.reproject()` shows `-9999` at the edges whereas when we read in the data, 
-`surface_HARV` did not show the `-9999` values. This is because xarray by default will wait until the last necessary moment before actually running the computations on an xarray DataArray. This form of evaluation is called lazy, as opposed to eager, where functions are always computed when they are called. If you ever want a lazy DataArray to reveal it's underlying values, you can use the `.compute()` function. `rioxarray` will only show the values in the corners of the array.
-> > ## Show code
-> > 
-> > ```python
-> > surface_HARV.compute()
-> > ```
-> > ```
-> >    <xarray.DataArray (band: 1, y: 1367, x: 1697)>
-> >    array([[[408.76998901, 408.22998047, 406.52999878, ..., 345.05999756,
-> >      345.13998413, 344.97000122],
-> >    [407.04998779, 406.61999512, 404.97998047, ..., 345.20999146,
-> >      344.97000122, 345.13998413],
-> >    [407.05999756, 406.02999878, 403.54998779, ..., 345.07000732,
-> >      345.08999634, 345.17999268],
-> >    ...,
-> >    [367.91000366, 370.19000244, 370.58999634, ..., 311.38998413,
-> >      310.44998169, 309.38998413],
-> >    [370.75997925, 371.50997925, 363.41000366, ..., 314.70999146,
-> >      309.25      , 312.01998901],
-> >    [369.95999146, 372.6000061 , 372.42999268, ..., 316.38998413,
-> >      309.86999512, 311.20999146]]])
-> >    Coordinates:
-> >    * band     (band) int64 1
-> >    * y        (y) float64 4.714e+06 4.714e+06 4.714e+06 ... 4.712e+06 4.712e+06
-> >    * x        (x) float64 7.315e+05 7.315e+05 7.315e+05 ... 7.331e+05 7.331e+05
-> >    Attributes:
-> >        transform:      (1.0, 0.0, 731453.0, 0.0, -1.0, 4713838.0)
-> >        crs:            +init=epsg:32618
-> >        res:            (1.0, 1.0)
-> >        is_tiled:       0
-> >        nodatavals:     (-3.4e+38,)
-> >        scales:         (1.0,)
-> >        offsets:        (0.0,)
-> >        AREA_OR_POINT:  Area
-> > ```
-> > {: .output}
-> {: .solution}
+
+In one line `reproject_match` does a lot of helpful things:
+1. It reprojects `terrain_HARV` from WGS 84 to UTM Zone 18.
+2. Where `terrain_HARV` has data values and `surface_HARV` does not, the result `terrain_HARV_UTM18` is clipped. Where surface_HARV has data values and `terrain_HARV` does not, the result `terrain_HARV_UTM18` is padded with no data values to match the extent.
+3. It sets the no data value of `terrain_HARV` to the no data value for `surface_HARV`
+
+> ## Code Tip
+> There also exists a method called `reproject()`, which only reprojects one raster to another projection. If you want more control over how rasters are resampled, clipped, and/or reprojected, you can use the `reproject()` method and other `rioxarray` methods individually.
 {: .callout}
 
-And we can also save our DataArray that we created with `rioxarray` to a file.
+We can also save our DataArray that we created with `rioxarray` to a file.
 
 ```python
 reprojected_path = "data/NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_dtmCrop_UTM18.tif"
@@ -177,9 +143,8 @@ terrain_HARV_UTM18.rio.to_raster(reprojected_path)
 
 > ## Exercise
 > Inspect the metadata for `terrain_HARV_UTM18 ` and 
-> `surface_HARV`. Are the projections the same? What 
-> metadata attributes are different? How might this affect 
-> calculations we make between arrays?
+> `surface_HARV`. Are the projections the same? Are the extents the same? Are the no data values the same?
+> How might do projections, extents, and no data values effect calculations we make between arrays?
 > > ## Solution
 > >
 > > ```python
@@ -205,7 +170,7 @@ terrain_HARV_UTM18.rio.to_raster(reprojected_path)
 > > ```
 > > ```
 > > -9999.0
-> > -3.4e+38
+> > -9999.0
 > > ```
 > > {: .output}
 > > The nodata values are different. Before we plot or calculate 
@@ -220,15 +185,13 @@ terrain_HARV_UTM18.rio.to_raster(reprojected_path)
 > > print(surface_HARV.shape)
 > > ```
 > > ```
-> > (1, 1492, 1801)
+> > (1, 1367, 1697)
 > > (1, 1367, 1697)
 > > ```
 > > {: .output}
-> > The shapes are not the same which means these data cover 
-> > slightly different extents and locations. In the next episode 
-> > we will need to align these DataArrays before running any 
-> > calculations. `rioxarray` provides functionality to align 
-> > multiple geospatial DataArrays.
+> > The shapes and projections are the same which means these data cover 
+> > the same locations. The no data values are also the same. This means 
+> > we can run calculations on these two DataArrays.
 > {: .solution}
 {: .challenge}
 
