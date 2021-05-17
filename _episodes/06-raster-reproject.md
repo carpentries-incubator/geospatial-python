@@ -282,9 +282,9 @@ terrain_HARV_UTM18_valid.plot(cmap="viridis")
 > > ## Answers
 > > If we read in these files with the argument `masked=True`, then the nodata values will be masked automatically and set to `numpy.nan`, or Not a Number. This can make plotting easier since only valid raster values will be shown. However, it's important to remember that `numpy.nan` values still take up space in our raster just like `nodata` values, and thus they still affect the shape of the raster. Rasters need to be the same shape for raster math to work in Python. In the next lesson, we will examine how to prepare rasters of different shapes for calculations.
 > > ```python
-terrain_HARV_SJER = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/SJER/DTM/SJER_dtmCrop.tif", masked=True)
-surface_HARV_SJER = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop_WGS84.tif", masked=True)
-reprojected_surface_model = surface_HARV_SJER.rio.reproject(dst_crs=terrain_HARV_SJER.rio.crs)
+terrain_SJER = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/SJER/DTM/SJER_dtmCrop.tif", masked=True)
+surface_SJER = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop_WGS84.tif", masked=True)
+reprojected_surface_model = surface_SJER.rio.reproject(dst_crs=terrain_SJER.rio.crs)
 plt.figure()
 reprojected_surface_model.plot()
 plt.title("SJER Reprojected Surface Model")
