@@ -45,11 +45,11 @@ import rioxarray
 > ## Introduce the Data
 >
 > A brief introduction to the datasets can be found on the 
-> [Geospatial workshop setup page](https://rbavery.github.io/geospatial-python/setup.html).
+> [Geospatial workshop setup page](https://carpentries-incubator.github.io/geospatial-python/setup.html).
 > 
 > For more detailed information about the datasets, check
 out the [Geospatial workshop data
-page](https://rbavery.github.io/geospatial-python/).
+page](https://carpentries-incubator.github.io/geospatial-python/).
 {: .callout}
 
 ## Open a Raster and View Raster File Attributes
