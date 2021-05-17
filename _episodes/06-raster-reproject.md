@@ -144,7 +144,7 @@ terrain_HARV_UTM18.rio.to_raster(reprojected_path)
 > ## Exercise
 > Inspect the metadata for `terrain_HARV_UTM18 ` and 
 > `surface_HARV`. Are the projections the same? Are the extents the same? Are the no data values the same?
-> How might do projections, extents, and no data values effect calculations we make between arrays?
+> How might projections, extents, and no data values effect calculations we make between arrays?
 > > ## Solution
 > >
 > > ```python
@@ -159,7 +159,9 @@ terrain_HARV_UTM18.rio.to_raster(reprojected_path)
 > > EPSG:32618
 > > ```
 > > {: .output}
-> > Good, the CRSs are the same. But ...
+> > Good, the CRSs are the same. But, before we plot or calculate 
+> > both of these DataArrays together, we should make sure they 
+> > have the same nodata value.
 > > 
 > > ```python
 > > # view noddata value for DTM
@@ -173,9 +175,7 @@ terrain_HARV_UTM18.rio.to_raster(reprojected_path)
 > > -9999.0
 > > ```
 > > {: .output}
-> > The nodata values are different. Before we plot or calculate 
-> > both of these DataArrays together, we should make sure they 
-> > have the same nodata value. Furthermore ...
+> > Furthermore, let's make sure both of these DataArrays have the same shape (i.e. extent).
 > > 
 > > ```python
 > > # view shape for DTM
