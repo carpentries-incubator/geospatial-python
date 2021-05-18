@@ -29,8 +29,8 @@ If you loaded two rasters with different projections in QGIS or ArcGIS, you'd se
 
 For this episode, we will be working with the Harvard Forest Digital Terrain
 Model (DTM). This differs from the surface model data we've been working with so
-far in that the digital terrain model (DTM) includes the tops of trees, while
-the digital surface model (DSM) shows the ground level beneath the tree canopy. 
+far in that the digital terrain model (DTM) shows the ground level beneath the tree canopy, while 
+the digital surface model (DSM) includes ground surface, vegetation, and man-made objects. 
 
 Our goal is to get these data into the same projection with the `rioxarray.reproject_match()` function so that
 we can use both rasters to calculate tree canopy height, also called a Canopy Height Model (CHM).
