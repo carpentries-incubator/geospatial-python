@@ -54,7 +54,7 @@ We can perform raster calculations by subtracting (or adding,
 multiplying, etc.) two rasters. In the geospatial world, we call this
 "raster math", and typically it refers to operations on rasters that 
 have the same width and height (including `nodata` pixels). We saw from 
-the last episode's challenge that this is not the case without DTM and DSM. Even though the `reproject` function gets our rasters into the same CRS, they have slightly different extents.
+the last episode's Challenge this is not the case with our DTM and DSM. Even though the `reproject` function gets our rasters into the same CRS, they have slightly different extents.
 We can now use the `reproject_match` function, which both reprojects and clips
 a raster to the CRS and extent of another raster.
 
