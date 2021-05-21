@@ -271,10 +271,10 @@ Datum: World Geodetic System 1984
 ~~~
 {: .output}
 
-* **Name** the projection is UTM zone 18N, UTM has several zones. The underlying datum is WGS84.
-* **Axis Info** The CRS has two axis, east and north, in meter units.
-* **Area of Use** The projection is used for a particular range of longitudes `- 78°W to 72°W` in the northern hemisphere (the upper latitudes)
-* **Coordinate Operation** The operation to project the coordinates (if it si projected) on to a cartesian (x, y) plane. Transverse mercator is accurate for areas with longitudinal widths of a few degrees, hence the distinct UTM zones.
+* **Name** of the projection is UTM zone 18N (UTM has 60 zones, each 6-degrees of longitude in width). The underlying datum is WGS84.
+* **Axis Info**: the CRS shows a Cartesian system with two axis, an easting and northing, in meter units.
+* **Area of Use**: the projection is used for a particular range of longitudes `-78°W to 72°W` in the northern hemisphere (`0.0°N to 84.0°N`)
+* **Coordinate Operation**: the operation to project the coordinates (if it is projected) on to a cartesian (x, y) plane. Transverse mercator is accurate for areas with longitudinal widths of a few degrees, hence the distinct UTM zones.
 * **Datum** Details about the datum, or the reference point for coordinates. `WGS 84` and `NAD 1983` are common datums. `NAD 1983` is [set to be replaced in 2022](https://en.wikipedia.org/wiki/Datum_of_2022).
 
 Note that the zone is unique to the UTM projection. Not all CRSs will have a
@@ -371,7 +371,7 @@ It's always a good idea to examine the shape of the raster array you are working
 
 Jump to a later episode in
 this series for information on working with multi-band rasters:
-[Work with Multi-band Rasters in Python]({{ site.baseurl }}/08-raster-multi-band/).
+[Work with Multi-Band Rasters in Python]({{ site.baseurl }}/08-raster-multi-band/).
 
 ## Dealing with Missing Data
 
