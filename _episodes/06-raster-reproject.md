@@ -269,7 +269,7 @@ terrain_HARV_UTM18_valid.plot(cmap="viridis")
 > > <img src="../fig/06-HARV-reprojected-DTM-02-styles.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
 > >
 > > Notice that `plt.style.use()` comes before and both `plt.title()` and `plt.ticklabel_format` come after the `.plot()`
-> > function. This because `plt.style.use()` is a `pyplot` wide setting, while the latter two functions apply only to our
+> > function. This is because `plt.style.use()` is a `pyplot` wide setting, while the latter two functions apply only to our
 > > current figure.
 > >
 > > Quick tip: for all following plots in our lesson, use the `plt.title` and `plt.ticklabel_format` functions.
