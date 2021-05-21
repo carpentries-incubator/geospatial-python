@@ -248,8 +248,7 @@ AreaOfUse(name=World - N hemisphere - 78°W to 72°W - by country, west=-78.0, s
 
 ## Understanding pyproj CRS Summary
 Let's break down the pieces of the `pyproj` CRS summary. The string contains all of the individual CRS
-elements that Python or another GIS might need, separated into distinct sections.
-and datum (`datum=`).
+elements that Python or another GIS might need, separated into distinct sections, and datum (`datum=`).
 
 ### UTM pyproj summary
 Our UTM projection is summarized as follows:
