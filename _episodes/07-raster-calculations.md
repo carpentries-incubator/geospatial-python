@@ -74,6 +74,30 @@ track of the metadata for our CHM.
 canopy_HARV = surface_HARV - terrain_HARV_matched
 canopy_HARV.compute()
 ```
+~~~
+{: .language-python}
+~~~
+xarray.DataArray band: 1, y: 1367, x: 1697
+array([[[ 1.93699951e+01,  1.86799927e+01,  1.70500183e+01, ...,
+                     nan,  1.69982910e-01, -1.60003662e-01],
+        [ 1.76499939e+01,  1.71700134e+01,  1.56299744e+01, ...,
+          0.00000000e+00,  0.00000000e+00,  9.97924805e-03],
+        [ 1.81000061e+01,  1.68399963e+01,  1.43200073e+01, ...,
+          0.00000000e+00,  1.00006104e-01,  7.99865723e-02],
+        ...,
+        [ 2.34400024e+01,  2.56800232e+01,  2.60599976e+01, ...,
+          1.98999023e+00,  1.09997559e+00,  2.09991455e-01],
+        [ 2.63299866e+01,  2.70399780e+01,  1.88900146e+01, ...,
+          5.44000244e+00,  0.00000000e+00,  2.72000122e+00],
+        [ 2.55499878e+01,  2.81300049e+01,  2.78999939e+01, ...,
+                     nan,             nan,  1.85998535e+00]]])
+Coordinates:
+band         (band)      int64       1
+y            (y)         float64     4.714e+06 4.714e+06 ... 4.712e+06
+x            (x)         float64     7.315e+05 7.315e+05 ... 7.331e+05
+spatial_ref  ()          int64       0
+~~~
+{: .output}
 
 We can now plot the output CHM. If we use the argument `robust=True`, our plot's color values
 are stretched between the 2nd and 98th percentiles of the data, which results in clearer distinctions between forested and non-forested areas.
