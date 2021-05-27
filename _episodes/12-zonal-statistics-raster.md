@@ -91,9 +91,13 @@ zonal_stats(road_canopy_zones_xarr, canopy_HARV_b1)
 
 This produces a neat table describing statistics for each of our zones.
 
-
-TABLE
-
+|    |    mean |   max |        min |     std |     var |          count |
+|---:|--------:|------:|-----------:|--------:|--------:|---------------:|
+|  1 | 18.0276 | 26.75 |  0         | 6.33709 | 40.1588 |  734           |
+|  2 | 18.8825 | 23.98 |  0         | 5.83523 | 34.0499 |   59           |
+|  5 | 14.2802 | 26.75 | -0.399994  | 7.45486 | 55.5749 | 2419           |
+|  6 | 15.7706 | 26.81 | -0.0799866 | 6.59865 | 43.5422 |  719           |
+|  7 | 14.9545 | 38.17 | -0.809998  | 7.10642 | 50.5012 |    2.31557e+06 |
 
 It'd be nice to associate the zone names with each row. To do this, we can use the `roads["TYPE"]` column, which contains the unique zone names for each line. We'll make a new dataframe with two column, one for the zone ID (numeric) and one for the zone type (a string), and then join this with our stats dataframe.
 
@@ -107,8 +111,13 @@ zstats_df = zoneid_zonetype.join(zstats_df)
 
 This results in a labeled table that is easier to interpret.
 
-TABLE
-
+|   RULEID | TYPE       |    mean |   max |        min |     std |     var |          count |
+|---------:|:-----------|--------:|------:|-----------:|--------:|--------:|---------------:|
+|        5 | woods road | 14.2802 | 26.75 | -0.399994  | 7.45486 | 55.5749 | 2419           |
+|        6 | footpath   | 15.7706 | 26.81 | -0.0799866 | 6.59865 | 43.5422 |  719           |
+|        1 | stone wall | 18.0276 | 26.75 |  0         | 6.33709 | 40.1588 |  734           |
+|        2 | boardwalk  | 18.8825 | 23.98 |  0         | 5.83523 | 34.0499 |   59           |
+|        7 | non-road   | 14.9545 | 38.17 | -0.809998  | 7.10642 | 50.5012 |    2.31557e+06 |
 
 > ## Challenge: Explore Calculate the Canopy Height Statistics for a Meteorological Tower Site
 > 
@@ -143,7 +152,11 @@ zstats_df = zonal_stats(tower_zone_xarr, canopy_HARV_b1)
 zstats_df
 > > ```
 > > 
-> 
+> > This results in the following table.
+> > |    |    mean |   max |       min |     std |     var |           count |
+> > |---:|--------:|------:|----------:|--------:|--------:|----------------:|
+> > |  1 | 19.3435 | 38.17 | -0.170013 | 6.2115  | 38.5827 | 18450           |
+> > |  7 | 14.92   | 35.59 | -0.809998 | 7.10244 | 50.4447 |     2.30105e+06 |
 > {: .solution}
 {: .challenge}
 
