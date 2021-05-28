@@ -350,9 +350,9 @@ Coordinates:
 > 374.2799987792969
 > ~~~
 > {: .output}
-> You may notice that `numpy.percentile` didn't require an `axis=None` argument. This is because `axis=None` is the default for most numpy 
-> functions. It's always good to check out the docs on a function to see what the default arguments are, particularly when working with 
-> multi-dimensional image data. To do so, we can use`help(numpy.percentile)` or `?numpy.percentile` if you are using jupyter notebook or 
+> You may notice that `surface_HARV.quantile` and `numpy.percentile` didn't require an argument specifying the axis or dimension along witch to compute the quantile. This is because `axis=None` is the default for most numpy 
+> functions, and therefore `dim=None` is the default for most xarray methods. It's always good to check out the docs on a function to see what the default arguments are, particularly when working with 
+> multi-dimensional image data. To do so, we can use`help(surface_HARV.percentile)` or `?surface_HARV.percentile` if you are using jupyter notebook or 
 > jupyter lab.
 > 
 {: .callout}
