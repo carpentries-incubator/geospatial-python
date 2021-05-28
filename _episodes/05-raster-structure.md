@@ -321,23 +321,35 @@ Coordinates:
 
 The information above includes a report of the min, max, mean, and standard deviation values, along with the data type.
 
-You could also get each of these values one by one using `numpy`. What if we wanted to calculate 25% and 75% quartiles?
+If we want to see specific quantiles, we can use xarray's `.quantile()` method. For example for the 25% and 75% quartiles:
 
-~~~
-import numpy
-print(numpy.percentile(surface_HARV, 25))
-print(numpy.percentile(surface_HARV, 75))
-~~~
-{: .language-python}
+```python
+print(surface_HARV.quantile([0.25, 0.75]))
+```
 
-~~~
-345.5899963378906
-374.2799987792969
-~~~
+```
+<xarray.DataArray (quantile: 2)>
+array([345.58999634, 374.27999878])
+Coordinates:
+  * quantile  (quantile) float64 0.25 0.75
+```
 {: .output}
 
-
-> ## Data Tip - Set min and max values
+> ## Data Tip - NumPy methods
+> You could also get each of these values one by one using `numpy`.
+> 
+> ~~~
+> import numpy
+> print(numpy.percentile(surface_HARV, 25))
+> print(numpy.percentile(surface_HARV, 75))
+> ~~~
+> {: .language-python}
+> 
+> ~~~
+> 345.5899963378906
+> 374.2799987792969
+> ~~~
+> {: .output}
 > You may notice that `numpy.percentile` didn't require an `axis=None` argument. This is because `axis=None` is the default for most numpy 
 > functions. It's always good to check out the docs on a function to see what the default arguments are, particularly when working with 
 > multi-dimensional image data. To do so, we can use`help(numpy.percentile)` or `?numpy.percentile` if you are using jupyter notebook or 
