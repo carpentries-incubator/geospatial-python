@@ -151,12 +151,6 @@ canopy_HARV_b1 = canopy_HARV.sel(band=1)
 zstats_df = zonal_stats(tower_zone_xarr, canopy_HARV_b1)
 zstats_df
 > > ```
-> > 
-> > This results in the following table.
-> > |    |    mean |   max |       min |     std |     var |           count |
-> > |---:|--------:|------:|----------:|--------:|--------:|----------------:|
-> > |  1 | 19.3435 | 38.17 | -0.170013 | 6.2115  | 38.5827 | 18450           |
-> > |  7 | 14.92   | 35.59 | -0.809998 | 7.10244 | 50.4447 |     2.30105e+06 |
 > {: .solution}
 {: .challenge}
 
