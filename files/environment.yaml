@@ -16,4 +16,5 @@ dependencies:
   - geopandas
   - rioxarray
   - earthpy
+  - xarray-spatial
   - descartes # necessary for geopandas plotting
