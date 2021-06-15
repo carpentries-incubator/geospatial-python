@@ -70,10 +70,9 @@ Let's subtract the DTM from the DSM to create a Canopy Height Model (CHM).
 We'll use `rioxarray` so that we can easily plot our result and keep 
 track of the metadata for our CHM.
 
-```python
+~~~
 canopy_HARV = surface_HARV - terrain_HARV_matched
 canopy_HARV.compute()
-```
 ~~~
 {: .language-python}
 ~~~
@@ -102,27 +101,24 @@ spatial_ref  ()          int64       0
 We can now plot the output CHM. If we use the argument `robust=True`, our plot's color values
 are stretched between the 2nd and 98th percentiles of the data, which results in clearer distinctions between forested and non-forested areas.
 
-```python
+~~~
 import matplotlib.pyplot as plt # in case it has not been imported recently
 canopy_HARV.plot(cmap="viridis")
 plt.title("Canopy Height Model for Harvard Forest, Z Units: Meters")
 plt.ticklabel_format(style="plain") # use this if the title overlaps the scientific notation of the y axis
-```
-<img src="../fig/07-HARV-CHM-map-01.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
-
+~~~
 
 Notice that the range of values for the output CHM is between 0 and 30 
 meters. Does this make sense for trees in Harvard Forest?
 
 Maps are great, but it can also be informative to plot histograms of values to better understand the distribution. We can accomplish this using a built-in xarray method we have already been using: `plot`
 
-```python
+~~~
 plt.figure()
 plt.style.use('ggplot') # adds a style to improve the aesthetics
 canopy_HARV.plot.hist()
 plt.title("Histogram of Canopy Height in Meters")
-```
-![](../fig/07-HARV-CHM-histo-02.png) 
+~~~
 
 > ## Challenge: Explore CHM Raster Values
 > 
