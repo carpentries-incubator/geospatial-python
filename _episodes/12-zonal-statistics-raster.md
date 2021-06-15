@@ -77,7 +77,7 @@ road_zones_arr = rasterio.features.rasterize(shapes, fill = 7, out_shape = zones
 After we have this road_zones_arr, we convert it to an `xarray.DataArray` and select the one and only band in that DatArray so that the DataArray only has an x and a y dimension, since this is what the `zonal_stats` function expects as an argument.
 
 ~~~
-road_canopy_zones_xarr = xr.DataArray(road_canopy_zones_arr)
+road_canopy_zones_xarr = xr.DataArray(road_zones_arr)
 canopy_HARV_b1 = canopy_HARV.sel(band=1)
 ~~~
 {: .language-python}
