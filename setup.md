@@ -159,7 +159,7 @@ code on the Terminal:
     ```bash
     conda create -n geospatial -c conda-forge -y \
       jupyterlab numpy scipy scikit-image matplotlib \
-      xarray rasterio gdal geopandas rioxarray earthpy descartes 
+      xarray rasterio gdal geopandas rioxarray earthpy descartes xarray-spatial
    
     ```
    
@@ -197,6 +197,7 @@ code on the Terminal:
       - gdal
       - geopandas
       - rioxarray
+      - xarray-spatial
       - earthpy
       - descartes # necessary for geopandas plotting
     ```
