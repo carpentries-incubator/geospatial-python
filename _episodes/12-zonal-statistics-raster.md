@@ -39,14 +39,14 @@ We often want to perform calculations for specific zones in a raster. These zone
 
 In order to accomplish this, we first need to rasterize our `roads` geodataframe with the `rasterio.features.rasterize` function. This will produce a grid with number values representing each type of line, with numbers varying with the type of the line (walkway, footpath, road, etc.). This grid's values will then represent each of our zones for the `xrspatial.zonal_stats` function, where each pixel in the zone grid overlaps with a corresponding pixel in our CHM raster. 
 
-Before rasterizing, we need to do a little work to make a variable, `shapes` that associates a line with a unique number to represent that line. This variable will later be used as the first argument to `rasterio.features.rasterize`.
+Before rasterizing, we need to do a little work to make a variable, `shapes`, that associates a line with a unique number to represent that line. This variable will later be used as the first argument to `rasterio.features.rasterize`.
 
 ~~~
 shapes = roads[['geometry', 'RULEID']].values.tolist()
 ~~~
 {: .language-python}
 
-The `shapes` variable contains a list of tuples, where each tuple contains the shapely geometry from the `geometry` column of the `roads` geodataframe and the unique zone ID, from the `RULEID` column in the `roads` geodataframe.
+The `shapes` variable contains a list of tuples, where each tuple contains the shapely geometry from the `geometry` column of the `roads` geodataframe, and the unique zone ID from the `RULEID` column in the `roads` geodataframe.
 
 ~~~
 [[<shapely.geometry.multilinestring.MultiLineString at 0x173463ac0>, 5],
@@ -65,7 +65,7 @@ The `shapes` variable contains a list of tuples, where each tuple contains the s
 ~~~
 {: .output}
 
-The other argument, `out_shape` specifies the shape of the output grid in pixel units, while `transform` represents the projection from pixel space to the projected coordinate space. We also need to specify the fill value for pixels that do not intersect a line in our shapefile, which we do with `fill = 7`. It's important to pick a fill value that is not the same as any values in `shapes`/`roads['RULEID]`, or else we won't distinguish between this zone and the background. We also need to pick a fill value that is not `0`, since `xrspatial.zonal_stats` does not calculate statistics for pixels with `0` as a zone value.
+Below, the argument `out_shape` specifies the shape of the output grid in pixel units, while `transform` represents the projection from pixel space to the projected coordinate space. We also need to specify the fill value for pixels that do not intersect a line in our shapefile, which we do with `fill = 7`. It's important to pick a fill value that is not the same as any values in `shapes`/`roads['RULEID]`, or else we won't distinguish between this zone and the background. We also need to pick a fill value that is not `0`, since `xrspatial.zonal_stats` does not calculate statistics for pixels with `0` as a zone value.
 
 ~~~
 zones_arr_out_shape = canopy_HARV.shape[1:]
@@ -74,10 +74,10 @@ road_zones_arr = rasterio.features.rasterize(shapes, fill = 7, out_shape = zones
 ~~~
 {: .language-python}
 
-After we have this road_zones_arr, we convert it to an `xarray.DataArray` and select the one and only band in that DatArray so that the DataArray only has an x and a y dimension, since this is what the `zonal_stats` function expects as an argument.
+After we have defined the variable road_zones_arr, we convert it to an `xarray.DataArray` and select the one and only band in that DataArray so that the DataArray only has an x and a y dimension, since this is what the `zonal_stats` function expects as an argument.
 
 ~~~
-road_canopy_zones_xarr = xr.DataArray(road_canopy_zones_arr)
+road_canopy_zones_xarr = xr.DataArray(road_zones_arr)
 canopy_HARV_b1 = canopy_HARV.sel(band=1)
 ~~~
 {: .language-python}
@@ -99,7 +99,7 @@ This produces a neat table describing statistics for each of our zones.
 |  6 | 15.7706 | 26.81 | -0.0799866 | 6.59865 | 43.5422 |  719           |
 |  7 | 14.9545 | 38.17 | -0.809998  | 7.10642 | 50.5012 |    2.31557e+06 |
 
-It'd be nice to associate the zone names with each row. To do this, we can use the `roads["TYPE"]` column, which contains the unique zone names for each line. We'll make a new dataframe with two column, one for the zone ID (numeric) and one for the zone type (a string), and then join this with our stats dataframe.
+It'd be nice to associate the zone names with each row. To do this, we can use the `roads["TYPE"]` column, which contains the unique zone names for each line. We'll make a new dataframe with two columns, one for the zone ID (numeric) and one for the zone type (a string), and then join this with our stats dataframe.
 
 ~~~
 zoneid_zonetype = roads[['RULEID', 'TYPE']].drop_duplicates()
