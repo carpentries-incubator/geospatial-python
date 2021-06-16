@@ -93,7 +93,7 @@ terrain_HARV.rio.crs.wkt
 
 We see the DTM is in an unprojected geographic coordinate system, using WGS84 as the datum and a coordinate system that spans the entire planet (i.e. latitude and longitude). This means that every location on the planet is defined using the SAME coordinate system and the same units. Geographic coordinate reference systems are best for global analysis but not for capturing distance, shape and/or area on a local scale.
 
-We can use the CRS attribute from one of our datasets to reproject the other dataset so that they are both in the same projection. The only argument that is required is the `dst_crs` argument (standing for destination coordinate reference system), which takes the CRS of the result of the reprojection.
+We can use the CRS attribute from one of our datasets to reproject the other dataset so that they are both in the same projection. The only argument that is required is the `reproject_match` argument, which takes the CRS of the result of the reprojection.
 
 ~~~
 terrain_HARV_UTM18 = terrain_HARV.rio.reproject_match(surface_HARV)
