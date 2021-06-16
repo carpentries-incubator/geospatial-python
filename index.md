@@ -40,7 +40,7 @@ Data Carpentry's aim is to teach researchers basic concepts, skills, and tools f
 > 
 > | Dataset | File name | Description |
 > | ---- | ------| ---- | 
-> | Site layout shapefiles | NEON-DS-Site-Layout-Files.zip | A set of shapefiles for the NEON's Harvard Forest field site and US and (some) state boundary layers. | 
+> | Site layout shapefiles | NEON-DS-Site-Layout-Files.zip | A set of shapefiles for the NEON's Harvard Forest field site and (some) state boundary layers. | 
 > | Airborne remote sensing data | NEON-DS-Airborne-RemoteSensing.zip | LiDAR data collected by the NEON Airborne Observation Platform (AOP) and processed at NEON including a canopy height model, digital elevation model and digital surface model for NEON's Harvard Forest and San Joaquin Experimental Range field sites. | 
 > 
 > 
@@ -51,7 +51,7 @@ Data Carpentry's aim is to teach researchers basic concepts, skills, and tools f
 | Lesson Starting Points   | Overview |
 | ------- | ---------- |
 | [Episode 1: Introduction to Raster Data]({{ site.baseurl }}/01-intro-raster-data/) | Understand data structures and common storage and transfer formats for spatial data. Start here if you want to understand fundamental geospatial concepts like coordinate reference systems, rasters, and vectors.|
-| [Plotting and Programming in Python](https://swcarpentry.github.io/python-novice-gapminder/index.html) | Import data into Python, calculate summary statistics, create publication-quality graphics. Start here if you have an understanding of geospatial concepts but want to learn Python fundamentals. |
+| [Plotting and Programming in Python](https://swcarpentry.github.io/python-novice-gapminder/index.html) | Import data into Python, calculate summary statistics, and create publication-quality graphics. Start here if you have an understanding of geospatial concepts but want to learn Python fundamentals. |
 | [Episode 5: Intro to Raster Data in Python]({{ site.baseurl }}/05-raster-structure/) | Open, work with, and plot vector and raster-format spatial data in Python. Start here if you already have a good grasp of geospatial concepts and a working knowledge of Python.|
 
 {% include links.md %}
