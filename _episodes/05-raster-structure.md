@@ -275,7 +275,7 @@ Datum: World Geodetic System 1984
 * **Axis Info**: the CRS shows a Cartesian system with two axis, an easting and northing, in meter units.
 * **Area of Use**: the projection is used for a particular range of longitudes `-78°W to 72°W` in the northern hemisphere (`0.0°N to 84.0°N`)
 * **Coordinate Operation**: the operation to project the coordinates (if it is projected) on to a cartesian (x, y) plane. Transverse mercator is accurate for areas with longitudinal widths of a few degrees, hence the distinct UTM zones.
-* **Datum** Details about the datum, or the reference point for coordinates. `WGS 84` and `NAD 1983` are common datums. `NAD 1983` is [set to be replaced in 2022](https://en.wikipedia.org/wiki/Datum_of_2022).
+* **Datum**: Details about the datum, or the reference point for coordinates. `WGS 84` and `NAD 1983` are common datums. `NAD 1983` is [set to be replaced in 2022](https://en.wikipedia.org/wiki/Datum_of_2022).
 
 Note that the zone is unique to the UTM projection. Not all CRSs will have a
 zone. Image source: Chrismurf at English Wikipedia, via [Wikimedia Commons](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system#/media/File:Utm-zones-USA.svg) (CC-BY).
@@ -350,7 +350,7 @@ Coordinates:
 > 374.2799987792969
 > ~~~
 > {: .output}
-> You may notice that `surface_HARV.quantile` and `numpy.percentile` didn't require an argument specifying the axis or dimension along witch to compute the quantile. This is because `axis=None` is the default for most numpy 
+> You may notice that `surface_HARV.quantile` and `numpy.percentile` didn't require an argument specifying the axis or dimension along which to compute the quantile. This is because `axis=None` is the default for most numpy 
 > functions, and therefore `dim=None` is the default for most xarray methods. It's always good to check out the docs on a function to see what the default arguments are, particularly when working with 
 > multi-dimensional image data. To do so, we can use`help(surface_HARV.quantile)` or `?surface_HARV.percentile` if you are using jupyter notebook or 
 > jupyter lab.
@@ -363,7 +363,7 @@ We can see that the elevation at our site ranges from 305.0700073m to
 ## Raster Bands
 The Digital Surface Model that we've been working with is a
 single band raster. This means that there is only one dataset stored in the
-raster: surface elevation in meters for one time period. However, a raster dataset can contain one or more bands.
+raster--surface elevation in meters for one time period. However, a raster dataset can contain one or more bands.
 
 ![Multi-band raster image](../images/dc-spatial-raster/single_multi_raster.png)
 
@@ -420,7 +420,7 @@ rgb_HARV.plot.imshow(robust=True)
 
 The value that is conventionally used to take note of missing data (the
 no data value) varies by the raster data type. For floating-point rasters,
-the figure `-3.4e+38` is a common default, and for integers, `-9999` is
+the value `-3.4e+38` is a common default, and for integers, `-9999` is
 common. Some disciplines have specific conventions that vary from these
 common values.
 
