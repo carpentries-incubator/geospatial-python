@@ -158,12 +158,12 @@ code on the Terminal:
    
     ```bash
     conda create -n geospatial -c conda-forge -y \
-      jupyterlab numpy scipy scikit-image matplotlib \
-      xarray rasterio gdal geopandas rioxarray earthpy descartes xarray-spatial
+      jupyterlab numpy matplotlib \
+      xarray rasterio geopandas rioxarray earthpy descartes xarray-spatial
    
     ```
    
-   _Please note that this step may take several minutes to complete._
+   _Please note that this step may take several minutes to complete. If it takes more than a few minutes, see below for another method._
 
    In this command, the `-n` argument specifies the environment name, the `-c` argument specifies the Conda channel
    where the libraries are hosted, and the `-y` argument spares the need for confirmation. The following arguments are
@@ -188,13 +188,10 @@ code on the Terminal:
       - jupyterlab
     # Python scientific libraries
       - numpy
-      - scipy
-      - scikit-image
       - matplotlib
       - xarray
     # Geospatial libraries
       - rasterio
-      - gdal
       - geopandas
       - rioxarray
       - xarray-spatial
@@ -211,6 +208,13 @@ code on the Terminal:
 
     `conda` should begin to locate, download, and install the Python libraries listed in the `environment.yaml` file.
    
+    > ## Faster Environment Install With One Extra Step
+    > If you see a spinning `/` for more than a few minutes, you may want to try the following to speed up the environment installation. 
+    > 1. Cancel the currently running `conda create` process with CTRL+C
+    > 2. Run `conda install -c conda-forge mamba`
+    > 3. Run `mamba env create -f environment.yaml`
+    {: .callout}
+
     When installation has finished you should see the following message in the terminal:
 
     ```bash
@@ -225,7 +229,7 @@ code on the Terminal:
     > If your terminal responds to the above command with `conda: command not found` see the > <<troubleshooting>> section.
     {: .callout}
 
-3. Activate the `geospatial` virtual environment:
+1. Activate the `geospatial` virtual environment:
     ```bash
     conda activate geospatial
     ```
