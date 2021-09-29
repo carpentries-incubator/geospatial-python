@@ -229,7 +229,7 @@ code on the Terminal:
     > If your terminal responds to the above command with `conda: command not found` see the > <<troubleshooting>> section.
     {: .callout}
 
-1. Activate the `geospatial` virtual environment:
+3. Activate the `geospatial` virtual environment:
     ```bash
     conda activate geospatial
     ```
