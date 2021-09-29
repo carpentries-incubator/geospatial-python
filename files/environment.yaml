@@ -2,19 +2,16 @@ name: geospatial
 channels:
   - conda-forge
 dependencies:
-# Jupyter Lab
-  - jupyterlab
-# Python scientific libraries
-  - numpy
-  - scipy
-  - scikit-image
-  - matplotlib
-  - xarray
-# Geospatial libraries
-  - rasterio
-  - gdal
-  - geopandas
-  - rioxarray
-  - earthpy
+  # Jupyter Lab
+  - jupyterlab>=3.1.0
+  # Python scientific libraries
+  - numpy>=1.20.0
+  - matplotlib>=3.4.0
+  - xarray>=0.17
+  # Geospatial libraries
+  - rasterio>=1.2.0
+  - geopandas>=0.8.0
+  - rioxarray>=0.7.0
+  - earthpy>=0.9.0
   - xarray-spatial
-  - descartes # necessary for geopandas plotting
+  - descartes>=1.0.0 # necessary for geopandas plotting
