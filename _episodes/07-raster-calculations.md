@@ -170,26 +170,12 @@ Also, the min variable in this example was calculated but could be a number
 instead.
 
 ```python
-import numpy as np
-
-# Defines the bins for pixel values
-class_bins = [canopy_HARV.min().values, 2, 10, 20, np.inf]
-
-# Classifies the original canopy height model array
-canopy_height_classes = np.digitize(canopy_HARV, class_bins)
-type(canopy_height_classes)
-```
-~~~
-numpy.ndarray
-~~~
-{: .output}
-
-The result is a `numpy.ndarray`, but we can put this into a DataArray along with the spatial metadata from our `canopy_HARV`, so that our resulting plot shows the spatial coordinates.
-
-```python
 import xarray
 from matplotlib.colors import ListedColormap
 import earthpy.plot as ep
+
+# Defines the bins for pixel values
+class_bins = [canopy_HARV.min().values, 2, 10, 20, np.inf]
 
 # Define color map of the map legend
 height_colors = ["gray", "y", "yellowgreen", "g", "darkgreen"]
@@ -207,8 +193,16 @@ category_names = [
 # we need to know in what order the legend items should be arranged
 category_indices = list(range(len(category_names)))
 
-# we put the numpy array in a xarray DataArray so that the plot is made with coordinates
-canopy_height_classified = xarray.DataArray(canopy_height_classes, coords = canopy_HARV.coords)
+# The numpy.digitize function returns an unlabeled array, in this case, a
+# classified array without any metadata. That doesn't work--we need the
+# coordinates and other spatial metadata. We can get around this using
+# xarray.apply_ufunc, which can run the function across the data array while
+# preserving metadata.
+canopy_height_classified = xarray.apply_ufunc(
+    np.digitize,  # func to run across the input array
+    canopy_HARV,  # func arg 1 (the array that needs to be classified)
+    class_bins    # func arg 2 (the classification bins)
+)
 
 #Making the plot
 plt.style.use("default")
