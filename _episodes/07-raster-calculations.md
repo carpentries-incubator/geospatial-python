@@ -151,8 +151,23 @@ canopy_HARV.plot.hist(bins=50)
 
 ## Classifying Continuous Rasters in Python
 
-Now that we have a sense of the distribution of our canopy height raster, we 
-can reduce the complexity of our map by classifying it. Classification involves sorting raster values into unique classes, and in Python, we can accomplish this using the `numpy.digitize` function. 
+Now that we have a sense of the distribution of our canopy height raster, we
+can reduce the complexity of our map by classifying it. Classification involves
+assigning each pixel in the raster to a class based on its value. In Python, we
+can accomplish this using the `numpy.digitize` function.
+
+First, we define canopy height classes based on a list of heights:
+`[canopy_HARV.min().values, 2, 10, 20, np.inf]`. When bins are ordered from
+low to high, as here, `numpy.digitize` assigns classes like so:
+
+![Canopy height classes](../fig/07-CHM-classification-bins-01.png)
+
+Source: Image created for this lesson ([license](../LICENSE.md))
+{: .text-center}
+
+Note that, by default, each class includes the left but not right bound.
+Also, the min variable in this example was calculated but could be a number
+instead.
 
 ```python
 import numpy as np
