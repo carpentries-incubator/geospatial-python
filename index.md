@@ -30,7 +30,7 @@ Data Carpentry's aim is to teach researchers basic concepts, skills, and tools f
 > * San Joaquin Experimental Range (SJER) - California, USA - [fieldsite description](https://www.neonscience.org/field-sites/field-sites-map/SJER)
 > 
 > You can download all of the data used in this workshop by clicking 
-> [this download link](https://ndownloader.figshare.com/files/21618735). 
+> [this download link](https://figshare.com/ndownloader/files/33848834). 
 > Clicking the download link will download all of the files as a single compressed
 > (`.zip`) file. To expand this file, double-click the folder icon in your file navigator application (for Macs, this is the Finder 
 > application).
