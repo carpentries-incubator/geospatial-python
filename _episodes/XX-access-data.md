@@ -66,11 +66,15 @@ api_url = "https://earth-search.aws.element84.com/v0"
 {: .language-python}
 
 > ## Exercise: Discover a STAC catalog
-> Open the following STAC API link using your web browser:
+> Let's take a moment to explore the Earth Search STAC catalog, which is a catalog listing few satellite image datasets
+> that are hosted on AWS. The catalog is accessible via the STAC API at the following URL:
 > [https://earth-search.aws.element84.com/v0](https://earth-search.aws.element84.com/v0).
-> Navigate through the links to find out which collections are available and how many scenes are indexed. Where may one
-> find information on how to query the API for the desired scenes? Can you find out which parameters can be provided
-> in the queries?
+> We can interactively browse a STAC catalog using the following tool:
+> [https://radiantearth.github.io/stac-browser](https://radiantearth.github.io/stac-browser).
+> Open the link in your web browser, paste the STAC API URL in the navigation bar, and click on "Load".
+> Which collections are available? Open the Sentinel-2 L2A COGs collection, and select one of the items (i.e. a
+> satellite "scene"). Have a look at the metadata fields and browse through the available assets. What type of data can
+> you access for this item?
 {: .challenge}
 
 You can query a STAC API endpoint from Python using the `pystac_client` library. In the following code snippets, we ask
