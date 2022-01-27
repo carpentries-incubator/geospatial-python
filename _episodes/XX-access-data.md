@@ -334,3 +334,94 @@ Finally, data can be saved to disk:
 visual_clip.rio.to_raster("amsterdam_tci.tif", driver="COG")
 ~~~
 {: .language-python}
+
+
+> ## Exercise: Downloading Landsat 8 Assets
+> In this exercise we put in practice all the skills we have learned in this episode to retrieve images from a different
+> mission: [Landsat 8](https://www.usgs.gov/landsat-missions/landsat-8). Scenes from this satellite are also indexed in
+> the Earth Search STAC catalog, so you can use the same endpoints used for Sentinel-2 for the following queries.
+>
+> - Using `pystac_client`, search for all assets of the Landsat 8 collection (`landsat-8-l1-c1`) from February to March
+>   2021, intersecting the point (40.78, -73.97).
+> - Select the scene with the lowest cloud cover, and open the panchromatic band (band 8, `B8`) using `rioxarray`.
+> - Make a cutout of the scene using the following bounding box: `(577000, 4504000, 597000, 4524000)`.
+> - Save the raster as a GeoTIFF file.
+>
+> >## Solution
+> >
+> > ~~~
+> > collection = "landsat-8-l1-c1"
+> >
+> > # define point geometry
+> > lat, lon = 40.78, -73.97
+> > coords = dict(type="Point", coordinates=(lon, lat))
+> >
+> > datetime="2021-02-01/2021-03-30"
+> >
+> > # setup search
+> > mysearch = client.search(
+> >     collections=[collection],
+> >     intersects=coords,
+> >     datetime=datetime,
+> > )
+> >
+> > # retrieve search results
+> > items = mysearch.get_all_items()
+> > print(len(items))
+> > ~~~
+> > {: .language-python}
+> >
+> > ~~~
+> > 7
+> > ~~~
+> > {: .output}
+> >
+> > ~~~
+> > items_sorted = sorted(items, key=lambda x: x.properties["eo:cloud_cover"])
+> > item = items_sorted[0]
+> > print(item)
+> > ~~~
+> > {: .language-python}
+> >
+> > ~~~
+> > <Item id=LC08_L1TP_013032_20210208_20210305_01_T1>
+> > ~~~
+> > {: .output}
+> >
+> > ~~~
+> > band_pan_href = item.assets["B8"].href
+> > band_pan = rioxarray.open_rasterio(band_pan_href)
+> > print(band_pan)
+> > ~~~
+> > {: .language-python}
+> >
+> > ~~~
+> > <xarray.DataArray (band: 1, y: 15561, x: 15321)>
+> > [238410081 values with dtype=uint16]
+> > Coordinates:
+> >   * band         (band) int64 1
+> >   * x            (x) float64 5.271e+05 5.271e+05 ... 7.569e+05 7.569e+05
+> >   * y            (y) float64 4.582e+06 4.582e+06 ... 4.349e+06 4.349e+06
+> >     spatial_ref  int64 0
+> > Attributes:
+> >     scale_factor:  1.0
+> >     add_offset:    0.0
+> > ~~~
+> > {: .output}
+> >
+> > ~~~
+> > bbox = (577000.0, 4504000.0, 597000.0, 4524000.0)
+> > band_pan_clip = band_pan.rio.clip_box(*bbox)
+> > band_pan_clip.squeeze().plot.imshow(figsize=(10,10))
+> > ~~~
+> > {: .language-python}
+> >
+> > <img src="../fig/XX-STAC-landsat8-B8-cutout.png" title="Plot of the panchromatic band cutout" alt="landsat8 panchromatic band cutout" width="612" style="display: block; margin: auto;" />
+> >
+> > ~~~
+> > band_pan_clip.rio.to_raster("manhattan.tif", driver="COG")
+> > ~~~
+> > {: .language-python}
+> {: .solution}
+{: .challenge}
+
