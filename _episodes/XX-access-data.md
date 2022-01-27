@@ -4,10 +4,10 @@ teaching: TODO
 exercises: TODO
 questions:
 - "Where can I find open satellite data?"
-- "How do I query a STAC API using metadata filters?"
+- "How do I search for satellite imagery with the STAC API?"
 - "How do I fetch remote raster datasets using Python?"
 objectives:
-- "Search public repositories of satellite imagery using Python."
+- "Search public STAC repositories of satellite imagery using Python."
 - "Inspect the search result metadata."
 - "Download (a subset of) the assets available for a satellite scene."
 - "Open the satellite imagery as raster data and setup some raster calculations."
@@ -15,7 +15,7 @@ objectives:
 keypoints:
 - "Accessing satellite images via the providers' API enables a more reliable and scalable data retrieval."
 - "STAC catalogs can be browsed and searched using the same tools and scripts."
-- "`rioxarry` also allows you to open and download remote raster files."
+- "`rioxarray` also allows you to open and download remote raster files."
 ---
 
 A number of satellites take snapshots of the Earth's surface from space. The images recorded by these remote sensors
@@ -66,7 +66,8 @@ api_url = "https://earth-search.aws.element84.com/v0"
 {: .language-python}
 
 > ## Exercise: Discover a STAC catalog
-> Open the following STAC API link using your web browser: https://earth-search.aws.element84.com/v0.
+> Open the following STAC API link using your web browser:
+> [https://earth-search.aws.element84.com/v0](https://earth-search.aws.element84.com/v0).
 > Navigate through the links to find out which collections are available and how many scenes are indexed. Where may one
 > find information on how to query the API for the desired scenes? Can you find out which parameters can be provided
 > in the queries?
