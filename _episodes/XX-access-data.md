@@ -49,6 +49,8 @@ The SpatioTemporal Asset Catalog (STAC) specification is an emerging standard fo
 organizing metadata in a form that adheres to the STAC specifications, data providers make it possible for users to
 access data from different missions, instruments and collections using the same set of tools.
 
+<img src="../fig/XX-STAC-browser.jpg" title="Screenshots of the Earth Search STAC catalog opened with the STAC browser" alt="STAC browser snapshots" width="612" style="display: block; margin: auto;" />
+
 > ## More Resources on STAC
 >
 > * [The STAC specification](https://github.com/radiantearth/stac-spec)
