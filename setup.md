@@ -24,11 +24,11 @@ title: Setup
 
   4. Download the data that will be used in this lesson. There are two ways you can do this:
 
-     * **Web browser:** [**Click here**](https://ndownloader.figshare.com/files/21618735) to download the zip file. When it finishes, move the zip file into the `geospatial-python` directory we created above and unzip the file.
+     * **Web browser:** [**Click here**](https://figshare.com/ndownloader/files/33848834) to download the zip file. When it finishes, move the zip file into the `geospatial-python` directory we created above and unzip the file.
      * **Terminal:**
 
       ```bash
-      curl -L --output NEON-GEO-PYTHON-DATASETS.zip https://ndownloader.figshare.com/files/21618735
+      curl -L --output NEON-GEO-PYTHON-DATASETS.zip https://figshare.com/ndownloader/files/33848834
       ```
 
      The file should begin to download. When it is complete, unzip it by entering the following command:
@@ -159,8 +159,8 @@ code on the Terminal:
     ```bash
     conda create -n geospatial -c conda-forge -y \
       jupyterlab numpy matplotlib \
-      xarray rasterio geopandas rioxarray earthpy descartes xarray-spatial
-   
+      xarray rasterio geopandas rioxarray earthpy descartes xarray-spatial pystac-client
+
     ```
    
    _Please note that this step may take several minutes to complete. If it takes more than a few minutes, see below for another method._
@@ -197,6 +197,7 @@ code on the Terminal:
       - xarray-spatial
       - earthpy
       - descartes # necessary for geopandas plotting
+      - pystac-client
     ```
    
     In the terminal, navigate to the directory where you saved the `environment.yaml` file using the `cd` command.
