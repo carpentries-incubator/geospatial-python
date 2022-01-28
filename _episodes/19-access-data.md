@@ -49,7 +49,7 @@ The SpatioTemporal Asset Catalog (STAC) specification is an emerging standard fo
 organizing metadata in a form that adheres to the STAC specifications, data providers make it possible for users to
 access data from different missions, instruments and collections using the same set of tools.
 
-<img src="../fig/XX-STAC-browser.jpg" title="Screenshots of the Earth Search STAC catalog opened with the STAC browser" alt="STAC browser snapshots" width="612" style="display: block; margin: auto;" />
+<img src="../fig/19-STAC-browser.jpg" title="Screenshots of the Earth Search STAC catalog opened with the STAC browser" alt="STAC browser snapshots" width="612" style="display: block; margin: auto;" />
 
 > ## More Resources on STAC
 >
@@ -285,7 +285,7 @@ https://roda.sentinel-hub.com/sentinel-s2-l1c/tiles/31/U/FU/2021/1/12/0/preview.
 
 This can be used to download the corresponding file:
 
-<img src="../fig/XX-STAC-s2-preview.jpg" title="Scene thumbnail" alt="true color image scene preview" width="612" style="display: block; margin: auto;" />
+<img src="../fig/19-STAC-s2-preview.jpg" title="Scene thumbnail" alt="true color image scene preview" width="612" style="display: block; margin: auto;" />
 
 Remote raster data can also be directly opened via `rioxarray`.
 ~~~
@@ -325,7 +325,7 @@ visual_clip.plot.imshow(figsize=(10,10))
 ~~~
 {: .language-python}
 
-<img src="../fig/XX-STAC-s2-true-color-image-cutout.png" title="Scene cutout true color image" alt="RGB representation of the scene cutout" width="612" style="display: block; margin: auto;" />
+<img src="../fig/19-STAC-s2-true-color-image-cutout.png" title="Scene cutout true color image" alt="RGB representation of the scene cutout" width="612" style="display: block; margin: auto;" />
 
 Finally, data can be saved to disk:
 
@@ -416,7 +416,7 @@ visual_clip.rio.to_raster("amsterdam_tci.tif", driver="COG")
 > > ~~~
 > > {: .language-python}
 > >
-> > <img src="../fig/XX-STAC-landsat8-B8-cutout.png" title="Plot of the panchromatic band cutout" alt="landsat8 panchromatic band cutout" width="612" style="display: block; margin: auto;" />
+> > <img src="../fig/19-STAC-landsat8-B8-cutout.png" title="Plot of the panchromatic band cutout" alt="landsat8 panchromatic band cutout" width="612" style="display: block; margin: auto;" />
 > >
 > > ~~~
 > > band_pan_clip.rio.to_raster("manhattan.tif", driver="COG")
