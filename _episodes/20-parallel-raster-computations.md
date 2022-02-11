@@ -16,33 +16,33 @@ keypoints:
 Very often raster computations involve applying the same operation to different pieces of data. Think, for instance, to
 the "pixel"-wise sum of two raster datasets, where the same sum operation is applied to all the matching grid-cells of
 the two rasters. This class of data-parallel tasks can benefit from chunking the input raster(s) into smaller
-pieces. In fact, operations on different data blocks can be run in parallel using multiple computing units
-(e.g., multi-core CPUs), thus potentially speeding up the calculation. In addition, by processing the data
-chunk-by-chunk, one could bypass the need to store the full dataset in memory, leading also to a smaller memory
-footprint.
+pieces: operations on different data blocks can be run in parallel using multiple computing units
+(e.g., multi-core CPUs), thus potentially speeding up the calculation. In addition, processing chunked data can also
+lead to smaller memory footprints, since one may bypass the need to store the full dataset in memory.
 
 In this episode, we will introduce the use of Dask in the context of raster calculations. Dask is a Python library for
 parallel and distributed computing that provides a framework to work with different data structures, including chunked
-arrays (Dask Arrays). Dask is well integrated with the Xarray's `DataArray`, which can use Dask arrays as underlying
+arrays (Dask Arrays). Dask is well integrated with (`rio`)`xarray` objects, which can use Dask arrays as underlying
 data structures.
 
 > ## More Resources on Dask
 >
-> Dask and Dask Arrays, with links
+> TODO: Dask and Dask Arrays, with links
 >
 {: .callout}
 
-It is important to notice, however, that the details of the computation determines the extent to which using Dask's
-chunked arrays instead of regular Numpy arrays can lead to faster calculations (and lower memory requirements).
-Depending on the nature of the calculation and the choice of parameters such as the chunk shape and size, one could even
-observe worse performances. Being able to time profile your calculations is thus essential, and we will see how to do
-that in a Jupyter environment in the next section.
+It is important to notice, however, that many details determine the extent to which using Dask's chunked arrays instead
+of regular Numpy arrays leads to faster calculations (and lower memory requirements). The actual operations to carry
+out, the size of the dataset, and parameters such as the chunks' shape and size, all affects the performance of our
+computations. Depending on the specifics of the calculations, serial calculations might actually turn out to be faster!
+Being able to time profile your calculations is thus essential, and we will see how to do that in a Jupyter environment
+in the next section.
 
 # Time profiling calculations in Jupyter
 
-Let's set up a raster calculation using assets from the search carried out in the previous episode. The search result,
-which consisted of a collection of STAC items (an `ItemCollection`), has been saved in GeoJSON format. We can load the
-collection again using the `pystac` library:
+Let's set up a raster calculation using assets from the search of satellite scenes that we have carried out in the
+previous episode. The search result, which consisted of a collection of STAC items (an `ItemCollection`), has been saved
+in GeoJSON format. We can load the collection using the `pystac` library:
 
 ~~~
 import pystac
@@ -51,10 +51,10 @@ items = pystac.ItemCollection.from_file("mysearch.json")
 {: .language-python}
 
 We select the last scene, and extract the URLs of two assets: the true-color image ("visual") and the scene
-classification layer ("SCL"), the latter being a pixel-based classification mask (e.g., grid cells classified as
-vegetation are labelled as "4", grid cells classified as water are labelled as "6", etc. - more details on the
-classes and on the algorithm employed
-[here](https://sentinels.copernicus.eu/web/sentinel/technical-guides/sentinel-2-msi/level-2a/algorithm)):
+classification layer ("SCL"). The latter is a mask where each grid cell is assigned a label that represents a specific
+class e.g. "4" for vegetation, "6" for water, etc. (all classes and labels are reported in the
+[Sentinel-2 documentation](https://sentinels.copernicus.eu/web/sentinel/technical-guides/sentinel-2-msi/level-2a/algorithm),
+see Figure 3):
 
 ~~~
 assets = items[-1].assets  # last item's assets
@@ -63,32 +63,45 @@ scl_href = assets["SCL"].href  # scene classification layer
 ~~~
 {: .language-python}
 
-Opening the two assets with `rioxarray` would show that the true-color image is available as a raster file with 10 m
-resolution, while the scene classification layer has a lower resolution (20 m). In order to match the image and the mask
-pixels, one could download the finer raster file and resample it to the coarser resolution. However, we can take
-advantage of a feature of the cloud-optimized GeoTIFF (COG) format, used to store these raster files. COGs, in fact,
-can include multiple lower-resolution versions of the original image, called "overviews", which are typically computed
-using powers of 2 as down-sampling factors (e.g. 2, 4, 8, 16). This allows to avoid downloading a high-resolution image
-if only a quick preview of it is required.
 
-We can thus open the first overview (zoom factor 2, or 2 times lower resolution) of the true-color image, together with
-the full resolution image of the scene classification layer, and verify that they have the same resolution:
+Opening the two assets with `rioxarray` shows that the true-color image is available as a raster file with 10 m
+resolution, while the scene classification layer has a lower resolution (20 m):
 
 ~~~
 import rioxarray
-visual = rioxarray.open_rasterio(visual_href, overview_level=0)
 scl = rioxarray.open_rasterio(scl_href)
-scl.rio.resolution() == visual.rio.resolution()
+visual = rioxarray.open_rasterio(visual_href)
+scl.rio.resolution(), visual.rio.resolution()
 ~~~
 {: .language-python}
 
 ~~~
-True
+((20.0, -20.0), (10.0, -10.0))
 ~~~
 {: .output}
 
-We can now measure the time required for the first step in our calculation with raster files, which is downloading the
-rasters' content. We use the Jupyter magic `%%time`, which returns the time required to run the content of a cell:
+In order to match the image and the mask pixels, one could load both rasters and resample the finer raster to the
+coarser resolution (e.g. with `reproject_match`). Instead, here we take advantage of a feature of the cloud-optimized
+GeoTIFF (COG) format, which is used to store these raster files. COGs typically include multiple lower-resolution
+versions of the original image, called "overviews", in the same file. This allows to avoid downloading high-resolution
+images when only quick previews are required.
+
+Overviews are often computed using powers of 2 as down-sampling (or zoom) factors (e.g. 2, 4, 8, 16). For the true-color image we
+thus open the first level overview (zoom factor 2) and check that the resolution is now also 20 m:
+
+~~~
+visual = rioxarray.open_rasterio(visual_href, overview_level=0)
+visual.rio.resolution()
+~~~
+{: .language-python}
+
+~~~
+(20.0, -20.0)
+~~~
+{: .output}
+
+We can now time profile the first step of our raster calculation: the (down)loading of the rasters' content. We do it by
+using the Jupyter magic `%%time`, which returns the time required to run the content of a cell:
 
 ~~~
 %%time
@@ -112,10 +125,13 @@ scl.squeeze().plot.imshow(levels=range(13), figsize=(12,10))
 <img src="../fig/20-Dask-arrays-s2-true-color-image.png" title="Scene true color image" alt="true color image scene" width="612" style="display: block; margin: auto;" />
 <img src="../fig/20-Dask-arrays-s2-scene-classification.png" title="Scene classification" alt="scene classification" width="612" style="display: block; margin: auto;" />
 
-After having loaded the raster files into memory, we run the following calculation: we create a mask of the grid cells
-that are labeled as "cloud" in the scene classification layer (labels 8 and 9, for medium- and high-cloud probability,
-respectively), we use this mask to set the corresponding grid cells in the true-color image to nodata, and save
-the masked image to disk as a COG. We measure the cell execution time using `%%time`:
+After having loaded the raster files into memory, we run the following steps:
+* We create a mask of the grid cells that are labeled as "cloud" in the scene classification layer (values "8" and "9",
+  standing for medium- and high-cloud probability, respectively).
+* We use this mask to set the corresponding grid cells in the true-color image to null values.
+* We save the masked image to disk as in COG format.
+
+Again, we measure the cell execution time using `%%time`:
 
 ~~~
 %%time
@@ -139,6 +155,9 @@ visual_masked.plot.imshow(figsize=(10, 10))
 {: .language-python}
 
 <img src="../fig/20-Dask-arrays-s2-true-color-image_masked.png" title="True color image after masking out clouds" alt="masked true color image" width="612" style="display: block; margin: auto;" />
+
+In the following section we will see how to make use of parallelization to run these steps and compare timings to the
+serial runs.
 
 # Dask-powered rasters
 
