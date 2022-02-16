@@ -7,6 +7,7 @@ questions:
 objectives:
 
 keypoints:
+- "Calculating zonal statistics with xrspatial for polygon objects requires rasterizing each object."
 
 ---
 > ## Things You’ll Need To Complete This Episode
