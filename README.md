@@ -31,13 +31,13 @@ Check out the [Contribution Guide](CONTRIBUTING.md) and [more detailed guideline
 This lesson would not be possible without the many contributions from the authors of the [Introduction to Geospatial Raster and Vector Data with R](https://github.com/datacarpentry/r-raster-vector-geospatial) and [Introduction to Geospatial Concepts](https://github.com/datacarpentry/organization-geospatial) lessons. These lessons have served as templates for this geospatial python lesson.
 
 Data Carpentry Introduction to Geospatial Raster and Vector Data with R
-Leah Wasser; Megan A. Jones; Joseph Stachelek; Lachlan Deer; Zack Brym; Lauren O'Brien; Ana Costa Conrado; Aateka Shashank; Kristina Riemer; Anne Fouilloux; Juan Fung; Marchand; Tracy Teal; Sergio Marconi; James Holmquist; Mike Smorul; Punam Amratia; Erin Becker; Katrin Leinweber
-Editors: Joseph Stachelek; Lauren O'Brien; Jane Wyngaard
+Leah Wasser; Megan A. Jones; Jemma Stachelek; Lachlan Deer; Zack Brym; Lauren O'Brien; Ana Costa Conrado; Aateka Shashank; Kristina Riemer; Anne Fouilloux; Juan Fung; Marchand; Tracy Teal; Sergio Marconi; James Holmquist; Mike Smorul; Punam Amratia; Erin Becker; Katrin Leinweber
+Editors: Jemma Stachelek; Lauren O'Brien; Jane Wyngaard
 https://doi.org/10.5281/zenodo.1404424
 
  
 Data Carpentry Introduction to Geospatial Concepts
-Leah Wasser; Megan A. Jones; Lauren O'Brien; Joseph Stachelek; Tom Wright; Tracy Teal; Dev Paudel; Jane Wyngaard; Anne Fouilloux; Bidhyananda Yadav; Chris Prener; Tyson Swetnam; Erin Becker; Katrin Leinweber
+Leah Wasser; Megan A. Jones; Lauren O'Brien; Jemma Stachelek; Tom Wright; Tracy Teal; Dev Paudel; Jane Wyngaard; Anne Fouilloux; Bidhyananda Yadav; Chris Prener; Tyson Swetnam; Erin Becker; Katrin Leinweber
 Editor(s): Tyson Swetnam; Chris Prener
 https://doi.org/10.5281/zenodo.1404414
 
