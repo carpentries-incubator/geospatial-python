@@ -67,27 +67,52 @@ grid_mapping: spatial_ref
 ~~~
 {: .output}
 
-To read the spatial reference in the output you click on the icon “Show/Hide attributes” on the right side of the `spatial_ref` row. You can also print the Well-known Text projection string.
+To view the CRS information for this dataset in the interactive `repr`, click on document icon on the right side of the `spatial_ref` row.
+
+As we showed in [the previous lesson]({{site.baseurl}}/05-raster-structure#view-raster-coordinate-reference-system-crs-in-python), we can also use the `CRS` class from the `pyproj` library to view the CRS:
 
 ~~~
-surface_HARV.rio.crs.wkt
+from pyproj import CRS
+
+CRS(surface_HARV.rio.crs)
 ~~~
 {: .language-python}
 
 ~~~
-'PROJCS["WGS 84 / UTM zone 18N",GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]],PROJECTION["Transverse_Mercator"],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",-75],PARAMETER["scale_factor",0.9996],PARAMETER["false_easting",500000],PARAMETER["false_northing",0],UNIT["metre",1,AUTHORITY["EPSG","9001"]],AXIS["Easting",EAST],AXIS["Northing",NORTH],AUTHORITY["EPSG","32618"]]'
+<Derived Projected CRS: EPSG:32618>
+Name: WGS 84 / UTM zone 18N
+Axis Info [cartesian]:
+- [east]: Easting (metre)
+- [north]: Northing (metre)
+Area of Use:
+- undefined
+Coordinate Operation:
+- name: UTM zone 18N
+- method: Transverse Mercator
+Datum: World Geodetic System 1984
+- Ellipsoid: WGS 84
+- Prime Meridian: Greenwich
 ~~~
 {: .output}
 
 We can see the datum and projection are UTM zone 18N and WGS 84 respectively. UTM zone 18N is a regional projection with an associated coordinate system to more accurately capture distance, shape and/or area around the Harvard Forest.
 
 ~~~
-terrain_HARV.rio.crs.wkt
+CRS(terrain_HARV.rio.crs)
 ~~~
 {: .language-python}
 
 ~~~
-'GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AXIS["Latitude",NORTH],AXIS["Longitude",EAST],AUTHORITY["EPSG","4326"]]'
+<Geographic 2D CRS: EPSG:4326>
+Name: WGS 84
+Axis Info [ellipsoidal]:
+- Lat[north]: Geodetic latitude (degree)
+- Lon[east]: Geodetic longitude (degree)
+Area of Use:
+- undefined
+Datum: World Geodetic System 1984
+- Ellipsoid: WGS 84
+- Prime Meridian: Greenwich
 ~~~
 {: .output}
 
