@@ -22,7 +22,14 @@ title: Setup
       cd geospatial-python
       ```
 
-  4. Download the data that will be used in this lesson. There are two ways you can do this:
+  4. Create a subdirectory within `geospatial-python` called `data` and change into it:
+
+      ```bash
+      mkdir data
+      cd data
+      ```
+
+  5. Download the data that will be used in this lesson. There are two ways you can do this:
 
      * **Web browser:** [**Click here**](https://figshare.com/ndownloader/files/33848834) to download the zip file. When it finishes, move the zip file into the `geospatial-python` directory we created above and unzip the file.
      * **Terminal:**
@@ -36,8 +43,14 @@ title: Setup
       ```bash
       unzip NEON-GEO-PYTHON-DATASETS.zip
       ```
+
      You should now have a directory named `data` within `geospatial-python`. Use the `ls` command to confirm.
 
+  6. Change directories from `data` back into `geospatial-python`:
+
+      ```bash
+      cd ..
+      ```
 
 ## Installing Python Using Anaconda
 
