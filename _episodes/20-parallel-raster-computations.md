@@ -15,10 +15,10 @@ keypoints:
 
 Very often raster computations involve applying the same operation to different pieces of data. Think, for instance, to
 the "pixel"-wise sum of two raster datasets, where the same sum operation is applied to all the matching grid-cells of
-the two rasters. This class of data-parallel tasks can benefit from chunking the input raster(s) into smaller
-pieces: operations on different data blocks can be run in parallel using multiple computing units
-(e.g., multi-core CPUs), thus potentially speeding up the calculation. In addition, processing chunked data can also
-lead to smaller memory footprints, since one may bypass the need to store the full dataset in memory.
+the two rasters. This class of tasks can benefit from chunking the input raster(s) into smaller pieces: operations on
+different data blocks can be run in parallel using multiple computing units (e.g., multi-core CPUs), thus potentially
+speeding up calculations. In addition, working on chunked data can also lead to smaller memory footprints, since one
+may bypass the need to store the full dataset in memory by processing it chunk by chunk.
 
 In this episode, we will introduce the use of Dask in the context of raster calculations. Dask is a Python library for
 parallel and distributed computing that provides a framework to work with different data structures, including chunked
@@ -31,7 +31,7 @@ data structures.
 >
 {: .callout}
 
-It is important to notice, however, that many details determine the extent to which using Dask's chunked arrays instead
+It is important to realize, however, that many details determine the extent to which using Dask's chunked arrays instead
 of regular Numpy arrays leads to faster calculations (and lower memory requirements). The actual operations to carry
 out, the size of the dataset, and parameters such as the chunks' shape and size, all affects the performance of our
 computations. Depending on the specifics of the calculations, serial calculations might actually turn out to be faster!
@@ -86,8 +86,8 @@ GeoTIFF (COG) format, which is used to store these raster files. COGs typically 
 versions of the original image, called "overviews", in the same file. This allows to avoid downloading high-resolution
 images when only quick previews are required.
 
-Overviews are often computed using powers of 2 as down-sampling (or zoom) factors (e.g. 2, 4, 8, 16). For the true-color image we
-thus open the first level overview (zoom factor 2) and check that the resolution is now also 20 m:
+Overviews are often computed using powers of 2 as down-sampling (or zoom) factors (e.g. 2, 4, 8, 16). For the true-color
+image we thus open the first level overview (zoom factor 2) and check that the resolution is now also 20 m:
 
 ~~~
 visual = rioxarray.open_rasterio(visual_href, overview_level=0)
@@ -111,8 +111,8 @@ visual = visual.load()
 {: .language-python}
 
 ~~~
-CPU times: user 825 ms, sys: 1.07 s, total: 1.9 s
-Wall time: 1min
+CPU times: user 729 ms, sys: 852 ms, total: 1.58 s
+Wall time: 40.5 s
 ~~~
 {: .output}
 
@@ -137,13 +137,13 @@ Again, we measure the cell execution time using `%%time`:
 %%time
 mask = scl.squeeze().isin([8, 9])
 visual_masked = visual.where(~mask, other=visual.rio.nodata)
-visual_masked.rio.to_raster("band_masked.tif", driver="COG")
+visual_masked.rio.to_raster("band_masked.tif")
 ~~~
 {: .language-python}
 
 ~~~
-CPU times: user 3.9 s, sys: 733 ms, total: 4.64 s
-Wall time: 4.66 s
+CPU times: user 270 ms, sys: 366 ms, total: 636 ms
+Wall time: 647 ms
 ~~~
 {: .output}
 
@@ -156,29 +156,34 @@ visual_masked.plot.imshow(figsize=(10, 10))
 
 <img src="../fig/20-Dask-arrays-s2-true-color-image_masked.png" title="True color image after masking out clouds" alt="masked true color image" width="612" style="display: block; margin: auto;" />
 
-In the following section we will see how to make use of parallelization to run these steps and compare timings to the
-serial runs.
+In the following section we will see how to parallelize these raster calculations, and we will compare timings to the
+serial calculations that we have just run.
 
 # Dask-powered rasters
 
 ## Chunked arrays
 
-We have mentioned that one way to include parallelism is to use chunked arrays. We select another band from the assets
-(the blue band, "B02"):
+As we have mentioned, `rioxarray` supports the use of Dask's chunked arrays as underlying data structure. When opening
+a raster file with `open_rasterio` and providing the `chunks` argument, Dask arrays are employed instead of regular
+Numpy arrays. `chunks` describes the shape of the blocks which the data will be split in. As an example, we
+open the blue band raster ("B02") using a chunk shape of `(1, 4000, 4000)` (block size of `1` in the first dimension and
+of `4000` in the second and third dimensions):
 
 ~~~
 blue_band_href = assets["B02"].href
-blue_band = rioxarray.open_rasterio(blue_band_href, lock=False, chunks=(1, 4000, 4000))
+blue_band = rioxarray.open_rasterio(blue_band_href, chunks=(1, 4000, 4000))
 ~~~
 {: .language-python}
+
+Xarray and Dask also provide a graphical representation of the raster data array and of its blocked structure.
 
 <img src="../fig/20-Dask-arrays-s2-blue-band.png" title="Xarray representation of a Dask-backed DataArray" alt="DataArray with Dask" width="612" style="display: block; margin: auto;" />
 
 > ## Exercise: Chunk sizes matter
 > We have already seen how COGs are regular GeoTIFF files with a special internal structure. Another feature of COGs is
-> that data is organized in "blocks" that can be accessed via independent HTTP requests, enabling partial file readings
-> (and, thus, efficient parallel access!). You can check the blocksize employed in a COG file with the following code
-> snippet:
+> that data is organized in "blocks" that can be accessed remotely via independent HTTP requests, enabling partial file
+> readings. This is useful if you want to access only a portion of your raster file, but it also allows for efficient
+> parallel reading. You can check the blocksize employed in a COG file with the following code snippet:
 >
 > ~~~
 > import rasterio
@@ -188,9 +193,9 @@ blue_band = rioxarray.open_rasterio(blue_band_href, lock=False, chunks=(1, 4000,
 > ~~~
 > {: .language-python}
 >
-> In order to optimally access COGs it is best to align the blocksize of the file with the chunks employed for the file
-> read. Open the blue-band asset ("B02") of a Sentinel-2 scene as a chunked `DataArray` object using suitable chunksize
-> values. Which elements do you think should be considered when choosing such values?
+> In order to optimally access COGs it is best to align the blocksize of the file with the chunks employed when loading
+> the file. Open the blue-band asset ("B02") of a Sentinel-2 scene as a chunked `DataArray` object using a suitable
+> chunk size. Which elements do you think should be considered when choosing such value?
 >
 > > ## Solution
 > > ~~~
@@ -207,19 +212,20 @@ blue_band = rioxarray.open_rasterio(blue_band_href, lock=False, chunks=(1, 4000,
 > > {: .output}
 > >
 > > Ideal values are thus multiples of 1024. An element to consider is the number of resulting chunks and their size.
-> > Recommended chunk sizes are of the order of 100 MB. Also the shape might be relevant, depending on the application!
-> > We might select a chunks shape `(1, 6144, 6144)`:
+> > Chunks should not be too big nor too small (i.e. too many). Recommended chunk sizes are of the order of 100 MB.
+> > Also, the shape might be relevant, depending on the application! Here, we might select a chunks shape of
+> > `(1, 6144, 6144)`:
 > >
 > > ~~~
-> > band = rioxarray.open_rasterio(band_url, lock=False, chunks=(1, 6144, 6144))
+> > band = rioxarray.open_rasterio(band_url, chunks=(1, 6144, 6144))
 > > ~~~
 > > {: .language-python}
 > >
-> > which leads to chunks of 72 MB. Also, we can let `rioxarray` and Dask figure out appropriate chunk shapes by setting
-> > `chunks="auto"`:
+> > which leads to chunks 72 MB large. Also, we can let `rioxarray` and Dask figure out appropriate chunk shapes by
+> > setting `chunks="auto"`:
 > >
 > > ~~~
-> > band = rioxarray.open_rasterio(band_url, lock=False, chunks="auto")
+> > band = rioxarray.open_rasterio(band_url, chunks="auto")
 > > ~~~
 > > {: .language-python}
 > >
@@ -227,7 +233,15 @@ blue_band = rioxarray.open_rasterio(blue_band_href, lock=False, chunks=(1, 4000,
 > {: .solution}
 {: .challenge}
 
-## Lazy computations
+## Parallel computations
+
+Most of the calculations performed on a `DataArray` that has been opened as a chunked Dask array will be run with Dask.
+Dask will try to distribute calculations on the data chunks to the available computing units, running these in parallel
+as much as possible. By default, Dask will make use of local CPU(s), but it can be configured to distribute tasks to
+large compute clusters!
+
+Let's now repeat the raster calculations that we have carried out in the previous section, but running calculations in
+parallel. We first open the relevant rasters as chunked arrays:
 
 ~~~
 scl = rioxarray.open_rasterio(scl_href, lock=False, chunks=(1, 2048, 2048))
@@ -235,18 +249,27 @@ visual = rioxarray.open_rasterio(visual_href, overview_level=0, lock=False, chun
 ~~~
 {: .language-python}
 
+Setting `lock=False` tells `rioxarray` that data chunks can be loaded simultaneously from the source by the Dask
+workers. We trigger the download of the data using the `.persist()` method. This makes sure that the data is maintained
+chunked within the Dask framework (calling `.load()` would instead convert the underlying Dask arrays to Numpy). We
+explicitly tell Dask to parallelize the required workload over 4 threads. Don't forget to add the Jupyter magic to
+record the timing!
+
 ~~~
 %%time
-scl = scl.persist()
-visual = visual.persist()
+scl = scl.persist(scheduler="threads", num_workers=4)
+visual = visual.persist(scheduler="threads", num_workers=4)
 ~~~
 {: .language-python}
 
 ~~~
-CPU times: user 1.29 s, sys: 975 ms, total: 2.27 s
-Wall time: 21.4 s
+CPU times: user 1.18 s, sys: 806 ms, total: 1.99 s
+Wall time: 12.6 s
 ~~~
 {: .output}
+
+So downloading chunks of data in parallel gave a speed-up of almost x4! Let's now continue to the following steps of the
+ calculation.
 
 ~~~
 from threading import Lock
@@ -257,15 +280,17 @@ from threading import Lock
 %%time
 mask = scl.squeeze().isin([8, 9])
 visual_masked = visual.where(~mask, other=0)
-visual_store = visual_masked.rio.to_raster("band_masked.tif", driver="COG", lock=threading.Lock(), compute=False)
+visual_store = visual_masked.rio.to_raster("band_masked.tif", tiled=True, lock=threading.Lock(), compute=False)
 ~~~
 {: .language-python}
 
 ~~~
-CPU times: user 1.52 s, sys: 75.8 ms, total: 1.6 s
-Wall time: 1.6 s
+CPU times: user 13.3 ms, sys: 4.98 ms, total: 18.3 ms
+Wall time: 17.8 ms
 ~~~
 {. output}
+
+What happened? Lazy calculation
 
 ~~~
 import dask
@@ -282,9 +307,7 @@ visual_store.compute()
 {: .language-python}
 
 ~~~
-CPU times: user 1.59 s, sys: 242 ms, total: 1.84 s
-Wall time: 1.41 s
-[28]:
-[None, None, None, None, None, None, None, None, None]
+CPU times: user 532 ms, sys: 488 ms, total: 1.02 s
+Wall time: 791 ms
 ~~~
 {: .output}
