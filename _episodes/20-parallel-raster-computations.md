@@ -270,7 +270,7 @@ Wall time: 12.6 s
 ~~~
 {: .output}
 
-So downloading chunks of data using 4 worker gave a speed-up of almost 4 times (40.5 s vs 12.6 s)!
+So downloading chunks of data using 4 workers gave a speed-up of almost 4 times (40.5 s vs 12.6 s)!
 
 Let's now continue to the second step of the calculation. Note how the same syntax as for its serial version is employed
 for creating and applying the cloud mask. Only the raster saving includes additional arguments:
@@ -298,9 +298,10 @@ Wall time: 17.8 ms
 ~~~
 {. output}
 
-Did we just observe a 36x speed-up (647 ms vs 17.8 ms)? Actually, no calculation has run yet. This is because operations
-performed on Dask arrays are executed "lazily", i.e. they are not immediately run. The sequence of operations to carry
-out is instead stored in a task graph, which can be visualized with:
+Did we just observe a 36x speed-up when comparing to the serial calculation (647 ms vs 17.8 ms)? Actually, no
+calculation has run yet. This is because operations performed on Dask arrays are executed "lazily", i.e. they are not
+immediately run. The sequence of operations to carry out is instead stored in a task graph, which can be visualized
+with:
 
 ~~~
 import dask
@@ -313,10 +314,10 @@ dask.visualize(visual_store)
 The task graph gives Dask the complete "overview" of the calculation, thus enabling a better management of tasks and
 resources when dispatching calculations to be run in parallel.
 
-While most methods of `DataArray`'s run operations lazily when Dask arrays are employed, some methods immediately
-trigger calculations, like the method `to_raster()` (we have changed this behaviour by specifying `compute=False`). In
-order to trigger calculation, we can use the `.compute()` method. Again, we explicitly tell Dask to run tasks on 4
-threads. Let's time the time of execution now:
+While most methods of `DataArray`'s run operations lazily when Dask arrays are employed, some methods by default
+trigger immediate calculations, like the method `to_raster()` (we have changed this behaviour by specifying
+`compute=False`). In order to trigger calculations, we can use the `.compute()` method. Again, we explicitly tell Dask
+to run tasks on 4 threads. Let's time the cell execution:
 
 ~~~
 %%time
@@ -330,11 +331,12 @@ Wall time: 791 ms
 ~~~
 {: .output}
 
-The timing that we have obtained for this step is now similar (actually longer) than for the serial calculation.
+The timing that we have recorded for this step is now closer to the one recorded for the serial calculation (the
+parallel calculation actually took slightly longer).
 
 > ## Serial vs parallel
 >
-> Can you speculate why the parallel calculation actually took longer than the serial one?
+> Can you speculate why the parallel calculation actually took longer than its serial version?
 >
 > > ## Solution
 > > TODO
