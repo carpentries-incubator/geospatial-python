@@ -235,13 +235,13 @@ Xarray and Dask also provide a graphical representation of the raster data array
 
 ## Parallel computations
 
-Most of the calculations performed on a `DataArray` that has been opened as a chunked Dask array will be run with Dask.
-Dask will try to distribute calculations on the data chunks to the available computing units, running these in parallel
-as much as possible. By default, Dask will make use of local CPU(s), but it can be configured to distribute tasks to
-large compute clusters!
+Operations performed on a `DataArray` that has been opened as a chunked Dask array are executed using Dask. Dask
+coordinates how the operations should be executed on the individual chunks of data, and runs these tasks in parallel as
+much as possible. By default, Dask parallelizes operations on the CPUs that are available on the same machine, but it
+can be configured to dispatch tasks on large compute clusters.
 
 Let's now repeat the raster calculations that we have carried out in the previous section, but running calculations in
-parallel. We first open the relevant rasters as chunked arrays:
+parallel over a multi-core CPU. We first open the relevant rasters as chunked arrays:
 
 ~~~
 scl = rioxarray.open_rasterio(scl_href, lock=False, chunks=(1, 2048, 2048))
@@ -249,10 +249,12 @@ visual = rioxarray.open_rasterio(visual_href, overview_level=0, lock=False, chun
 ~~~
 {: .language-python}
 
-Setting `lock=False` tells `rioxarray` that data chunks can be loaded simultaneously from the source by the Dask
-workers. We trigger the download of the data using the `.persist()` method. This makes sure that the data is maintained
-chunked within the Dask framework (calling `.load()` would instead convert the underlying Dask arrays to Numpy). We
-explicitly tell Dask to parallelize the required workload over 4 threads. Don't forget to add the Jupyter magic to
+Setting `lock=False` tells `rioxarray` that the individual data chunks can be loaded simultaneously from the source by
+the Dask workers. We trigger the download of the data using the `.persist()` method. This makes sure that the downloaded
+chunks are stored in the form of a chunked Dask array (calling `.load()` would instead merge the chunks in a single
+Numpy array).
+
+We explicitly tell Dask to parallelize the required workload over 4 threads. Don't forget to add the Jupyter magic to
 record the timing!
 
 ~~~
@@ -268,8 +270,14 @@ Wall time: 12.6 s
 ~~~
 {: .output}
 
-So downloading chunks of data in parallel gave a speed-up of almost x4! Let's now continue to the following steps of the
- calculation.
+So downloading chunks of data using 4 worker gave a speed-up of almost 4 times (40.5 s vs 12.6 s)!
+
+Let's now continue to the second step of the calculation. Note how the same syntax as for its serial version is employed
+for creating and applying the cloud mask. Only the raster saving includes additional arguments:
+* `tiled=True`: write raster as a chunked GeoTIFF.
+* `lock=threading.Lock()`: the threads which are splitting the workload must "synchronise" when writing to the same file
+  (they might otherwise overwrite each other's output).
+* `compute=False`: do not immediately run the calculation, more on this later.
 
 ~~~
 from threading import Lock
@@ -290,7 +298,9 @@ Wall time: 17.8 ms
 ~~~
 {. output}
 
-What happened? Lazy calculation
+Did we just observe a 36x speed-up (647 ms vs 17.8 ms)? Actually, no calculation has run yet. This is because operations
+performed on Dask arrays are executed "lazily", i.e. they are not immediately run. The sequence of operations to carry
+out is instead stored in a task graph, which can be visualized with:
 
 ~~~
 import dask
@@ -300,9 +310,17 @@ dask.visualize(visual_store)
 
 <img src="../fig/20-Dask-arrays-graph.png" title="Dask graph" alt="dask graph" width="612" style="display: block; margin: auto;" />
 
+The task graph gives Dask the complete "overview" of the calculation, thus enabling a better management of tasks and
+resources when dispatching calculations to be run in parallel.
+
+While most methods of `DataArray`'s run operations lazily when Dask arrays are employed, some methods immediately
+trigger calculations, like the method `to_raster()` (we have changed this behaviour by specifying `compute=False`). In
+order to trigger calculation, we can use the `.compute()` method. Again, we explicitly tell Dask to run tasks on 4
+threads. Let's time the time of execution now:
+
 ~~~
 %%time
-visual_store.compute()
+visual_store.compute(scheduler="threads", num_workers=4)
 ~~~
 {: .language-python}
 
@@ -311,3 +329,14 @@ CPU times: user 532 ms, sys: 488 ms, total: 1.02 s
 Wall time: 791 ms
 ~~~
 {: .output}
+
+The timing that we have obtained for this step is now similar (actually longer) than for the serial calculation.
+
+> ## Serial vs parallel
+>
+> Can you speculate why the parallel calculation actually took longer than the serial one?
+>
+> > ## Solution
+> > TODO
+> {: .solution}
+{: .challenge}
