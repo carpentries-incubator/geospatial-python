@@ -1,5 +1,5 @@
 ---
-title: "Crop raster data"
+title: "Crop raster data with rioxarray and geopandas"
 teaching: 40
 exercises: 20
 questions:
@@ -16,7 +16,7 @@ keypoints:
 
 It is quite common that the raster data you have in hand is too large to process, or not all the pixels are relevant to your area of interest (AoI). In both situations, you should consider cropping your raster data before performing data analysis. 
 
-In this episode, we will introduce how to crop raster data into the desired area. We will use one Sentinel-2 imagery over Amsterdam as the example raster data, and introduce how to crop your data to different types of AoIs.
+In this episode, we will introduce how to crop raster data into the desired area. We will use one Sentinel-2 image over Amsterdam as the example raster data, and introduce how to crop your data to different types of AoIs.
 
 > ## Introduce the Data
 >
@@ -36,7 +36,7 @@ First, we can have a glimpse of the raster data by loading it with `rioxarray`:
 import rioxarray
 
 # Load image and visualize
-raster = rioxarray.open_rasterio('../data/S2_amsterdam.tif')
+raster = rioxarray.open_rasterio('data/S2_amsterdam.tif')
 raster.plot.imshow(figsize=(8,8))
 ~~~
 {: .language-python}
@@ -51,7 +51,7 @@ from shapely.geometry import box
 from matplotlib import pyplot as plt
 
 # Load the polygons of the crop fields
-cf_boundary_crop = gpd.read_file("../data/crop_fields/cf_boundary_crop.shp")
+cf_boundary_crop = gpd.read_file("data/crop_fields/cf_boundary_crop.shp")
 cf_boundary_crop = cf_boundary_crop.to_crs(raster.rio.crs) # convert to the same CRS
 
 # Plot the bounding box over the raster
@@ -66,7 +66,7 @@ bb_cropfields.plot(ax=ax, alpha=0.6)
 
 <img src="../fig/20-crop-raster-bounding-box-01.png" title="Bounding boxes of AoI over the raster"  width="512" style="display: block; margin: auto;" />
 
-Seeing from the bounding boxes, the crop fields (red) only takes a small part of the raster (blue). Therefore before actual processing, we can first crop the raster to the actual area of interest. The `clip_box` function allows one crop a raster by min/max of x and y coordinates. 
+Seeing from the bounding boxes, the crop fields (red) only takes a small part of the raster (blue). Therefore before actual processing, we can first crop the raster to the actual area of interest. The `clip_box` function allows one to crop a raster by the min/max of the x and y coordinates. 
 
 ~~~
 # Crop the raster with the bounding box
@@ -144,7 +144,7 @@ raster_clip_polygon.plot.imshow(figsize=(8,8))
 > >
 > > ~~~
 > > # Load the crop fields polygons 
-> > cf_boundary_crop = gpd.read_file("../data/crop_fields/cf_boundary_crop.shp")
+> > cf_boundary_crop = gpd.read_file("data/crop_fields/cf_boundary_crop.shp")
 > > # Crop
 > > raster_clip_fields = raster_clip.rio.clip(cf_boundary_crop['geometry'], cf_boundary_crop.crs)
 > > # Visualize
@@ -162,7 +162,7 @@ It is not always the case that the AoI comes in the format of a polygon. Sometim
 
 ~~~
 # Load wells
-wells = gpd.read_file("../data/groundwater_monitoring_well/groundwater_monitoring_well.shp")
+wells = gpd.read_file("data/groundwater_monitoring_well/groundwater_monitoring_well.shp")
 wells = wells.to_crs(raster_clip.rio.crs)
 
 # Plot the wells over raster
@@ -175,7 +175,7 @@ wells.plot(ax=ax, color='red', markersize=2)
 
 <img src="../fig/20-crop-raster-wells-04.png" title="Ground weter level wells" width="512" style="display: block; margin: auto;" />
 
-To select data around the geometries, one needs to first define how large the is area around the geometry to analyse. This area is called a "buffer". A buffer is also a polygon, which can be used to crop the raster data. `geopandas` has a `buffer` function to make buffer polygons.
+To select data around the geometries, one needs to first define how large the is area around the geometry to analyse. This area is called a "buffer" and it is defined in the units of the projection. A buffer is also a polygon, which can be used to crop the raster data. `geopandas` has a `buffer` function to make buffer polygons.
 
 ~~~
 # Create 200m buffer around the wells
@@ -203,7 +203,7 @@ raster_clip_wells.plot.imshow(ax=ax2)
 > > ## Solution
 > > ~~~
 > > # Load dikes polyline
-> > dikes = gpd.read_file("../data/dikes/dikes.shp")
+> > dikes = gpd.read_file("data/dikes/dikes.shp")
 > > dikes = dikes.to_crs(raster.rio.crs)
 > > # Dike buffer
 > > dikes_buffer = dikes.buffer(100)
