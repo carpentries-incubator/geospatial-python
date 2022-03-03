@@ -3,14 +3,20 @@ title: "Parallel raster computations using Dask"
 teaching: 40
 exercises: 20
 questions:
-- "TODO"
+- "How can I parallelize computations on rasters with Dask?"
+- "How can I determine if parallelization improves calculation speed?"
+- "How can I control how to parallelize calculations?"
 objectives:
 - "Profile the timing of your raster calculations."
 - "Open raster data as a chunked array."
 - "Recognize good practices in selecting proper chunk sizes."
 - "Setup raster calculations that take advantage of parallelization."
 keypoints:
-- "TODO"
+- "The `%%time` Jupyter magic command can be used to profile calculations."
+- "Data 'chunks' are the unit of parallelization in raster calculations."
+- "(`rio`)`xarray` can open raster files as chunked arrays."
+- "The chunk shape and size can significantly affect the calculation performance."
+- "Cloud-optimized GeoTIFFs have an internal structure that enables performant parallel read."
 ---
 
 Very often raster computations involve applying the same operation to different pieces of data. Think, for instance, to
