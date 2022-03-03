@@ -1,7 +1,7 @@
 ---
 title: "Parallel raster computations using Dask"
-teaching: TODO
-exercises: TODO
+teaching: 40
+exercises: 20
 questions:
 - "TODO"
 objectives:
