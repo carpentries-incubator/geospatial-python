@@ -33,7 +33,8 @@ data structures.
 
 > ## More Resources on Dask
 >
-> TODO: Dask and Dask Arrays, with links
+> * [Dask Array](https://docs.dask.org/en/stable/array.html).
+> * [Xarray with Dask](https://xarray.pydata.org/en/stable/user-guide/dask.html).
 >
 {: .callout}
 
