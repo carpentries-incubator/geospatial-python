@@ -202,7 +202,7 @@ Xarray and Dask also provide a graphical representation of the raster data array
 >
 > In order to optimally access COGs it is best to align the blocksize of the file with the chunks employed when loading
 > the file. Open the blue-band asset ("B02") of a Sentinel-2 scene as a chunked `DataArray` object using a suitable
-> chunk size. Which elements do you think should be considered when choosing such value?
+> chunk size. Which elements do you think should be considered when choosing the chunk size?
 >
 > > ## Solution
 > > ~~~
@@ -218,18 +218,20 @@ Xarray and Dask also provide a graphical representation of the raster data array
 > > ~~~
 > > {: .output}
 > >
-> > Ideal values are thus multiples of 1024. An element to consider is the number of resulting chunks and their size.
-> > Chunks should not be too big nor too small (i.e. too many). Recommended chunk sizes are of the order of 100 MB.
-> > Also, the shape might be relevant, depending on the application! Here, we might select a chunks shape of
-> > `(1, 6144, 6144)`:
+> > Ideal chunk size values for this raster are thus multiples of 1024. An element to consider is the number of
+> > resulting chunks and their size. Chunks should not be too big nor too small (i.e. too many). As a rule of thumb,
+> > chunk sizes of 100 MB typically work well with Dask (see, e.g., this
+> > [blog post](https://blog.dask.org/2021/11/02/choosing-dask-chunk-sizes)). Also, the shape might be relevant,
+> > depending on the application! Here, we might select a chunks shape of `(1, 6144, 6144)`:
 > >
 > > ~~~
 > > band = rioxarray.open_rasterio(band_url, chunks=(1, 6144, 6144))
 > > ~~~
 > > {: .language-python}
 > >
-> > which leads to chunks 72 MB large. Also, we can let `rioxarray` and Dask figure out appropriate chunk shapes by
-> > setting `chunks="auto"`:
+> > which leads to chunks 72 MB large: (1 x 6144 x 6144) elements, 2 bytes per element (the data type is unsigned
+> > integer `uint16`), i.e., 6144 x 6144 x 2 / 2^20 = 72 MB . Also, we can let `rioxarray` and Dask figure out
+> > appropriate chunk shapes by setting `chunks="auto"`:
 > >
 > > ~~~
 > > band = rioxarray.open_rasterio(band_url, chunks="auto")
