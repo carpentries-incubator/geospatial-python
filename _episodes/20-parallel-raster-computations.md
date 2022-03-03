@@ -341,13 +341,7 @@ Wall time: 791 ms
 {: .output}
 
 The timing that we have recorded for this step is now closer to the one recorded for the serial calculation (the
-parallel calculation actually took slightly longer).
-
-> ## Serial vs parallel
->
-> Can you speculate why the parallel calculation actually took longer than its serial version?
->
-> > ## Solution
-> > TODO
-> {: .solution}
-{: .challenge}
+parallel calculation actually took slightly longer). The explanation for this behaviour lies in the overhead that Dask
+introduces to manage the tasks in the Dask graph. This overhead, which is typically of the order of milliseconds per
+task, can be larger than the parallelization gain, and this is typically the case for calculations with small chunks
+(note that here we have used chunks that are only 4 to 32 MB large).
