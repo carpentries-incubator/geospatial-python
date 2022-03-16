@@ -19,6 +19,7 @@ keypoints:
 - "Cloud-optimized GeoTIFFs have an internal structure that enables performant parallel read."
 ---
 
+# Introduction
 Very often raster computations involve applying the same operation to different pieces of data. Think, for instance, to
 the "pixel"-wise sum of two raster datasets, where the same sum operation is applied to all the matching grid-cells of
 the two rasters. This class of tasks can benefit from chunking the input raster(s) into smaller pieces: operations on
