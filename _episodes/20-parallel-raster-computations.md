@@ -7,7 +7,7 @@ questions:
 - "How can I determine if parallelization improves calculation speed?"
 - "How can I control how to parallelize calculations?"
 objectives:
-- "Profile the timing of your raster calculations."
+- "Profile the timing of the raster calculations."
 - "Open raster data as a chunked array."
 - "Recognize good practices in selecting proper chunk sizes."
 - "Setup raster calculations that take advantage of parallelization."
