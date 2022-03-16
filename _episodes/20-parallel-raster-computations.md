@@ -46,7 +46,7 @@ computations. Depending on the specifics of the calculations, serial calculation
 Being able to profile the computational time is thus essential, and we will see how to do that in a Jupyter environment
 in the next section.
 
-# Time profiling calculations in Jupyter
+# Time profiling in Jupyter
 
 Let's set up a raster calculation using assets from the search of satellite scenes that we have carried out in the
 previous episode. The search result, which consisted of a collection of STAC items (an `ItemCollection`), has been saved
