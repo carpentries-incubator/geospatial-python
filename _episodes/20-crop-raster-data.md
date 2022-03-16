@@ -20,12 +20,12 @@ In this episode, we will introduce how to crop raster data into the desired area
 
 > ## Introduce the Data
 >
-> Raster data: A Sentinel-2 raster image of Amsterdams: `S2_amsterdam.tif`.
+> Raster data: A Sentinel-2 raster image of Amsterdam: `S2_amsterdam.tif`.
 > 
 > Vector data: we will use three different types of vector data as AoIs:
 > - Crop field polygons in north Amsterdam. ([source](https://www.pdok.nl/introductie/-/article/basisregistratie-gewaspercelen-brp-)): `data/crop_fields`.
 > - Dike polylines in north Amsterdam. ([source](https://www.pdok.nl/downloads/-/article/basisregistratie-ondergrond-bro-#fa90454e447b478fb2db187bb6fc8a10)): `data/dikes`.
-> -Groud water monitoring wells in north Amsterdam. ([source](https://www.pdok.nl/downloads/-/article/basisregistratie-ondergrond-bro-#3f9edb6734c11af4886cdb37b69711bc)): `data/groundwater_monitoring_well`.
+> - Ground water monitoring wells in north Amsterdam. ([source](https://www.pdok.nl/downloads/-/article/basisregistratie-ondergrond-bro-#3f9edb6734c11af4886cdb37b69711bc)): `data/groundwater_monitoring_well`.
 {: .callout}
 
 ## Crop raster data with a bounding box
@@ -66,7 +66,7 @@ bb_cropfields.plot(ax=ax, alpha=0.6)
 
 <img src="../fig/20-crop-raster-bounding-box-01.png" title="Bounding boxes of AoI over the raster"  width="512" style="display: block; margin: auto;" />
 
-Seeing from the bounding boxes, the crop fields (red) only takes a small part of the raster (blue). Therefore before actual processing, we can first crop the raster to the actual area of interest. The `clip_box` function allows one to crop a raster by the min/max of the x and y coordinates. 
+Seeing from the bounding boxes, the crop fields (red) only takes a small part of the raster (blue). Therefore before actual processing, we can first crop the raster to our area of interest. The `clip_box` function allows one to crop a raster by the min/max of the x and y coordinates. 
 
 ~~~
 # Crop the raster with the bounding box
@@ -79,7 +79,7 @@ print(raster_clip.shape)
 ~~~
 {: .output}
 
-Now we successfully cropped the raster to a much smaller piece. We can visualize it now.
+We successfully cropped the raster to a much smaller piece. We can visualize it now:
 
 ~~~
 raster_clip.plot.imshow(figsize=(8,8))
@@ -91,7 +91,7 @@ raster_clip.plot.imshow(figsize=(8,8))
 
 ## Crop raster data with a polygon
 
-It is also a common case that the AoI is given by a polygon, which one can also use to crop the raster. For the example, we make a simple polygon within the raster clip we just made, and select the raster pixels within the polygon. This can be done with the `clip` function:
+It is common that the AoI is given by a polygon, which can be also used to crop the raster. For the example, we make a simple polygon within the raster clip we just made, and select the raster pixels within the polygon. This can be done with the `clip` function:
 
 ~~~
 
@@ -138,7 +138,7 @@ raster_clip_polygon.plot.imshow(figsize=(8,8))
 {: .challenge}
 
 > ## Exercise: Select the raster data within crop fields
-> Can you select out all the crop fields from the raster data, using the `.shp` file in `data/crop_fields`? And also visualize your results.
+> Let's select out all the crop fields from the raster data, using the `.shp` file in `data/crop_fields` and visualize the results.
 >
 > > ## Solution
 > >
@@ -175,7 +175,7 @@ wells.plot(ax=ax, color='red', markersize=2)
 
 <img src="../fig/20-crop-raster-wells-04.png" title="Ground weter level wells" width="512" style="display: block; margin: auto;" />
 
-To select data around the geometries, one needs to first define how large the is area around the geometry to analyse. This area is called a "buffer" and it is defined in the units of the projection. A buffer is also a polygon, which can be used to crop the raster data. `geopandas` has a `buffer` function to make buffer polygons.
+To select pixels around the geometries, one needs to first define a region including the geometries. This region is called a "buffer" and it is defined in the units of the projection. The size of the buffer depends on the analysis in your research. A buffer is also a polygon, which can be used to crop the raster data.  The package `geopandas` has a `buffer` function to make buffer polygons.
 
 ~~~
 # Create 200m buffer around the wells
@@ -198,7 +198,7 @@ raster_clip_wells.plot.imshow(ax=ax2)
 <img src="../fig/20-crop-raster-crop-by-well-buffers-05.png" title="Raster croped by buffer around wells" width="1024" style="display: block; margin: auto;" />
 
 > ## Exercise: Select the raster data around the dike
-> Can you select out all the raster data within 100m around the dikes in the AoI? The dikes are stored as polylines in `.shp` file in `data/dikes`? Please visualize your results.
+> The dikes are stored as polylines in `.shp` file in `data/dikes`. Let's select out all the raster data within 100m around the dikes and visualize the results.
 >
 > > ## Solution
 > > ~~~
