@@ -3,9 +3,9 @@ title: "Parallel raster computations using Dask"
 teaching: 40
 exercises: 20
 questions:
-- "How can I parallelize computations on rasters with Dask?"
+- "How can I exploit parallelization in my raster calculations?"
 - "How can I determine if parallelization improves calculation speed?"
-- "How can I control how to parallelize calculations?"
+- "What are good practices in applying parallelization to my raster calculations?"
 objectives:
 - "Profile the timing of the raster calculations."
 - "Open raster data as a chunked array."
@@ -32,11 +32,14 @@ parallel and distributed computing. It provides a framework to work with differe
 arrays (Dask Arrays). Dask is well integrated with (`rio`)`xarray` objects, which can use Dask arrays as underlying
 data structures.
 
-> ## More Resources on Dask
+> ## Dask
 >
-> * [Dask Array](https://docs.dask.org/en/stable/array.html).
+> This episode shows how Dask can be used to parallelize operations on local CPUs. However, the same library can be
+> configured to run tasks on large compute clusters.
+>
+> More resources on Dask:
+> * [Dask](https://dask.org) and [Dask Array](https://docs.dask.org/en/stable/array.html).
 > * [Xarray with Dask](https://xarray.pydata.org/en/stable/user-guide/dask.html).
->
 {: .callout}
 
 It is important to realize, however, that many details determine the extent to which using Dask's chunked arrays instead
@@ -88,11 +91,10 @@ scl.rio.resolution(), visual.rio.resolution()
 ~~~
 {: .output}
 
-In order to match the image and the mask pixels, one could load both rasters and resample the finer raster to the
-coarser resolution (e.g. with `reproject_match`). Instead, here we take advantage of a feature of the cloud-optimized
-GeoTIFF (COG) format, which is used to store these raster files. COGs typically include multiple lower-resolution
-versions of the original image, called "overviews", in the same file. This allows to avoid downloading high-resolution
-images when only quick previews are required.
+In order to match the image and the mask pixels, we take advantage of a feature of the cloud-optimized GeoTIFF (COG)
+format, which is used to store these raster files. COGs typically include multiple lower-resolution versions of the
+original image, called "overviews", in the same file. This allows to avoid downloading high-resolution images when only
+quick previews are required.
 
 Overviews are often computed using powers of 2 as down-sampling (or zoom) factors (e.g. 2, 4, 8, 16). For the true-color
 image we thus open the first level overview (zoom factor 2) and check that the resolution is now also 20 m:
@@ -230,9 +232,8 @@ Xarray and Dask also provide a graphical representation of the raster data array
 > > ~~~
 > > {: .language-python}
 > >
-> > which leads to chunks 72 MB large: (1 x 6144 x 6144) elements, 2 bytes per element (the data type is unsigned
-> > integer `uint16`), i.e., 6144 x 6144 x 2 / 2^20 = 72 MB . Also, we can let `rioxarray` and Dask figure out
-> > appropriate chunk shapes by setting `chunks="auto"`:
+> > which leads to chunks 72 MB large: (6144 x 6144 x 2 bytes / 2^20 = 72 MB). Also, we can let `rioxarray` and Dask
+> > figure out appropriate chunk shapes by setting `chunks="auto"`:
 > >
 > > ~~~
 > > band = rioxarray.open_rasterio(band_url, chunks="auto")
@@ -247,8 +248,7 @@ Xarray and Dask also provide a graphical representation of the raster data array
 
 Operations performed on a `DataArray` that has been opened as a chunked Dask array are executed using Dask. Dask
 coordinates how the operations should be executed on the individual chunks of data, and runs these tasks in parallel as
-much as possible. By default, Dask parallelizes operations on the CPUs that are available on the same machine, but it
-can be configured to dispatch tasks on large compute clusters.
+much as possible.
 
 Let's now repeat the raster calculations that we have carried out in the previous section, but running calculations in
 parallel over a multi-core CPU. We first open the relevant rasters as chunked arrays:
@@ -260,7 +260,7 @@ visual = rioxarray.open_rasterio(visual_href, overview_level=0, lock=False, chun
 {: .language-python}
 
 Setting `lock=False` tells `rioxarray` that the individual data chunks can be loaded simultaneously from the source by
-the Dask workers. 
+the Dask workers.
 
 As the next step, we trigger the download of the data using the `.persist()` method, see below. This makes sure that the downloaded
 chunks are stored in the form of a chunked Dask array (calling `.load()` would instead merge the chunks in a single
@@ -312,19 +312,23 @@ Wall time: 17.8 ms
 
 Did we just observe a 36x speed-up when comparing to the serial calculation (647 ms vs 17.8 ms)? Actually, no
 calculation has run yet. This is because operations performed on Dask arrays are executed "lazily", i.e. they are not
-immediately run. The sequence of operations to carry out is instead stored in a task graph, which can be visualized
-with:
+immediately run.
 
-~~~
-import dask
-dask.visualize(visual_store)
-~~~
-{: .language-python}
-
-<img src="../fig/20-Dask-arrays-graph.png" title="Dask graph" alt="dask graph" width="612" style="display: block; margin: auto;" />
-
-The task graph gives Dask the complete "overview" of the calculation, thus enabling a better management of tasks and
-resources when dispatching calculations to be run in parallel.
+> ## Dask graph
+>
+> The sequence of operations to carry out is stored in a task graph, which can be visualized with:
+>
+> ~~~
+> import dask
+> dask.visualize(visual_store)
+> ~~~
+> {: .language-python}
+>
+> <img src="../fig/20-Dask-arrays-graph.png" title="Dask graph" alt="dask graph" width="612" style="display: block; margin: auto;" />
+>
+> The task graph gives Dask the complete "overview" of the calculation, thus enabling a better management of tasks and
+> resources when dispatching calculations to be run in parallel.
+{: .callout}
 
 While most methods of `DataArray`'s run operations lazily when Dask arrays are employed, some methods by default
 trigger immediate calculations, like the method `to_raster()` (we have changed this behaviour by specifying
