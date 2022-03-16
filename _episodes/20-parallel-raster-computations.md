@@ -260,7 +260,9 @@ visual = rioxarray.open_rasterio(visual_href, overview_level=0, lock=False, chun
 {: .language-python}
 
 Setting `lock=False` tells `rioxarray` that the individual data chunks can be loaded simultaneously from the source by
-the Dask workers. We trigger the download of the data using the `.persist()` method. This makes sure that the downloaded
+the Dask workers. 
+
+As the next step, we trigger the download of the data using the `.persist()` method, see below. This makes sure that the downloaded
 chunks are stored in the form of a chunked Dask array (calling `.load()` would instead merge the chunks in a single
 Numpy array).
 
