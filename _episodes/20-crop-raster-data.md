@@ -11,7 +11,7 @@ objectives:
 keypoints:
 - "Use `clip_box` in `DataArray.rio` to crop raster with a bounding box."
 - "Use `clip` in `DataArray.rio` to crop raster with a given polygon."
-- "Use `grow` in `GeoDataFrame` to make a buffer polygon of a (multi)point or a polyline. This polygon can be used to crop data."
+- "Use `buffer` in `geopandas` to make a buffer polygon of a (multi)point or a polyline. This polygon can be used to crop data."
 ---
 
 It is quite common that the raster data you have in hand is too large to process, or not all the pixels are relevant to your area of interest (AoI). In both situations, you should consider cropping your raster data before performing data analysis. 
@@ -20,12 +20,9 @@ In this episode, we will introduce how to crop raster data into the desired area
 
 > ## Introduce the Data
 >
-> Raster data: A Sentinel-2 raster image of Amsterdam: `S2_amsterdam.tif`.
+> Raster data: We will use the Sentinel-2 raster data retrieved from the Data Access episode. If you skipped this episode, you can also directly download data from Figshare.
 > 
-> Vector data: we will use three different types of vector data as AoIs:
-> - Crop field polygons in north Amsterdam. ([source](https://www.pdok.nl/introductie/-/article/basisregistratie-gewaspercelen-brp-)): `data/crop_fields`.
-> - Dike polylines in north Amsterdam. ([source](https://www.pdok.nl/downloads/-/article/basisregistratie-ondergrond-bro-#fa90454e447b478fb2db187bb6fc8a10)): `data/dikes`.
-> - Ground water monitoring wells in north Amsterdam. ([source](https://www.pdok.nl/downloads/-/article/basisregistratie-ondergrond-bro-#3f9edb6734c11af4886cdb37b69711bc)): `data/groundwater_monitoring_well`.
+> Vector data: we will use the PDOK vector data from the Vector data introduction episode.
 {: .callout}
 
 ## Crop raster data with a bounding box
@@ -158,7 +155,7 @@ raster_clip_polygon.plot.imshow(figsize=(8,8))
 
 ## Crop raster data with a geometry buffer
 
-It is not always the case that the AoI comes in the format of a polygon. Sometimes one would like to perform analysis around a (set of) point(s), or polyline(s). Using our AoI as an example, apart from the crop fields, one may want to also analyze raster data around the groundwater monitoring wells in the area. The location of the wells comes as point vector data in `data/groundwater_monitoring_well`.
+It is not always the case that the AoI comes in the format of a polygon. Sometimes one would like to perform analysis around a (set of) point(s), or polyline(s). For example, in our AoI, there are also some groundwater monitoring wells coming as point vector data. One may also want to perform analysis around these wells. The location of the wells is stored in `data/groundwater_monitoring_well`.
 
 ~~~
 # Load wells
