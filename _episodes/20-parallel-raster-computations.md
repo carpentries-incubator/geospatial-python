@@ -43,7 +43,7 @@ It is important to realize, however, that many details determine the extent to w
 of regular Numpy arrays leads to faster calculations (and lower memory requirements). The actual operations to carry
 out, the size of the dataset, and parameters such as the chunks' shape and size, all affects the performance of our
 computations. Depending on the specifics of the calculations, serial calculations might actually turn out to be faster!
-Being able to time profile your calculations is thus essential, and we will see how to do that in a Jupyter environment
+Being able to profile the computational time is thus essential, and we will see how to do that in a Jupyter environment
 in the next section.
 
 # Time profiling calculations in Jupyter
