@@ -308,7 +308,7 @@ visual_store = visual_masked.rio.to_raster("band_masked.tif", tiled=True, lock=t
 CPU times: user 13.3 ms, sys: 4.98 ms, total: 18.3 ms
 Wall time: 17.8 ms
 ~~~
-{. output}
+{: .output}
 
 Did we just observe a 36x speed-up when comparing to the serial calculation (647 ms vs 17.8 ms)? Actually, no
 calculation has run yet. This is because operations performed on Dask arrays are executed "lazily", i.e. they are not
