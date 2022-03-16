@@ -133,7 +133,7 @@ scl.squeeze().plot.imshow(levels=range(13), figsize=(12,10))
 <img src="../fig/20-Dask-arrays-s2-true-color-image.png" title="Scene true color image" alt="true color image scene" width="612" style="display: block; margin: auto;" />
 <img src="../fig/20-Dask-arrays-s2-scene-classification.png" title="Scene classification" alt="scene classification" width="612" style="display: block; margin: auto;" />
 
-After having loaded the raster files into memory, we run the following steps:
+After loading the raster files into memory, we run the following steps:
 * We create a mask of the grid cells that are labeled as "cloud" in the scene classification layer (values "8" and "9",
   standing for medium- and high-cloud probability, respectively).
 * We use this mask to set the corresponding grid cells in the true-color image to null values.
