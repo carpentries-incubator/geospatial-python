@@ -23,7 +23,7 @@ keypoints:
 Very often raster computations involve applying the same operation to different pieces of data. Think, for instance, to
 the "pixel"-wise sum of two raster datasets, where the same sum operation is applied to all the matching grid-cells of
 the two rasters. This class of tasks can benefit from chunking the input raster(s) into smaller pieces: operations on
-different data blocks can be run in parallel using multiple computing units (e.g., multi-core CPUs), thus potentially
+different pieces can be run in parallel using multiple computing units (e.g., multi-core CPUs), thus potentially
 speeding up calculations. In addition, working on chunked data can also lead to smaller memory footprints, since one
 may bypass the need to store the full dataset in memory by processing it chunk by chunk.
 
