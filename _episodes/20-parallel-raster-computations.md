@@ -28,7 +28,7 @@ speeding up calculations. In addition, working on chunked data can lead to small
 may bypass the need to store the full dataset in memory by processing it chunk by chunk.
 
 In this episode, we will introduce the use of Dask in the context of raster calculations. Dask is a Python library for
-parallel and distributed computing that provides a framework to work with different data structures, including chunked
+parallel and distributed computing. It provides a framework to work with different data structures, including chunked
 arrays (Dask Arrays). Dask is well integrated with (`rio`)`xarray` objects, which can use Dask arrays as underlying
 data structures.
 
