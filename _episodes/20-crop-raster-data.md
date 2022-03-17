@@ -14,15 +14,17 @@ keypoints:
 - "Use `buffer` in `geopandas` to make a buffer polygon of a (multi)point or a polyline. This polygon can be used to crop data."
 ---
 
-It is quite common that the raster data you have in hand is too large to process, or not all the pixels are relevant to your area of interest (AoI). In both situations, you should consider cropping your raster data before performing data analysis. 
+It is quite common that the raster data you have in hand is too large to process, or not all the pixels are relevant to your area of interest (AoI). In both situations, you should consider cropping your raster data before performing data analysis.
 
 In this episode, we will introduce how to crop raster data into the desired area. We will use one Sentinel-2 image over Amsterdam as the example raster data, and introduce how to crop your data to different types of AoIs.
 
 > ## Introduce the Data
 >
-> Raster data: We will use the Sentinel-2 raster data retrieved from the Data Access episode. If you skipped this episode, you can also directly download data from Figshare.
-> 
-> Vector data: we will use the PDOK vector data from the Vector data introduction episode.
+> In this episode, we will use the same dataset as the one introduced in
+> episode [Introduction to Raster Data in Python](#FIXEME). Therefore, we
+> continue from the `search.json` file, that is already saved in your working
+> directory. We also use the PDOK vector data that is already introduced in episode
+> [Introduction to Vector Data](#FIXEME).
 {: .callout}
 
 ## Crop raster data with a bounding box
@@ -63,7 +65,7 @@ bb_cropfields.plot(ax=ax, alpha=0.6)
 
 <img src="../fig/20-crop-raster-bounding-box-01.png" title="Bounding boxes of AoI over the raster"  width="512" style="display: block; margin: auto;" />
 
-Seeing from the bounding boxes, the crop fields (red) only takes a small part of the raster (blue). Therefore before actual processing, we can first crop the raster to our area of interest. The `clip_box` function allows one to crop a raster by the min/max of the x and y coordinates. 
+Seeing from the bounding boxes, the crop fields (red) only takes a small part of the raster (blue). Therefore before actual processing, we can first crop the raster to our area of interest. The `clip_box` function allows one to crop a raster by the min/max of the x and y coordinates.
 
 ~~~
 # Crop the raster with the bounding box
@@ -113,7 +115,7 @@ raster_clip_polygon.plot.imshow(figsize=(8,8))
 
 <img src="../fig/20-crop-raster-crop-by-polygon-03.png" title="Crop raster by a polygon"  width="1024" style="display: block; margin: auto;" />
 
- 
+
 > ## Exercise: Compare two ways of bounding box cropping
 > So far, we have learned two ways of cropping a raster: by a bounding box (using `clip_box`) and by a polygon (using `clip`). Technically, a bounding box is also a polygon. So what if we crop the original image directly with the polygon? For example:
 > ~~~
@@ -140,7 +142,7 @@ raster_clip_polygon.plot.imshow(figsize=(8,8))
 > > ## Solution
 > >
 > > ~~~
-> > # Load the crop fields polygons 
+> > # Load the crop fields polygons
 > > cf_boundary_crop = gpd.read_file("data/crop_fields/cf_boundary_crop.shp")
 > > # Crop
 > > raster_clip_fields = raster_clip.rio.clip(cf_boundary_crop['geometry'], cf_boundary_crop.crs)
@@ -176,7 +178,7 @@ To select pixels around the geometries, one needs to first define a region inclu
 
 ~~~
 # Create 200m buffer around the wells
-wells_buffer = wells.buffer(200) 
+wells_buffer = wells.buffer(200)
 
 # Crop
 raster_clip_wells = raster_clip.rio.clip(wells_buffer, wells_buffer.crs)
