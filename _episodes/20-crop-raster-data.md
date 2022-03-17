@@ -44,30 +44,113 @@ raster.plot.imshow(figsize=(8,8))
 
 <img src="../fig/20-crop-raster-original-raster-00.png" title="Overview of the raster"  width="512" style="display: block; margin: auto;" />
 
-The raster data is quite big. It even takes tens of seconds to visualize. But do we need the entire raster? Suppose we are interested in the crop fields, we can simply compare its coverage with the raster data:
+The raster data is quite big. It even takes tens of seconds to visualize. But do we need the entire raster? Suppose we are interested in the crop fields, we can simply compare its coverage with the raster data. For this, we need to first check the coordinate systems of both raster and vector data. For raster data, we use `CRS`:
+
+~~~
+from pyproj import CRS
+
+# Check the coordinate system
+CRS(raster.rio.crs)
+~~~
+{: .language-python}
+
+~~~
+<Derived Projected CRS: EPSG:32631>
+Name: WGS 84 / UTM zone 31N
+Axis Info [cartesian]:
+- [east]: Easting (metre)
+- [north]: Northing (metre)
+Area of Use:
+- undefined
+Coordinate Operation:
+- name: UTM zone 31N
+- method: Transverse Mercator
+Datum: World Geodetic System 1984
+- Ellipsoid: WGS 84
+- Prime Meridian: Greenwich
+~~~
+{: .output}
+
+
+To open and check the coordinate system of vector data, we use `geopandas`:
 
 ~~~
 import geopandas as gpd
-from shapely.geometry import box
-from matplotlib import pyplot as plt
 
 # Load the polygons of the crop fields
 cf_boundary_crop = gpd.read_file("data/crop_fields/cf_boundary_crop.shp")
-cf_boundary_crop = cf_boundary_crop.to_crs(raster.rio.crs) # convert to the same CRS
 
-# Plot the bounding box over the raster
+# Check the coordinate system
+cf_boundary_crop.crs
+~~~
+{: .language-python}
+
+~~~
+<Derived Projected CRS: EPSG:28992>
+Name: Amersfoort / RD New
+Axis Info [cartesian]:
+- X[east]: Easting (metre)
+- Y[north]: Northing (metre)
+Area of Use:
+- name: Netherlands - onshore, including Waddenzee, Dutch Wadden Islands and 12-mile offshore coastal zone.
+- bounds: (3.2, 50.75, 7.22, 53.7)
+Coordinate Operation:
+- name: RD New
+- method: Oblique Stereographic
+Datum: Amersfoort
+- Ellipsoid: Bessel 1841
+- Prime Meridian: Greenwich
+~~~
+{: .output}
+
+As seen, the coordinate systems differ. To crop the raster using the shapefile,
+we first convert the coordinate system of `cf_boundary_crop` to the coordinate
+system of `raster`, and then check the coverage:
+
+~~~
+from shapely.geometry import box
+from matplotlib import pyplot as plt
+
+# Convert the coordinate system
+cf_boundary_crop = cf_boundary_crop.to_crs(raster.rio.crs)
+
+# Create a bounding box
 bounds = box(*cf_boundary_crop.total_bounds)
 bb_cropfields = gpd.GeoDataFrame(index=[0], crs=raster.rio.crs, geometry=[bounds])
+
+# Plot
 fig, ax = plt.subplots()
 fig.set_size_inches((8,8))
+
+# Plot image
 raster.plot.imshow(ax=ax)
-bb_cropfields.plot(ax=ax, alpha=0.6)
+
+# Plot crop fields
+cf_boundary_crop.geometry.boundary.plot(
+    ax=ax,
+    facecolor="white",
+    edgecolor="red",
+    linewidth = 0.5,
+
+)
+
+# Plot bounding box
+bb_cropfields.geometry.boundary.plot(
+    ax=ax,
+    color=None,
+    edgecolor="black",
+    linewidth = 2,
+    linestyle = '--',
+)
 ~~~
 {: .language-python}
 
 <img src="../fig/20-crop-raster-bounding-box-01.png" title="Bounding boxes of AoI over the raster"  width="512" style="display: block; margin: auto;" />
 
-Seeing from the bounding boxes, the crop fields (red) only takes a small part of the raster (blue). Therefore before actual processing, we can first crop the raster to our area of interest. The `clip_box` function allows one to crop a raster by the min/max of the x and y coordinates.
+Seeing from the bounding boxes, the crop fields (red) only takes a small part of
+the raster. Therefore before actual processing, we can first crop the raster to
+our area of interest. The `clip_box` function allows one to crop a raster by the
+min/max of the x and y coordinates.
 
 ~~~
 # Crop the raster with the bounding box
