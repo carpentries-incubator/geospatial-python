@@ -71,19 +71,19 @@ items = pystac.ItemCollection.from_file("search.json")
 
 In the searching results, we have 4 `Item`, corresponding to 4 Sentinel-2 scenes from March 21 to 28 in 2020. We will focus on the first scene: `S2A_31UFU_20200328_0_L2A`, and load one band: `B09` from it. We can load this band using fuction `rioxarray.open_rasterio()`, via the Hypertext Reference `href`:
 ~~~
-raster_ams = rioxarray.open_rasterio(items[0].assets["B09"].href)
+raster_ams_b9 = rioxarray.open_rasterio(items[0].assets["B09"].href)
 ~~~
 {: .language-python}
 
 If the dat accessing episode is skipped, you can also directly load the raster from the downloaded image:
 ~~~
-raster_ams = rioxarray.open_rasterio('ToDo:path/to/the/downloaded/raster')
+raster_ams_b9 = rioxarray.open_rasterio('ToDo:path/to/the/downloaded/raster')
 ~~~
 {: .language-python}
 
 By calling the variable name in the jupyter notebook we can get a quick look at the shape and attributes of the data.
 ~~~
-raster_ams
+raster_ams_b9
 ~~~
 {: .language-python}
 ~~~
@@ -101,18 +101,18 @@ Attributes:
 ~~~
 {: .output}
 
-The first call to `rioxarray.open_rasterio()` opens the file from a remote or local storage, and then returns a `xarray.DataArray` object. The object is stored in a variable, i.e. `raster_ams`. Reading in the data with `xarray` instead of `rioxarray` also returns a `xarray.DataArray`, but the output will not contain the geospatial metadata (such as projection information). You can use a `xarray.DataArray` in calculations just like a numpy array. Calling the variable name of the `DataArray` also prints out all of its metadata information.
+The first call to `rioxarray.open_rasterio()` opens the file from a remote or local storage, and then returns a `xarray.DataArray` object. The object is stored in a variable, i.e. `raster_ams_b9`. Reading in the data with `xarray` instead of `rioxarray` also returns a `xarray.DataArray`, but the output will not contain the geospatial metadata (such as projection information). You can use a `xarray.DataArray` in calculations just like a numpy array. Calling the variable name of the `DataArray` also prints out all of its metadata information.
 
 The output tells us that we are looking at an `xarray.DataArray`, with `1` band, `1830` rows, and `1830` columns. We can also see the number of pixel values in the `DataArray`, and the type of those pixel values, which is floating point, or (`float64`). The `DataArray` also stores different values for the coordinates of the `DataArray`. When using `rioxarray`, the term coordinates refers to spatial coordinates like `x` and `y` but also the `band` coordinate. Each of these sequences of values has its own data type, like `float64` for the spatial coordinates and `int64` for the `band` coordinate.
 
 This `DataArray` object also has a couple attributes that are accessed like `.rio.crs`, `.rio.nodata`, and `.rio.bounds()`, which contain the metadata for the file we opened. Note that many of the metadata are accessed as attributes without `()`, but `bounds()` is a function and needs parentheses. 
 
 ~~~
-print(raster_ams.rio.crs)
-print(raster_ams.rio.nodata)
-print(raster_ams.rio.bounds())
-print(raster_ams.rio.width)
-print(raster_ams.rio.height)
+print(raster_ams_b9.rio.crs)
+print(raster_ams_b9.rio.nodata)
+print(raster_ams_b9.rio.bounds())
+print(raster_ams_b9.rio.width)
+print(raster_ams_b9.rio.height)
 ~~~
 {: .language-python}
 ~~~
@@ -124,12 +124,12 @@ EPSG:32631
 ~~~
 {: .output}
 
-The Coordinate Reference System, or `raster_ams.rio.crs`, is reported as the string `EPSG:32631`. The `nodata` value is encoded as 0 and the bounding box corners of our raster are represented by the output of `.bounds()` as a `tuple` (like a list but you can't edit it). The height and width match what we saw when we printed the `DataArray`, but by using `.rio.width` and `.rio.height` we can access these values if we need them in calculations.
+The Coordinate Reference System, or `raster_ams_b9.rio.crs`, is reported as the string `EPSG:32631`. The `nodata` value is encoded as 0 and the bounding box corners of our raster are represented by the output of `.bounds()` as a `tuple` (like a list but you can't edit it). The height and width match what we saw when we printed the `DataArray`, but by using `.rio.width` and `.rio.height` we can access these values if we need them in calculations.
 
 We will be exploring this data throughout this episode. By the end of this episode, you will be able to understand and explain the metadata output.
 
 > ## Data Tip - Object names
-> To improve code readability, file and object names should be used that make it clear what is in the file. The data for this episode were collected covering Amsterdam, so we'll use a naming convention of `raster_ams`.
+> To improve code readability, file and object names should be used that make it clear what is in the file. The data for this episode cover Amsterdam, and is from Band 9, so we'll use a naming convention of `raster_ams_b9`.
 {: .callout}
 
 ## Visualize a Raster
@@ -137,7 +137,7 @@ We will be exploring this data throughout this episode. By the end of this episo
 After viewing the attributes of our raster, we can examine the raw values of the array with `.values`:
 
 ~~~
-raster_ams.values
+raster_ams_b9.values
 ~~~
 {: .language-python}
 ~~~
@@ -154,7 +154,7 @@ array([[[    0,     0,     0, ...,  8888,  9075,  8139],
 This can give us a quick view of the values of our array, but only at the corners. Since our raster is loaded in python as a `DataArray` type, we can plot this in one line similar to a pandas `DataFrame` with `DataArray.plot()`.
 
 ~~~
-raster_ams.plot()
+raster_ams_b9.plot()
 ~~~
 {: .language-python}
 
@@ -167,7 +167,7 @@ This map shows the measurement from the spectral band `B09`. According to the [d
 In a quick view of the image, we can find that half of the image is blank, we can see that the pixels with high values are the cloud coverage on the top, and the contrast of everything else is quite low. This is within expectation because `B09` is by definition sensitive to the water vapors. However if one would like to have more detailed view of the ground pixels, one can also make the plot with the option `robust=True`:
 
 ~~~
-raster_ams.plot(robust=True)
+raster_ams_b9.plot(robust=True)
 ~~~
 {: .language-python}
 <img src="../fig/E06-02-overview-plot-B09-robust.png" title="Raster plot with rioxarray using the robust setting" alt="Raster plot with robust setting" width="612" style="display: block; margin: auto;" />
@@ -185,7 +185,7 @@ We can view the CRS string associated with our Python object using the `crs`
 attribute.
 
 ~~~
-print(raster_ams.rio.crs)
+print(raster_ams_b9.rio.crs)
 ~~~
 {: .language-python}
 ~~~
@@ -196,7 +196,7 @@ EPSG:32631
 To just print the EPSG code number as an `int`, we use the `.to_epsg()` method:
 
 ~~~
-raster_ams.rio.crs.to_epsg()
+raster_ams_b9.rio.crs.to_epsg()
 ~~~
 {: .language-python}
 ~~~
@@ -208,7 +208,7 @@ EPSG codes are great for succinctly representing a particular coordinate referen
 
 ~~~
 from pyproj import CRS
-epsg = raster_ams.rio.crs.to_epsg()
+epsg = raster_ams_b9.rio.crs.to_epsg()
 crs = CRS(epsg)
 crs
 ~~~
@@ -244,12 +244,12 @@ AreaOfUse(west=0.0, south=0.0, east=6.0, north=84.0, name='Between 0°E and 6°E
 ~~~
 {: .output}
 
-> ## Challenge
+> ## Exercise: find the unit of the CRS
 > What units are our data in? See if you can find a method to examine this information using `help(crs)` or `dir(crs)`
 >
 > > ## Answers
 > > `crs.axis_info` tells us that our CRS for our raster has two axis and both are in meters.
-> > We could also get this information from the attribute `raster_ams.rio.crs.linear_units`.
+> > We could also get this information from the attribute `raster_ams_b9.rio.crs.linear_units`.
 > {: .solution}
 {: .challenge}
 
@@ -296,10 +296,10 @@ min/max elevation range at our site.
 We can compute these and other descriptive statistics with `min`, `max`, `mean`, and `std`.
 
 ~~~
-print(raster_ams.min())
-print(raster_ams.max())
-print(raster_ams.mean())
-print(raster_ams.std())
+print(raster_ams_b9.min())
+print(raster_ams_b9.max())
+print(raster_ams_b9.mean())
+print(raster_ams_b9.std())
 ~~~
 {: .language-python}
 ~~~
@@ -328,7 +328,7 @@ The information above includes a report of the min, max, mean, and standard devi
 If we want to see specific quantiles, we can use xarray's `.quantile()` method. For example for the 25% and 75% quartiles:
 
 ```python
-print(raster_ams.quantile([0.25, 0.75]))
+print(raster_ams_b9.quantile([0.25, 0.75]))
 ```
 ```
 <xarray.DataArray (quantile: 2)>
@@ -343,8 +343,8 @@ Coordinates:
 > 
 > ~~~
 > import numpy
-> print(numpy.percentile(raster_ams, 25))
-> print(numpy.percentile(raster_ams, 75))
+> print(numpy.percentile(raster_ams_b9, 25))
+> print(numpy.percentile(raster_ams_b9, 75))
 > ~~~
 > {: .language-python}
 > ~~~
@@ -352,34 +352,71 @@ Coordinates:
 > 2911.0
 > ~~~
 > {: .output}
-> You may notice that `raster_ams.quantile` and `numpy.percentile` didn't require an argument specifying the axis or dimension along which to compute the quantile. This is because `axis=None` is the default for most numpy functions, and therefore `dim=None` is the default for most xarray methods. It's always good to check out the docs on a function to see what the default arguments are, particularly when working with multi-dimensional image data. To do so, we can use`help(raster_ams.quantile)` or `?raster_ams.percentile` if you are using jupyter notebook or jupyter lab.
+> You may notice that `raster_ams_b9.quantile` and `numpy.percentile` didn't require an argument specifying the axis or dimension along which to compute the quantile. This is because `axis=None` is the default for most numpy functions, and therefore `dim=None` is the default for most xarray methods. It's always good to check out the docs on a function to see what the default arguments are, particularly when working with multi-dimensional image data. To do so, we can use`help(raster_ams_b9.quantile)` or `?raster_ams_b9.percentile` if you are using jupyter notebook or jupyter lab.
 {: .callout}
 
 
 ## Raster Bands
-The Digital Surface Model that we've been working with is a
-single band raster. This means that there is only one dataset stored in the
-raster--surface elevation in meters for one time period. However, a raster dataset can contain one or more bands.
+So far we looked into a single band, `B09` of this scene. We visulized this band with a colorbar. However, one may also want to look into a true-color overview of the region. Then the single band will not be sufficient in this case.
 
 ![Multi-band raster image](../images/dc-spatial-raster/single_multi_raster.png)
 
-We can view the number of bands in a raster by looking at the `.shape` attribute of the `DataArray`. The band number comes first when GeoTiffs are read with the `.open_rasterio()` function.
-
+The `overview` asset in the Sentinel-2 scence is a multiband asset. Similar as `B09`, we can load it by its `href`:
 ~~~
-rgb_HARV = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/HARV/RGB_Imagery/HARV_RGB_Ortho.tif")
-rgb_HARV.shape
+raster_ams_overview = rioxarray.open_rasterio(items[0].assets['overview'].href)
 ~~~
 {: .language-python}
 ~~~
-(3, 2317, 3073)
+<xarray.DataArray (band: 3, y: 343, x: 343)>
+[352947 values with dtype=uint8]
+Coordinates:
+  * band         (band) int64 1 2 3
+  * x            (x) float64 6.002e+05 6.005e+05 ... 7.093e+05 7.096e+05
+  * y            (y) float64 5.9e+06 5.9e+06 5.899e+06 ... 5.791e+06 5.79e+06
+    spatial_ref  int64 0
+Attributes:
+    _FillValue:    0.0
+    scale_factor:  1.0
+    add_offset:    0.0
+~~~
+{: .output}
+
+The band number comes first when GeoTiffs are read with the `.open_rasterio()` function. As we can see in the `xarray.DataArray` object, the shape is `(band: 3, y: 343, x: 343)` now. There are three bands in the `xarray.DataArray` now. One can also check the shape in the `.shape` attribute:
+~~~
+raster_ams_overview.shape
+~~~
+{: .language-python}
+~~~
+(3, 343, 343)
 ~~~
 {: .output}
 
 It's always a good idea to examine the shape of the raster array you are working with and make sure it's what you expect. Many functions, especially ones that plot images, expect a raster array to have a particular shape.
 
-Jump to a later episode in
-this series for information on working with multi-band rasters:
-[Work with Multi-Band Rasters in Python]({{ site.baseurl }}/08-raster-multi-band/).
+One can visualize the multi-band data with the `.plot.imshow()` function:
+~~~
+raster_ams_overview.plot.imshow()
+~~~
+{: .language-python}
+
+![Amsterdam true color overview](../fig/E06-03-overview-plot-true-color.png)
+
+> ## Exercise: set the plotting aspect ratio
+> The true color image we visualized is a little bit streched. Can you visualize it with the right aspect? You can use the [Documentation](https://xarray.pydata.org/en/stable/generated/xarray.DataArray.plot.imshow.html) of `DataArray.plot.imshow` for help.
+>
+>> ## Answers
+>> Since we know the height/width ratio is 1:1 (telling from the shape `(3, 343, 343)`), we can set the size of the image and force its ratio to be 1. For example, we can force the size to be 5 inch, and set `aspect=1`.
+>> ~~~
+>> raster_ams_overview.plot.imshow(size=5, aspect=1)
+>> ~~~
+>> {: .language-python}
+>> ![Amsterdam true color overview equal aspect](../fig/E06-04-overview-plot-true-color-aspect-equal.png)
+> {: .solution}
+{: .challenge}
+
+
+
+
 
 ## Dealing with Missing Data
 
