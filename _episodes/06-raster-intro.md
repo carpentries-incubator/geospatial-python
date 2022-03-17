@@ -296,28 +296,27 @@ min/max elevation range at our site.
 We can compute these and other descriptive statistics with `min`, `max`, `mean`, and `std`.
 
 ~~~
-print(surface_HARV.min())
-print(surface_HARV.max())
-print(surface_HARV.mean())
-print(surface_HARV.std())
+print(raster_ams.min())
+print(raster_ams.max())
+print(raster_ams.mean())
+print(raster_ams.std())
 ~~~
 {: .language-python}
-
 ~~~
 <xarray.DataArray ()>
-array(305.07000732)
+array(0, dtype=uint16)
 Coordinates:
     spatial_ref  int64 0
 <xarray.DataArray ()>
-array(416.06997681)
+array(15497, dtype=uint16)
 Coordinates:
     spatial_ref  int64 0
 <xarray.DataArray ()>
-array(359.85311803)
+array(1652.44009944)
 Coordinates:
     spatial_ref  int64 0
 <xarray.DataArray ()>
-array(17.83168952)
+array(2049.16447495)
 Coordinates:
     spatial_ref  int64 0
 ~~~
@@ -329,12 +328,11 @@ The information above includes a report of the min, max, mean, and standard devi
 If we want to see specific quantiles, we can use xarray's `.quantile()` method. For example for the 25% and 75% quartiles:
 
 ```python
-print(surface_HARV.quantile([0.25, 0.75]))
+print(raster_ams.quantile([0.25, 0.75]))
 ```
-
 ```
 <xarray.DataArray (quantile: 2)>
-array([345.58999634, 374.27999878])
+array([   0., 2911.])
 Coordinates:
   * quantile  (quantile) float64 0.25 0.75
 ```
@@ -345,25 +343,18 @@ Coordinates:
 > 
 > ~~~
 > import numpy
-> print(numpy.percentile(surface_HARV, 25))
-> print(numpy.percentile(surface_HARV, 75))
+> print(numpy.percentile(raster_ams, 25))
+> print(numpy.percentile(raster_ams, 75))
 > ~~~
 > {: .language-python}
-> 
 > ~~~
-> 345.5899963378906
-> 374.2799987792969
+> 0.0
+> 2911.0
 > ~~~
 > {: .output}
-> You may notice that `surface_HARV.quantile` and `numpy.percentile` didn't require an argument specifying the axis or dimension along which to compute the quantile. This is because `axis=None` is the default for most numpy 
-> functions, and therefore `dim=None` is the default for most xarray methods. It's always good to check out the docs on a function to see what the default arguments are, particularly when working with 
-> multi-dimensional image data. To do so, we can use`help(surface_HARV.quantile)` or `?surface_HARV.percentile` if you are using jupyter notebook or 
-> jupyter lab.
-> 
+> You may notice that `raster_ams.quantile` and `numpy.percentile` didn't require an argument specifying the axis or dimension along which to compute the quantile. This is because `axis=None` is the default for most numpy functions, and therefore `dim=None` is the default for most xarray methods. It's always good to check out the docs on a function to see what the default arguments are, particularly when working with multi-dimensional image data. To do so, we can use`help(raster_ams.quantile)` or `?raster_ams.percentile` if you are using jupyter notebook or jupyter lab.
 {: .callout}
 
-We can see that the elevation at our site ranges from 305.0700073m to
-416.0699768m.
 
 ## Raster Bands
 The Digital Surface Model that we've been working with is a
