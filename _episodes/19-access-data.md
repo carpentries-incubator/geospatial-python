@@ -18,6 +18,8 @@ keypoints:
 - "`rioxarray` allows you to open and download remote raster files."
 ---
 
+# Introduction
+
 A number of satellites take snapshots of the Earth's surface from space. The images recorded by these remote sensors
 represent a very precious data source for any activity that involves monitoring changes on Earth. Satellite imagery is
 typically provided in the form of geospatial raster data, with the measurements in each grid cell ("pixel") being
