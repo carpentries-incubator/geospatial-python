@@ -138,7 +138,7 @@ items = search.get_all_items()
 ~~~
 {: .language-python}
 
-We can check how many items are included in the returned `ItemCollection`:
+The variable `items` is an `ItemCollection` object. We can check its size by:
 ~~~
 print(len(items))
 ~~~
