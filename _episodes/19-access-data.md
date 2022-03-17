@@ -8,7 +8,7 @@ questions:
 - "How do I fetch remote raster datasets using Python?"
 objectives:
 - "Search public STAC repositories of satellite imagery using Python."
-- "Inspect the search result metadata."
+- "Inspect search result's metadata."
 - "Download (a subset of) the assets available for a satellite scene."
 - "Open the satellite imagery as raster data."
 - "Save the processed satellite data to disk."
