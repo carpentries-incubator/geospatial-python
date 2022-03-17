@@ -357,7 +357,7 @@ Coordinates:
 
 
 ## Raster Bands
-So far we looked into a single band, `B09` of this scene. We visulized this band with a colorbar. However, one may also want to look into a true-color overview of the region. Then the single band will not be sufficient in this case.
+So far we looked into a single band, `B09` of a Sentinel-2 scene. However, to get a better understanding of the AoI, one may also want to look into a true-color overview of the region. Then the single band will not be sufficient in this case.
 
 ![Multi-band raster image](../images/dc-spatial-raster/single_multi_raster.png)
 
