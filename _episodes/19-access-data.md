@@ -35,14 +35,14 @@ new images.
 
 Current sensor resolutions and satellite revisit periods are such that terabytes of data products are added daily to the
 corresponding collections. Such datasets cannot be made accessible to users via full-catalog download. Space agencies
-and other data providers often offer access to their data catalogs through interactive graphical user interfaces (GUIs,
+and other data providers often offer access to their data catalogs through interactive Graphical User Interfaces (GUIs),
 see for instance the [Copernicus Open Access Hub portal](https://scihub.copernicus.eu/dhus/#/home) for the Sentinel
-missions). Accessing data via a GUI is a nice way to explore a catalog and get familiar with its content, but it
+missions. Accessing data via a GUI is a nice way to explore a catalog and get familiar with its content, but it
 represents a heavy and error-prone task that should be avoided if carried out systematically to retrieve data.
 
 A service that offers programmatic access to the data enables users to reach the desired data in a more reliable,
-scalable and reproducible manner. An important element in the software interface exposed to the users (generally called
-the application programming interface, API) is the use of standards. Standards, in fact, can significantly facilitate
+scalable and reproducible manner. An important element in the software interface exposed to the users generally called
+the Application Programming Interface (API) is the use of standards. Standards, in fact, can significantly facilitate
 the reusability of tools and scripts across datasets and applications.
 
 The SpatioTemporal Asset Catalog (STAC) specification is an emerging standard for describing geospatial data. By
