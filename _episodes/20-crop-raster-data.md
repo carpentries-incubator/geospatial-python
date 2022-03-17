@@ -29,20 +29,22 @@ In this episode, we will introduce how to crop raster data into the desired area
 
 ## Crop raster data with a bounding box
 
-First, we can have a glimpse of the raster data by loading it with `rioxarray`:
+First, we can have a glimpse of a true color image using `pystac` and `rioxarray`:
 
 ~~~
+import pystac
 import rioxarray
 
-# Load image and visualize
-raster = rioxarray.open_rasterio('data/S2_amsterdam.tif')
+# Open image and visualize it
+items = pystac.ItemCollection.from_file("search.json")
+raster = rioxarray.open_rasterio(items[1].assets["visual"].href) # Select a true color image
 raster.plot.imshow(figsize=(8,8))
 ~~~
 {: .language-python}
 
 <img src="../fig/20-crop-raster-original-raster-00.png" title="Overview of the raster"  width="512" style="display: block; margin: auto;" />
 
-The raster data is quite big. It even takes tens of seconds to visualize. But do we  need the entire raster? Suppose we are interested in the crop fields, we can simply compare its coverage with the raster coverage:
+The raster data is quite big. It even takes tens of seconds to visualize. But do we need the entire raster? Suppose we are interested in the crop fields, we can simply compare its coverage with the raster data:
 
 ~~~
 import geopandas as gpd
