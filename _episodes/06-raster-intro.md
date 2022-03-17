@@ -181,33 +181,26 @@ Now we will see how features of the CRS appear in our data file and what
 meanings they have.
 
 ## View Raster Coordinate Reference System (CRS) in Python
-We can view the CRS string associated with our Python object using the`crs`
+We can view the CRS string associated with our Python object using the `crs`
 attribute.
 
-
 ~~~
-print(surface_HARV.rio.crs)
+print(raster_ams.rio.crs)
 ~~~
 {: .language-python}
-
-
-
 ~~~
-EPSG:32618
+EPSG:32631
 ~~~
 {: .output}
 
 To just print the EPSG code number as an `int`, we use the `.to_epsg()` method:
 
 ~~~
-print(surface_HARV.rio.crs.to_epsg())
+raster_ams.rio.crs.to_epsg()
 ~~~
 {: .language-python}
-
-
-
 ~~~
-32618
+32631
 ~~~
 {: .output}
 
@@ -215,25 +208,24 @@ EPSG codes are great for succinctly representing a particular coordinate referen
 
 ~~~
 from pyproj import CRS
-epsg = surface_HARV.rio.crs.to_epsg()
+epsg = raster_ams.rio.crs.to_epsg()
 crs = CRS(epsg)
 crs
 ~~~
 {: .language-python}
-
 ~~~
-<Projected CRS: EPSG:32618>
-Name: WGS 84 / UTM zone 18N
+<Derived Projected CRS: EPSG:32631>
+Name: WGS 84 / UTM zone 31N
 Axis Info [cartesian]:
 - E[east]: Easting (metre)
 - N[north]: Northing (metre)
 Area of Use:
-- name: World - N hemisphere - 78°W to 72°W - by country
-- bounds: (-78.0, 0.0, -72.0, 84.0)
+- name: Between 0°E and 6°E, northern hemisphere between equator and 84°N, onshore and offshore. Algeria. Andorra. Belgium. Benin. Burkina Faso. Denmark - North Sea. France. Germany - North Sea. Ghana. Luxembourg. Mali. Netherlands. Niger. Nigeria. Norway. Spain. Togo. United Kingdom (UK) - North Sea.
+- bounds: (0.0, 0.0, 6.0, 84.0)
 Coordinate Operation:
-- name: UTM zone 18N
+- name: UTM zone 31N
 - method: Transverse Mercator
-Datum: World Geodetic System 1984
+Datum: World Geodetic System 1984 ensemble
 - Ellipsoid: WGS 84
 - Prime Meridian: Greenwich
 ~~~
@@ -247,57 +239,53 @@ A particularly useful attribute is `area_of_use`, which shows the geographic bou
 crs.area_of_use
 ~~~
 {: .language-python}
-
 ~~~
-AreaOfUse(name=World - N hemisphere - 78°W to 72°W - by country, west=-78.0, south=0.0, east=-72.0, north=84.0)
+AreaOfUse(west=0.0, south=0.0, east=6.0, north=84.0, name='Between 0°E and 6°E, northern hemisphere between equator and 84°N, onshore and offshore. Algeria. Andorra. Belgium. Benin. Burkina Faso. Denmark - North Sea. France. Germany - North Sea. Ghana. Luxembourg. Mali. Netherlands. Niger. Nigeria. Norway. Spain. Togo. United Kingdom (UK) - North Sea.')
 ~~~
 {: .output}
-
 
 > ## Challenge
 > What units are our data in? See if you can find a method to examine this information using `help(crs)` or `dir(crs)`
 >
 > > ## Answers
 > > `crs.axis_info` tells us that our CRS for our raster has two axis and both are in meters.
-> > We could also get this information from the attribute `surface_HARV.rio.crs.linear_units`.
+> > We could also get this information from the attribute `raster_ams.rio.crs.linear_units`.
 > {: .solution}
 {: .challenge}
 
-## Understanding pyproj CRS Summary
-Let's break down the pieces of the `pyproj` CRS summary. The string contains all of the individual CRS
-elements that Python or another GIS might need, separated into distinct sections, and datum (`datum=`).
-
-### UTM pyproj summary
-Our UTM projection is summarized as follows:
+### Understanding pyproj CRS Summary
+Let's break down the pieces of the `pyproj` CRS summary. The string contains all of the individual CRS elements that Python or another GIS might need, separated into distinct sections, and datum.
 
 ~~~
-<Projected CRS: EPSG:32618>
-Name: WGS 84 / UTM zone 18N
+<Derived Projected CRS: EPSG:32631>
+Name: WGS 84 / UTM zone 31N
 Axis Info [cartesian]:
 - E[east]: Easting (metre)
 - N[north]: Northing (metre)
 Area of Use:
-- name: World - N hemisphere - 78°W to 72°W - by country
-- bounds: (-78.0, 0.0, -72.0, 84.0)
+- name: Between 0°E and 6°E, northern hemisphere between equator and 84°N, onshore and offshore. Algeria. Andorra. Belgium. Benin. Burkina Faso. Denmark - North Sea. France. Germany - North Sea. Ghana. Luxembourg. Mali. Netherlands. Niger. Nigeria. Norway. Spain. Togo. United Kingdom (UK) - North Sea.
+- bounds: (0.0, 0.0, 6.0, 84.0)
 Coordinate Operation:
-- name: UTM zone 18N
+- name: UTM zone 31N
 - method: Transverse Mercator
-Datum: World Geodetic System 1984
+Datum: World Geodetic System 1984 ensemble
 - Ellipsoid: WGS 84
 - Prime Meridian: Greenwich
 ~~~
 {: .output}
 
-* **Name** of the projection is UTM zone 18N (UTM has 60 zones, each 6-degrees of longitude in width). The underlying datum is WGS84.
+* **Name** of the projection is UTM zone 31N (UTM has 60 zones, each 6-degrees of longitude in width). The underlying datum is WGS84.
 * **Axis Info**: the CRS shows a Cartesian system with two axis, an easting and northing, in meter units.
-* **Area of Use**: the projection is used for a particular range of longitudes `-78°W to 72°W` in the northern hemisphere (`0.0°N to 84.0°N`)
+* **Area of Use**: the projection is used for a particular range of longitudes `0°E to 6°E` in the northern hemisphere (`0.0°N to 84.0°N`)
 * **Coordinate Operation**: the operation to project the coordinates (if it is projected) on to a cartesian (x, y) plane. Transverse mercator is accurate for areas with longitudinal widths of a few degrees, hence the distinct UTM zones.
 * **Datum**: Details about the datum, or the reference point for coordinates. `WGS 84` and `NAD 1983` are common datums. `NAD 1983` is [set to be replaced in 2022](https://en.wikipedia.org/wiki/Datum_of_2022).
 
 Note that the zone is unique to the UTM projection. Not all CRSs will have a
-zone. Image source: Chrismurf at English Wikipedia, via [Wikimedia Commons](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system#/media/File:Utm-zones-USA.svg) (CC-BY).
+zone. Below is a simplified view of US UTM zones. Image source: Chrismurf at English Wikipedia, via [Wikimedia Commons](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system#/media/File:Utm-zones-USA.svg) (CC-BY).
 
-![The UTM zones across the continental United States. From: https://upload.wikimedia.org/wikipedia/commons/8/8d/Utm-zones-USA.svg](../images/Utm-zones-USA.svg)
+<img src="../images/Utm-zones-USA.svg" title="UTM zones over US" alt="The UTM zones across the continental United States." width="612" style="display: block; margin: auto;" />
+
+
 
 ## Calculate Raster Min and Max Values
 
