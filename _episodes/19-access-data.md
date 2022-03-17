@@ -10,8 +10,7 @@ objectives:
 - "Search public STAC repositories of satellite imagery using Python."
 - "Inspect search result's metadata."
 - "Download (a subset of) the assets available for a satellite scene."
-- "Open a satellite imagery as raster data."
-- "Save the processed satellite data to disk."
+- "Open satellite imagery as raster data and save it to disk."
 keypoints:
 - "Accessing satellite images via the providers' API enables a more reliable and scalable data retrieval."
 - "STAC catalogs can be browsed and searched using the same tools and scripts."
@@ -43,8 +42,8 @@ missions. Accessing data via a GUI is a nice way to explore a catalog and get fa
 represents a heavy and error-prone task that should be avoided if carried out systematically to retrieve data.
 
 A service that offers programmatic access to the data enables users to reach the desired data in a more reliable,
-scalable and reproducible manner. An important element in the software interface exposed to the users generally called
-the Application Programming Interface (API) is the use of standards. Standards, in fact, can significantly facilitate
+scalable and reproducible manner. An important element in the software interface exposed to the users, which is generally called
+the Application Programming Interface (API), is the use of standards. Standards, in fact, can significantly facilitate
 the reusability of tools and scripts across datasets and applications.
 
 The SpatioTemporal Asset Catalog (STAC) specification is an emerging standard for describing geospatial data. By
@@ -55,7 +54,7 @@ access data from different missions, instruments and collections using the same 
 
 > ## More Resources on STAC
 >
-> * [STAC specification](https://github.com/radiantearth/stac-spec)
+> * [STAC specification](https://github.com/radiantearth/stac-spec#readme)
 > * [Tools based on STAC](https://stacindex.org/ecosystem)
 > * [STAC catalogs](https://stacindex.org/catalogs)
 {: .callout}
