@@ -53,7 +53,7 @@ access data from different missions, instruments and collections using the same 
 
 > ## More Resources on STAC
 >
-> * [The STAC specification](https://github.com/radiantearth/stac-spec)
+> * [STAC specification](https://github.com/radiantearth/stac-spec)
 > * [Tools based on STAC](https://stacindex.org/ecosystem)
 > * [STAC catalogs](https://stacindex.org/catalogs)
 {: .callout}
