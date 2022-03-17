@@ -234,8 +234,6 @@ raster_clip_polygon.plot.imshow(figsize=(8,8))
 > > ## Solution
 > >
 > > ~~~
-> > # Load the crop fields polygons
-> > cf_boundary_crop = gpd.read_file("data/crop_fields/cf_boundary_crop.shp")
 > > # Crop
 > > raster_clip_fields = raster_clip.rio.clip(cf_boundary_crop['geometry'], cf_boundary_crop.crs)
 > > # Visualize
