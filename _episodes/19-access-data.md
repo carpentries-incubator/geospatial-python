@@ -174,7 +174,8 @@ for item in items:
 
 Each of the items contains information about the scene geometry, its acquisition time, and other metadata that can be
 accessed as a dictionary from the `properties` attribute.
-To inspect the metadata associated with the first item of the search results:
+
+Let's inspect the metadata associated with the first item of the search results:
 ~~~
 item = items[0]
 print(item.datetime)
@@ -281,7 +282,7 @@ SCL: Scene Classification Map (SCL)
 
 Among the others, assets include multiple raster data files (one per optical band, as acquired by the multi-spectral
 instrument), a thumbnail, a true-color image ("visual"), instrument metadata and scene-classification information
-("SCL"). A URL links to the actual asset:
+("SCL"). Let's get the URL links to the actual asset:
 
 ~~~
 print(assets["thumbnail"].href)
@@ -297,7 +298,8 @@ This can be used to download the corresponding file:
 
 <img src="../fig/19-STAC-s2-preview.jpg" title="Scene thumbnail" alt="true color image scene preview" width="612" style="display: block; margin: auto;" />
 
-As we will see in the following episode, remote raster data can also be directly opened via the `rioxarray` library.
+Remote raster data can be directly opened via the `rioxarray` library. We will
+learn more about this library in the next episodes.
 ~~~
 import rioxarray
 b01_href = assets["B01"].href
@@ -321,7 +323,7 @@ Attributes:
 ~~~
 {: .output}
 
-We can then save data to disk:
+We can then save the data to disk:
 
 ~~~
 # save image to disk
