@@ -83,10 +83,13 @@ api_url = "https://earth-search.aws.element84.com/v0"
 >
 > > ## Solution
 > > ![](../fig/E05-02-STAC-browser-exercise.jpg)
-> > 1) Four subcatalags are available, including both Sentinel 2 and Landsat 8 images.
+> > 1) Four subcatalags are available, including both Sentinel 2 and Landsat 8 images (see left screenshot in the figure
+> > above).
 > >
-> > 2) Overview images (thumbnail and true color images), metadata files and the "real" data files, i.e. the bands from the
-> > Multispectral Instrument on board the Sentinel-2 satellites.
+> > 2) When you select the Sentinel-2 L2A COGs collection, and randomly choose one of the items from the list, you
+> > should find yourself on a page similar to the right screenshot in the figure above. On the left side you will find
+> > a list of the available assets: overview images (thumbnail and true color images), metadata files and the "real"
+> > satellite images, one for each band captured by the Multispectral Instrument on board Sentinel-2.
 > {: .solution}
 {: .challenge}
 
