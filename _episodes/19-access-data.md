@@ -77,10 +77,17 @@ api_url = "https://earth-search.aws.element84.com/v0"
 >
 > 1. Open the tool's link in your web browser, paste the STAC API URL in the navigation bar, and click on "Load".
 > Which collections are available?
->
 > 2. Open the Sentinel-2 L2A COGs collection, and select one of the items (i.e. a
 > satellite "scene"). Have a look at the metadata fields and browse through the available assets. What type of data can
 > you access for this item?
+>
+> > ## Solution
+> > ![](../fig/E05-02-STAC-browser-exercise.jpg)
+> > 1) Four subcatalags are available, including both Sentinel 2 and Landsat 8 images.
+> >
+> > 2) Overview images (thumbnail and true color images), metadata files and the "real" data files, i.e. the bands from the
+> > Multispectral Instrument on board the Sentinel-2 satellites.
+> {: .solution}
 {: .challenge}
 
 You can query a STAC API endpoint from Python using the `pystac_client` library:
