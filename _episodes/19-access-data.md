@@ -50,7 +50,7 @@ The SpatioTemporal Asset Catalog (STAC) specification is an emerging standard fo
 organizing metadata in a form that adheres to the STAC specifications, data providers make it possible for users to
 access data from different missions, instruments and collections using the same set of tools.
 
-<img src="../fig/19-STAC-browser.jpg" title="Screenshots of the Earth Search STAC catalog opened with the STAC browser" alt="STAC browser snapshots" width="612" style="display: block; margin: auto;" />
+![](../fig/E05-01-STAC-browser.jpg)
 
 > ## More Resources on STAC
 >
@@ -297,7 +297,7 @@ https://roda.sentinel-hub.com/sentinel-s2-l1c/tiles/31/U/FU/2020/3/28/0/preview.
 
 This can be used to download the corresponding file:
 
-<img src="../fig/19-STAC-s2-preview.jpg" title="Scene thumbnail" alt="true color image scene preview" width="612" style="display: block; margin: auto;" />
+![](../fig/E05-03-STAC-s2-preview.jpg)
 
 Remote raster data can be directly opened via the `rioxarray` library. We will
 learn more about this library in the next episodes.
