@@ -17,7 +17,7 @@ keypoints:
 - "One can use `rioxarray.open_rasterio()` to read raster data"
 - "`rioxarray` stores CRS information as a CRS object that can be converted to an EPSG code or PROJ4 string."
 - "It is good to consider using nan to represent no data value(s), for statistics and visualization. "
-- "The `DataArray.plot()` function can be used to visualize single-band raster. Consider to use the `robust=True` option for a better color limit."
+- "The `DataArray.plot()` function can be used to visualize single-band raster. Consider using the `robust=True` option for a better color limit."
 - "The `DataArray.plot.imshow()` function can be used to visualize multi-band raster."
 ---
 
@@ -34,7 +34,7 @@ We will use a Python package in this episode to work with raster data -
 [`rioxarray`](https://corteva.github.io/rioxarray/stable/),
 which is based on the popular [`rasterio`](https://rasterio.readthedocs.io/en/latest/) package for working with rasters and [`xarray`](http://xarray.pydata.org/en/stable/) for working with multi-dimensional arrays.
 
-We will also use the [`pystac`](https://github.com/stac-utils/pystac) package to load raster from the searching results from the the exercise of the previous episode. This would not be necessary if you skipped it.
+We will also use the [`pystac`](https://github.com/stac-utils/pystac) package to load raster from the searching results from the exercise of the previous episode. This would not be necessary if you skipped it.
 
 Make sure that you have `rioxarray` and `pystac` (optional) installed and imported.
 
@@ -47,14 +47,14 @@ import pystac # Not required if you skipped the previous episode
 
 > ## Introduce the Data
 >
-> In this episode, we will continue from the `search.json` file, which we saved in an exercise from the previous episode. We will use one scene in the searching results as an example, and demontrate the data loading and visualization.
+> In this episode, we will continue from the `search.json` file, which we saved in an exercise from the previous episode. We will use one scene in the searching results as an example, and demonstrate the data loading and visualization.
 >
 > If you have skipped the previous episode on data accessing, you can download the same raster data from the [data repository](ToDo: add link) of this lesson.
 {: .callout}
 
 ## Load a Raster and View Attributes
 
-In the previous episode, we did an excercise searching Sentinel-2 images, and then saved the searching results to `search.json`. This file contains the information on where and how to access the target images from a remote repository. We can use the function `pystac.ItemCollection.from_file()` to load the searching results as an `Item` list.
+In the previous episode, we did an exercise searching Sentinel-2 images, and then saved the searching results to `search.json`. This file contains the information on where and how to access the target images from a remote repository. We can use the function `pystac.ItemCollection.from_file()` to load the searching results as an `Item` list.
 
 
 ~~~
@@ -70,13 +70,13 @@ items = pystac.ItemCollection.from_file("search.json")
 ~~~
 {: .output}
 
-In the searching results, we have 4 `Item`, corresponding to 4 Sentinel-2 scenes from March 21 to 28 in 2020. We will focus on the first scene: `S2A_31UFU_20200328_0_L2A`, and load one band: `B09` from it. We can load this band using fuction `rioxarray.open_rasterio()`, via the Hypertext Reference `href`:
+In the searching results, we have 4 `Item`, corresponding to 4 Sentinel-2 scenes from March 21 to 28 in 2020. We will focus on the first scene: `S2A_31UFU_20200328_0_L2A`, and load one band: `B09` from it. We can load this band using function `rioxarray.open_rasterio()`, via the Hypertext Reference `href`:
 ~~~
 raster_ams_b9 = rioxarray.open_rasterio(items[0].assets["B09"].href)
 ~~~
 {: .language-python}
 
-If the dat accessing episode is skipped, you can also directly load the raster from the downloaded image:
+If the data accessing episode is skipped, you can also directly load the raster from the downloaded image:
 ~~~
 raster_ams_b9 = rioxarray.open_rasterio('ToDo:path/to/the/downloaded/raster')
 ~~~
@@ -102,11 +102,11 @@ Attributes:
 ~~~
 {: .output}
 
-The first call to `rioxarray.open_rasterio()` opens the file from a remote or local storage, and then returns a `xarray.DataArray` object. The object is stored in a variable, i.e. `raster_ams_b9`. Reading in the data with `xarray` instead of `rioxarray` also returns a `xarray.DataArray`, but the output will not contain the geospatial metadata (such as projection information). You can use a `xarray.DataArray` in calculations just like a numpy array. Calling the variable name of the `DataArray` also prints out all of its metadata information.
+The first call to `rioxarray.open_rasterio()` opens the file from remote or local storage, and then returns a `xarray.DataArray` object. The object is stored in a variable, i.e. `raster_ams_b9`. Reading in the data with `xarray` instead of `rioxarray` also returns a `xarray.DataArray`, but the output will not contain the geospatial metadata (such as projection information). You can use a `xarray.DataArray` in calculations just like a numpy array. Calling the variable name of the `DataArray` also prints out all of its metadata information.
 
 The output tells us that we are looking at an `xarray.DataArray`, with `1` band, `1830` rows, and `1830` columns. We can also see the number of pixel values in the `DataArray`, and the type of those pixel values, which is floating point, or (`float64`). The `DataArray` also stores different values for the coordinates of the `DataArray`. When using `rioxarray`, the term coordinates refers to spatial coordinates like `x` and `y` but also the `band` coordinate. Each of these sequences of values has its own data type, like `float64` for the spatial coordinates and `int64` for the `band` coordinate.
 
-This `DataArray` object also has a couple attributes that are accessed like `.rio.crs`, `.rio.nodata`, and `.rio.bounds()`, which contain the metadata for the file we opened. Note that many of the metadata are accessed as attributes without `()`, but `bounds()` is a function and needs parentheses. 
+This `DataArray` object also has a couple of attributes that are accessed like `.rio.crs`, `.rio.nodata`, and `.rio.bounds()`, which contain the metadata for the file we opened. Note that many of the metadata are accessed as attributes without `()`, but `bounds()` is a function and needs parentheses. 
 
 ~~~
 print(raster_ams_b9.rio.crs)
@@ -130,7 +130,7 @@ The Coordinate Reference System, or `raster_ams_b9.rio.crs`, is reported as the 
 We will be exploring this data throughout this episode. By the end of this episode, you will be able to understand and explain the metadata output.
 
 > ## Data Tip - Object names
-> To improve code readability, file and object names should be used that make it clear what is in the file. The data for this episode cover Amsterdam, and is from Band 9, so we'll use a naming convention of `raster_ams_b9`.
+> To improve code readability, file and object names should be used that make it clear what is in the file. The data for this episode covers Amsterdam, and is from Band 9, so we'll use a naming convention of `raster_ams_b9`.
 {: .callout}
 
 ## Visualize a Raster
@@ -163,9 +163,9 @@ raster_ams_b9.plot()
 
 Nice plot! Notice that `rioxarray` helpfully allows us to plot this raster with spatial coordinates on the x and y axis (this is not the default in many cases with other functions or libraries). 
 
-This map shows the measurement from the spectral band `B09`. According to the [documentaion](https://custom-scripts.sentinel-hub.com/custom-scripts/sentinel-2/bands/), this is a band with the central wavelength of 945nm, which is sensitive to the water vapor. It has a spatial resolition of 60m.
+This map shows the measurement from the spectral band `B09`. According to the [documentaion](https://custom-scripts.sentinel-hub.com/custom-scripts/sentinel-2/bands/), this is a band with the central wavelength of 945nm, which is sensitive to water vapor. It has a spatial resolution of 60m.
 
-In a quick view of the image, we can find that half of the image is blank, we can see that the pixels with high values are the cloud coverage on the top, and the contrast of everything else is quite low. This is within expectation because `B09` is by definition sensitive to the water vapors. However if one would like to have more detailed view of the ground pixels, one can also make the plot with the option `robust=True`:
+In a quick view of the image, we can find that half of the image is blank, we can see that the pixels with high values are the cloud coverage on the top, and the contrast of everything else is quite low. This is within expectation because `B09` is by definition sensitive to the water vapors. However if one would like to have a more detailed view of the ground pixels, one can also make the plot with the option `robust=True`:
 
 ~~~
 raster_ams_b9.plot(robust=True)
@@ -173,7 +173,7 @@ raster_ams_b9.plot(robust=True)
 {: .language-python}
 <img src="../fig/E06-02-overview-plot-B09-robust.png" title="Raster plot with rioxarray using the robust setting" alt="Raster plot with robust setting" width="612" style="display: block; margin: auto;" />
 
-Now the color limits is set in the way fitting most of the values in the image. We have a better view on the ground pixels.
+Now the color limit is set in a way fitting most of the values in the image. We have a better view of the ground pixels.
 
 Another information that we're interested in is the CRS, and it can be accessed with `.rio.crs`. We introduced the concept of a CRS in [an earlier
 episode](https://carpentries-incubator.github.io/geospatial-python/03-crs/index.html).
@@ -276,9 +276,9 @@ Datum: World Geodetic System 1984 ensemble
 {: .output}
 
 * **Name** of the projection is UTM zone 31N (UTM has 60 zones, each 6-degrees of longitude in width). The underlying datum is WGS84.
-* **Axis Info**: the CRS shows a Cartesian system with two axis, an easting and northing, in meter units.
+* **Axis Info**: the CRS shows a Cartesian system with two axes, easting and northing, in meter units.
 * **Area of Use**: the projection is used for a particular range of longitudes `0°E to 6°E` in the northern hemisphere (`0.0°N to 84.0°N`)
-* **Coordinate Operation**: the operation to project the coordinates (if it is projected) on to a cartesian (x, y) plane. Transverse mercator is accurate for areas with longitudinal widths of a few degrees, hence the distinct UTM zones.
+* **Coordinate Operation**: the operation to project the coordinates (if it is projected) onto a cartesian (x, y) plane. Transverse Mercator is accurate for areas with longitudinal widths of a few degrees, hence the distinct UTM zones.
 * **Datum**: Details about the datum, or the reference point for coordinates. `WGS 84` and `NAD 1983` are common datums. `NAD 1983` is [set to be replaced in 2022](https://en.wikipedia.org/wiki/Datum_of_2022).
 
 Note that the zone is unique to the UTM projection. Not all CRSs will have a
@@ -357,7 +357,7 @@ Coordinates:
 {: .callout}
 
 ## Dealing with Missing Data
-So far: we have visualized a band of a Sentinel-2 scene, and calculated its statistics. However, there is one thing we also need to take into account: the missing value. As what we have seen in the `raster_ams_b9.rio.nodata` field: the missing value is 0. Therefore when we plot the band data,or calculate the statistics, the missing value was not distiguished from the other values. Therefore, they may cause some unexpected results. For example, in the percentile we just calculated, the 25% percentile is still 0. This may simply refecting we have a lot of missing data in the raster.
+So far: we have visualized a band of a Sentinel-2 scene, and calculated its statistics. However, there is one thing we also need to take into account: the missing value. As we have seen in the `raster_ams_b9.rio.nodata` field: the missing value is 0. Therefore when we plot the band data, or calculate the statistics, the missing value was not distinguished from the other values. Therefore, they may cause some unexpected results. For example, in the percentile we just calculated, the 25% percentile is still 0. This may simply refecting we have a lot of missing data in the raster.
 
 An option to distinguish missing values from real data, is to use `nan` values to represent them. This can be done by specifying `masked=True` when loading the raster:
 ~~~
@@ -408,7 +408,7 @@ So far we looked into a single band, `B09` of a Sentinel-2 scene. However, to ge
 
 ![Multi-band raster image](../images/dc-spatial-raster/single_multi_raster.png)
 
-The `overview` asset in the Sentinel-2 scence is a multiband asset. Similar as `B09`, we can load it by its `href`:
+The `overview` asset in the Sentinel-2 scene is a multiband asset. Similar to `B09`, we can load it by its `href`:
 ~~~
 raster_ams_overview = rioxarray.open_rasterio(items[0].assets['overview'].href)
 ~~~
@@ -449,10 +449,10 @@ raster_ams_overview.plot.imshow()
 ![Amsterdam true color overview](../fig/E06-04-overview-plot-true-color.png)
 
 > ## Exercise: set the plotting aspect ratio
-> The true color image we visualized is a little bit streched. Can you visualize it with the right aspect? You can use the [Documentation](https://xarray.pydata.org/en/stable/generated/xarray.DataArray.plot.imshow.html) of `DataArray.plot.imshow()` for help.
+> The true-color image we visualized is a little bit stretched. Can you visualize it with the right aspect? You can use the [Documentation](https://xarray.pydata.org/en/stable/generated/xarray.DataArray.plot.imshow.html) of `DataArray.plot.imshow()` for help.
 >
 >> ## Answers
->> Since we know the height/width ratio is 1:1 (telling from the shape `(3, 343, 343)`), we can set the size of the image and force its ratio to be 1. For example, we can force the size to be 5 inch, and set `aspect=1`.
+>> Since we know the height/width ratio is 1:1 (telling from the shape `(3, 343, 343)`), we can set the size of the image and force its ratio to be 1. For example, we can force the size to be 5 inches, and set `aspect=1`.
 >> ~~~
 >> raster_ams_overview.plot.imshow(size=5, aspect=1)
 >> ~~~
