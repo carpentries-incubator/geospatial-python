@@ -5,19 +5,20 @@ exercises: 20
 questions:
 -  "What is a raster dataset?"
 -  "How do I read and plot raster data in Python?"
--  "How can I handle missing or bad data values for a raster?"
+-  "How can I handle missing values for a raster?"
 
 objectives:
 -  "Describe the fundamental attributes of a raster dataset."
 -  "Explore raster attributes and metadata using Python."
 -  "Read rasters into Python using the `rioxarray` package."
+-  "Visualize single-/multi- band raster data."
 
 keypoints:
-- "The GeoTIFF file format includes metadata about the raster data."
+- "One can use `rioxarray.open_rasterio()` to read raster data"
 - "`rioxarray` stores CRS information as a CRS object that can be converted to an EPSG code or PROJ4 string."
-- "The GeoTIFF file may or may not store the correct no data value(s)."
-- "We can find the correct value(s) in the raster's external metadata or by plotting the raster."
-- "`rioxarray` and `xarray` are for working with multidimensional arrays like pandas is for working with tabular data with many columns"
+- "It is good to consider using nan to represent no data value(s), for statistics and visualization. "
+- "The `DataArray.plot()` function can be used to visualize single-band raster. Consider to use the `robust=True` option for a better color limit."
+- "The `DataArray.plot.imshow()` function can be used to visualize multi-band raster."
 ---
 
 > ## Things You'll Need To Complete This Episode
@@ -287,7 +288,7 @@ zone. Below is a simplified view of US UTM zones. Image source: Chrismurf at Eng
 
 
 
-## Calculate Raster Min and Max Values
+## Calculate Raster Statistics
 
 It is useful to know the minimum or maximum values of a raster dataset. In this
 case, given we are working with elevation data, these values represent the
@@ -355,9 +356,55 @@ Coordinates:
 > You may notice that `raster_ams_b9.quantile` and `numpy.percentile` didn't require an argument specifying the axis or dimension along which to compute the quantile. This is because `axis=None` is the default for most numpy functions, and therefore `dim=None` is the default for most xarray methods. It's always good to check out the docs on a function to see what the default arguments are, particularly when working with multi-dimensional image data. To do so, we can use`help(raster_ams_b9.quantile)` or `?raster_ams_b9.percentile` if you are using jupyter notebook or jupyter lab.
 {: .callout}
 
+## Dealing with Missing Data
+So far: we have visualized a band of a Sentinel-2 scene, and calculated its statistics. However, there is one thing we also need to take into account: the missing value. As what we have seen in the `raster_ams_b9.rio.nodata` field: the missing value is 0. Therefore when we plot the band data,or calculate the statistics, the missing value was not distiguished from the other values. Therefore, they may cause some unexpected results. For example, in the percentile we just calculated, the 25% percentile is still 0. This may simply refecting we have a lot of missing data in the raster.
+
+An option to distinguish missing values from real data, is to use `nan` values to represent them. This can be done by specifying `masked=True` when loading the raster:
+~~~
+raster_ams_b9 = rioxarray.open_rasterio(items[0].assets["B09"].href, masked=True)
+~~~
+{: .language-python}
+
+One can also use the `where` function to select all the pixels which are different from the `nodata` value of the raster:
+~~~
+raster_ams_b9.where(raster_ams_b9!=raster_ams_b9.rio.nodata)
+~~~
+{: .language-python}
+
+Either way will change the `nodata` value from 0 to `nan`. Now if we do the statistics again, we will see the difference:
+~~~
+print(raster_ams_b9.min())
+print(raster_ams_b9.max())
+print(raster_ams_b9.mean())
+print(raster_ams_b9.std())
+~~~
+{: .language-python}
+~~~
+<xarray.DataArray ()>
+array(8., dtype=float32)
+Coordinates:
+    spatial_ref  int64 0
+<xarray.DataArray ()>
+array(15497., dtype=float32)
+Coordinates:
+    spatial_ref  int64 0
+<xarray.DataArray ()>
+array(2477.405, dtype=float32)
+Coordinates:
+    spatial_ref  int64 0
+<xarray.DataArray ()>
+array(2061.9539, dtype=float32)
+Coordinates:
+    spatial_ref  int64 0
+~~~
+{: .output}
+
+And if we plot the image, the `nodata` pixels will show as white, since they are not 0 anymore:
+
+![Raster plot with rioxarray using the robust setting no data](../fig/E06-03-overview-plot-B09-robust-with-nan.png)
 
 ## Raster Bands
-So far we looked into a single band, `B09` of a Sentinel-2 scene. However, to get a better understanding of the AoI, one may also want to look into a true-color overview of the region. Then the single band will not be sufficient in this case.
+So far we looked into a single band, `B09` of a Sentinel-2 scene. However, to get a better understanding of the AoI, one may also want to visualize a true-color overview of the region. Then the single band will not be sufficient in this case.
 
 ![Multi-band raster image](../images/dc-spatial-raster/single_multi_raster.png)
 
@@ -393,16 +440,16 @@ raster_ams_overview.shape
 
 It's always a good idea to examine the shape of the raster array you are working with and make sure it's what you expect. Many functions, especially ones that plot images, expect a raster array to have a particular shape.
 
-One can visualize the multi-band data with the `.plot.imshow()` function:
+One can visualize the multi-band data with the `DataArray.plot.imshow()` function:
 ~~~
 raster_ams_overview.plot.imshow()
 ~~~
 {: .language-python}
 
-![Amsterdam true color overview](../fig/E06-03-overview-plot-true-color.png)
+![Amsterdam true color overview](../fig/E06-04-overview-plot-true-color.png)
 
 > ## Exercise: set the plotting aspect ratio
-> The true color image we visualized is a little bit streched. Can you visualize it with the right aspect? You can use the [Documentation](https://xarray.pydata.org/en/stable/generated/xarray.DataArray.plot.imshow.html) of `DataArray.plot.imshow` for help.
+> The true color image we visualized is a little bit streched. Can you visualize it with the right aspect? You can use the [Documentation](https://xarray.pydata.org/en/stable/generated/xarray.DataArray.plot.imshow.html) of `DataArray.plot.imshow()` for help.
 >
 >> ## Answers
 >> Since we know the height/width ratio is 1:1 (telling from the shape `(3, 343, 343)`), we can set the size of the image and force its ratio to be 1. For example, we can force the size to be 5 inch, and set `aspect=1`.
@@ -410,58 +457,6 @@ raster_ams_overview.plot.imshow()
 >> raster_ams_overview.plot.imshow(size=5, aspect=1)
 >> ~~~
 >> {: .language-python}
->> ![Amsterdam true color overview equal aspect](../fig/E06-04-overview-plot-true-color-aspect-equal.png)
+>> ![Amsterdam true color overview equal aspect](../fig/E06-05-overview-plot-true-color-aspect-equal.png)
 > {: .solution}
 {: .challenge}
-
-
-
-
-
-## Dealing with Missing Data
-
-Raster data often has a "no data value" associated with it and for raster datasets 
-read in by `rioxarray` this value is referred to as `nodata`. This is a value assigned 
-to pixels where data is missing or no data were collected. However, there can be 
-different cases that cause missing data, and it's common for other values in a raster 
-to represent different cases. The most common example is missing data at the edges of rasters.
-
-By default the shape of a raster is always rectangular. So if we have a dataset
-that has a shape that isn't rectangular, some pixels at the edge of the raster
-will have no data values. This often happens when the data were collected by a
-sensor which only flew over some part of a defined region.
-
-In the RGB image below, the pixels that are black have no data values. The sensor
-did not collect data in these areas. `rioxarray` assigns a specific number as missing data to the `.rio.nodata` attribute when the dataset is read, based on the file's own metadata. The GeoTiff's `nodata` attribute is assigned to the value `-1.7e+308` and in order to run calculations on this image that ignore these edge values or plot the image without the nodata values being displayed on the color scale, `rioxarray` masks them out. 
-
-```python
-# The imshow() function in the pyplot module of the matplotlib library is used to display data as an image.
-rgb_HARV.plot.imshow()
-```
-
-<img src="../fig/05-no-data-plot-03.png" title="plot of demonstrate-no-data-black" alt="plot of demonstrate-no-data-black" width="612" style="display: block; margin: auto;" />
-
-From this plot we see something interesting, while our no data values were masked along the edges, the color channel's no data values don't all line up. The colored pixels at the edges between white and black result from there being no data in one or two bands at a given pixel. `0` could conceivably represent a valid value for reflectance (the units of our pixel values) so it's good to make sure we are masking values at the edges and not valid data values within the image.
-
-While this plot tells us where we have no data values, the color scale looks strange, because our plotting function expects image values to be normalized between a certain range (0-1 or 0-255). By using `surface_HARV.plot.imshow` with the `robust=True` argument, we can display values between the 2nd and 98th percentile, providing better color contrast.
-~~~
-rgb_HARV.plot.imshow(robust=True)
-~~~
-{: .language-python}
-
-<img src="../fig/05-true-color-plot-04.png" title="plot of demonstrate-no-data-masked" alt="plot of demonstrate-no-data-masked" width="612" style="display: block; margin: auto;" />
-
-The value that is conventionally used to take note of missing data (the
-no data value) varies by the raster data type. For floating-point rasters,
-the value `-3.4e+38` is a common default, and for integers, `-9999` is
-common. Some disciplines have specific conventions that vary from these
-common values.
-
-In some cases, other `nodata` values may be more appropriate. A `nodata` value should
-be, a) outside the range of valid values, and b) a value that fits the data type
-in use. For instance, if your data ranges continuously from -20 to 100, 0 is
-not an acceptable `nodata` value! Or, for categories that number 1-15, 0 might be
-fine for `nodata`, but using -.000003 will force you to save the GeoTIFF on disk
-as a floating point raster, resulting in a bigger file. 
-
-{% include links.md %}
