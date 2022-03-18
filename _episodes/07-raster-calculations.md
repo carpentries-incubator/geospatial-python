@@ -351,16 +351,17 @@ ndvi_classified.rio.to_raster("NDVI_classified.tif")
 > > ndvi_texel.plot()
 > > ndvi_texel.rio.to_raster("NDVI_Texel.tif")
 > > ~~~
-> > ![](../fig/E09-10-NDVI-map-Texel.png)
 > > {: .language-python}
+> > ![](../fig/E09-10-NDVI-map-Texel.png)
+> >
 > > 4) Compute the NDVI histogram and compare it with the region that we have previously investigated. Many more grid
 > > cells have negative NDVI values, since the area of interest includes much more water. Also, NDVI values close to
 > > zero are more abundant, indicating the presence of bare ground (sand) regions.
 > > ~~~
 > > ndvi_texel.plot.hist(bins=50)
 > > ~~~
-> > ![](../fig/E09-11-NDVI-hist-Texel.png)
 > > {: .language-python}
+> > ![](../fig/E09-11-NDVI-hist-Texel.png)
 > {: .solution}
 {: .challenge}
 
