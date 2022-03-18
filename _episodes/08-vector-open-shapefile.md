@@ -23,16 +23,11 @@ Starting with this episode, we will be moving from working with raster
 data to working with vector data. In this episode, we will open and plot point, line and polygon vector data
 stored in shapefile format in Python.
 
-#These data refer to the [NEON Harvard Forest field site](https://www.neonscience.org/field-sites/field-sites-map/HARV), which we have been working with in previous
-#episodes.
-The data we will use comes from the Dutch government's open geodata set on [crop fields](https://www.pdok.nl/introductie/-/article/basisregistratie-gewaspercelen-brp-).
+The data we will use comes from the Dutch government's open geodata sets obtained from the [PDOK platform](https://www.pdok.nl/).
 
 In later episodes, we will learn how to work with raster and vector data together and combine them into a single plot.
 
 ## Import Shapefiles
-
-We will use the `geopandas` package to work with vector data in Python. We will also use the
-`rioxarray`. 
 
 ```python
 import geopandas as gpd
@@ -40,26 +35,22 @@ import geopandas as gpd
 
 The shapefiles that we will import are:
 
-* A polygon shapefile representing our field site boundary
-* A line shapefile representing roads
-* A point shapefile representing the location of the [Fisher flux tower](https://www.neonscience.org/data-collection/flux-tower-measurements)
-located at the [NEON Harvard Forest field site](https://www.neonscience.org/field-sites/field-sites-map/HARV)
+* A polygon shapefile representing our crop field site boundaries.
+* A line shapefile representing waterways.
+* A point shapefile representing the location of groundwater monitoring wells.
 
-The first shapefile that we will open contains the boundary of our study area
-(or our Area Of Interest [AOI], hence the name `aoi_boundary`). To import
-shapefiles we use the `geopandas` function `read_file()`.
-
-Let's import our AOI:
-
+First let us download and read the crop field dataset, with the following:
 ```python
-aoi_boundary_HARV = gpd.read_file(
-  "data/NEON-DS-Site-Layout-Files/HARV/HarClip_UTMZ18.shp")
+# Load all crop field boundaries (brpgewaspercelen)
+cropfield = gpd.read_file("https://service.pdok.nl/rvo/brpgewaspercelen/atom/v1_0/downloads/brpgewaspercelen_definitief_2020.gpkg")
 ```
+
+This may take a couple of minutes to complete, as the dataset is somewhat large. It contains all the crop field data for the entirety of the European portion of the Netherlands.
+
 
 ## Shapefile Metadata & Attributes
 
-When we import the `HarClip_UTMZ18` shapefile layer into Python (as our
-`aoi_boundary_HARV` object) it comes in as a DataFrame, specifically a `GeoDataFrame`. `read_file()` also automatically stores
+When we import the shapefile into Python (as our `cropfield` object) it comes in as a `DataFrame`, specifically a `GeoDataFrame`. `read_file()` also automatically stores
 geospatial information about the data. We are particularly interested in describing the format, CRS, extent, and other components of
 the vector data, and the attributes which describe properties associated
 with each individual vector object.
@@ -79,18 +70,28 @@ Key metadata for all shapefiles include:
 the shapefile. Note that the spatial extent for a shapefile represents the combined
 extent for all spatial objects in the shapefile.
 
-Each `GeoDataFrame` has a `"geometry"` column that contains geometries. In the case of our `aoi_boundary_HARV`, this geometry is represented by a `shapely.geometry.Polygon` object. `geopandas` uses the `shapely` library to represent polygons, lines, and points, so the types are inherited from `shapely`.
+Each `GeoDataFrame` has a `"geometry"` column that contains geometries. In the case of our `cropfield`  object, this geometry is represented by a `shapely.geometry.Polygon` object. `geopandas` uses the `shapely` library to represent polygons, lines, and points, so the types are inherited from `shapely`.
 
 We can view shapefile metadata using the `.crs`, `.bounds` and `.type` attributes. First, let's view the
-geometry type for our AOI shapefile. To view the geometry type, we use the `pandas` method `.type` function on the `GeoDataFrame`, `aoi_boundary_HARV`.
+geometry type for our crop field shapefile. To view the geometry type, we use the `pandas` method `.type` function on the `GeoDataFrame` object, `cropfield`.
 
 ~~~
-aoi_boundary_HARV.type
+cropfield.type
 ~~~
 {: .language-python}
 ~~~
-0    Polygon
-dtype: object
+0         Polygon
+1         Polygon
+2         Polygon
+3         Polygon
+4         Polygon
+           ...   
+619994    Polygon
+619995    Polygon
+619996    Polygon
+619997    Polygon
+619998    Polygon
+Length: 619999, dtype: object
 ~~~
 {: .output}
 
@@ -98,44 +99,43 @@ To view the CRS metadata:
 
 
 ~~~
-aoi_boundary_HARV.crs
+cropfield.crs
 ~~~
 {: .language-python}
 
 ~~~
-<Projected CRS: EPSG:32618>
-Name: WGS 84 / UTM zone 18N
+<Derived Projected CRS: EPSG:28992>
+Name: Amersfoort / RD New
 Axis Info [cartesian]:
-- E[east]: Easting (metre)
-- N[north]: Northing (metre)
+- X[east]: Easting (metre)
+- Y[north]: Northing (metre)
 Area of Use:
-- name: World - N hemisphere - 78°W to 72°W - by country
-- bounds: (-78.0, 0.0, -72.0, 84.0)
+- name: Netherlands - onshore, including Waddenzee, Dutch Wadden Islands and 12-mile offshore coastal zone.
+- bounds: (3.2, 50.75, 7.22, 53.7)
 Coordinate Operation:
-- name: UTM zone 18N
-- method: Transverse Mercator
-Datum: World Geodetic System 1984
-- Ellipsoid: WGS 84
+- name: RD New
+- method: Oblique Stereographic
+Datum: Amersfoort
+- Ellipsoid: Bessel 1841
 - Prime Meridian: Greenwich
 ~~~
 {: .output}
 
-Our data is in the CRS **UTM zone 18N**. The CRS is critical to 
+Our data is in the CRS **RD New**. The CRS is critical to 
 interpreting the object's extent values as it specifies units. To find
-the extent of our AOI in the projected coordinates, we can use the `.bounds()` function: 
+the extent of our dataset in the projected coordinates, we can use the `.total_bounds` function: 
 
 ~~~
-aoi_boundary_HARV.bounds
+cropfield.total_bounds
 ~~~
 {: .language-python}
 
 ~~~
-            minx          miny           maxx          maxy
-0  732128.016925  4.713209e+06  732251.102892  4.713359e+06
+array([ 13653.6128, 306851.867 , 277555.288 , 612620.9868])
 ~~~
 {: .output}
 
-The spatial extent of a shapefile or `shapely` spatial object represents the geographic "edge" or location that is the furthest north, south, east, and west. Thus, it is represents the overall geographic coverage of the spatial object. Image Source: National Ecological Observatory Network (NEON).
+This array contains, in order, the values for minx, miny, maxx and maxy, for the overall dataset. The spatial extent of a shapefile or `shapely` spatial object represents the geographic "edge" or location that is the furthest north, south, east, and west. Thus, it is represents the overall geographic coverage of the spatial object. Image Source: National Ecological Observatory Network (NEON).
 
 ![Extent image](../fig/dc-spatial-vector/spatial_extent.png)
 
@@ -160,20 +160,40 @@ plot_locations_HARV = gpd.GeoDataFrame(plot_locations_HARV,
                     crs=CHM_HARV.rio.crs)
 ```
 
-
 ## Plotting a Shapefile
+Our `cropfield` dataset is rather large, containing data for the entirety of the European portion of the Netherlands. Before plotting it we will first select a specific section of to be our area of interest.
 
-Any `GeoDataFrame` can be plotted in CRS units to view the shape of the object with `.plot()`.
+We can create a cropped version of our dataset as follows:
+```python
+# Define a Boundingbox in RD
+xmin, xmax = (120000, 135000)
+ymin, ymax = (485000, 500000)
+cropfield_crop = cropfield.cx[xmin:xmax, ymin:ymax]
+```
+
+This will cut out a smaller area, defined by a box in units of the projection, discarding the rest of the data. The resultant GeoDataframe is found in the `cropfield_crop` object. We can check the total bounds of this new data as before:
+
+~~~
+cropfield_crop.total_bounds
+~~~
+{: .language-python}
+
+~~~
+array([119594.384 , 485036.2543, 135169.9266, 500782.531 ])
+~~~
+{: .output}
+
+We can now plot this data. Any `GeoDataFrame` can be plotted in CRS units to view the shape of the object with `.plot()`.
 
 ```{r}
-aoi_boundary_HARV.plot()
+cropfield_crop.plot()
 ```
 
 We can customize our boundary plot by setting the 
 `figsize`, `edgecolor`, and `color`. Making some polygons transparent will come in handy when we need to add multiple spatial datasets to a single plot.
 
 ```python
-aoi_boundary_HARV.plot(figsize=(5,5), edgecolor="purple", facecolor="None")
+cropfield_crop.plot(figsize=(5,5), edgecolor="purple", facecolor="None")
 ```
 
 Under the hood, `geopandas` is using `matplotlib` to generate this plot. In the next episode we will see how we can add `DataArrays` and other shapefiles to this plot to start building an informative map of our area of interest.
