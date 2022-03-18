@@ -327,6 +327,7 @@ ndvi_classified.rio.to_raster("NDVI_classified.tif")
 > is what you expect.
 > 3. Plot the NDVI map and export the NDVI as a GeoTiff.
 > 4. Compare the distributions of NDVI values for the two regions investigated.
+>
 > > ## Answers
 > > 1) We crop the area of interest using `clip_box`:
 > > ~~~
