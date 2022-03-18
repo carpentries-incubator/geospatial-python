@@ -1,5 +1,5 @@
 ---
-title: "Open and Plot Shapefiles in Python"
+title: "Introduction to vector data"
 teaching: 20
 exercises: 10
 questions:
@@ -21,9 +21,13 @@ keypoints:
 
 Starting with this episode, we will be moving from working with raster
 data to working with vector data. In this episode, we will open and plot point, line and polygon vector data
-stored in shapefile format in Python. These data refer to the [NEON Harvard Forest field site](https://www.neonscience.org/field-sites/field-sites-map/HARV), which we have been working with in previous
-episodes. In later episodes, we will learn how to work with raster and
-vector data together and combine them into a single plot.
+stored in shapefile format in Python.
+
+#These data refer to the [NEON Harvard Forest field site](https://www.neonscience.org/field-sites/field-sites-map/HARV), which we have been working with in previous
+#episodes.
+The data we will use comes from the Dutch government's open geodata set on [crop fields](https://www.pdok.nl/introductie/-/article/basisregistratie-gewaspercelen-brp-).
+
+In later episodes, we will learn how to work with raster and vector data together and combine them into a single plot.
 
 ## Import Shapefiles
 
