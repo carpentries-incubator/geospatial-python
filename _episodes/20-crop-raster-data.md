@@ -21,11 +21,12 @@ In this episode, we will introduce how to crop raster data into the desired area
 
 > ## Introduce the Data
 >
-> In this episode, we will use the same dataset as the one introduced in
-> episode [Introduction to Raster Data in Python](#FIXEME). Therefore, we
-> continue from the `search.json` file, that is already saved in your working
-> directory. We also use the PDOK vector data that is already introduced in episode
-> [Introduction to Vector Data](#FIXEME).
+> In this episode, we will use the same dataset as the one introduced in episode
+> [Introduction to Raster Data in Python]({{ page.root }}{% link
+> _episodes/01-intro-raster-data.md %}). Therefore, we continue from the
+> `search.json` file, that is already saved in your working directory. We also
+> use the PDOK vector data that is already introduced in episode [Introduction
+> to Vector Data]({{ page.root }}{% link _episodes/02-intro-vector-data.md %}).
 {: .callout}
 
 ## Crop raster data with a bounding box
