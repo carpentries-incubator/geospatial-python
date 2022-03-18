@@ -38,7 +38,7 @@ where $NIR$ and $red$ label the reflectance values of the corresponding waveleng
 Values close to one indicate high density of green leaves. Poorly vegetated areas typically have NDVI values close to
 zero. Negative NDVI values often indicate cloud and water bodies.
 
-![](../fig/E07-01-PONE-NDVI.jpg)
+![](../fig/E09-01-PONE-NDVI.jpg)
 
 Source: Wu C-D, McNeely E, Cedeño-Laurent JG, Pan W-C, Adamkiewicz G, Dominici F, et al. (2014) Linking Student Performance in Massachusetts Elementary Schools with the “Greenness” of School Surroundings Using Remote Sensing. PLoS ONE 9(10): e108548. https://doi.org/10.1371/journal.pone.0108548
 {: .text-center}
@@ -93,14 +93,14 @@ red_clip.plot(robust=True)
 ~~~
 {: .language-python}
 
-TODO: add figure
+![](../fig/E09-02-red-band.png)
 
 ~~~
 nir_clip.plot(robust=True)
 ~~~
 {: .language-python}
 
-TODO: add figure
+![](../fig/E09-03-NIR-band.png)
 
 It is immediately evident how crop fields (rectangular shapes in the central part of the two figures) appear as dark and
 bright spots in the red-visible and NIR wavelengths, respectively.
@@ -175,7 +175,7 @@ We can now plot the output NDVI:
 ndvi.plot()
 ~~~
 
-TODO add figure
+![](../fig/E09-04-NDVI-map.png)
 
 Notice that the range of values for the output NDVI is between -1 and 1.
 Does this make sense for the selected region?
@@ -186,7 +186,7 @@ Maps are great, but it can also be informative to plot histograms of values to b
 ndvi.plot.hist()
 ~~~
 
-TODO add figure
+![](../fig/E09-05-NDVI-hist.png)
 
 > ## Challenge: Explore NDVI Raster Values
 >
@@ -216,7 +216,7 @@ TODO add figure
 > > ndvi.plot.hist(bins=50)
 > > ~~~
 > > {: .language-python}
-> > ![TODO add figure]()
+> > ![](../fig/E09-06-NDVI-hist-bins.png)
 > > 3) We can discretize the color bar by specifying the intervals via the `level` argument to `plot()`.
 > > Suppose we want to bin our data in the following intervals:
 > > * $-1 \le NDVI \lt 0$ for water;
@@ -229,7 +229,7 @@ TODO add figure
 > > ndvi.plot(levels=class_bins)
 > > ~~~
 > > {: .language-python}
-> > ![TODO add figure]()
+> > ![](../fig/E09-07-NDVI-map-binned.png)
 > {: .solution}
 {: .challenge}
 
@@ -244,7 +244,7 @@ First, we define NDVI classes based on a list of values, as defined in the last 
 `[-1, 0., 0.2, 0.7, 1]`. When bins are ordered from
 low to high, as here, `numpy.digitize` assigns classes like so:
 
-![TODO fix image]()
+![](../fig/E09-08-NDVI-classes.jpg)
 
 Source: Image created for this lesson ([license](../LICENSE.md))
 {: .text-center}
@@ -305,7 +305,7 @@ ep.draw_legend(im_ax=im, classes=category_indices, titles=category_names)
 plt.savefig("NDVI_classified.png", bbox_inches="tight", dpi=300)
 ~~~
 {: .language-python}
-![TODO fix image]()
+![](../fig/E09-09-NDVI-classified.png)
 
 We can finally export the classified NDVI raster object to a GeoTiff file. The `to_raster()` function
 by default writes the output file to your working directory unless you specify a
@@ -351,7 +351,7 @@ ndvi_classified.rio.to_raster("NDVI_classified.tif")
 > > ndvi_texel.plot()
 > > ndvi_texel.rio.to_raster("NDVI_Texel.tif")
 > > ~~~
-> > ![TODO include figure]()
+> > ![](../fig/E09-10-NDVI-map-Texel.png)
 > > {: .language-python}
 > > 4) Compute the NDVI histogram and compare it with the region that we have previously investigated. Many more grid
 > > cells have negative NDVI values, since the area of interest includes much more water. Also, NDVI values close to
@@ -359,7 +359,7 @@ ndvi_classified.rio.to_raster("NDVI_classified.tif")
 > > ~~~
 > > ndvi_texel.plot.hist(bins=50)
 > > ~~~
-> > ![TODO include figure]()
+> > ![](../fig/E09-11-NDVI-hist-Texel.png)
 > > {: .language-python}
 > {: .solution}
 {: .challenge}
