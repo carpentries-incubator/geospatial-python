@@ -311,9 +311,10 @@ We can finally export the classified NDVI raster object to a GeoTiff file. The `
 by default writes the output file to your working directory unless you specify a
 full file path.
 
-```python
+~~~
 ndvi_classified.rio.to_raster("NDVI_classified.tif")
-```
+~~~
+{: .language-python}
 
 > ## Challenge: Compute the NDVI for the Texel island
 >
