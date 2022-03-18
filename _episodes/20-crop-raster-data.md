@@ -12,6 +12,7 @@ keypoints:
 - "Use `clip_box` in `DataArray.rio` to crop raster with a bounding box."
 - "Use `clip` in `DataArray.rio` to crop raster with a given polygon."
 - "Use `buffer` in `geopandas` to make a buffer polygon of a (multi)point or a polyline. This polygon can be used to crop data."
+- "Use `reproject_match` function in `DataArray.rio` to reproject and crop a raster data using another raster data."
 ---
 
 It is quite common that the raster data you have in hand is too large to process, or not all the pixels are relevant to your area of interest (AoI). In both situations, you should consider cropping your raster data before performing data analysis.
@@ -229,15 +230,32 @@ raster_clip_polygon.plot.imshow(figsize=(8,8))
 {: .challenge}
 
 > ## Exercise: Select the raster data within crop fields
-> Let's select out all the crop fields from the raster data, using the `.shp` file in `data/crop_fields` and visualize the results.
+> Imagine that we want to select out all the crop fields from the raster data,
+> using the `.shp` file in `data/crop_fields`.
+>
+> 1. Convert the coordinate system of `raster_clip` to the coordinate
+system of `cf_boundary_crop`. Tip: we can use `rio.reproject()` function.
+> 2. Crop the `raster_clip`.
+> 3. Visualize the cropped data.
+> 4. Store the results. Tip: we learned how to do this in the first episode.
 >
 > > ## Solution
 > >
 > > ~~~
+> > # Load the crop fields polygons
+> > cf_boundary_crop = gpd.read_file("data/crop_fields/cf_boundary_crop.shp")
+> >
+> > # Convert the coordinate system
+> > raster_clip = raster_clip.rio.reproject(cf_boundary_crop.crs)
+> >
 > > # Crop
 > > raster_clip_fields = raster_clip.rio.clip(cf_boundary_crop['geometry'], cf_boundary_crop.crs)
+> >
 > > # Visualize
 > > raster_clip_fields.plot.imshow(figsize=(8,8))
+> >
+> > # Save
+> > raster_clip_fields.rio.to_raster("crop_fields.tif", driver="COG")
 > > ~~~
 > > {: .language-python}
 > > <img src="../fig/20-crop-raster-crop-fields-solution-06.png" title="Raster cropped by crop fields" width="512" style="display: block; margin: auto;" />
@@ -305,3 +323,108 @@ raster_clip_wells.plot.imshow(ax=ax2)
 > > <img src="../fig/20-crop-raster-dike-solution-07.png" title="Raster croped by buffer around dikes" width="512" style="display: block; margin: auto;" />
 > {: .solution}
 {: .challenge}
+
+## Crop raster data using another raster data
+
+Imagine that we have two raster data, let's say the `scene` and `crop_fields` in
+different coordinate systems. Our goal is to crop the `scene` image using the
+`crop_fields` image.
+
+> ## Using `crop_fields` raster image
+>
+> For this section, we will use the `crop_fields.tif` image that was produced in
+> the exercise "**Select the raster data within crop fields**".
+{: .callout}
+
+We read in both images and check their coordinate system:
+~~~
+# Read crop_fields
+crop_fields = rioxarray.open_rasterio("crop_fields.tif")
+CRS(crop_fields.rio.crs)
+~~~
+{: .language-python}
+
+~~~
+<Derived Projected CRS: EPSG:28992>
+Name: Amersfoort / RD New
+Axis Info [cartesian]:
+- [east]: Easting (metre)
+- [north]: Northing (metre)
+Area of Use:
+- undefined
+Coordinate Operation:
+- name: unnamed
+- method: Oblique Stereographic
+Datum: Amersfoort
+- Ellipsoid: Bessel 1841
+- Prime Meridian: Greenwich
+~~~
+{: .output}
+
+~~~
+# Read scene
+items = pystac.ItemCollection.from_file("search.json")
+scene = rioxarray.open_rasterio(items[1].assets["visual"].href)
+CRS(scene.rio.crs)
+~~~
+{: .language-python}
+
+~~~
+<Derived Projected CRS: EPSG:32631>
+Name: WGS 84 / UTM zone 31N
+Axis Info [cartesian]:
+- [east]: Easting (metre)
+- [north]: Northing (metre)
+Area of Use:
+- undefined
+Coordinate Operation:
+- name: UTM zone 31N
+- method: Transverse Mercator
+Datum: World Geodetic System 1984
+- Ellipsoid: WGS 84
+- Prime Meridian: Greenwich
+~~~
+{: .output}
+
+We can see that these images are in different coordinate systems. Now, we can
+use `rioxarray.reproject_match()` function to crop `scene` image. This might
+take a few minutes, because the `scene` image is large.
+
+~~~
+# Crop and reproject
+cropped_scene = scene.rio.reproject_match(crop_fields)
+
+# Visualize
+cropped_scene.plot.imshow(figsize=(8,8))
+~~~
+{: .language-python}
+
+> ## Exercise
+>
+> This time, let's crop the `crop_fields` image using the `scene` image. Discuss
+> the results.
+>
+> > ## Solution
+> >
+> > ~~~
+> > # Crop
+> > cropped_scene = crop_fields.rio.reproject_match(scene)
+> >
+> > # Visualize
+> > cropped_scene.plot.imshow(figsize=(8,8))
+> > ~~~
+> > {: .language-python}
+> > <img src="../fig/20-crop-raster-raster-solution-08.png" title="Raster croped by buffer around dikes" width="512" style="display: block; margin: auto;" />
+> {: .solution}
+{: .challenge}
+
+In one line `reproject_match` does a lot of helpful things:
+
+1. It reprojects.
+2. It matches the extent using `nodata` values or by clipping the data.
+3. It sets `nodata` values. This means we can run calculations on those two images.
+
+> ## Code Tip
+>
+> As we saw before, there also exists a method called `reproject()`, which only reprojects one raster to another projection. If you want more control over how rasters are resampled, clipped, and/or reprojected, you can use the `reproject()` method and other `rioxarray` methods individually.
+{: .callout}
