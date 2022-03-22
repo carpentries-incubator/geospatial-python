@@ -207,9 +207,8 @@ different features.
 
 > ## Challenge: Import Line and Point Shapefiles
 > 
-> Using the steps above, import the HARV_roads and HARVtower_UTM18N layers into
-> Python using `geopandas`. Name the HARV_roads shapefile as the variable `lines_HARV` and the HARVtower_UTM18N shapefile
-> `point_HARV`.
+> Using the steps above, import the waterways and groundwater well layers into
+> Python using `geopandas`. Name the shapefiles as the variables `waterways_nl` and `wells_nl` respectively.
 > 
 > Answer the following questions:
 > 
@@ -225,25 +224,25 @@ different features.
 > > 
 > > First we import the data: 
 > > ```python
-> > lines_HARV = gpd.read_file("data/NEON-DS-Site-Layout-Files/HARV/HARV_roads.shp")
-> > point_HARV = gpd.read_file("data/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp")
+> > waterways_nl = gpd.read_file("data/NEON-DS-Site-Layout-Files/HARV/HARV_roads.shp")
+> > wells_nl = gpd.read_file("data/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp")
 > > ```
 > > 
 > > Then we check the types: 
 > > ```python
-> > lines_HARV.type
+> > waterways_nl.type
 > > ```
 > > ```
 > > ```
 > > ```python
-> > point_HARV.type
+> > wells_nl.type
 > > ```
 > > We also check the CRS and extent of each object: 
 > > ```{r}
-> > print(lines_HARV.crs)
-> > print(point_HARV.bounds)
-> > print(lines_HARV.crs)
-> > print(point_HARV.bounds)
+> > print(waterways_nl.crs)
+> > print(wells_nl.total_bounds)
+> > print(waterways_nl.crs)
+> > print(wells_nl.total_bounds)
 > > ```
 > > To see the number of objects in each file, we can look at the output from when we print the results in a Jupyter notebook of call `len()` on a `GeoDataFrame`. 
 > > `lines_HARV` contains 13 features (all lines) and `point_HARV` contains only one point. 
