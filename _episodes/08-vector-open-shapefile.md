@@ -160,7 +160,7 @@ plot_locations_HARV = gpd.GeoDataFrame(plot_locations_HARV,
                     crs=CHM_HARV.rio.crs)
 ```
 
-## Plotting a Shapefile
+## Cropping a Shapefile
 Our `cropfield` dataset is rather large, containing data for the entirety of the European portion of the Netherlands. Before plotting it we will first select a specific section of to be our area of interest.
 
 We can create a cropped version of our dataset as follows:
@@ -183,9 +183,19 @@ array([119594.384 , 485036.2543, 135169.9266, 500782.531 ])
 ~~~
 {: .output}
 
+We can then save this cropped shapefile for use in future, using the `to_file()` method of our GeoDataFrame object:
+
+```python
+cropfield_crop.to_file('cropped_field.shp')
+```
+
+This will write a new shape file to disk, containing only the data from our cropped area. It can be read in again at a later time using the `read_file()` method we have been using above.
+
+## Plotting a Shapefile
+
 We can now plot this data. Any `GeoDataFrame` can be plotted in CRS units to view the shape of the object with `.plot()`.
 
-```{r}
+```python
 cropfield_crop.plot()
 ```
 
@@ -232,13 +242,12 @@ different features.
 > > ```python
 > > waterways_nl.type
 > > ```
+> >
 > > ```
-> > ```
-> > ```python
 > > wells_nl.type
 > > ```
 > > We also check the CRS and extent of each object: 
-> > ```{r}
+> > ```python
 > > print(waterways_nl.crs)
 > > print(wells_nl.total_bounds)
 > > print(waterways_nl.crs)
