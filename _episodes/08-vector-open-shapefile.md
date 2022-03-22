@@ -224,8 +224,8 @@ different features.
 > > 
 > > First we import the data: 
 > > ```python
-> > waterways_nl = gpd.read_file("data/NEON-DS-Site-Layout-Files/HARV/HARV_roads.shp")
-> > wells_nl = gpd.read_file("data/NEON-DS-Site-Layout-Files/HARV/HARVtower_UTM18N.shp")
+> > waterways_nl = gpd.read_file("https://geo.rijkswaterstaat.nl/services/ogc/gdr/vaarweginformatie/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=status_vaarweg&outputFormat=SHAPE-ZIP")
+> > wells_nl = gpd.read_file("https://service.pdok.nl/bzk/brogmwvolledigeset/atom/v2_1/downloads/brogmwvolledigeset.zip")
 > > ```
 > > 
 > > Then we check the types: 
@@ -245,7 +245,7 @@ different features.
 > > print(wells_nl.total_bounds)
 > > ```
 > > To see the number of objects in each file, we can look at the output from when we print the results in a Jupyter notebook of call `len()` on a `GeoDataFrame`. 
-> > `lines_HARV` contains 13 features (all lines) and `point_HARV` contains only one point. 
+> > `waterways_nl` contains 91 features (all lines) and `wells_nl` contains 51664 points.
 > {: .solution}
 {: .challenge}
 
