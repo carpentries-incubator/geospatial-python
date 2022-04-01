@@ -232,7 +232,7 @@ Xarray and Dask also provide a graphical representation of the raster data array
 > > ~~~
 > > {: .language-python}
 > >
-> > which leads to chunks 72 MB large: (6144 x 6144 x 2 bytes / 2^20 = 72 MB). Also, we can let `rioxarray` and Dask
+> > which leads to chunks 72 MB large: ((1 x 6144 x 6144) x 2 bytes / 2^20 = 72 MB). Also, we can let `rioxarray` and Dask
 > > figure out appropriate chunk shapes by setting `chunks="auto"`:
 > >
 > > ~~~
