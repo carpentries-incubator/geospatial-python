@@ -3,7 +3,7 @@ title: "Parallel raster computations using Dask"
 teaching: 40
 exercises: 20
 questions:
-- "How can I exploit parallelization in my raster calculations?"
+- "How can I parallelize computations on rasters with Dask?"
 - "How can I determine if parallelization improves calculation speed?"
 - "What are good practices in applying parallelization to my raster calculations?"
 objectives:
