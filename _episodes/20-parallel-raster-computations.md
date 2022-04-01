@@ -82,12 +82,12 @@ resolution, while the scene classification layer has a lower resolution (20 m):
 import rioxarray
 scl = rioxarray.open_rasterio(scl_href)
 visual = rioxarray.open_rasterio(visual_href)
-scl.rio.resolution(), visual.rio.resolution()
+print(scl.rio.resolution(), visual.rio.resolution())
 ~~~
 {: .language-python}
 
 ~~~
-((20.0, -20.0), (10.0, -10.0))
+(20.0, -20.0), (10.0, -10.0)
 ~~~
 {: .output}
 
@@ -101,7 +101,7 @@ image we thus open the first level overview (zoom factor 2) and check that the r
 
 ~~~
 visual = rioxarray.open_rasterio(visual_href, overview_level=0)
-visual.rio.resolution()
+print(visual.rio.resolution())
 ~~~
 {: .language-python}
 
@@ -228,7 +228,7 @@ Xarray and Dask also provide a graphical representation of the raster data array
 > > depending on the application! Here, we might select a chunks shape of `(1, 6144, 6144)`:
 > >
 > > ~~~
-> > band = rioxarray.open_rasterio(band_url, chunks=(1, 6144, 6144))
+> > band = rioxarray.open_rasterio(blue_band_href, chunks=(1, 6144, 6144))
 > > ~~~
 > > {: .language-python}
 > >
@@ -236,7 +236,7 @@ Xarray and Dask also provide a graphical representation of the raster data array
 > > figure out appropriate chunk shapes by setting `chunks="auto"`:
 > >
 > > ~~~
-> > band = rioxarray.open_rasterio(band_url, chunks="auto")
+> > band = rioxarray.open_rasterio(blue_band_href, chunks="auto")
 > > ~~~
 > > {: .language-python}
 > >
@@ -300,7 +300,7 @@ from threading import Lock
 %%time
 mask = scl.squeeze().isin([8, 9])
 visual_masked = visual.where(~mask, other=0)
-visual_store = visual_masked.rio.to_raster("band_masked.tif", tiled=True, lock=threading.Lock(), compute=False)
+visual_store = visual_masked.rio.to_raster("band_masked.tif", tiled=True, lock=Lock(), compute=False)
 ~~~
 {: .language-python}
 
