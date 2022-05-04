@@ -327,7 +327,7 @@ raster_clip_wells.plot.imshow(ax=ax2)
 
 ## Crop raster data using another raster data
 
-Imagine that we have two raster data, let's say the `scene` and `crop_fields` in
+Imagine that we have two raster datasets, let's say the `scene` and `crop_fields` in
 different coordinate systems. Our goal is to crop the `scene` image using the
 `crop_fields` image.
 
