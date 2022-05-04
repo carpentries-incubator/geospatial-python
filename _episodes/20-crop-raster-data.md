@@ -238,7 +238,7 @@ raster_clip_polygon.plot.imshow(figsize=(8,8))
 system of `cf_boundary_crop`. Tip: we can use `rio.reproject()` function.
 > 2. Crop the `raster_clip`.
 > 3. Visualize the cropped data.
-> 4. Store the results. Tip: we learned how to do this in the first episode.
+> 4. Store the raster as a GeoTIFF file (`crop_fields.tif`). Tip: we learned how to do this in the first episode.
 >
 > > ## Solution
 > >
