@@ -5,13 +5,13 @@ exercises: 20
 questions:
 -  "What is a raster dataset?"
 -  "How do I read and plot raster data in Python?"
--  "How can I handle missing values for a raster?"
+-  "How can I handle missing values?"
 
 objectives:
 -  "Describe the fundamental attributes of a raster dataset."
 -  "Explore raster attributes and metadata using Python."
 -  "Read rasters into Python using the `rioxarray` package."
--  "Visualize single-/multi- band raster data."
+-  "Visualize single/multi-band raster data."
 
 keypoints:
 - "One can use `rioxarray.open_rasterio()` to read raster data"
@@ -28,7 +28,7 @@ keypoints:
 {: .prereq}
 
 In this episode, we will introduce the fundamental principles, packages and
-metadata/raster attributes that are needed to work with raster data in Python. We will discuss some of the core metadata elements that we need to understand to work with rasters, including Coordinate Reference Systems, no data values, and resolution. We will also explore missing and bad data values as stored in a raster and how Python handles these elements.
+metadata/raster attributes that are needed to work with raster data in Python. We will discuss some of the core metadata elements like Coordinate Reference Systems (CRS), no data values, and resolution. We will also explore missing and bad data values as stored in a raster and how Python handles these elements.
 
 We will use a Python package in this episode to work with raster data -
 [`rioxarray`](https://corteva.github.io/rioxarray/stable/),
@@ -36,13 +36,6 @@ which is based on the popular [`rasterio`](https://rasterio.readthedocs.io/en/la
 
 We will also use the [`pystac`](https://github.com/stac-utils/pystac) package to load raster from the searching results from the exercise of the previous episode. This would not be necessary if you skipped it.
 
-Make sure that you have `rioxarray` and `pystac` (optional) installed and imported.
-
-~~~
-import rioxarray
-import pystac # Not required if you skipped the previous episode 
-~~~
-{: .language-python}
 
 
 > ## Introduce the Data
@@ -72,13 +65,8 @@ items = pystac.ItemCollection.from_file("search.json")
 
 In the searching results, we have 4 `Item`, corresponding to 4 Sentinel-2 scenes from March 21 to 28 in 2020. We will focus on the first scene: `S2A_31UFU_20200328_0_L2A`, and load one band: `B09` from it. We can load this band using function `rioxarray.open_rasterio()`, via the Hypertext Reference `href`:
 ~~~
+import rioxarray
 raster_ams_b9 = rioxarray.open_rasterio(items[0].assets["B09"].href)
-~~~
-{: .language-python}
-
-If the data accessing episode is skipped, you can also directly load the raster from the downloaded image:
-~~~
-raster_ams_b9 = rioxarray.open_rasterio('ToDo:path/to/the/downloaded/raster')
 ~~~
 {: .language-python}
 
@@ -104,7 +92,7 @@ Attributes:
 
 The first call to `rioxarray.open_rasterio()` opens the file from remote or local storage, and then returns a `xarray.DataArray` object. The object is stored in a variable, i.e. `raster_ams_b9`. Reading in the data with `xarray` instead of `rioxarray` also returns a `xarray.DataArray`, but the output will not contain the geospatial metadata (such as projection information). You can use a `xarray.DataArray` in calculations just like a numpy array. Calling the variable name of the `DataArray` also prints out all of its metadata information.
 
-The output tells us that we are looking at an `xarray.DataArray`, with `1` band, `1830` rows, and `1830` columns. We can also see the number of pixel values in the `DataArray`, and the type of those pixel values, which is floating point, or (`float64`). The `DataArray` also stores different values for the coordinates of the `DataArray`. When using `rioxarray`, the term coordinates refers to spatial coordinates like `x` and `y` but also the `band` coordinate. Each of these sequences of values has its own data type, like `float64` for the spatial coordinates and `int64` for the `band` coordinate.
+The output tells us that we are looking at an `xarray.DataArray`, with `1` band, `1830` rows, and `1830` columns. We can also see the number of pixel values in the `DataArray`, and the type of those pixel values, which is unsigned integer (or `uint16`). The `DataArray` also stores different values for the coordinates of the `DataArray`. When using `rioxarray`, the term coordinates refers to spatial coordinates like `x` and `y` but also the `band` coordinate. Each of these sequences of values has its own data type, like `float64` for the spatial coordinates and `int64` for the `band` coordinate.
 
 This `DataArray` object also has a couple of attributes that are accessed like `.rio.crs`, `.rio.nodata`, and `.rio.bounds()`, which contain the metadata for the file we opened. Note that many of the metadata are accessed as attributes without `()`, but `bounds()` is a function and needs parentheses. 
 
@@ -163,7 +151,7 @@ raster_ams_b9.plot()
 
 Nice plot! Notice that `rioxarray` helpfully allows us to plot this raster with spatial coordinates on the x and y axis (this is not the default in many cases with other functions or libraries). 
 
-This map shows the measurement from the spectral band `B09`. According to the [documentaion](https://custom-scripts.sentinel-hub.com/custom-scripts/sentinel-2/bands/), this is a band with the central wavelength of 945nm, which is sensitive to water vapor. It has a spatial resolution of 60m.
+This plot shows the satellite measurement of the spectral band `B09` for an area that covers part of the Netherlands. According to the [Sentinel-2 documentaion](https://sentinels.copernicus.eu/web/sentinel/technical-guides/sentinel-2-msi/msi-instrument), this is a band with the central wavelength of 945nm, which is sensitive to water vapor. It has a spatial resolution of 60m.
 
 In a quick view of the image, we can find that half of the image is blank, we can see that the pixels with high values are the cloud coverage on the top, and the contrast of everything else is quite low. This is within expectation because `B09` is by definition sensitive to the water vapors. However if one would like to have a more detailed view of the ground pixels, one can also make the plot with the option `robust=True`:
 
@@ -175,14 +163,12 @@ raster_ams_b9.plot(robust=True)
 
 Now the color limit is set in a way fitting most of the values in the image. We have a better view of the ground pixels.
 
-Another information that we're interested in is the CRS, and it can be accessed with `.rio.crs`. We introduced the concept of a CRS in [an earlier
-episode](https://carpentries-incubator.github.io/geospatial-python/03-crs/index.html).
-
-Now we will see how features of the CRS appear in our data file and what
-meanings they have.
 
 ## View Raster Coordinate Reference System (CRS) in Python
-We can view the CRS string associated with our Python object using the `crs`
+Another information that we're interested in is the CRS, and it can be accessed with `.rio.crs`. We introduced the concept of a CRS in [an earlier
+episode]({{ page.root }}{% link _episodes/03-crs.md %}).
+Now we will see how features of the CRS appear in our data file and what
+meanings they have. We can view the CRS string associated with our Python object using the `crs`
 attribute.
 
 ~~~
@@ -245,7 +231,7 @@ AreaOfUse(west=0.0, south=0.0, east=6.0, north=84.0, name='Between 0°E and 6°E
 ~~~
 {: .output}
 
-> ## Exercise: find the unit of the CRS
+> ## Exercise: find the axes units of the CRS
 > What units are our data in? See if you can find a method to examine this information using `help(crs)` or `dir(crs)`
 >
 > > ## Answers
@@ -290,11 +276,7 @@ zone. Below is a simplified view of US UTM zones. Image source: Chrismurf at Eng
 
 ## Calculate Raster Statistics
 
-It is useful to know the minimum or maximum values of a raster dataset. In this
-case, given we are working with elevation data, these values represent the
-min/max elevation range at our site.
-
-We can compute these and other descriptive statistics with `min`, `max`, `mean`, and `std`.
+It is useful to know the minimum or maximum values of a raster dataset. We can compute these and other descriptive statistics with `min`, `max`, `mean`, and `std`.
 
 ~~~
 print(raster_ams_b9.min())
@@ -324,9 +306,7 @@ Coordinates:
 {: .output}
 
 
-The information above includes a report of the min, max, mean, and standard deviation values, along with the data type.
-
-If we want to see specific quantiles, we can use xarray's `.quantile()` method. For example for the 25% and 75% quartiles:
+The information above includes a report of the min, max, mean, and standard deviation values, along with the data type. If we want to see specific quantiles, we can use xarray's `.quantile()` method. For example for the 25% and 75% quartiles:
 
 ```python
 print(raster_ams_b9.quantile([0.25, 0.75]))
