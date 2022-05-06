@@ -418,10 +418,10 @@ raster_ams_overview.plot.imshow()
 ![Amsterdam true color overview](../fig/E06-04-overview-plot-true-color.png)
 
 > ## Exercise: set the plotting aspect ratio
-> The true-color image we visualized is a little bit stretched. Can you visualize it with the right aspect? You can use the [Documentation](https://xarray.pydata.org/en/stable/generated/xarray.DataArray.plot.imshow.html) of `DataArray.plot.imshow()` for help.
+> As seen in the figure above, the true-color image is stretched. Let's visualize it with the right aspect ratio. You can use the [documentation](https://xarray.pydata.org/en/stable/generated/xarray.DataArray.plot.imshow.html) of `DataArray.plot.imshow()`.
 >
 >> ## Answers
->> Since we know the height/width ratio is 1:1 (telling from the shape `(3, 343, 343)`), we can set the size of the image and force its ratio to be 1. For example, we can force the size to be 5 inches, and set `aspect=1`.
+>> >> Since we know the height/width ratio is 1:1 (check the `rio.height` and `rio.width` attributes), we can set the aspect ratio to be 1. For example, we can choose the size to be 5 inches, and set `aspect=1`. Note that according to the [documentation](https://xarray.pydata.org/en/stable/generated/xarray.DataArray.plot.imshow.html) of `DataArray.plot.imshow()`, when specifying the `aspect` argument, `size` also needs to be provided. 
 >> ~~~
 >> raster_ams_overview.plot.imshow(size=5, aspect=1)
 >> ~~~
