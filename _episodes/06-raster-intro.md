@@ -102,7 +102,7 @@ The Coordinate Reference System, or `raster_ams_b9.rio.crs`, is reported as the 
 
 We will be exploring this data throughout this episode. By the end of this episode, you will be able to understand and explain the metadata output.
 
-> ## Data Tip - Object names
+> ## Tip - Variable names
 > To improve code readability, file and object names should be used that make it clear what is in the file. The data for this episode covers Amsterdam, and is from Band 9, so we'll use a naming convention of `raster_ams_b9`.
 {: .callout}
 
@@ -138,7 +138,7 @@ Nice plot! Notice that `rioxarray` helpfully allows us to plot this raster with 
 
 This plot shows the satellite measurement of the spectral band `B09` for an area that covers part of the Netherlands. According to the [Sentinel-2 documentaion](https://sentinels.copernicus.eu/web/sentinel/technical-guides/sentinel-2-msi/msi-instrument), this is a band with the central wavelength of 945nm, which is sensitive to water vapor. It has a spatial resolution of 60m.
 
-In a quick view of the image, we can find that half of the image is blank, we can see that the pixels with high values are the cloud coverage on the top, and the contrast of everything else is quite low. This is within expectation because `B09` is by definition sensitive to the water vapors. However if one would like to have a more detailed view of the ground pixels, one can also make the plot with the option `robust=True`:
+In a quick view of the image, we can notice that half of the image is blank. We also see that the pixels with high reflectance values are the clouds at the top, and the contrast of everything else is quite low. This is expected because this band is sensitive to the water vapor. However if one would like to have a better color contrast, one can add the option `robust=True`, which displays values between the 2nd and 98th percentile:
 
 ~~~
 raster_ams_b9.plot(robust=True)
@@ -340,7 +340,7 @@ raster_ams_b9.where(raster_ams_b9!=raster_ams_b9.rio.nodata)
 ~~~
 {: .language-python}
 
-Either way will change the `nodata` value from 0 to `nan`. Now if we do the statistics again, we will see the difference:
+Either way will change the `nodata` value from 0 to `nan`. Now if we compute the statistics again, we will not consider missing data:
 ~~~
 print(raster_ams_b9.min())
 print(raster_ams_b9.max())
@@ -368,16 +368,16 @@ Coordinates:
 ~~~
 {: .output}
 
-And if we plot the image, the `nodata` pixels will show as white, since they are not 0 anymore:
+And if we plot the image, the `nodata` pixels are not shown because they are not 0 anymore:
 
 ![Raster plot with rioxarray using the robust setting no data](../fig/E06-03-overview-plot-B09-robust-with-nan.png)
 
 ## Raster Bands
-So far we looked into a single band, `B09` of a Sentinel-2 scene. However, to get a better understanding of the AoI, one may also want to visualize a true-color overview of the region. Then the single band will not be sufficient in this case.
+So far we looked into a single band raster, i.e. the `B09` band of a Sentinel-2 scene. However, to get an overview of the scene, one may also want to visualize the true-color thumbnail of the region. This is provided as a multi-band raster -- a raster dataset that contains more than one band. 
 
 ![Multi-band raster image](../images/dc-spatial-raster/single_multi_raster.png)
 
-The `overview` asset in the Sentinel-2 scene is a multiband asset. Similar to `B09`, we can load it by its `href`:
+The `overview` asset in the Sentinel-2 scene is a multiband asset. Similar to `B09`, we can load it by:
 ~~~
 raster_ams_overview = rioxarray.open_rasterio(items[0].assets['overview'].href)
 ~~~
@@ -397,7 +397,7 @@ Attributes:
 ~~~
 {: .output}
 
-The band number comes first when GeoTiffs are read with the `.open_rasterio()` function. As we can see in the `xarray.DataArray` object, the shape is `(band: 3, y: 343, x: 343)` now. There are three bands in the `xarray.DataArray` now. One can also check the shape in the `.shape` attribute:
+The band number comes first when GeoTiffs are read with the `.open_rasterio()` function. As we can see in the `xarray.DataArray` object, the shape is `(band: 3, y: 343, x: 343)` now. There are three bands in the `xarray.DataArray` now. One can also check the shape using the `.shape` attribute:
 ~~~
 raster_ams_overview.shape
 ~~~
