@@ -16,14 +16,9 @@ objectives:
 keypoints:
 - "`rioxarray` and `xarray` are for working with multidimensional arrays like pandas is for working with tabular data."
 - "`rioxarray` stores CRS information as a CRS object that can be converted to an EPSG code or PROJ4 string."
-- "It is good to consider using nan to represent no data value(s), for statistics and visualization. "
+- "Missing raster data are filled with nodata values, which should be handled with care for statistics and visualization."
 ---
 
-> ## Things You'll Need To Complete This Episode
->
-> See the [lesson homepage]({{ site.baseurl }}) for detailed information about the software,
-> data, and other prerequisites you will need to work through the examples in this episode.
-{: .prereq}
 
 In this episode, we will introduce the fundamental principles, packages and
 metadata/raster attributes that are needed to work with raster data in Python. We will discuss some of the core metadata elements like Coordinate Reference Systems (CRS), no data values, and resolution. We will also explore missing and bad data values as stored in a raster and how Python handles these elements.
@@ -33,7 +28,6 @@ We will use a Python package in this episode to work with raster data -
 which is based on the popular [`rasterio`](https://rasterio.readthedocs.io/en/latest/) package for working with rasters and [`xarray`](http://xarray.pydata.org/en/stable/) for working with multi-dimensional arrays.
 
 We will also use the [`pystac`](https://github.com/stac-utils/pystac) package to load raster from the searching results from the exercise of the previous episode. This would not be necessary if you skipped it.
-
 
 
 > ## Introduce the Data
