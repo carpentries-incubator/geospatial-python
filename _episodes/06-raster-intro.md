@@ -5,7 +5,7 @@ exercises: 20
 questions:
 -  "What is a raster dataset?"
 -  "How do I read and plot raster data in Python?"
--  "How can I handle missing values?"
+-  "How can I handle missing data?"
 
 objectives:
 -  "Describe the fundamental attributes of a raster dataset."
@@ -322,9 +322,13 @@ Coordinates:
 {: .callout}
 
 ## Dealing with Missing Data
-So far: we have visualized a band of a Sentinel-2 scene, and calculated its statistics. However, there is one thing we also need to take into account: the missing value. As we have seen in the `raster_ams_b9.rio.nodata` field: the missing value is 0. Therefore when we plot the band data, or calculate the statistics, the missing value was not distinguished from the other values. Therefore, they may cause some unexpected results. For example, in the percentile we just calculated, the 25% percentile is still 0. This may simply refecting we have a lot of missing data in the raster.
+So far, we have visualized a band of a Sentinel-2 scene and calculated its statistics. However, we need to take missing data into account. Raster data often has a "no data value" associated with it and for raster datasets read in by `rioxarray`. This value is referred to as `nodata`. This is a value assigned to pixels where data is missing or no data were collected. There can be different cases that cause missing data, and it's common for other values in a raster to represent different cases. The most common example is missing data at the edges of rasters.
 
-An option to distinguish missing values from real data, is to use `nan` values to represent them. This can be done by specifying `masked=True` when loading the raster:
+By default the shape of a raster is always rectangular. So if we have a dataset that has a shape that isn't rectangular, some pixels at the edge of the raster will have no data values. This often happens when the data were collected by a sensor which only flew over some part of a defined region.
+
+As we have seen above, the `nodata` value of this dataset (`raster_ams_b9.rio.nodata`) is 0. When we have plotted the band data, or calculated statistics, the missing value was not distinguished from other values. Missing data may cause some unexpected results. For example, the 25th percentile we just calculated was 0, probably reflecting the presence of a lot of missing data in the raster.
+
+To distinguish missing data from real data, one possible way is to use `nan` to represent them. This can be done by specifying `masked=True` when loading the raster:
 ~~~
 raster_ams_b9 = rioxarray.open_rasterio(items[0].assets["B09"].href, masked=True)
 ~~~
