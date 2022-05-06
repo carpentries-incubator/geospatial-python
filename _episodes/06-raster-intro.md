@@ -48,7 +48,7 @@ items = pystac.ItemCollection.from_file("search.json")
 ~~~
 {: .language-python}
 
-In the searching results, we have 4 `Item`, corresponding to 4 Sentinel-2 scenes from March 21 to 28 in 2020. We will focus on the first scene: `S2A_31UFU_20200328_0_L2A`, and load one band: `B09` from it. We can load this band using function `rioxarray.open_rasterio()`, via the Hypertext Reference `href`:
+In the searching results, we have 2 `Item`, corresponding to 4 Sentinel-2 scenes from March 26th and 28th in 2020. We will focus on the first scene `S2A_31UFU_20200328_0_L2A`, and load the band `B09` (central wavelength 945 nm). We can load this band using function `rioxarray.open_rasterio()`, via the Hypertext Reference `href`:
 ~~~
 import rioxarray
 raster_ams_b9 = rioxarray.open_rasterio(items[0].assets["B09"].href)
