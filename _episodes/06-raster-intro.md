@@ -340,7 +340,7 @@ raster_ams_b9.where(raster_ams_b9!=raster_ams_b9.rio.nodata)
 ~~~
 {: .language-python}
 
-Either way will change the `nodata` value from 0 to `nan`. Now if we compute the statistics again, we will not consider missing data:
+Either way will change the `nodata` value from 0 to `nan`. Now if we compute the statistics again, the missing data will not be considered:
 ~~~
 print(raster_ams_b9.min())
 print(raster_ams_b9.max())
@@ -371,6 +371,8 @@ Coordinates:
 And if we plot the image, the `nodata` pixels are not shown because they are not 0 anymore:
 
 ![Raster plot with rioxarray using the robust setting no data](../fig/E06-03-overview-plot-B09-robust-with-nan.png)
+
+One should notice that there is a side effect of using `nan` instead of `0` to represent the missing data: the data type of the `DataArray` was changed from integers to float. This need to be taken into considration when the data type matters in your application.
 
 ## Raster Bands
 So far we looked into a single band raster, i.e. the `B09` band of a Sentinel-2 scene. However, to get an overview of the scene, one may also want to visualize the true-color thumbnail of the region. This is provided as a multi-band raster -- a raster dataset that contains more than one band. 
