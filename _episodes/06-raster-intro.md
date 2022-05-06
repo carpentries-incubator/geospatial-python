@@ -49,17 +49,10 @@ In the previous episode, we did an exercise searching Sentinel-2 images, and the
 
 
 ~~~
+import pystac
 items = pystac.ItemCollection.from_file("search.json")
-[item for item in items]
 ~~~
 {: .language-python}
-~~~
-[<Item id=S2A_31UFU_20200328_0_L2A>,
- <Item id=S2B_31UFU_20200326_0_L2A>,
- <Item id=S2B_31UFU_20200323_0_L2A>,
- <Item id=S2A_31UFU_20200321_0_L2A>]
-~~~
-{: .output}
 
 In the searching results, we have 4 `Item`, corresponding to 4 Sentinel-2 scenes from March 21 to 28 in 2020. We will focus on the first scene: `S2A_31UFU_20200328_0_L2A`, and load one band: `B09` from it. We can load this band using function `rioxarray.open_rasterio()`, via the Hypertext Reference `href`:
 ~~~
