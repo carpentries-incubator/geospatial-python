@@ -14,11 +14,9 @@ objectives:
 -  "Visualize single/multi-band raster data."
 
 keypoints:
-- "One can use `rioxarray.open_rasterio()` to read raster data"
+- "`rioxarray` and `xarray` are for working with multidimensional arrays like pandas is for working with tabular data."
 - "`rioxarray` stores CRS information as a CRS object that can be converted to an EPSG code or PROJ4 string."
 - "It is good to consider using nan to represent no data value(s), for statistics and visualization. "
-- "The `DataArray.plot()` function can be used to visualize single-band raster. Consider using the `robust=True` option for a better color limit."
-- "The `DataArray.plot.imshow()` function can be used to visualize multi-band raster."
 ---
 
 > ## Things You'll Need To Complete This Episode
