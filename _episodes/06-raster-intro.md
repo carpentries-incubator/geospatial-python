@@ -399,7 +399,7 @@ Attributes:
 ~~~
 {: .output}
 
-The band number comes first when GeoTiffs are read with the `.open_rasterio()` function. As we can see in the `xarray.DataArray` object, the shape is `(band: 3, y: 343, x: 343)` now. There are three bands in the `xarray.DataArray` now. One can also check the shape using the `.shape` attribute:
+The band number comes first when GeoTiffs are read with the `.open_rasterio()` function. As we can see in the `xarray.DataArray` object, the shape is `(band: 3, y: 343, x: 343)` now. There are three bands in the `xarray.DataArray` now. It's always a good idea to examine the shape of the raster array you are working with and make sure it's what you expect. Many functions, especially ones that plot images, expect a raster array to have a particular shape. One can also check the shape using the `.shape` attribute:
 ~~~
 raster_ams_overview.shape
 ~~~
@@ -409,8 +409,6 @@ raster_ams_overview.shape
 ~~~
 {: .output}
 
-It's always a good idea to examine the shape of the raster array you are working with and make sure it's what you expect. Many functions, especially ones that plot images, expect a raster array to have a particular shape.
-
 One can visualize the multi-band data with the `DataArray.plot.imshow()` function:
 ~~~
 raster_ams_overview.plot.imshow()
@@ -418,6 +416,8 @@ raster_ams_overview.plot.imshow()
 {: .language-python}
 
 ![Amsterdam true color overview](../fig/E06-04-overview-plot-true-color.png)
+
+Note that the `DataArray.plot.imshow()` function make pre-assumptions on the RGB channels. It does not work directly on the multi-band data.
 
 > ## Exercise: set the plotting aspect ratio
 > As seen in the figure above, the true-color image is stretched. Let's visualize it with the right aspect ratio. You can use the [documentation](https://xarray.pydata.org/en/stable/generated/xarray.DataArray.plot.imshow.html) of `DataArray.plot.imshow()`.
