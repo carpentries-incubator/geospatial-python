@@ -22,8 +22,8 @@ In this episode, we will introduce how to crop raster data into the desired area
 > ## Introduce the Data
 >
 > In this episode, we will use the same dataset as the one introduced in episode
-> [Introduction to Raster Data in Python]({{ page.root }}{% link
-> _episodes/01-intro-raster-data.md %}). Therefore, we continue from the
+> [Introduction to Raster Data in Python]({{ page.root }}{% link _episodes/01-intro-raster-data.md %}).
+> Therefore, we continue from the
 > `search.json` file, that is already saved in your working directory. We also
 > use the PDOK vector data that is already introduced in episode [Introduction
 > to Vector Data]({{ page.root }}{% link _episodes/02-intro-vector-data.md %}).
@@ -46,7 +46,19 @@ raster.plot.imshow(figsize=(8,8))
 
 <img src="../fig/20-crop-raster-original-raster-00.png" title="Overview of the raster"  width="512" style="display: block; margin: auto;" />
 
-The raster data is quite big. It even takes tens of seconds to visualize. But do we need the entire raster? Suppose we are interested in the crop fields, we can simply compare its coverage with the raster data. For this, we need to first check the coordinate systems of both raster and vector data. For raster data, we use `CRS`:
+The raster data is quite big. It even takes tens of seconds to visualize. Lets print the shape of the raster:
+
+~~~
+print(raster.shape)
+~~~
+{: .language-python}
+
+~~~
+(3, 10980, 10980)
+~~~
+{: .output}
+
+But do we need the entire raster? Suppose we are interested in the crop fields, we can simply compare its coverage with the raster data. For this, we need to first check the coordinate systems of both raster and vector data. For raster data, we use `CRS`:
 
 ~~~
 from pyproj import CRS
