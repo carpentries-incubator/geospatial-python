@@ -39,8 +39,8 @@ import rioxarray
 
 # Open image and visualize it
 items = pystac.ItemCollection.from_file("search.json")
-raster = rioxarray.open_rasterio(items[1].assets["visual"].href) # Select a true color image
-raster.plot.imshow(figsize=(8,8))
+true_color_image = rioxarray.open_rasterio(items[1].assets["visual"].href) # Select a true color image
+true_color_image.plot.imshow(figsize=(8,8))
 ~~~
 {: .language-python}
 
@@ -49,7 +49,7 @@ raster.plot.imshow(figsize=(8,8))
 The raster data is quite big. It even takes tens of seconds to visualize. Lets print the shape of the raster:
 
 ~~~
-print(raster.shape)
+print(true_color_image.shape)
 ~~~
 {: .language-python}
 
@@ -64,7 +64,7 @@ But do we need the entire raster? Suppose we are interested in the crop fields, 
 from pyproj import CRS
 
 # Check the coordinate system
-CRS(raster.rio.crs)
+CRS(true_color_image.rio.crs)
 ~~~
 {: .language-python}
 
@@ -119,25 +119,25 @@ Datum: Amersfoort
 
 As seen, the coordinate systems differ. To crop the raster using the shapefile,
 we first convert the coordinate system of `cf_boundary_crop` to the coordinate
-system of `raster`, and then check the coverage:
+system of `true_color_image`, and then check the coverage:
 
 ~~~
 from shapely.geometry import box
 from matplotlib import pyplot as plt
 
 # Convert the coordinate system
-cf_boundary_crop = cf_boundary_crop.to_crs(raster.rio.crs)
+cf_boundary_crop = cf_boundary_crop.to_crs(true_color_image.rio.crs)
 
 # Create a bounding box
 bounds = box(*cf_boundary_crop.total_bounds)
-bb_cropfields = gpd.GeoDataFrame(index=[0], crs=raster.rio.crs, geometry=[bounds])
+bb_cropfields = gpd.GeoDataFrame(index=[0], crs=true_color_image.rio.crs, geometry=[bounds])
 
 # Plot
 fig, ax = plt.subplots()
 fig.set_size_inches((8,8))
 
 # Plot image
-raster.plot.imshow(ax=ax)
+true_color_image.plot.imshow(ax=ax)
 
 # Plot crop fields
 cf_boundary_crop.geometry.boundary.plot(
@@ -168,7 +168,7 @@ min/max of the x and y coordinates.
 
 ~~~
 # Crop the raster with the bounding box
-raster_clip = raster.rio.clip_box(*cf_boundary_crop.total_bounds)
+raster_clip = true_color_image.rio.clip_box(*cf_boundary_crop.total_bounds)
 print(raster_clip.shape)
 ~~~
 {: .language-python}
@@ -222,7 +222,7 @@ raster_clip_polygon.plot.imshow(figsize=(8,8))
 > ## Exercise: Compare two ways of bounding box cropping
 > So far, we have learned two ways of cropping a raster: by a bounding box (using `clip_box`) and by a polygon (using `clip`). Technically, a bounding box is also a polygon. So what if we crop the original image directly with the polygon? For example:
 > ~~~
-> raster_clip_polygon2 = raster.rio.clip(polygon['geometry'], polygon.crs)
+> raster_clip_polygon2 = true_color_image.rio.clip(polygon['geometry'], polygon.crs)
 > raster_clip_polygon2.plot.imshow()
 > ~~~
 > {: .language-python}
@@ -321,7 +321,7 @@ raster_clip_wells.plot.imshow(ax=ax2)
 > > ~~~
 > > # Load dikes polyline
 > > dikes = gpd.read_file("data/dikes/dikes.shp")
-> > dikes = dikes.to_crs(raster.rio.crs)
+> > dikes = dikes.to_crs(true_color_image.rio.crs)
 > > # Dike buffer
 > > dikes_buffer = dikes.buffer(100)
 > > # Crop
@@ -336,8 +336,8 @@ raster_clip_wells.plot.imshow(ax=ax2)
 
 ## Crop raster data using another raster data
 
-Imagine that we have two raster datasets, let's say the `scene` and `crop_fields` in
-different coordinate systems. Our goal is to crop the `scene` image using the
+Imagine that we have two raster datasets, let's say the `true_color_image` and `crop_fields` in
+different coordinate systems. Our goal is to crop the `true_color_image` image using the
 `crop_fields` image.
 
 > ## Using `crop_fields` raster image
@@ -372,10 +372,8 @@ Datum: Amersfoort
 {: .output}
 
 ~~~
-# Read scene
-items = pystac.ItemCollection.from_file("search.json")
-scene = rioxarray.open_rasterio(items[1].assets["visual"].href)
-CRS(scene.rio.crs)
+# Get CRS of true_color_image
+CRS(true_color_image.rio.crs)
 ~~~
 {: .language-python}
 
@@ -397,31 +395,31 @@ Datum: World Geodetic System 1984
 {: .output}
 
 We can see that these images are in different coordinate systems. Now, we can
-use `rioxarray.reproject_match()` function to crop `scene` image. This might
-take a few minutes, because the `scene` image is large.
+use `rioxarray.reproject_match()` function to crop `true_color_image` image. This might
+take a few minutes, because the `true_color_image` image is large.
 
 ~~~
 # Crop and reproject
-cropped_scene = scene.rio.reproject_match(crop_fields)
+cropped_raster = true_color_image.rio.reproject_match(crop_fields)
 
 # Visualize
-cropped_scene.plot.imshow(figsize=(8,8))
+cropped_raster.plot.imshow(figsize=(8,8))
 ~~~
 {: .language-python}
 
 > ## Exercise
 >
-> This time, let's crop the `crop_fields` image using the `scene` image. Discuss
+> This time, let's crop the `crop_fields` image using the `true_color_image` image. Discuss
 > the results.
 >
 > > ## Solution
 > >
 > > ~~~
 > > # Crop
-> > cropped_scene = crop_fields.rio.reproject_match(scene)
+> > cropped_raster = crop_fields.rio.reproject_match(true_color_image)
 > >
 > > # Visualize
-> > cropped_scene.plot.imshow(figsize=(8,8))
+> > cropped_raster.plot.imshow(figsize=(8,8))
 > > ~~~
 > > {: .language-python}
 > > <img src="../fig/20-crop-raster-raster-solution-08.png" title="Raster croped by buffer around dikes" width="512" style="display: block; margin: auto;" />
