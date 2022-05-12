@@ -193,28 +193,25 @@ It is common that the AoI is given by a polygon, which can be also used to crop 
 
 ~~~
 from shapely.geometry import Polygon
+from matplotlib import pyplot as plt
 
 # Create a polygon
 xlist= [630000, 629000, 638000, 639000, 634000, 630000]
 ylist = [5.804e6, 5.814e6, 5.816e6, 5.806e6, 5.803e6, 5.804e6]
 polygon_geom = Polygon(zip(xlist, ylist))
-polygon = gpd.GeoDataFrame(index=[0], crs=raster_clip.rio.crs, geometry=[polygon_geom])
 
 # Plot the polygon over raster
 fig, ax = plt.subplots()
 fig.set_size_inches((8,8))
 raster_clip.plot.imshow(ax=ax)
-polygon.plot(
-    ax=ax,
-    alpha=0.6,
-    color=None,
-    edgecolor="blue",
-    linewidth = 2,
-    linestyle = '--',
-)
+plt.plot(*polygon_geom.exterior.xy,
+         color="lightblue",
+         linewidth = 2,
+         linestyle = '--',
+        )
 
 # Crop and visualize
-raster_clip_polygon = raster_clip.rio.clip(polygon['geometry'], polygon.crs)
+raster_clip_polygon = raster_clip.rio.clip([polygon_geom], raster_clip.rio.crs)
 raster_clip_polygon.plot.imshow(figsize=(8,8))
 ~~~
 {: .language-python}
