@@ -208,7 +208,7 @@ print(item.properties)
 > criteria:
 > - intersect a provided bounding box (use ±0.01 deg in lat/lon from the previously defined point);
 > - have been recorded between 20 March 2020 and 30 March 2020;
-> - have a cloud coverage smaller than 10%.
+> - have a cloud coverage smaller than 10% (hint: use the `query` input argument of `client.search`).
 >
 > How many scenes are available? Save the search results in GeoJSON format.
 >
