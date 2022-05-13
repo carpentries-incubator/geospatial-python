@@ -51,9 +51,16 @@ in the next section.
 
 # Time profiling in Jupyter
 
-Let's set up a raster calculation using assets from the search of satellite scenes that we have carried out in the
-previous episode. The search result, which consisted of a collection of STAC items (an `ItemCollection`), has been saved
-in GeoJSON format. We can load the collection using the `pystac` library:
+> ## Introduce the Data
+>
+> In this episode, we will use the same dataset as the one introduced in episode
+> [Access satellite imagery using Python]({{ page.root }}{% link _episodes/05-access-data.md %}).
+> Therefore, we continue from search of satellite scenes that we have previously carried out, and load the collection of
+> STAC items from the `search.json` file, that is already saved in your working directory.
+{: .callout}
+
+Let's set up a raster calculation using assets from our previous search of satellite scenes. We first load the item
+collection using the `pystac` library:
 
 ~~~
 import pystac
