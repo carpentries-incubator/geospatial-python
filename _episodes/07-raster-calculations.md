@@ -188,7 +188,7 @@ ndvi.plot.hist()
 
 ![](../fig/E09-05-NDVI-hist.png)
 
-> ## Challenge: Explore NDVI Raster Values
+> ## Exercise: Explore NDVI Raster Values
 >
 > It's often a good idea to explore the range of values in a raster dataset just like we might explore a dataset that we collected in the field. The histogram we just made is a good start but there's more we can do to improve our understanding of the data.
 >
@@ -312,11 +312,11 @@ by default writes the output file to your working directory unless you specify a
 full file path.
 
 ~~~
-ndvi_classified.rio.to_raster("NDVI_classified.tif")
+ndvi_classified.rio.to_raster("NDVI_classified.tif", dtype="int32")
 ~~~
 {: .language-python}
 
-> ## Challenge: Compute the NDVI for the Texel island
+> ## Exercise: Compute the NDVI for the Texel island
 >
 > Data are often more interesting and powerful when we compare them across various
 > locations. Let's compare the computed NDVI map with the one of another region in the same Sentinel-2 scene:
