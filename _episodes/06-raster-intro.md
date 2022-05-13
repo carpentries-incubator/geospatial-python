@@ -136,7 +136,7 @@ raster_ams_b9.plot()
 
 Nice plot! Notice that `rioxarray` helpfully allows us to plot this raster with spatial coordinates on the x and y axis (this is not the default in many cases with other functions or libraries).
 
-This plot shows the satellite measurement of the spectral band `B09` for an area that covers part of the Netherlands. According to the [Sentinel-2 documentaion](https://sentinels.copernicus.eu/web/sentinel/technical-guides/sentinel-2-msi/msi-instrument), this is a band with the central wavelength of 945nm, which is sensitive to water vapor. It has a spatial resolution of 60m. Note that the `band=1` in the image title indicates the total number of bands in the `DataArray`, but bot the Sentinel-2 band number `B09`. 
+This plot shows the satellite measurement of the spectral band `B09` for an area that covers part of the Netherlands. According to the [Sentinel-2 documentaion](https://sentinels.copernicus.eu/web/sentinel/technical-guides/sentinel-2-msi/msi-instrument), this is a band with the central wavelength of 945nm, which is sensitive to water vapor. It has a spatial resolution of 60m. Note that the `band=1` in the image title indicates the total number of bands in the `DataArray`, but not the Sentinel-2 band number `B09`. 
 
 In a quick view of the image, we can notice that half of the image is blank. We also see that the pixels with high reflectance values are the clouds at the top, and the contrast of everything else is quite low. This is expected because this band is sensitive to the water vapor. However if one would like to have a better color contrast, one can add the option `robust=True`, which displays values between the 2nd and 98th percentile:
 
@@ -291,7 +291,7 @@ Coordinates:
 {: .output}
 
 
-The information above includes a report of the min, max, mean, and standard deviation values, along with the data type. If we want to see specific quantiles, we can use xarray's `.quantile()` method. For example for the 25% and 75% quartiles:
+The information above includes a report of the min, max, mean, and standard deviation values, along with the data type. If we want to see specific quantiles, we can use xarray's `.quantile()` method. For example for the 25% and 75% quantiles:
 
 ```python
 print(raster_ams_b9.quantile([0.25, 0.75]))
@@ -372,7 +372,7 @@ And if we plot the image, the `nodata` pixels are not shown because they are not
 
 ![Raster plot with rioxarray using the robust setting no data](../fig/E06-03-overview-plot-B09-robust-with-nan.png)
 
-One should notice that there is a side effect of using `nan` instead of `0` to represent the missing data: the data type of the `DataArray` was changed from integers to float. This need to be taken into considration when the data type matters in your application.
+One should notice that there is a side effect of using `nan` instead of `0` to represent the missing data: the data type of the `DataArray` was changed from integers to float. This need to be taken into consideration when the data type matters in your application.
 
 ## Raster Bands
 So far we looked into a single band raster, i.e. the `B09` band of a Sentinel-2 scene. However, to get an overview of the scene, one may also want to visualize the true-color thumbnail of the region. This is provided as a multi-band raster -- a raster dataset that contains more than one band. 
@@ -399,7 +399,7 @@ Attributes:
 ~~~
 {: .output}
 
-The band number comes first when GeoTiffs are read with the `.open_rasterio()` function. As we can see in the `xarray.DataArray` object, the shape is `(band: 3, y: 343, x: 343)` now. There are three bands in the `xarray.DataArray` now. It's always a good idea to examine the shape of the raster array you are working with and make sure it's what you expect. Many functions, especially ones that plot images, expect a raster array to have a particular shape. One can also check the shape using the `.shape` attribute:
+The band number comes first when GeoTiffs are read with the `.open_rasterio()` function. As we can see in the `xarray.DataArray` object, the shape is `(band: 3, y: 343, x: 343)` now. There are three bands in the `xarray.DataArray` now. It's always a good idea to examine the shape of the raster array you are working with and make sure it's what you expect. Many functions, especially the ones that plot images, expect a raster array to have a particular shape. One can also check the shape using the `.shape` attribute:
 ~~~
 raster_ams_overview.shape
 ~~~
