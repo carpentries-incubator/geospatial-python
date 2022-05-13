@@ -31,24 +31,15 @@ In this episode, we will introduce how to crop raster data into the desired area
 
 ## Crop raster data with a bounding box
 
-First, we can have a glimpse of a true color image using `pystac` and `rioxarray`:
+We load a true color image using `pystac` and `rioxarray` and check the shape of the raster:
 
 ~~~
 import pystac
 import rioxarray
 
-# Open image and visualize it
+# Load image and inspect the shape
 items = pystac.ItemCollection.from_file("search.json")
 true_color_image = rioxarray.open_rasterio(items[1].assets["visual"].href) # Select a true color image
-true_color_image.plot.imshow(figsize=(8,8))
-~~~
-{: .language-python}
-
-<img src="../fig/20-crop-raster-original-raster-00.png" title="Overview of the raster"  width="512" style="display: block; margin: auto;" />
-
-The raster data is quite big. It even takes tens of seconds to visualize. Lets print the shape of the raster:
-
-~~~
 print(true_color_image.shape)
 ~~~
 {: .language-python}
@@ -58,7 +49,17 @@ print(true_color_image.shape)
 ~~~
 {: .output}
 
-But do we need the entire raster? Suppose we are interested in the crop fields, we can simply compare its coverage with the raster data. For this, we need to first check the coordinate systems of both raster and vector data. For raster data, we use `CRS`:
+The raster data is quite big. If we want to visualize it, it takes several minutes:
+
+~~~
+# Visualize it
+true_color_image.plot.imshow(figsize=(8,8))
+~~~
+{: .language-python}
+
+<img src="../fig/20-crop-raster-original-raster-00.png" title="Overview of the raster"  width="512" style="display: block; margin: auto;" />
+
+But do we need the entire raster? Suppose we are interested in the crop fields. To compare its coverage with the raster data, we first check the coordinate systems of both raster and vector data. For raster data, we use `CRS`:
 
 ~~~
 from pyproj import CRS
@@ -129,8 +130,7 @@ from matplotlib import pyplot as plt
 cf_boundary_crop = cf_boundary_crop.to_crs(true_color_image.rio.crs)
 
 # Create a bounding box
-bounds = box(*cf_boundary_crop.total_bounds)
-bb_cropfields = gpd.GeoDataFrame(index=[0], crs=true_color_image.rio.crs, geometry=[bounds])
+bb_cropfields = box(*cf_boundary_crop.total_bounds)
 
 # Plot
 fig, ax = plt.subplots()
@@ -149,13 +149,11 @@ cf_boundary_crop.geometry.boundary.plot(
 )
 
 # Plot bounding box
-bb_cropfields.geometry.boundary.plot(
-    ax=ax,
-    color=None,
-    edgecolor="black",
-    linewidth = 2,
-    linestyle = '--',
-)
+plt.plot(*bb_cropfields.exterior.xy,
+         color="black",
+         linewidth = 2,
+         linestyle = '--',
+        )
 ~~~
 {: .language-python}
 
