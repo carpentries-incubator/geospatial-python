@@ -72,7 +72,7 @@ you are ready to go as soon as the workshop begins.
 2. Download the Python 3 installer for Windows.
 
 3. Double-click the executable and install Python 3 using the recommended settings. Make sure that **Register Anaconda
-   as my default Python 3.x** option is checked - it should be in the latest version of Anaconda
+   as my default Python 3.x** option is checked - it should be in the latest version of Anaconda. We also recommend that you make sure "Add Anaconda to my PATH environment variable" is selected.
 
 ### Mac OS X - [Video tutorial][video-mac]
 
