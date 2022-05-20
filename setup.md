@@ -6,7 +6,7 @@ title: Setup
 ## Setting up your Lesson Directory and Getting the Data
 
   1. Open the terminal/shell:
-     * On **Windows**, open **Git Bash**. 
+     * On **Windows**, open **Git Bash**.
      * On **Mac OS** or **Linux**, open the **Terminal** app.
 
   2. Change your working directory to your **Desktop** :
@@ -60,8 +60,8 @@ individually can be a bit difficult, however, so we recommend the all-in-one
 installer [Anaconda][anaconda].
 
 Regardless of how you choose to install it, please make sure you install Python
-version 3.x (e.g., 3.7 is fine). Also, please set up your python environment at 
-least a day in advance of the workshop.  If you encounter problems with the 
+version 3.x (e.g., 3.7 is fine). Also, please set up your python environment at
+least a day in advance of the workshop.  If you encounter problems with the
 installation procedure, ask your workshop organizers via e-mail for assistance so
 you are ready to go as soon as the workshop begins.
 
@@ -87,7 +87,7 @@ you are ready to go as soon as the workshop begins.
 
 ### Linux
 
-Note that the following installation steps require you to work from the shell. 
+Note that the following installation steps require you to work from the shell.
 If you run into any difficulties, please request help before the workshop begins.
 
 1.  Open [https://www.anaconda.com/distribution/][anaconda-linux] with your web browser.
@@ -112,20 +112,20 @@ If you run into any difficulties, please request help before the workshop begins
     d.  Press enter.
 
     e.  Follow the text-only prompts.  When the license agreement appears (a colon
-        will be present at the bottom of the screen) press the space bar until you see the 
-        bottom of the text. Type `yes` and press enter to approve the license. Press 
-        enter again to approve the default location for the files. Type `yes` and 
-        press enter to prepend Anaconda to your `PATH` (this makes the Anaconda 
+        will be present at the bottom of the screen) press the space bar until you see the
+        bottom of the text. Type `yes` and press enter to approve the license. Press
+        enter again to approve the default location for the files. Type `yes` and
+        press enter to prepend Anaconda to your `PATH` (this makes the Anaconda
         distribution your user's default Python).
 
 ## Setting up the workshop environment with conda
 
-Once you have installed Anaconda, you should have access to the `conda` command in your terminal. 
+Once you have installed Anaconda, you should have access to the `conda` command in your terminal.
 
 1. Test that this is so by running the `conda` command in the terminal. You should get an output that looks like this:
 
     ```bash
-    → conda                    
+    → conda
     usage: conda [-h] [-V] command ...
 
     conda is a tool for managing and deploying applications, environments and packages.
@@ -168,27 +168,27 @@ Once you have installed Anaconda, you should have access to the `conda` command 
 
 2. Create the environment using the `conda create` command. It's possible to paste the following
 code on the Terminal:
-   
+
     ```bash
     conda create -n geospatial -c conda-forge -y \
       jupyterlab numpy matplotlib \
       xarray rasterio geopandas rioxarray earthpy descartes xarray-spatial pystac-client==0.3.2
 
     ```
-   
+
    _Please note that this step may take several minutes to complete. If it takes more than a few minutes, see below for another method._
 
    In this command, the `-n` argument specifies the environment name, the `-c` argument specifies the Conda channel
    where the libraries are hosted, and the `-y` argument spares the need for confirmation. The following arguments are
    the names of the libraries we are going to use. As you can see, geospatial analysis requires many libraries!
    Luckily, package managers like `conda` facilitate the process of installing and managing them.
-    
+
    If the above command does not work, it's also possible to create the environment from a file:
-    
+
    Right-click and "Save Link As..." on this link:
-   
+
    [https://carpentries-incubator.github.io/geospatial-python/files/environment.yaml](files/environment.yaml)
-   
+
    Name it `environment.yaml` and save it to your `geospatial-python` folder.
    The `environment.yaml` contains the names of Python libraries that are required to run the lesson:
 
@@ -212,7 +212,7 @@ code on the Terminal:
       - descartes # necessary for geopandas plotting
       - pystac-client==0.3.2 # pin version to work with earth-search STAC API
     ```
-   
+
     In the terminal, navigate to the directory where you saved the `environment.yaml` file using the `cd` command.
     Then run:
 
@@ -221,9 +221,9 @@ code on the Terminal:
     ```
 
     `conda` should begin to locate, download, and install the Python libraries listed in the `environment.yaml` file.
-   
+
     > ## Faster Environment Install With One Extra Step
-    > If you see a spinning `/` for more than a few minutes, you may want to try the following to speed up the environment installation. 
+    > If you see a spinning `/` for more than a few minutes, you may want to try the following to speed up the environment installation.
     > 1. Cancel the currently running `conda create` process with CTRL+C
     > 2. Run `conda install -c conda-forge mamba`
     > 3. Run `mamba env create -f environment.yaml`
@@ -259,7 +259,7 @@ code on the Terminal:
     ```
 
     > ## IMPORTANT
-    > If you close the terminal, you will need to 
+    > If you close the terminal, you will need to
     reactivate this environment with `conda activate geospatial` to use the Python libraries required for the lesson and
    > to start JupyterLab, which is also installed in the `geospatial` environment.
     {: .callout}
@@ -267,8 +267,8 @@ code on the Terminal:
 
 ## Starting JupyterLab
 
-In order to follow the lessons on using Python (episode 5 and onward), you should launch JupyterLab 
-after activating the geospatial conda environment in your working directory that contains the data you downloaded. 
+In order to follow the lessons on using Python (episode 5 and onward), you should launch JupyterLab
+after activating the geospatial conda environment in your working directory that contains the data you downloaded.
 See [Starting JupyterLab][starting-jupyterlab] for guidance.
 
 If all of the steps above completed successfully you are ready to follow along with the lesson!
@@ -289,7 +289,7 @@ If all of the steps above completed successfully you are ready to follow along w
     % ls ~
     > Applications      Downloads       Pictures
       anaconda3         Library         Public
-      Desktop           Movies      
+      Desktop           Movies
       Documents         Music
     ```
 

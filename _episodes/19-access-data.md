@@ -407,3 +407,23 @@ b01.rio.to_raster("B01.tif")
 > {: .solution}
 {: .challenge}
 
+> ## Public catalogs, protected data
+>
+> Publicly accessible catalogs and STAC endpoints do not necessarily imply publicly accessible data. Data providers, in
+> fact, may limit data access to specific infrastructures and/or require authentication. For instance, the NASA CMR STAC
+> endpoint considered in the last exercise offers publicly accessible metadata for the HLS collection, but most of the
+> linked assets are available only for registered users (the thumbnail is publicly accessible).
+>
+> The authentication procedure for dataset with restricted access might differ depending on the data provider. For the
+> NASA CMR, follow these steps in order to access data using Python:
+> * Create a NASA Earthdata login account [here](https://urs.earthdata.nasa.gov);
+> * Set up a netrc file with your credentials, e.g. by using [this script](https://git.earthdata.nasa.gov/projects/LPDUR/repos/daac_data_download_python/browse/EarthdataLoginSetup.py);
+> * Define the following environment variables:
+>
+> ~~~
+> import os
+> os.environ["GDAL_HTTP_COOKIEFILE"] = "./cookies.txt"
+> os.environ["GDAL_HTTP_COOKIEJAR"] = "./cookies.txt"
+> ~~~
+> {: .language-python}
+{: .callout}
