@@ -345,29 +345,29 @@ b01.rio.to_raster("B01.tif")
 
 > ## Exercise: Downloading Landsat 8 Assets
 > In this exercise we put in practice all the skills we have learned in this episode to retrieve images from a different
-> mission: [Landsat 8](https://www.usgs.gov/landsat-missions/landsat-8). Scenes from this satellite are also indexed in
-> the Earth Search STAC catalog, so you can use the same endpoints used for Sentinel-2 for the following queries.
+> mission: [Landsat 8](https://www.usgs.gov/landsat-missions/landsat-8). In particular, we browse images from the
+> [Harmonized Landsat Sentinel-2 (HLS) project](https://lpdaac.usgs.gov/products/hlsl30v002/), which provides images
+> from the two missions that have been made consistent with each other. The HLS catalog is indexed in the NASA Common
+> Metadata Repository (CMR) and it can be accessed from the STAC API endpoint at the following URL:
+> `https://cmr.earthdata.nasa.gov/stac/LPCLOUD`.
 >
-> - Using `pystac_client`, search for all assets of the Landsat 8 collection (`landsat-8-l1-c1`) from February to March
+> - Using `pystac_client`, search for all assets of the Landsat 8 collection (`HLSL30.v2.0`) from February to March
 >   2021, intersecting the point (40.78, -73.97).
-> - Select the scene with the lowest cloud cover, and open the coastal aerosol band (band 1, `B1`) using `rioxarray`.
-> - Save the raster as a GeoTIFF file.
+> - Select the scene with the lowest cloud cover.
+> - Visualize its thumbnail (asset key `browse`).
 >
 > >## Solution
 > >
 > > ~~~
-> > collection = "landsat-8-l1-c1"
-> >
-> > # define point geometry
-> > point = Point(-73.97, 40.78)
-> >
-> > datetime="2021-02-01/2021-03-30"
+> > # connect to the STAC endpoint
+> > cmr_api_url = "https://cmr.earthdata.nasa.gov/stac/LPCLOUD"
+> > client = Client.open(cmr_api_url)
 > >
 > > # setup search
 > > search = client.search(
-> >     collections=[collection],
-> >     intersects=point,
-> >     datetime=datetime,
+> >     collections=["HLSL30.v2.0"],
+> >     intersects=Point(-73.97, 40.78),
+> >     datetime="2021-02-01/2021-03-30",
 > > )
 > >
 > > # retrieve search results
@@ -377,7 +377,7 @@ b01.rio.to_raster("B01.tif")
 > > {: .language-python}
 > >
 > > ~~~
-> > 7
+> > 5
 > > ~~~
 > > {: .output}
 > >
@@ -389,35 +389,21 @@ b01.rio.to_raster("B01.tif")
 > > {: .language-python}
 > >
 > > ~~~
-> > <Item id=LC08_L1TP_013032_20210208_20210305_01_T1>
+> > <Item id=HLS.L30.T18TWL.2021039T153324.v2.0>
 > > ~~~
 > > {: .output}
 > >
 > > ~~~
-> > band1_href = item.assets["B1"].href
-> > band1 = rioxarray.open_rasterio(band1_href)
-> > print(band1)
+> > print(item.assets["browse"].href)
 > > ~~~
 > > {: .language-python}
 > >
 > > ~~~
-> > <xarray.DataArray (band: 1, y: 7781, x: 7661)>
-> > [59610241 values with dtype=uint16]
-> > Coordinates:
-> >   * band         (band) int64 1
-> >   * x            (x) float64 5.271e+05 5.271e+05 ... 7.569e+05 7.569e+05
-> >   * y            (y) float64 4.582e+06 4.582e+06 ... 4.349e+06 4.349e+06
-> >     spatial_ref  int64 0
-> > Attributes:
-> >     scale_factor:  1.0
-> >     add_offset:    0.0
+> > 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-public/HLSL30.020/HLS.L30.T18TWL.2021039T153324.v2.0/HLS.L30.T18TWL.2021039T153324.v2.0.jpg'
 > > ~~~
 > > {: .output}
 > >
-> > ~~~
-> > band1.rio.to_raster("B1.tif")
-> > ~~~
-> > {: .language-python}
+> > ![](../fig/E05-04-STAC-l8-preview.jpg)
 > {: .solution}
 {: .challenge}
 
