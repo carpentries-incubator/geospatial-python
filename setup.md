@@ -172,7 +172,7 @@ code on the Terminal:
     ```bash
     conda create -n geospatial -c conda-forge -y \
       jupyterlab numpy matplotlib \
-      xarray rasterio geopandas rioxarray earthpy descartes xarray-spatial pystac-client==0.3.2
+      xarray rasterio geopandas rioxarray earthpy descartes xarray-spatial pystac-client==0.3.2 python-graphviz
 
     ```
 
@@ -211,6 +211,7 @@ code on the Terminal:
       - earthpy
       - descartes # necessary for geopandas plotting
       - pystac-client==0.3.2 # pin version to work with earth-search STAC API
+      - python-graphviz
     ```
 
     In the terminal, navigate to the directory where you saved the `environment.yaml` file using the `cd` command.

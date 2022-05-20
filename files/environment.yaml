@@ -16,3 +16,4 @@ dependencies:
   - xarray-spatial
   - descartes>=1.0.0 # necessary for geopandas plotting
   - pystac-client==0.3.2 # pin version to work with earth-search STAC API
+  - python-graphviz # necessary for plotting dask graphs
