@@ -352,7 +352,7 @@ b01.rio.to_raster("B01.tif")
 > `https://cmr.earthdata.nasa.gov/stac/LPCLOUD`.
 >
 > - Using `pystac_client`, search for all assets of the Landsat 8 collection (`HLSL30.v2.0`) from February to March
->   2021, intersecting the point (40.78, -73.97).
+>   2021, intersecting the point with latitute/longitude coordinates (40.78, -73.97) deg.
 > - Select the scene with the lowest cloud cover.
 > - Visualize its thumbnail (asset key `browse`).
 >
