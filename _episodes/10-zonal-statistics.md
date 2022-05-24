@@ -16,10 +16,11 @@ keypoints:
 
 # Introduction
 
-Zonal statistics on predefined sections of the raster data are commonly used for analysis. These sections/zones are often defined by points, lines, or polygons (i.e. vectors). In this episode, we will explore how to convert vectors to raster data using the rasterize function and calculate statistics on zones defined by the vectors.  We will calculate zonal statistics for `ndvi` defined in the previous episode classified on the types of crops found in `cropped_field.shp` 
+Zonal statistics on predefined sections of the raster data are commonly used for analysis and to better understand the data. These sections/zones are often defined by points, lines, or polygons (i.e. vectors). In this episode, we will explore how to convert vector data to raster data using the rasterize function and how to calculate statistics on raster data in zones defined by vector data. In particular, we will calculate zonal statistics for `ndvi` defined in the previous episode based on the types of crops found in `cropped_field.shp` 
 
-# Make vector and raster data compatible
-Let's first read the cropfiled data from our saved `cropped_field.shp` file and view the CRS information.
+
+# Making vector and raster data compatible
+Let's first read the crop fields data from our saved `cropped_field.shp` file and view the CRS information.
 
 ~~~
 field = gpd.read_file('cropped_field.shp')
@@ -45,13 +46,13 @@ Datum: Amersfoort
 ~~~
 {: .output}
 
-We can convert the vector CRS to our raster (`ndvi`) CRS:
+In order to use the vector data as a classifier for our raster, we need to convert the vector data to the appropriate CRS and crop to our raster domain. The CRS conversion can be done from the vector CRS (EPSG:28992) to our raster `ndvi` CRS (EPSG:32631) with:
 ~~~
 field_to_raster_crs = field.to_crs(ndvi.rio.crs)
 ~~~
 {: .language-python}
 
-We can further crop the vectors with the same bounds as `ndvi` and view the data:
+We can further crop the vector data with the same bounds as `ndvi` and view the data:
 ~~~
 xmin, xmax = (629000, 639000)
 ymin, ymax = (5804000, 5814000)
@@ -79,9 +80,9 @@ category	gewas	gewascode	jaar	status	geometry
 
 # Rasterizing our vector data
 
-Before calculating zonal statistics, we first need to rasterize our `field_cropped` geodataframe with the `rasterio.features.rasterize` function. This will produce a grid with number values representing each type of crop using the column `gewascode` from `field_cropped` - `gewascode` stands for the crop codes as defined by the Netherlands Enterprise Agency (RVO) for different types of fields or `gewas` (Grassland, permanent; Grassland, temporary; corn fields; etc.). This grid of values then defines the zones for the `xrspatial.zonal_stats` function based on the types of fields, where each pixel in the zone grid overlaps with a corresponding pixel in our NDVI raster. 
+Before calculating zonal statistics, we first need to rasterize our `field_cropped` vector geodataframe with the `rasterio.features.rasterize` function. With this function, we aim to produce a grid with numerical values representing the types of crop as defined by the column `gewascode` from `field_cropped` - `gewascode` stands for the crop codes as defined by the Netherlands Enterprise Agency (RVO) for different types of crops or `gewas` (Grassland, permanent; Grassland, temporary; corn fields; etc.). This grid of values thus defines the zones for the `xrspatial.zonal_stats` function, where each pixel in the zone grid overlaps with a corresponding pixel in our NDVI raster. 
 
-In order to rasterize our vector data, we need to generate the `geometry, gewascode` pairs for each vector data-point to be used as the first argument to `rasterio.features.rasterize`:
+We can generate the `geometry, gewascode` pairs for each vector data-point to be used as the first argument to `rasterio.features.rasterize` as:
 
 ~~~
 geom = field_cropped[['geometry', 'gewascode']].values.tolist()
@@ -115,9 +116,9 @@ field_cropped_raster = rasterio.features.rasterize(geom, out_shape=ndvi_sq.shape
 ~~~
 {: .language-python}
 
-The argument `out_shape` specifies the shape of the output grid in pixel units, while `transform` represents the projection from pixel space to the projected coordinate space. We also need to specify the fill value for pixels that are not contained within a polygon in our shapefile, which we do with `fill = 0`. It's important to pick a fill value that is not the same as any values already defined in `gewascode` or else we won't distinguish between this zone and the background.
+The argument `out_shape` specifies the shape of the output grid in pixel units, while `transform` represents the projection from pixel space to the projected coordinate space. We also need to specify the fill value for pixels that are not contained within a polygon in our shapefile, which we do with `fill = 0`. It's important to pick a fill value that is not the same as any value already defined in `gewascode` or else we won't distinguish between this zone and the background.
 
-We convert the output of the `rasterio.features.rasterize` function, which generates a numpy array `np.ndarray`, to `xarray.DataArray`:
+We convert the output of the `rasterio.features.rasterize` function, which generates a numpy array `np.ndarray`, to `xarray.DataArray` which will be used further:
 ~~~
 field_cropped_raster_xarr = xr.DataArray(field_cropped_raster)
 ~~~
@@ -125,18 +126,17 @@ field_cropped_raster_xarr = xr.DataArray(field_cropped_raster)
 
 # Calculate zonal statistics 
 
-In order to calculate zonal statistics we use a single function call, `xrspatial.zonal_stats`, which can calculate the minimum, maximum, mean, median, and standard deviation for each crop-type found in our vector data-set. The `xrspatial.zonal_stats` function takes as input `zones`, a 2D `xarray.DataArray`, that defines different zones, and `values`, a 2D `xarray.DataArray` providing input values for calculating statistics:
+In order to calculate zonal statistics we call the function, `xrspatial.zonal_stats`, which can calculate the minimum, maximum, mean, sum, median, variance, and standard deviation for each zone as defined by our vector data-set. The `xrspatial.zonal_stats` function takes as input `zones`, a 2D `xarray.DataArray`, that defines different zones, and `values`, a 2D `xarray.DataArray` providing input values for calculating statistics. We use the `squeeze()` function in order to reduce our raster data `ndvi` dimension to 2D by removing the singular `band` dimension:
 
 ~~~
 ndvi_sq = ndvi.squeeze()
 ~~~
 {: .language-python}
 
-We squeeze `ndvi` in order to remove singular dimensions in to `ndvi_sq`. Then we call the `zonal stats` function with `cropfield_raster_xarr` as the first argument and the 2D raster with our values of interest `ndvi_sq` as the second argument:
+Then we call the `zonal stats` function with `cropfield_raster_xarr` as our classifier and the 2D raster with our values of interest `ndvi_sq` to obtain the NDVI statistics for each crop type:
 
 ~~~
-zstats = zonal_stats(cropfield_raster_xarr, ndvi_sq)
-zstats
+zonal_stats(cropfield_raster_xarr, ndvi_sq)
 ~~~
 {: .language-python}
 
@@ -153,37 +153,26 @@ zstats
 ~~~
 {: .output}
 
-> ## Challenge: Explore Calculate the Canopy Height Statistics for a Meteorological Tower Site
+> ## Challenge: Calculate zonal statistics for zones defined by `ndvi_classified`
 > 
-> Let's calculate zonal statistics for an area where we are monitoring meteorological variables above the canopy of HARV.
+> Let's calculate NDVI zonal statistics for the different zones as classified by `ndvi_classified` in the previous episode .
 > 
-> Import the `NEON-DS-Site-Layout-Files/HARV/AOPClip_UTMz18N.shp` shapefile with `geopandas`.
-> Then, calculate zonal statistics using our CHM. Inspect the output of your table.
+> Convert both raster data-sets into 2D `xarray.DataArray`. 
+> Then, calculate zonal statistics for each `class_bins`. Inspect the output of the `zonal_stats` function.
 > 
 > 
 > > ## Answers
-> > 1) Read in the data.
+> > 1) Convert raster data into suitable inputs for `rasterio.features.rasterize`:
 > >
 > > ```python
-tower_aoi_HARV = gpd.read_file("data/NEON-DS-Site-Layout-Files/HARV/HarClip_UTMZ18.shp")
+ndvi_sq = ndvi.squeeze()
+ndvi_classified_sq = ndvi_classified.squeeze()
 > > ```
 > >
-> > 2) Create a zone array for this polygon.
+> > 2) Create and display the zonal statistics table.
 > >
 > > ```python
-shapes = tower_aoi_HARV[['geometry', 'id']].values.tolist()
-zones_arr_out_shape = canopy_HARV.shape[1:]
-canopy_HARV_transform = canopy_HARV.rio.transform()
-tower_zone_arr = rasterio.features.rasterize(shapes, fill = 7, out_shape = zones_arr_out_shape, transform=canopy_HARV_transform)
-> > ```
-> > 
-> > 3) Create and display the zonal statistics table.
-> >
-> > ```python
-tower_zone_xarr = xr.DataArray(tower_zone_arr)
-canopy_HARV_b1 = canopy_HARV.sel(band=1)
-zstats_df = zonal_stats(tower_zone_xarr, canopy_HARV_b1)
-zstats_df
+zonal_stats(ndvi_classified_sq,ndvi_sq)
 > > ```
 > {: .solution}
 {: .challenge}
