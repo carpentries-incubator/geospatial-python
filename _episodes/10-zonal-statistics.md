@@ -3,20 +3,23 @@ title: "Calculating Zonal Statistics on Rasters"
 teaching: 40
 exercises: 20
 questions:
-- "How to rasterize a vector data-set?"
-- "How to calculate zonal statistics of a raster data-set?"
+- "How to compute raster statistics on different zones delineated by a vector data?"
 objectives:
-- "Conver vector CRS to raster CRS for rasterization"
-- "Convert vector data-set to raster using rasterize"
-- "Calculate zonal statistics of NDVI for different crop types"
+- "Extract zones from the vector dataset"
+- "Convert vector zones to raster using rasterize"
+- "Calculate raster statistics over zones"
 keypoints:
-- "Calculating zonal statistics with xrspatial for polygon objects requires rasterizing each object."
+- "Zones can be extracted by attribute columns of a vector dataset"
+- "Zones can be vectorized using `rasterio.features.rasterize`"
+- "Calculate zonal statistics with `xrspatial.zonal_stats` over the rasterized zones."
 
 ---
 
 # Introduction
 
-Zonal statistics on predefined sections of the raster data are commonly used for analysis and to better understand the data. These sections/zones are often defined by points, lines, or polygons (i.e. vectors). In this episode, we will explore how to convert vector data to raster data using the rasterize function and how to calculate statistics on raster data in zones defined by vector data. In particular, we will calculate zonal statistics for `ndvi` defined in the previous episode based on the types of crops found in `cropped_field.shp` 
+Statistics on predefined zones of the raster data are commonly used for analysis and to better understand the data. These zones are often provided within a single vector dataset, identified by certain vector attributes. For example, in the previous episodes, we used the crop field polygon dataset. The fields with the same crop type can be identified as a "zone", resulting in multiple zones in one vector dataset. One may be interested in performing statistical analysis over these crop zones.
+
+In this episode, we will explore how to calculate zonal statistics based on the types of crops in `cropped_field.shp` . To do this, we will first identify zones from the vector data, then rasterize these vector zones. Finally the zonal statistics for `ndvi` will be calculated over the rasterized zones.  
 
 
 # Making vector and raster data compatible
@@ -106,7 +109,7 @@ geom
 ~~~
 {: .output}
 
-This generates a list of tuples, where each tuple contains the shapely geometry from the `geometry` column, and the unique field ID from the `gewascode` column in the `fields_cropped` geodataframe.
+This generates a list of the shapely geometries from the `geometry` column, and the unique field ID from the `gewascode` column in the `fields_cropped` geodataframe.
 
 We can now rasterize our vector data using `rasterio.features.rasterize`:
 
@@ -120,6 +123,7 @@ The argument `out_shape` specifies the shape of the output grid in pixel units, 
 
 We convert the output of the `rasterio.features.rasterize` function, which generates a numpy array `np.ndarray`, to `xarray.DataArray` which will be used further:
 ~~~
+import xarray as xr
 field_cropped_raster_xarr = xr.DataArray(field_cropped_raster)
 ~~~
 {: .language-python}
@@ -133,9 +137,10 @@ ndvi_sq = ndvi.squeeze()
 ~~~
 {: .language-python}
 
-Then we call the `zonal stats` function with `cropfield_raster_xarr` as our classifier and the 2D raster with our values of interest `ndvi_sq` to obtain the NDVI statistics for each crop type:
+Then we call the `zonal_stats` function with `cropfield_raster_xarr` as our classifier and the 2D raster with our values of interest `ndvi_sq` to obtain the NDVI statistics for each crop type:
 
 ~~~
+from xrspatial import zonal_stats
 zonal_stats(cropfield_raster_xarr, ndvi_sq)
 ~~~
 {: .language-python}
