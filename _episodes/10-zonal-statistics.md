@@ -130,7 +130,7 @@ field_cropped_raster_xarr = xr.DataArray(field_cropped_raster)
 
 # Calculate zonal statistics 
 
-In order to calculate zonal statistics we call the function, `xrspatial.zonal_stats`, which can calculate the minimum, maximum, mean, sum, median, variance, and standard deviation for each zone as defined by our vector data-set. The `xrspatial.zonal_stats` function takes as input `zones`, a 2D `xarray.DataArray`, that defines different zones, and `values`, a 2D `xarray.DataArray` providing input values for calculating statistics. We use the `squeeze()` function in order to reduce our raster data `ndvi` dimension to 2D by removing the singular `band` dimension:
+In order to calculate the statistics for each crop zone, we call the function, `xrspatial.zonal_stats`. The `xrspatial.zonal_stats` function takes as input `zones`, a 2D `xarray.DataArray`, that defines different zones, and `values`, a 2D `xarray.DataArray` providing input values for calculating statistics. We use the `squeeze()` function in order to reduce our raster data `ndvi` dimension to 2D by removing the singular `band` dimension:
 
 ~~~
 ndvi_sq = ndvi.squeeze()
@@ -157,6 +157,8 @@ zonal_stats(cropfield_raster_xarr, ndvi_sq)
 7	863	0.388575	0.510572	0.185987	1.165724	0.144245	0.020807	3.0
 ~~~
 {: .output}
+
+The `zonal_stats` function calculates the minimum, maximum, and sum for each zone along with statistical measures such as the mean, variance and standard deviation for each rasterized vector zone. In our raster data-set `zone = 0`, corresponding to non-crop areas, has the highest count followed by `zone = 265` which corresponds to 'Grasland, blijvend' or 'Grassland, permanent'. The highest mean NDVI is observed for `zone = 266` for 'Grasslands, temporary' with the lowest mean, aside from non-crop area, going to `zone = 863` representing 'Forest without replanting obligation'. Thus, the `zonal_stats` function can be used to analyse and understand different sections of our raster data. The definition of the zones can be derived from vector data or from classified raster data as presented in the challenge below: 
 
 > ## Challenge: Calculate zonal statistics for zones defined by `ndvi_classified`
 > 
