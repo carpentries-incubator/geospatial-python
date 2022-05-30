@@ -3,7 +3,7 @@ title: "Read and visualize raster data"
 teaching: 40
 exercises: 20
 questions:
--  "What is a raster dataset?"
+-  "How is a raster represented by rioxarray?"
 -  "How do I read and plot raster data in Python?"
 -  "How can I handle missing data?"
 
@@ -20,26 +20,25 @@ keypoints:
 ---
 
 
-In this episode, we will introduce the fundamental principles, packages and
-metadata/raster attributes that are needed to work with raster data in Python. We will discuss some of the core metadata elements like Coordinate Reference Systems (CRS), no data values, and resolution. We will also explore missing and bad data values as stored in a raster and how Python handles these elements.
+This episode introduces the fundamental principles, packages and
+metadata/raster attributes for working with raster data in Python. We will also explore how Python handles missing and bad data values.
 
-We will use a Python package in this episode to work with raster data -
-[`rioxarray`](https://corteva.github.io/rioxarray/stable/),
-which is based on the popular [`rasterio`](https://rasterio.readthedocs.io/en/latest/) package for working with rasters and [`xarray`](http://xarray.pydata.org/en/stable/) for working with multi-dimensional arrays.
+[`rioxarray`](https://corteva.github.io/rioxarray/stable/) is the Python package we will use throughout this lesson to work with raster data.
+It is based on the popular [`rasterio`](https://rasterio.readthedocs.io/en/latest/) package for working with rasters and [`xarray`](http://xarray.pydata.org/en/stable/) for working with multi-dimensional arrays.
 
-We will also use the [`pystac`](https://github.com/stac-utils/pystac) package to load raster from the searching results from the exercise of the previous episode. This would not be necessary if you skipped it.
+We will also use the [`pystac`](https://github.com/stac-utils/pystac) package to load rasters from the search results we created in the previous episode.
 
 
 > ## Introduce the Data
 >
-> In this episode, we will continue from the `search.json` file, which we saved in an exercise from the previous episode. We will use one scene in the searching results as an example, and demonstrate the data loading and visualization.
+> We'll continue from the `search.json` file, which we saved in an exercise from the previous episode. One scene in the search results will serve as an example and demonstrate data loading and visualization.
 >
-> If you have skipped the previous episode on data accessing, you can download the same raster data from the [data repository](ToDo: add link) of this lesson.
+> If you would like to work with the data for this lesson without using pystac, you can download the same raster data from the [data repository](ToDo: add link) of this lesson. This can be useful if you need to download the data ahead of time to work through the lesson if you are without internet, or if you want to work with the data in a different GIS.
 {: .callout}
 
 ## Load a Raster and View Attributes
 
-In the previous episode, we did an exercise searching Sentinel-2 images, and then saved the searching results to `search.json`. This file contains the information on where and how to access the target images from a remote repository. We can use the function `pystac.ItemCollection.from_file()` to load the searching results as an `Item` list.
+In the previous episode, we searched for Sentinel-2 images, and then saved the search results to a file:`search.json`. This contains the information on where and how to access the target images from a remote repository. We can use the function `pystac.ItemCollection.from_file()` to load the search results as an `Item` list.
 
 
 ~~~
@@ -48,7 +47,7 @@ items = pystac.ItemCollection.from_file("search.json")
 ~~~
 {: .language-python}
 
-In the searching results, we have 2 `Item`, corresponding to 4 Sentinel-2 scenes from March 26th and 28th in 2020. We will focus on the first scene `S2A_31UFU_20200328_0_L2A`, and load the band `B09` (central wavelength 945 nm). We can load this band using function `rioxarray.open_rasterio()`, via the Hypertext Reference `href`:
+In the search results, we have 2 `Item` type objects, corresponding to 4 Sentinel-2 scenes from March 26th and 28th in 2020. We will focus on the first scene `S2A_31UFU_20200328_0_L2A`, and load band `B09` (central wavelength 945 nm). We can load this band using the function `rioxarray.open_rasterio()`, via the Hypertext Reference `href` (commonly referred to as a URL):
 ~~~
 import rioxarray
 raster_ams_b9 = rioxarray.open_rasterio(items[0].assets["B09"].href)
@@ -75,7 +74,7 @@ Attributes:
 ~~~
 {: .output}
 
-The first call to `rioxarray.open_rasterio()` opens the file from remote or local storage, and then returns a `xarray.DataArray` object. The object is stored in a variable, i.e. `raster_ams_b9`. Reading in the data with `xarray` instead of `rioxarray` also returns a `xarray.DataArray`, but the output will not contain the geospatial metadata (such as projection information). You can use a `xarray.DataArray` in calculations just like a numpy array. Calling the variable name of the `DataArray` also prints out all of its metadata information.
+The first call to `rioxarray.open_rasterio()` opens the file from remote or local storage, and then returns a `xarray.DataArray` object. The object is stored in a variable, i.e. `raster_ams_b9`. Reading in the data with `xarray` instead of `rioxarray` also returns a `xarray.DataArray`, but the output will not contain the geospatial metadata (such as projection information). You can use numpy functions or built-in Python math operators on a `xarray.DataArray` just like a numpy array. Calling the variable name of the `DataArray` also prints out all of its metadata information.
 
 The output tells us that we are looking at an `xarray.DataArray`, with `1` band, `1830` rows, and `1830` columns. We can also see the number of pixel values in the `DataArray`, and the type of those pixel values, which is unsigned integer (or `uint16`). The `DataArray` also stores different values for the coordinates of the `DataArray`. When using `rioxarray`, the term coordinates refers to spatial coordinates like `x` and `y` but also the `band` coordinate. Each of these sequences of values has its own data type, like `float64` for the spatial coordinates and `int64` for the `band` coordinate.
 
@@ -136,7 +135,7 @@ raster_ams_b9.plot()
 
 Nice plot! Notice that `rioxarray` helpfully allows us to plot this raster with spatial coordinates on the x and y axis (this is not the default in many cases with other functions or libraries).
 
-This plot shows the satellite measurement of the spectral band `B09` for an area that covers part of the Netherlands. According to the [Sentinel-2 documentaion](https://sentinels.copernicus.eu/web/sentinel/technical-guides/sentinel-2-msi/msi-instrument), this is a band with the central wavelength of 945nm, which is sensitive to water vapor. It has a spatial resolution of 60m. Note that the `band=1` in the image title indicates the total number of bands in the `DataArray`, but not the Sentinel-2 band number `B09`. 
+This plot shows the satellite measurement of the spectral band `B09` for an area that covers part of the Netherlands. According to the [Sentinel-2 documentaion](https://sentinels.copernicus.eu/web/sentinel/technical-guides/sentinel-2-msi/msi-instrument), this is a band with the central wavelength of 945nm, which is sensitive to water vapor. It has a spatial resolution of 60m. Note that the `band=1` in the image title refers to the ordering of all the bands in the  `DataArray`, not the Sentinel-2 band number `B09` that we saw in the pystac search results. 
 
 In a quick view of the image, we can notice that half of the image is blank. We also see that the pixels with high reflectance values are the clouds at the top, and the contrast of everything else is quite low. This is expected because this band is sensitive to the water vapor. However if one would like to have a better color contrast, one can add the option `robust=True`, which displays values between the 2nd and 98th percentile:
 
@@ -153,7 +152,7 @@ Now the color limit is set in a way fitting most of the values in the image. We 
 Another information that we're interested in is the CRS, and it can be accessed with `.rio.crs`. We introduced the concept of a CRS in [an earlier
 episode]({{ page.root }}{% link _episodes/03-crs.md %}).
 Now we will see how features of the CRS appear in our data file and what
-meanings they have. We can view the CRS string associated with our Python object using the `crs`
+meanings they have. We can view the CRS string associated with our DataArray's `rio` object using the `crs`
 attribute.
 
 ~~~
@@ -165,7 +164,7 @@ EPSG:32631
 ~~~
 {: .output}
 
-To just print the EPSG code number as an `int`, we use the `.to_epsg()` method:
+To print the EPSG code number as an `int`, we use the `.to_epsg()` method:
 
 ~~~
 raster_ams_b9.rio.crs.to_epsg()
@@ -176,7 +175,7 @@ raster_ams_b9.rio.crs.to_epsg()
 ~~~
 {: .output}
 
-EPSG codes are great for succinctly representing a particular coordinate reference system. But what if we want to see information about the CRS? For that, we can use `pyproj`, a library for representing and working with coordinate reference systems.
+EPSG codes are great for succinctly representing a particular coordinate reference system. But what if we want to see more details about the CRS, like the units? For that, we can use `pyproj`, a library for representing and working with coordinate reference systems.
 
 ~~~
 from pyproj import CRS
@@ -220,7 +219,7 @@ AreaOfUse(west=0.0, south=0.0, east=6.0, north=84.0, name='Between 0°E and 6°E
 > What units are our data in? See if you can find a method to examine this information using `help(crs)` or `dir(crs)`
 >
 > > ## Answers
-> > `crs.axis_info` tells us that our CRS for our raster has two axis and both are in meters.
+> > `crs.axis_info` tells us that the CRS for our raster has two axis and both are in meters.
 > > We could also get this information from the attribute `raster_ams_b9.rio.crs.linear_units`.
 > {: .solution}
 {: .challenge}
@@ -399,7 +398,7 @@ Attributes:
 ~~~
 {: .output}
 
-The band number comes first when GeoTiffs are read with the `.open_rasterio()` function. As we can see in the `xarray.DataArray` object, the shape is `(band: 3, y: 343, x: 343)` now. There are three bands in the `xarray.DataArray` now. It's always a good idea to examine the shape of the raster array you are working with and make sure it's what you expect. Many functions, especially the ones that plot images, expect a raster array to have a particular shape. One can also check the shape using the `.shape` attribute:
+The band number comes first when GeoTiffs are read with the `.open_rasterio()` function. As we can see in the `xarray.DataArray` object, the shape is now `(band: 3, y: 343, x: 343)`, with three bands in the `band` dimension. It's always a good idea to examine the shape of the raster array you are working with and make sure it's what you expect. Many functions, especially the ones that plot images, expect a raster array to have a particular shape. One can also check the shape using the `.shape` attribute:
 ~~~
 raster_ams_overview.shape
 ~~~
