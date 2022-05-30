@@ -137,7 +137,7 @@ Nice plot! Notice that `rioxarray` helpfully allows us to plot this raster with 
 
 This plot shows the satellite measurement of the spectral band `B09` for an area that covers part of the Netherlands. According to the [Sentinel-2 documentaion](https://sentinels.copernicus.eu/web/sentinel/technical-guides/sentinel-2-msi/msi-instrument), this is a band with the central wavelength of 945nm, which is sensitive to water vapor. It has a spatial resolution of 60m. Note that the `band=1` in the image title refers to the ordering of all the bands in the  `DataArray`, not the Sentinel-2 band number `B09` that we saw in the pystac search results. 
 
-In a quick view of the image, we can notice that half of the image is blank. We also see that the pixels with high reflectance values are the clouds at the top, and the contrast of everything else is quite low. This is expected because this band is sensitive to the water vapor. However if one would like to have a better color contrast, one can add the option `robust=True`, which displays values between the 2nd and 98th percentile:
+With a quick view of the image, we notice that half of the image is blank, no data is captured. We also see that the cloudy pixels at the top have high reflectance values, while the contrast of everything else is quite low. This is expected because this band is sensitive to the water vapor. However if one would like to have a better color contrast, one can add the option `robust=True`, which displays values between the 2nd and 98th percentile:
 
 ~~~
 raster_ams_b9.plot(robust=True)
@@ -147,6 +147,14 @@ raster_ams_b9.plot(robust=True)
 
 Now the color limit is set in a way fitting most of the values in the image. We have a better view of the ground pixels.
 
+> ## Tool Tip
+> The option `robust=True` always forces displaying values between the 2nd and 98th percentile. Of course, this will not work for every case. For a customized displaying range, you can also manually specifying the keywords `vmin` and `vmax`. For example ploting between `100` and `7000`:
+> 
+> ~~~
+> raster_ams_b9.plot(vmin=100, vmax=7000)
+> ~~~
+> {: .language-python}
+{: .callout}
 
 ## View Raster Coordinate Reference System (CRS) in Python
 Another information that we're interested in is the CRS, and it can be accessed with `.rio.crs`. We introduced the concept of a CRS in [an earlier
