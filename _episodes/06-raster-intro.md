@@ -424,7 +424,7 @@ raster_ams_overview.plot.imshow()
 
 ![Amsterdam true color overview](../fig/E06-04-overview-plot-true-color.png)
 
-Note that the `DataArray.plot.imshow()` function make pre-assumptions on the RGB channels. It does not work directly on the multi-band data.
+Note that the `DataArray.plot.imshow()` function makes assumptions about the shape of the input DataArray, that since it has three channels, the correct colormap for these channels is RGB. It does not work directly on image arrays with more than 3 channels. One can replace one of the RGB channels with another band, to make a false-color image.
 
 > ## Exercise: set the plotting aspect ratio
 > As seen in the figure above, the true-color image is stretched. Let's visualize it with the right aspect ratio. You can use the [documentation](https://xarray.pydata.org/en/stable/generated/xarray.DataArray.plot.imshow.html) of `DataArray.plot.imshow()`.
