@@ -150,7 +150,8 @@ cropfield_crop = cropfield.cx[xmin:xmax, ymin:ymax]
 ~~~
 {: .language-python}
 
-This will cut out a smaller area, defined by a box in units of the projection, discarding the rest of the data. The resultant GeoDataframe is found in the `cropfield_crop` object. We can check the total bounds of this new data as before:
+
+This will cut out a smaller area, defined by a box in units of the projection, discarding the rest of the data. The resultant GeoDataframe, which includes all the features intersecting the box, is found in the `cropfield_crop` object. Note that the edge elements are not 'cropped' themselves. We can check the total bounds of this new data as before:
 
 ~~~
 cropfield_crop.total_bounds
