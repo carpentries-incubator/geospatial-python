@@ -29,15 +29,18 @@ In later episodes, we will learn how to work with raster and vector data togethe
 
 ## Import Shapefiles
 
-```python
+~~~
 import geopandas as gpd
-```
+~~~
+{: .language-python}
 
 First let us download and read the crop field dataset, with the following:
-```python
+
+~~~
 # Load all crop field boundaries (brpgewaspercelen)
 cropfield = gpd.read_file("https://service.pdok.nl/rvo/brpgewaspercelen/atom/v1_0/downloads/brpgewaspercelen_definitief_2020.gpkg")
-```
+~~~
+{: .language-python}
 
 This may take a couple of minutes to complete, as the dataset is somewhat large. It contains all the crop field data for the entirety of the European portion of the Netherlands.
 
@@ -138,12 +141,14 @@ We can convert these coordinates to a bounding box or acquire the index of the d
 Our `cropfield` dataset is rather large, containing data for the entirety of the European portion of the Netherlands. Before plotting it we will first select a specific section to be our area of interest.
 
 We can create a cropped version of our dataset as follows:
-```python
+
+~~~
 # Define a Boundingbox in RD
 xmin, xmax = (120000, 135000)
 ymin, ymax = (485000, 500000)
 cropfield_crop = cropfield.cx[xmin:xmax, ymin:ymax]
-```
+~~~
+{: .language-python}
 
 This will cut out a smaller area, defined by a box in units of the projection, discarding the rest of the data. The resultant GeoDataframe is found in the `cropfield_crop` object. We can check the total bounds of this new data as before:
 
@@ -159,9 +164,10 @@ array([119594.384 , 485036.2543, 135169.9266, 500782.531 ])
 
 We can then save this cropped dataset for use in future, using the `to_file()` method of our GeoDataFrame object:
 
-```python
+~~~
 cropfield_crop.to_file('cropped_field.shp')
-```
+~~~
+{: .language-python}
 
 This will write it to disk (in this case, in 'shapefile' format), containing only the data from our cropped area. It can be read in again at a later time using the `read_file()` method we have been using above.
 
@@ -169,16 +175,18 @@ This will write it to disk (in this case, in 'shapefile' format), containing onl
 
 We can now plot this data. Any `GeoDataFrame` can be plotted in CRS units to view the shape of the object with `.plot()`.
 
-```python
+~~~
 cropfield_crop.plot()
-```
+~~~
+{: .language-python}
 
 We can customize our boundary plot by setting the 
 `figsize`, `edgecolor`, and `color`. Making some polygons transparent will come in handy when we need to add multiple spatial datasets to a single plot.
 
-```python
+~~~
 cropfield_crop.plot(figsize=(5,5), edgecolor="purple", facecolor="None")
-```
+~~~
+{: .language-python}
 
 ![Cropped fields plot image](../fig/dc-spatial-vector/cropped_fields_plot_output.png)
 {: .output}
