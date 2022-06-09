@@ -137,7 +137,7 @@ This array contains, in order, the values for minx, miny, maxx and maxy, for the
 
 We can convert these coordinates to a bounding box or acquire the index of the dataframe to access the geometry. Either of these polygons can be used to clip rasters (more on that later). 
 
-## Cropping a Vector dataset
+## Selecting spatial features
 Our `cropfield` dataset is rather large, containing data for the entirety of the European portion of the Netherlands. Before plotting it we will first select a specific section to be our area of interest.
 
 We can create a cropped version of our dataset as follows:
