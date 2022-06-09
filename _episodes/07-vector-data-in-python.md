@@ -6,7 +6,7 @@ questions:
 - "How can I distinguish between and visualize point, line and polygon vector data?"
 objectives:
 - "Know the difference between point, line, and polygon vector elements."
-- "Load point, line, and polygon shapefiles with `geopandas`."
+- "Load point, line, and polygon vector data with `geopandas`."
 - "Access the attributes of a spatial object with `geopandas`."
 keypoints:
 - "Shapefile metadata include geometry type, CRS, and extent."
@@ -18,7 +18,7 @@ keypoints:
 
 As discussed in [Episode 2: Introduction to Vector Data]({{site.baseurl}}/02-intro-vector-data.md/), vector data represents specific features on the Earth's surface using points, lines and polygons. These geographic elements can then have one or more attributes assigned to them, such as 'name' and 'population' for a city, or crop type for a field. Vector data can be much smaller in (file) size than raster data, while being very rich in terms of the information captured.
 
-From this episode onwards, we will be moving from working with raster data to working with vector data. In this episode, we will use python to open and plot point, line and polygon vector data, stored in the shapefile format. The data we will use comes from the Dutch government's open geodata sets, obtained from the [PDOK platform](https://www.pdok.nl/). It provides open data for various applications, e.g. cadaster, infrastructure, agriculture, etc. In this episode we will use three data sets:
+From this episode onwards, we will be moving from working with raster data to working with vector data. In this episode, we will use python to open and plot point, line and polygon vector data. The data we will use comes from the Dutch government's open geodata sets, obtained from the [PDOK platform](https://www.pdok.nl/). It provides open data for various applications, e.g. cadaster, infrastructure, agriculture, etc. In this episode we will use three data sets:
 
 - [Crop fields](https://www.pdok.nl/introductie/-/article/basisregistratie-gewaspercelen-brp-) (polygons)
 - [Water ways](https://www.pdok.nl/introductie/-/article/nationaal-wegen-bestand-nwb-) (lines):
@@ -42,9 +42,9 @@ cropfield = gpd.read_file("https://service.pdok.nl/rvo/brpgewaspercelen/atom/v1_
 This may take a couple of minutes to complete, as the dataset is somewhat large. It contains all the crop field data for the entirety of the European portion of the Netherlands.
 
 
-## Shapefile Metadata & Attributes
+## Vector Metadata & Attributes
 
-When we import the shapefile into Python (as our `cropfield` object) it comes in as a `DataFrame`, specifically a `GeoDataFrame`. `read_file()` also automatically stores
+When we import the vector dataset to Python (as our `cropfield` object) it comes in as a `DataFrame`, specifically a `GeoDataFrame`. `read_file()` also automatically stores
 geospatial information about the data. We are particularly interested in describing the format, CRS, extent, and other components of
 the vector data, and the attributes which describe properties associated
 with each individual vector object.
@@ -56,18 +56,17 @@ with each individual vector object.
 {: .callout}
 
 ## Spatial Metadata
-Key metadata for all shapefiles include:
+Key metadata includes:
 
 1. **Object Type:** the class of the imported object.
 2. **Coordinate Reference System (CRS):** the projection of the data.
-3. **Extent:** the spatial extent (i.e. geographic area that the shapefile covers) of
-the shapefile. Note that the spatial extent for a shapefile represents the combined
-extent for all spatial objects in the shapefile.
+3. **Extent:** the spatial extent (i.e. geographic area that the data covers). Note that the spatial extent for a vector dataset represents the combined
+extent for all spatial objects in the dataset.
 
 Each `GeoDataFrame` has a `"geometry"` column that contains geometries. In the case of our `cropfield`  object, this geometry is represented by a `shapely.geometry.Polygon` object. `geopandas` uses the `shapely` library to represent polygons, lines, and points, so the types are inherited from `shapely`.
 
-We can view shapefile metadata using the `.crs`, `.bounds` and `.type` attributes. First, let's view the
-geometry type for our crop field shapefile. To view the geometry type, we use the `pandas` method `.type` function on the `GeoDataFrame` object, `cropfield`.
+We can view the metadata using the `.crs`, `.bounds` and `.type` attributes. First, let's view the
+geometry type for our crop field dataset. To view the geometry type, we use the `pandas` method `.type` function on the `GeoDataFrame` object, `cropfield`.
 
 ~~~
 cropfield.type
@@ -129,7 +128,7 @@ array([ 13653.6128, 306851.867 , 277555.288 , 612620.9868])
 ~~~
 {: .output}
 
-This array contains, in order, the values for minx, miny, maxx and maxy, for the overall dataset. The spatial extent of a shapefile or `shapely` spatial object represents the geographic "edge" or location that is the furthest north, south, east, and west. Thus, it is represents the overall geographic coverage of the spatial object. Image Source: National Ecological Observatory Network (NEON).
+This array contains, in order, the values for minx, miny, maxx and maxy, for the overall dataset. The spatial extent of a GeoDataFrame represents the geographic "edge" or location that is the furthest north, south, east, and west. Thus, it is represents the overall geographic coverage of the spatial object. Image Source: National Ecological Observatory Network (NEON).
 
 ![Extent image](../fig/dc-spatial-vector/spatial_extent.png)
 
@@ -158,15 +157,15 @@ array([119594.384 , 485036.2543, 135169.9266, 500782.531 ])
 ~~~
 {: .output}
 
-We can then save this cropped shapefile for use in future, using the `to_file()` method of our GeoDataFrame object:
+We can then save this cropped dataset for use in future, using the `to_file()` method of our GeoDataFrame object:
 
 ```python
 cropfield_crop.to_file('cropped_field.shp')
 ```
 
-This will write a new shape file to disk, containing only the data from our cropped area. It can be read in again at a later time using the `read_file()` method we have been using above.
+This will write it to disk (in this case, in 'shapefile' format), containing only the data from our cropped area. It can be read in again at a later time using the `read_file()` method we have been using above.
 
-## Plotting a Shapefile
+## Plotting a vector dataset
 
 We can now plot this data. Any `GeoDataFrame` can be plotted in CRS units to view the shape of the object with `.plot()`.
 
@@ -185,7 +184,7 @@ cropfield_crop.plot(figsize=(5,5), edgecolor="purple", facecolor="None")
 {: .output}
 
 
-Under the hood, `geopandas` is using `matplotlib` to generate this plot. In the next episode we will see how we can add `DataArrays` and other shapefiles to this plot to start building an informative map of our area of interest.
+Under the hood, `geopandas` is using `matplotlib` to generate this plot. In the next episode we will see how we can add `DataArrays` and other vector datasets to this plot to start building an informative map of our area of interest.
 
 ## Spatial Data Attributes
 We introduced the idea of spatial data attributes in [an earlier lesson]({{site.baseurl}}/02-intro-to-vector-data). Now we will explore
