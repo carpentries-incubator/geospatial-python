@@ -181,6 +181,10 @@ We can customize our boundary plot by setting the
 cropfield_crop.plot(figsize=(5,5), edgecolor="purple", facecolor="None")
 ```
 
+![Cropped fields plot image](../fig/dc-spatial-vector/cropped_fields_plot_output.png)
+{: .output}
+
+
 Under the hood, `geopandas` is using `matplotlib` to generate this plot. In the next episode we will see how we can add `DataArrays` and other shapefiles to this plot to start building an informative map of our area of interest.
 
 ## Spatial Data Attributes
