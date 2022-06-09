@@ -66,7 +66,7 @@ extent for all spatial objects in the dataset.
 Each `GeoDataFrame` has a `"geometry"` column that contains geometries. In the case of our `cropfield`  object, this geometry is represented by a `shapely.geometry.Polygon` object. `geopandas` uses the `shapely` library to represent polygons, lines, and points, so the types are inherited from `shapely`.
 
 We can view the metadata using the `.crs`, `.bounds` and `.type` attributes. First, let's view the
-geometry type for our crop field dataset. To view the geometry type, we use the `pandas` method `.type` function on the `GeoDataFrame` object, `cropfield`.
+geometry type for our crop field dataset. To view the geometry type, we use the `pandas` method `.type` on the `GeoDataFrame` object, `cropfield`.
 
 ~~~
 cropfield.type
@@ -116,7 +116,7 @@ Datum: Amersfoort
 
 Our data is in the CRS **RD New**. The CRS is critical to 
 interpreting the object's extent values as it specifies units. To find
-the extent of our dataset in the projected coordinates, we can use the `.total_bounds` function: 
+the extent of our dataset in the projected coordinates, we can use the `.total_bounds` attribute: 
 
 ~~~
 cropfield.total_bounds
