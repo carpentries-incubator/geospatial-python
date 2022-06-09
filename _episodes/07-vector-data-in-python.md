@@ -1,5 +1,5 @@
 ---
-title: "Introduction to vector data in python"
+title: "Vector data in python"
 teaching: 20
 exercises: 10
 questions:
