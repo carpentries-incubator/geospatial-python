@@ -14,30 +14,26 @@ keypoints:
 - "Spatial objects can be plotted directly with `geopandas.GeoDataFrame.plot()`."
 ---
 
-## Things You’ll Need To Complete This Episode
-> See the [lesson homepage]({{ site.baseurl }}) for detailed information about the software,
-> data, and other prerequisites you will need to work through the examples in this episode.
-{: .prereq}
+## Introduction
 
-Starting with this episode, we will be moving from working with raster
-data to working with vector data. In this episode, we will open and plot point, line and polygon vector data
-stored in shapefile format in Python.
+As discussed in [Episode 2: Introduction to Vector Data]({{site.baseurl}}/02-intro-vector-data.md/), vector data represents specific features on the Earth's surface using points, lines and polygons. These geographic elements can then have one or more attributes assigned to them, such as 'name' and 'population' for a city, or crop type for a field. Vector data can be much smaller in (file) size than raster data, while being very rich in terms of the information captured.
 
-The data we will use comes from the Dutch government's open geodata sets obtained from the [PDOK platform](https://www.pdok.nl/).
+From this episode onwards, we will be moving from working with raster data to working with vector data. In this episode, we will use python to open and plot point, line and polygon vector data, stored in the shapefile format. The data we will use comes from the Dutch government's open geodata sets, obtained from the [PDOK platform](https://www.pdok.nl/).
+
+We will be looking at three vector data sets, containing information about different features around the Netherlands. These will be:
+
+* [A polygon shapefile](https://service.pdok.nl/rvo/brpgewaspercelen/atom/v1_0/downloads/brpgewaspercelen_definitief_2020.gpkg) representing crop field site boundaries.
+* [A line shapefile](https://geo.rijkswaterstaat.nl/services/ogc/gdr/vaarweginformatie/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=status_vaarweg&outputFormat=SHAPE-ZIP) representing waterways.
+* [A point shapefile](https://service.pdok.nl/bzk/brogmwvolledigeset/atom/v2_1/downloads/brogmwvolledigeset.zip) representing the location of groundwater monitoring wells.
 
 In later episodes, we will learn how to work with raster and vector data together and combine them into a single plot.
+
 
 ## Import Shapefiles
 
 ```python
 import geopandas as gpd
 ```
-
-The shapefiles that we will import are:
-
-* A polygon shapefile representing our crop field site boundaries.
-* A line shapefile representing waterways.
-* A point shapefile representing the location of groundwater monitoring wells.
 
 First let us download and read the crop field dataset, with the following:
 ```python
