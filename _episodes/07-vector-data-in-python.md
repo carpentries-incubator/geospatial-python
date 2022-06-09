@@ -22,7 +22,7 @@ From this episode onwards, we will be moving from working with raster data to wo
 
 - [Crop fields](https://www.pdok.nl/introductie/-/article/basisregistratie-gewaspercelen-brp-) (polygons)
 - [Water ways](https://www.pdok.nl/introductie/-/article/nationaal-wegen-bestand-nwb-) (lines):
-- [Groud water monitoring wells](https://www.pdok.nl/downloads/-/article/basisregistratie-ondergrond-bro-) (points):
+- [Ground water monitoring wells](https://www.pdok.nl/downloads/-/article/basisregistratie-ondergrond-bro-) (points):
 
 In later episodes, we will learn how to work with raster and vector data together and combine them into a single plot.
 
