@@ -9,7 +9,7 @@ objectives:
 - "Load point, line, and polygon vector data with `geopandas`."
 - "Access the attributes of a spatial object with `geopandas`."
 keypoints:
-- "Shapefile metadata include geometry type, CRS, and extent."
+- "Vector dataset metadata include geometry type, CRS, and extent."
 - "Load spatial objects into Python with the `geopandas.read_file()` method."
 - "Spatial objects can be plotted directly with `geopandas.GeoDataFrame.plot()`."
 ---
@@ -27,7 +27,7 @@ From this episode onwards, we will be moving from working with raster data to wo
 In later episodes, we will learn how to work with raster and vector data together and combine them into a single plot.
 
 
-## Import Shapefiles
+## Import Vector Datasets
 
 ~~~
 import geopandas as gpd
@@ -170,7 +170,7 @@ cropfield_crop.to_file('cropped_field.shp')
 ~~~
 {: .language-python}
 
-This will write it to disk (in this case, in 'shapefile' format), containing only the data from our cropped area. It can be read in again at a later time using the `read_file()` method we have been using above. Note that this actually writes multiple files to disk (`cropped_field.cpg`, `cropped_field.dbf`, `cropped_field.prj`, `cropped_field.shp`, `cropped_field.shx`). All these files must be present in order to re-read the dataset later.
+This will write it to disk (in this case, in 'shapefile' format), containing only the data from our cropped area. It can be read in again at a later time using the `read_file()` method we have been using above. Note that this actually writes multiple files to disk (`cropped_field.cpg`, `cropped_field.dbf`, `cropped_field.prj`, `cropped_field.shp`, `cropped_field.shx`). All these files should ideally be present in order to re-read the dataset later, although only the `.shp`, `.shx`, and `.dbf` files are mandatory (see the [Introduction to Vector Data]({{site.baseurl}}/02-intro-to-vector-data) lesson for more information.
 
 ## Plotting a vector dataset
 
@@ -202,7 +202,7 @@ different features.
 
 
 
-> ## Challenge: Import Line and Point Shapefiles
+> ## Challenge: Import Line and Point Vector Datasets
 > 
 > Using the steps above, import the waterways and groundwater well layers into
 > Python using `geopandas`.
