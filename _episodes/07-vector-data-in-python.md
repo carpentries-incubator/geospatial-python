@@ -170,7 +170,7 @@ cropfield_crop.to_file('cropped_field.shp')
 ~~~
 {: .language-python}
 
-This will write it to disk (in this case, in 'shapefile' format), containing only the data from our cropped area. It can be read in again at a later time using the `read_file()` method we have been using above.
+This will write it to disk (in this case, in 'shapefile' format), containing only the data from our cropped area. It can be read in again at a later time using the `read_file()` method we have been using above. Note that this actually writes multiple files to disk and all these files must be present in order to re-read the dataset later.
 
 ## Plotting a vector dataset
 
