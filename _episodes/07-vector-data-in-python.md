@@ -18,13 +18,11 @@ keypoints:
 
 As discussed in [Episode 2: Introduction to Vector Data]({{site.baseurl}}/02-intro-vector-data.md/), vector data represents specific features on the Earth's surface using points, lines and polygons. These geographic elements can then have one or more attributes assigned to them, such as 'name' and 'population' for a city, or crop type for a field. Vector data can be much smaller in (file) size than raster data, while being very rich in terms of the information captured.
 
-From this episode onwards, we will be moving from working with raster data to working with vector data. In this episode, we will use python to open and plot point, line and polygon vector data, stored in the shapefile format. The data we will use comes from the Dutch government's open geodata sets, obtained from the [PDOK platform](https://www.pdok.nl/).
+From this episode onwards, we will be moving from working with raster data to working with vector data. In this episode, we will use python to open and plot point, line and polygon vector data, stored in the shapefile format. The data we will use comes from the Dutch government's open geodata sets, obtained from the [PDOK platform](https://www.pdok.nl/). It provides open data for various applications, e.g. cadaster, infrastructure, agriculture, etc. In this episode we will use three data sets:
 
-We will be looking at three vector data sets, containing information about different features around the Netherlands. These will be:
-
-* [A polygon shapefile](https://service.pdok.nl/rvo/brpgewaspercelen/atom/v1_0/downloads/brpgewaspercelen_definitief_2020.gpkg) representing crop field site boundaries.
-* [A line shapefile](https://geo.rijkswaterstaat.nl/services/ogc/gdr/vaarweginformatie/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=status_vaarweg&outputFormat=SHAPE-ZIP) representing waterways.
-* [A point shapefile](https://service.pdok.nl/bzk/brogmwvolledigeset/atom/v2_1/downloads/brogmwvolledigeset.zip) representing the location of groundwater monitoring wells.
+- [Crop fields](https://www.pdok.nl/introductie/-/article/basisregistratie-gewaspercelen-brp-) (polygons)
+- [Water ways](https://www.pdok.nl/introductie/-/article/nationaal-wegen-bestand-nwb-) (lines):
+- [Groud water monitoring wells](https://www.pdok.nl/downloads/-/article/basisregistratie-ondergrond-bro-) (points):
 
 In later episodes, we will learn how to work with raster and vector data together and combine them into a single plot.
 
