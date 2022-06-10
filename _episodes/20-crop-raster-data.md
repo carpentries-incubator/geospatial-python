@@ -59,7 +59,7 @@ true_color_image.plot.imshow(figsize=(8,8))
 
 <img src="../fig/20-crop-raster-original-raster-00.png" title="Overview of the raster"  width="512" style="display: block; margin: auto;" />
 
-But do we need the entire raster? Suppose we are interested in the crop fields. To compare its coverage with the raster data, we first check the coordinate systems of both raster and vector data. For raster data, we use `CRS`:
+But do we need the entire raster? Suppose we are interested in the crop fields. To compare its coverage with the raster data, we first check the coordinate systems of both raster and vector data. For raster data, we use `pyproj.CRS`:
 
 ~~~
 from pyproj import CRS
