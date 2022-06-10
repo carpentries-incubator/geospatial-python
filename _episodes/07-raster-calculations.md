@@ -103,7 +103,8 @@ nir_clip.plot(robust=True)
 ![](../fig/E09-03-NIR-band.png)
 
 It is immediately evident how crop fields (rectangular shapes in the central part of the two figures) appear as dark and
-bright spots in the red-visible and NIR wavelengths, respectively.
+bright spots in the red-visible and NIR wavelengths, respectively, suggesting the presence of leafy crop at the time of
+observation (end of March). The same fields would instead appear as dark spots in the off season.
 
 ## Raster Math
 We can perform raster calculations by subtracting (or adding,
