@@ -6,11 +6,11 @@ questions:
 - "How to compute raster statistics on different zones delineated by a vector data?"
 objectives:
 - "Extract zones from the vector dataset"
-- "Convert vector zones to raster using rasterize"
+- "Convert vector data to raster"
 - "Calculate raster statistics over zones"
 keypoints:
 - "Zones can be extracted by attribute columns of a vector dataset"
-- "Zones can be vectorized using `rasterio.features.rasterize`"
+- "Zones can be rasterized using `rasterio.features.rasterize`"
 - "Calculate zonal statistics with `xrspatial.zonal_stats` over the rasterized zones."
 
 ---
@@ -85,7 +85,7 @@ category	gewas	gewascode	jaar	status	geometry
 
 Before calculating zonal statistics, we first need to rasterize our `field_cropped` vector geodataframe with the `rasterio.features.rasterize` function. With this function, we aim to produce a grid with numerical values representing the types of crop as defined by the column `gewascode` from `field_cropped` - `gewascode` stands for the crop codes as defined by the Netherlands Enterprise Agency (RVO) for different types of crops or `gewas` (Grassland, permanent; Grassland, temporary; corn fields; etc.). This grid of values thus defines the zones for the `xrspatial.zonal_stats` function, where each pixel in the zone grid overlaps with a corresponding pixel in our NDVI raster. 
 
-We can generate the `geometry, gewascode` pairs for each vector data-point to be used as the first argument to `rasterio.features.rasterize` as:
+We can generate the `geometry, gewascode` pairs for each vector feature to be used as the first argument to `rasterio.features.rasterize` as:
 
 ~~~
 geom = field_cropped[['geometry', 'gewascode']].values.tolist()
