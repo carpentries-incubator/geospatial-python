@@ -51,13 +51,20 @@ in the next section.
 
 # Time profiling in Jupyter
 
-Let's set up a raster calculation using assets from the search of satellite scenes that we have carried out in the
-previous episode. The search result, which consisted of a collection of STAC items (an `ItemCollection`), has been saved
-in GeoJSON format. We can load the collection using the `pystac` library:
+> ## Introduce the Data
+>
+> In this episode, we will use the same dataset as the one introduced in episode
+> [Access satellite imagery using Python]({{ page.root }}{% link _episodes/05-access-data.md %}).
+> Therefore, we continue from search of satellite scenes that we have previously carried out, and load the collection of
+> STAC items from the `search.json` file, that is already saved in your working directory.
+{: .callout}
+
+Let's set up a raster calculation using assets from our previous search of satellite scenes. We first load the item
+collection using the `pystac` library:
 
 ~~~
 import pystac
-items = pystac.ItemCollection.from_file("mysearch.json")
+items = pystac.ItemCollection.from_file("search.json")
 ~~~
 {: .language-python}
 
@@ -132,8 +139,8 @@ scl.squeeze().plot.imshow(levels=range(13), figsize=(12,10))
 ~~~
 {: .language-python}
 
-<img src="../fig/20-Dask-arrays-s2-true-color-image.png" title="Scene true color image" alt="true color image scene" width="612" style="display: block; margin: auto;" />
-<img src="../fig/20-Dask-arrays-s2-scene-classification.png" title="Scene classification" alt="scene classification" width="612" style="display: block; margin: auto;" />
+<img src="../fig/E11-01-true-color-image.png" title="Scene true color image" alt="true color image scene" width="612" style="display: block; margin: auto;" />
+<img src="../fig/E11-02-scene-classification.png" title="Scene classification" alt="scene classification" width="612" style="display: block; margin: auto;" />
 
 After loading the raster files into memory, we run the following steps:
 * We create a mask of the grid cells that are labeled as "cloud" in the scene classification layer (values "8" and "9",
@@ -164,7 +171,7 @@ visual_masked.plot.imshow(figsize=(10, 10))
 ~~~
 {: .language-python}
 
-<img src="../fig/20-Dask-arrays-s2-true-color-image_masked.png" title="True color image after masking out clouds" alt="masked true color image" width="612" style="display: block; margin: auto;" />
+<img src="../fig/E11-03-true-color-image_masked.png" title="True color image after masking out clouds" alt="masked true color image" width="612" style="display: block; margin: auto;" />
 
 In the following section we will see how to parallelize these raster calculations, and we will compare timings to the
 serial calculations that we have just run.
@@ -187,7 +194,7 @@ blue_band = rioxarray.open_rasterio(blue_band_href, chunks=(1, 4000, 4000))
 
 Xarray and Dask also provide a graphical representation of the raster data array and of its blocked structure.
 
-<img src="../fig/20-Dask-arrays-s2-blue-band.png" title="Xarray representation of a Dask-backed DataArray" alt="DataArray with Dask" width="612" style="display: block; margin: auto;" />
+<img src="../fig/E11-04-xarray-with-dask.png" title="Xarray representation of a Dask-backed DataArray" alt="DataArray with Dask" width="612" style="display: block; margin: auto;" />
 
 > ## Exercise: Chunk sizes matter
 > We have already seen how COGs are regular GeoTIFF files with a special internal structure. Another feature of COGs is
@@ -324,7 +331,7 @@ immediately run.
 > ~~~
 > {: .language-python}
 >
-> <img src="../fig/20-Dask-arrays-graph.png" title="Dask graph" alt="dask graph" width="612" style="display: block; margin: auto;" />
+> <img src="../fig/E11-05-dask-graph.png" title="Dask graph" alt="dask graph" width="612" style="display: block; margin: auto;" />
 >
 > The task graph gives Dask the complete "overview" of the calculation, thus enabling a better management of tasks and
 > resources when dispatching calculations to be run in parallel.
