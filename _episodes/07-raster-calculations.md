@@ -258,7 +258,7 @@ low to high, as here, `numpy.digitize` assigns classes like so:
 
 ![](../fig/E09-08-NDVI-classes.jpg)
 
-Source: Image created for this lesson ([license](../LICENSE.md))
+Source: Image created for this lesson ([license]({{ page.root }}{% link LICENSE.md %}))
 {: .text-center}
 
 Note that, by default, each class includes the left but not the right bound. This is not an issue here, since the
