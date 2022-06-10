@@ -23,7 +23,13 @@ In this episode, we will explore how to calculate zonal statistics based on the 
 
 
 # Making vector and raster data compatible
-Let's first read the crop fields data from our saved `cropped_field.shp` file and view the CRS information.
+First, let's load the `NDVI.tif` file saved in the previous episode to obtained our calculated raster `ndvi` data.
+
+~~~
+ndvi = rioxarray.open_rasterio("NDVI.tif")
+~~~
+
+Let's also read the crop fields vector data from our saved `cropped_field.shp` file and view the CRS information.
 
 ~~~
 field = gpd.read_file('cropped_field.shp')
@@ -49,18 +55,10 @@ Datum: Amersfoort
 ~~~
 {: .output}
 
-In order to use the vector data as a classifier for our raster, we need to convert the vector data to the appropriate CRS and crop to our raster domain. The CRS conversion can be done from the vector CRS (EPSG:28992) to our raster `ndvi` CRS (EPSG:32631) with:
+In order to use the vector data as a classifier for our raster, we need to convert the vector data to the appropriate CRS. We can perform the CRS conversion from the vector CRS (EPSG:28992) to our raster `ndvi` CRS (EPSG:32631) and view the data with:
 ~~~
 field_to_raster_crs = field.to_crs(ndvi.rio.crs)
-~~~
-{: .language-python}
-
-We can further crop the vector data with the same bounds as `ndvi` and view the data:
-~~~
-xmin, xmax = (629000, 639000)
-ymin, ymax = (5804000, 5814000)
-field_cropped = field_to_raster_crs.cx[xmin:xmax, ymin:ymax]
-field_cropped
+field_to_raster_crs
 ~~~
 {: .language-python}
 
@@ -72,23 +70,23 @@ category	gewas	gewascode	jaar	status	geometry
 3	Grasland	Grasland, blijvend	265	2020	Definitief	POLYGON ((634803.514 5808081.449, 634809.802 5...
 4	Grasland	Grasland, blijvend	265	2020	Definitief	POLYGON ((634184.289 5807370.958, 634200.036 5...
 ...	...	...	...	...	...	...
-4864	Grasland	Grasland, natuurlijk. Hoofdfunctie landbouw.	331	2020	Definitief	POLYGON ((632846.409 5811358.808, 632854.381 5...
-4865	Natuurterrein	Natuurterreinen (incl. heide)	335	2020	Definitief	POLYGON ((638144.387 5808851.932, 638089.278 5...
-4866	Natuurterrein	Natuurterreinen (incl. heide)	335	2020	Definitief	POLYGON ((638761.879 5808265.992, 638758.324 5...
 4867	Grasland	Grasland, blijvend	265	2020	Definitief	POLYGON ((631384.726 5809352.385, 631383.343 5...
 4868	Grasland	Grasland, blijvend	265	2020	Definitief	POLYGON ((635240.367 5806904.896, 635245.819 5...
-3061 rows × 6 columns
+4869	Grasland	Grasland, blijvend	265	2020	Definitief	POLYGON ((636074.093 5816782.787, 636123.922 5...
+4870	Grasland	Grasland, tijdelijk	266	2020	Definitief	POLYGON ((627526.751 5816828.877, 627674.251 5...
+4871	Grasland	Grasland, natuurlijk. Hoofdfunctie landbouw.	331	2020	Definitief	POLYGON ((642317.485 5813024.516, 642326.058 5...
+4872 rows × 6 columns
 ~~~
 {: .output}
 
 # Rasterizing our vector data
 
-Before calculating zonal statistics, we first need to rasterize our `field_cropped` vector geodataframe with the `rasterio.features.rasterize` function. With this function, we aim to produce a grid with numerical values representing the types of crop as defined by the column `gewascode` from `field_cropped` - `gewascode` stands for the crop codes as defined by the Netherlands Enterprise Agency (RVO) for different types of crops or `gewas` (Grassland, permanent; Grassland, temporary; corn fields; etc.). This grid of values thus defines the zones for the `xrspatial.zonal_stats` function, where each pixel in the zone grid overlaps with a corresponding pixel in our NDVI raster. 
+Before calculating zonal statistics, we first need to rasterize our `field_to_raster_crs` vector geodataframe with the `rasterio.features.rasterize` function. With this function, we aim to produce a grid with numerical values representing the types of crop as defined by the column `gewascode` from `field_cropped` - `gewascode` stands for the crop codes as defined by the Netherlands Enterprise Agency (RVO) for different types of crops or `gewas` (Grassland, permanent; Grassland, temporary; corn fields; etc.). This grid of values thus defines the zones for the `xrspatial.zonal_stats` function, where each pixel in the zone grid overlaps with a corresponding pixel in our NDVI raster. 
 
 We can generate the `geometry, gewascode` pairs for each vector feature to be used as the first argument to `rasterio.features.rasterize` as:
 
 ~~~
-geom = field_cropped[['geometry', 'gewascode']].values.tolist()
+geom = field_to_raster_crs[['geometry', 'gewascode']].values.tolist()
 geom
 ~~~
 {: .language-python}
@@ -109,7 +107,7 @@ geom
 ~~~
 {: .output}
 
-This generates a list of the shapely geometries from the `geometry` column, and the unique field ID from the `gewascode` column in the `fields_cropped` geodataframe.
+This generates a list of the shapely geometries from the `geometry` column, and the unique field ID from the `gewascode` column in the `field_to_raster_crs` geodataframe.
 
 We can now rasterize our vector data using `rasterio.features.rasterize`:
 
@@ -137,11 +135,11 @@ ndvi_sq = ndvi.squeeze()
 ~~~
 {: .language-python}
 
-Then we call the `zonal_stats` function with `cropfield_raster_xarr` as our classifier and the 2D raster with our values of interest `ndvi_sq` to obtain the NDVI statistics for each crop type:
+Then we call the `zonal_stats` function with `field_cropped_raster_xarr` as our classifier and the 2D raster with our values of interest `ndvi_sq` to obtain the NDVI statistics for each crop type:
 
 ~~~
 from xrspatial import zonal_stats
-zonal_stats(cropfield_raster_xarr, ndvi_sq)
+zonal_stats(field_cropped_raster_xarr, ndvi_sq)
 ~~~
 {: .language-python}
 
@@ -162,16 +160,18 @@ The `zonal_stats` function calculates the minimum, maximum, and sum for each zon
 
 > ## Challenge: Calculate zonal statistics for zones defined by `ndvi_classified`
 > 
-> Let's calculate NDVI zonal statistics for the different zones as classified by `ndvi_classified` in the previous episode .
+> Let's calculate NDVI zonal statistics for the different zones as classified by `ndvi_classified` in the previous episode.
 > 
-> Convert both raster data-sets into 2D `xarray.DataArray`. 
+> Load both raster data-sets and convert into 2D `xarray.DataArray`. 
 > Then, calculate zonal statistics for each `class_bins`. Inspect the output of the `zonal_stats` function.
 > 
 > 
 > > ## Answers
-> > 1) Convert raster data into suitable inputs for `rasterio.features.rasterize`:
+> > 1) Load and convert raster data into suitable inputs for `zonal_stats`:
 > >
 > > ```python
+ndvi = rioxarray.open_rasterio("NDVI.tif")
+ndvi_classified = rioxarray.open_rasterio("NDVI_classified.tif")
 ndvi_sq = ndvi.squeeze()
 ndvi_classified_sq = ndvi_classified.squeeze()
 > > ```
