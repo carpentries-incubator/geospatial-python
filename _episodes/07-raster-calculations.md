@@ -23,7 +23,7 @@ math: true
 
 We often want to combine values of and perform calculations on rasters to create a new output raster. This episode
 covers how to perform basic math operations using raster datasets. It also illustrates how to match rasters with
-different resolutions so that they can be used in the same calculation. As an example, we will calculate a vegetation
+different resolutions so that they can be used in the same calculation. As an example, we will calculate the Normalised
 Difference Vegetation Index (NDVI) over one of the satellite scenes
 
 ### Normalized Difference Vegetation Index (NDVI)
