@@ -193,26 +193,29 @@ ndvi.plot.hist()
 >
 > It's often a good idea to explore the range of values in a raster dataset just like we might explore a dataset that we collected in the field. The histogram we just made is a good start but there's more we can do to improve our understanding of the data.
 >
-> 1. What is the min and maximum value for the NDVI raster (`ndvi`) that we just created?
+> 1. What is the min and maximum value for the NDVI raster (`ndvi`) that we just created? Are there missing values?
 > 2. Plot a histogram with 50 bins instead of 8. What do you notice that wasn't clear before?
 > 3. Plot the `ndvi` raster using breaks that make sense for the data.
 >
 > > ## Answers
 > >
 > > 1) Recall, if there were nodata values in our raster,
-> > we would need to filter them out with `.where()`.
+> > we would need to filter them out with `.where()`. Since we have loaded the rasters with `masked=True`, missing
+> > values are already encoded as `np.nan`'s. The `ndvi` array actually includes a single missing value.
 > > ~~~
 > > print(ndvi.min().values)
 > > print(ndvi.max().values)
+> > print(ndvi.isnull().sum().values)
 > > ~~~
 > > {: .language-python}
 > > ~~~
 > > -0.99864775
 > > 0.9995788
+> > 1
 > > ~~~
 > > {: .output}
-> > 2) Increasing the number of bins gives us a much clearer view of the distribution. Also, there are almost no NDVI
-> > values larger than ~0.9.
+> > 2) Increasing the number of bins gives us a much clearer view of the distribution. Also, there seem to be very few
+> > NDVI values larger than ~0.9.
 > > ~~~
 > > ndvi.plot.hist(bins=50)
 > > ~~~
@@ -234,6 +237,14 @@ ndvi.plot.hist()
 > {: .solution}
 {: .challenge}
 
+Missing values can be interpolated from the values of neighbouring grid cells using the `.interpolate_na` method. We
+then save `ndvi` as a GeoTiff file:
+~~~
+ndvi_nonan = ndvi.interpolate_na(dim="x")
+ndvi_nonan.rio.to_raster("NDVI.tif")
+~~~
+{: .language-python}
+
 ## Classifying Continuous Rasters in Python
 
 Now that we have a sense of the distribution of our NDVI raster, we
@@ -250,7 +261,8 @@ low to high, as here, `numpy.digitize` assigns classes like so:
 Source: Image created for this lesson ([license](../LICENSE.md))
 {: .text-center}
 
-Note that, by default, each class includes the left but not right bound.
+Note that, by default, each class includes the left but not the right bound. This is not an issue here, since the
+computed range of NDVI values is fully contained in the open interval (-1; 1) (see exercise above).
 
 ~~~
 import numpy as np
@@ -266,7 +278,7 @@ class_bins = (-1, 0., 0.2, 0.7, 1)
 # preserving metadata.
 ndvi_classified = xarray.apply_ufunc(
     np.digitize,
-    ndvi,
+    ndvi_nonan,
     class_bins
 )
 ~~~
