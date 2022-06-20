@@ -131,7 +131,7 @@ search = client.search(
 ~~~
 {: .language-python}
 
-We submit the query and find out how many scenes match our search criteria:
+We submit the query and find out how many scenes match our search criteria (please note that this output can be different as more data is added to the catalog):
 
 ~~~
 print(search.matched())
