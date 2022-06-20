@@ -82,12 +82,12 @@ cropfield.type
 3         Polygon
 4         Polygon
            ...   
-619994    Polygon
-619995    Polygon
-619996    Polygon
-619997    Polygon
-619998    Polygon
-Length: 619999, dtype: object
+773134    Polygon
+773135    Polygon
+773136    Polygon
+773137    Polygon
+773138    Polygon
+Length: 773139, dtype: object
 ~~~
 {: .output}
 
@@ -233,14 +233,14 @@ different features.
 > > waterways_nl.type
 > > ```
 > >
-> > ```
+> > ```python
 > > wells_nl.type
 > > ```
 > > We also check the CRS and extent of each object: 
 > > ```python
 > > print(waterways_nl.crs)
-> > print(wells_nl.total_bounds)
-> > print(waterways_nl.crs)
+> > print(waterways_nl.total_bounds)
+> > print(wells_nl.crs)
 > > print(wells_nl.total_bounds)
 > > ```
 > > To see the number of objects in each file, we can look at the output from when we print the results in a Jupyter notebook of call `len()` on a `GeoDataFrame`. 
