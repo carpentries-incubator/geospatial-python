@@ -389,6 +389,7 @@ So far we looked into a single band raster, i.e. the `B09` band of a Sentinel-2 
 The `overview` asset in the Sentinel-2 scene is a multiband asset. Similar to `B09`, we can load it by:
 ~~~
 raster_ams_overview = rioxarray.open_rasterio(items[0].assets['overview'].href)
+raster_ams_overview
 ~~~
 {: .language-python}
 ~~~
