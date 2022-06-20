@@ -3,303 +3,380 @@ title: "Raster Calculations in Python"
 teaching: 40
 exercises: 20
 questions:
-- "How do I subtract one raster from another and extract pixel values for defined locations?"
+- "How do I perform calculations on rasters and extract pixel values for defined locations?"
 objectives:
-- "Perform a subtraction between two rasters using Python's built-in math operators to generate a Canopy Height Model (CHM)."
-- "Reclassify a continuous raster to a categorical raster using the CHM values."
+- "Carry out operations with two rasters using Python's built-in math operators."
+- "Reclassify a continuous raster to a categorical raster."
 keypoints:
 - "Python's built-in math operators are fast and simple options for raster math."
 - "numpy.digitize can be used to classify raster values in order to generate a less complicated map."
-- "DataArrays can be created from scratch from numpy arrays as well as read in from existing files."
+math: true
 ---
 
 > ## Things You’ll Need To Complete This Episode
 > See the [lesson homepage]({{ site.baseurl }}) for detailed information about the software,
 > data, and other prerequisites you will need to work through the examples in this episode.
+> TODO mention alternatives for data access
 {: .prereq}
 
-We often want to combine values of and perform calculations on rasters to create
-a new output raster. This episode covers how to subtract one raster from
-another using basic raster math. It also covers how to extract pixel values from a 
-set of locations - for example, a buffer region around locations at a field site.
+## Introduction
 
-## Raster Calculations in Python & Canopy Height Models
-We often want to perform calculations on two or more rasters to create a new
-output raster. For example, suppose we are interested in mapping the heights of trees across an entire field site. In that case, we might want to calculate the difference between the Digital Surface Model (DSM, tops of trees) and the Digital Terrain Model (DTM, ground level). The resulting dataset is referred to
-as a Canopy Height Model (CHM) and represents the actual height of trees,
-buildings, etc. with the influence of ground elevation removed.
+We often want to combine values of and perform calculations on rasters to create a new output raster. This episode
+covers how to perform basic math operations using raster datasets. It also illustrates how to match rasters with
+different resolutions so that they can be used in the same calculation. As an example, we will calculate a vegetation
+index over one of the satellite scenes.
 
-![Source: National Ecological Observatory Network (NEON)](../images/dc-spatial-raster/lidarTree-height.png) 
+### Normalized Difference Vegetation Index (NDVI)
+Suppose we are interested in monitoring vegetation fluctuations using satellite remote sensors. Scientists have defined
+a vegetation index to quantify the amount of green leaf vegetation using the light reflected in different wavelengths.
+This index, named Normalized Difference Vegetation Index (NDVI), exploits the fact that healthy green leaves strongly
+absorb red visible light while they mostly reflect light in the near infrared (NIR). The NDVI is computed as:
+
+$$ NDVI = \frac{NIR - red}{NIR + red} $$
+
+where $NIR$ and $red$ label the reflectance values of the corresponding wavelengths. NDVI values range from -1 to +1.
+Values close to one indicate high density of green leaves. Poorly vegetated areas typically have NDVI values close to
+zero. Negative NDVI values often indicate cloud and water bodies.
+
+![](../fig/E09-01-PONE-NDVI.jpg)
+
+Source: Wu C-D, McNeely E, Cedeño-Laurent JG, Pan W-C, Adamkiewicz G, Dominici F, et al. (2014) Linking Student Performance in Massachusetts Elementary Schools with the “Greenness” of School Surroundings Using Remote Sensing. PLoS ONE 9(10): e108548. https://doi.org/10.1371/journal.pone.0108548
+{: .text-center}
 
 > ## More Resources
-> * Check out more on LiDAR CHM, DTM and DSM in this NEON Data Skills overview tutorial:
-> [What is a CHM, DSM and DTM? About Gridded, Raster LiDAR Data](https://www.neonscience.org/chm-dsm-dtm-gridded-lidar-data).
+> Check out more on NDVI in the NASA Earth Observatory portal:
+> [Measuring Vegetation](https://earthobservatory.nasa.gov/features/MeasuringVegetation/measuring_vegetation_2.php).
 {: .callout}
 
-### Load the Data
-For this episode, we will use the DTM and DSM from the
-NEON Harvard Forest Field site and San Joaquin Experimental
-Range, which we already have loaded from previous episodes. 
-Let's load them again with `open_rasterio` using the argument `masked=True`.
+### Load and crop the Data
+For this episode, we will use one of the Sentinel-2 scenes that we have already employed in the previous episodes. Let's
+load the results of our initial imagery search using `pystac`:
 
-```python
+~~~
+import pystac
+items = pystac.ItemCollection.from_file("search.json")
+~~~
+{: .language-python}
+
+We then select the second item, and extract the URIs of the red and NIR bands ("B04" and "B8A", respectively):
+
+~~~
+red_uri = items[1].assets["B04"].href
+nir_uri = items[1].assets["B8A"].href
+~~~
+{: .language-python}
+
+Let's load the rasters with `open_rasterio` using the argument `masked=True`.
+
+~~~
 import rioxarray
+red = rioxarray.open_rasterio(red_uri, masked=True)
+nir = rioxarray.open_rasterio(nir_uri, masked=True)
+~~~
+{: .language-python}
 
-surface_HARV = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/HARV/DSM/HARV_dsmCrop.tif", masked=True)
-terrain_HARV_UTM18 = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/HARV/DTM/HARV_dtmCrop_UTM18.tif", masked=True)
-```
+Let's also restrict our analysis to the same crop field area defined in the previous episode by clipping the rasters
+using a bounding box:
+
+~~~
+bbox = (629000, 5804000, 639000, 5814000)
+red_clip = red.rio.clip_box(*bbox)
+nir_clip = nir.rio.clip_box(*bbox)
+~~~
+{: .language-python}
+
+We can now plot the two rasters. Using `robust=True` color values are stretched between the 2nd and 98th percentiles of
+the data, which results in clearer distinctions between high and low reflectances:
+
+~~~
+red_clip.plot(robust=True)
+~~~
+{: .language-python}
+
+![](../fig/E09-02-red-band.png)
+
+~~~
+nir_clip.plot(robust=True)
+~~~
+{: .language-python}
+
+![](../fig/E09-03-NIR-band.png)
+
+It is immediately evident how crop fields (rectangular shapes in the central part of the two figures) appear as dark and
+bright spots in the red-visible and NIR wavelengths, respectively, suggesting the presence of leafy crop at the time of
+observation (end of March). The same fields would instead appear as dark spots in the off season.
 
 ## Raster Math
 We can perform raster calculations by subtracting (or adding,
 multiplying, etc.) two rasters. In the geospatial world, we call this
-"raster math", and typically it refers to operations on rasters that 
-have the same width and height (including `nodata` pixels). We saw from 
-the last episode's Challenge this is not the case with our DTM and DSM. Even though the `reproject` function gets our rasters into the same CRS, they have slightly different extents.
-We can now use the `reproject_match` function, which both reprojects and clips
-a raster to the CRS and extent of another raster.
-
-```python
-terrain_HARV_matched = terrain_HARV_UTM18.rio.reproject_match(surface_HARV)
-```
-
-We could have used reproject_match on the original DTM model, "HARV_dtmCrop_WGS84.tif". If we had, this would mean one less time our DTM 
-was interpolated with reprojection, though this has a negligible impact on 
-the data for our purposes.
-
-Let's subtract the DTM from the DSM to create a Canopy Height Model (CHM). 
-We'll use `rioxarray` so that we can easily plot our result and keep 
-track of the metadata for our CHM.
-
+"raster math", and typically it refers to operations on rasters that
+have the same width and height (including `nodata` pixels).
+We can check the shapes of the two rasters in the following way:
 ~~~
-canopy_HARV = surface_HARV - terrain_HARV_matched
-canopy_HARV.compute()
+print(red_clip.shape, nir_clip.shape)
 ~~~
 {: .language-python}
+
 ~~~
-xarray.DataArray band: 1, y: 1367, x: 1697
-array([[[ 1.93699951e+01,  1.86799927e+01,  1.70500183e+01, ...,
-                     nan,  1.69982910e-01, -1.60003662e-01],
-        [ 1.76499939e+01,  1.71700134e+01,  1.56299744e+01, ...,
-          0.00000000e+00,  0.00000000e+00,  9.97924805e-03],
-        [ 1.81000061e+01,  1.68399963e+01,  1.43200073e+01, ...,
-          0.00000000e+00,  1.00006104e-01,  7.99865723e-02],
-        ...,
-        [ 2.34400024e+01,  2.56800232e+01,  2.60599976e+01, ...,
-          1.98999023e+00,  1.09997559e+00,  2.09991455e-01],
-        [ 2.63299866e+01,  2.70399780e+01,  1.88900146e+01, ...,
-          5.44000244e+00,  0.00000000e+00,  2.72000122e+00],
-        [ 2.55499878e+01,  2.81300049e+01,  2.78999939e+01, ...,
-                     nan,             nan,  1.85998535e+00]]])
-Coordinates:
-band         (band)      int64       1
-y            (y)         float64     4.714e+06 4.714e+06 ... 4.712e+06
-x            (x)         float64     7.315e+05 7.315e+05 ... 7.331e+05
-spatial_ref  ()          int64       0
+(1, 1000, 1000) (1, 500, 500)
 ~~~
 {: .output}
 
-We can now plot the output CHM. If we use the argument `robust=True`, our plot's color values
-are stretched between the 2nd and 98th percentiles of the data, which results in clearer distinctions between forested and non-forested areas.
+Both rasters include a single band, but their width and height does not match.
+We can now use the `reproject_match` function, which both reprojects and clips
+a raster to the CRS and extent of another raster.
 
 ~~~
-import matplotlib.pyplot as plt # in case it has not been imported recently
-canopy_HARV.plot(cmap="viridis")
-plt.title("Canopy Height Model for Harvard Forest, Z Units: Meters")
-plt.ticklabel_format(style="plain") # use this if the title overlaps the scientific notation of the y axis
+red_clip_matched = red_clip.rio.reproject_match(nir_clip)
+print(red_clip_matched.shape)
+~~~
+{: .language-python}
+
+~~~
+(1, 500, 500)
+~~~
+{: .output}
+
+Let's now compute the NDVI as a new raster using the formula presented above.
+We'll use `rioxarray` objects so that we can easily plot our result and keep
+track of the metadata.
+
+~~~
+ndvi = (nir_clip - red_clip_matched)/ (nir_clip + red_clip_matched)
+print(ndvi)
+~~~
+{: .language-python}
+
+~~~
+<xarray.DataArray (band: 1, y: 500, x: 500)>
+array([[[ 0.7379576 ,  0.77153456,  0.54531944, ...,  0.39254385,
+          0.49227372,  0.4465174 ],
+        [ 0.7024894 ,  0.7074668 ,  0.3903298 , ...,  0.423283  ,
+          0.4706971 ,  0.45964912],
+        [ 0.6557818 ,  0.5610572 ,  0.46742022, ...,  0.4510345 ,
+          0.43815723,  0.6005133 ],
+        ...,
+        [ 0.02391171,  0.21843003,  0.02479339, ..., -0.50923485,
+         -0.53367877, -0.4955414 ],
+        [ 0.11376493,  0.17681159, -0.1673566 , ..., -0.5221932 ,
+         -0.5271318 , -0.4852753 ],
+        [ 0.45398772, -0.00518135,  0.03346133, ..., -0.5019455 ,
+         -0.4987013 , -0.49081364]]], dtype=float32)
+Coordinates:
+  * band         (band) int64 1
+  * x            (x) float64 6.29e+05 6.29e+05 6.29e+05 ... 6.39e+05 6.39e+05
+  * y            (y) float64 5.814e+06 5.814e+06 ... 5.804e+06 5.804e+06
+    spatial_ref  int64 0
+~~~
+{: .output}
+
+We can now plot the output NDVI:
+
+~~~
+ndvi.plot()
 ~~~
 
-Notice that the range of values for the output CHM is between 0 and 30 
-meters. Does this make sense for trees in Harvard Forest?
+![](../fig/E09-04-NDVI-map.png)
+
+Notice that the range of values for the output NDVI is between -1 and 1.
+Does this make sense for the selected region?
 
 Maps are great, but it can also be informative to plot histograms of values to better understand the distribution. We can accomplish this using a built-in xarray method we have already been using: `plot`
 
 ~~~
-plt.figure()
-plt.style.use('ggplot') # adds a style to improve the aesthetics
-canopy_HARV.plot.hist()
-plt.title("Histogram of Canopy Height in Meters")
+ndvi.plot.hist()
 ~~~
 
-> ## Challenge: Explore CHM Raster Values
-> 
+![](../fig/E09-05-NDVI-hist.png)
+
+> ## Exercise: Explore NDVI Raster Values
+>
 > It's often a good idea to explore the range of values in a raster dataset just like we might explore a dataset that we collected in the field. The histogram we just made is a good start but there's more we can do to improve our understanding of the data.
-> 
-> 1. What is the min and maximum value for the Harvard Forest Canopy Height Model (`canopy_HARV`) that we just created?
+>
+> 1. What is the min and maximum value for the NDVI raster (`ndvi`) that we just created? Are there missing values?
 > 2. Plot a histogram with 50 bins instead of 8. What do you notice that wasn't clear before?
-> 3. Plot the `canopy_HARV` raster using breaks that make sense for the data. Include an appropriate color palette for the data, plot title and no axes ticks / labels.
-> 
+> 3. Plot the `ndvi` raster using breaks that make sense for the data.
+>
 > > ## Answers
-> > 
-> > 1) Recall, if there were nodata values in our raster like `-9999.0`, 
-> > we would need to filter them out with `.where()`.
-> > ```python
-> > canopy_HARV.min().values
-> > canopy_HARV.max().values
-> > ```
+> >
+> > 1) Recall, if there were nodata values in our raster,
+> > we would need to filter them out with `.where()`. Since we have loaded the rasters with `masked=True`, missing
+> > values are already encoded as `np.nan`'s. The `ndvi` array actually includes a single missing value.
 > > ~~~
-> > array(-1.)
-> > array(38.16998291)
+> > print(ndvi.min().values)
+> > print(ndvi.max().values)
+> > print(ndvi.isnull().sum().values)
+> > ~~~
+> > {: .language-python}
+> > ~~~
+> > -0.99864775
+> > 0.9995788
+> > 1
 > > ~~~
 > > {: .output}
-> > 2) Increasing the number of bins gives us a much clearer view of the distribution.
-> > ```python
-canopy_HARV.plot.hist(bins=50)
-> > ```
-> > ![](../fig/07-HARV-CHM-histo-50bins-03.png) 
+> > 2) Increasing the number of bins gives us a much clearer view of the distribution. Also, there seem to be very few
+> > NDVI values larger than ~0.9.
+> > ~~~
+> > ndvi.plot.hist(bins=50)
+> > ~~~
+> > {: .language-python}
+> > ![](../fig/E09-06-NDVI-hist-bins.png)
+> > 3) We can discretize the color bar by specifying the intervals via the `level` argument to `plot()`.
+> > Suppose we want to bin our data in the following intervals:
+> > * $-1 \le NDVI \lt 0$ for water;
+> > * $0 \le NDVI \lt 0.2$ for no vegetation;
+> > * $0.2 \le NDVI \lt 0.7$ for sparse vegetation;
+> > * $0.7 \le NDVI \lt 1$ for dense vegetation.
+> >
+> > ~~~
+> > class_bins = (-1, 0., 0.2, 0.7, 1)
+> > ndvi.plot(levels=class_bins)
+> > ~~~
+> > {: .language-python}
+> > ![](../fig/E09-07-NDVI-map-binned.png)
 > {: .solution}
 {: .challenge}
 
+Missing values can be interpolated from the values of neighbouring grid cells using the `.interpolate_na` method. We
+then save `ndvi` as a GeoTiff file:
+~~~
+ndvi_nonan = ndvi.interpolate_na(dim="x")
+ndvi_nonan.rio.to_raster("NDVI.tif")
+~~~
+{: .language-python}
+
 ## Classifying Continuous Rasters in Python
 
-Now that we have a sense of the distribution of our canopy height raster, we
+Now that we have a sense of the distribution of our NDVI raster, we
 can reduce the complexity of our map by classifying it. Classification involves
 assigning each pixel in the raster to a class based on its value. In Python, we
 can accomplish this using the `numpy.digitize` function.
 
-First, we define canopy height classes based on a list of heights:
-`[canopy_HARV.min().values, 2, 10, 20, np.inf]`. When bins are ordered from
+First, we define NDVI classes based on a list of values, as defined in the last exercise:
+`[-1, 0., 0.2, 0.7, 1]`. When bins are ordered from
 low to high, as here, `numpy.digitize` assigns classes like so:
 
-![Canopy height classes](../fig/07-CHM-classification-bins-01.png)
+![](../fig/E09-08-NDVI-classes.jpg)
 
-Source: Image created for this lesson ([license](../LICENSE.md))
+Source: Image created for this lesson ([license]({{ page.root }}{% link LICENSE.md %}))
 {: .text-center}
 
-Note that, by default, each class includes the left but not right bound.
-Also, the min variable in this example was calculated but could be a number
-instead.
+Note that, by default, each class includes the left but not the right bound. This is not an issue here, since the
+computed range of NDVI values is fully contained in the open interval (-1; 1) (see exercise above).
 
-```python
+~~~
+import numpy as np
 import xarray
-from matplotlib.colors import ListedColormap
-import earthpy.plot as ep
 
 # Defines the bins for pixel values
-class_bins = [canopy_HARV.min().values, 2, 10, 20, np.inf]
-
-# Define color map of the map legend
-height_colors = ["gray", "y", "yellowgreen", "g", "darkgreen"]
-height_cmap = ListedColormap(height_colors)
-
-# Define class names for the legend
-category_names = [
-    "No Vegetation",
-    "Bare Area",
-    "Low Canopy",
-    "Medium Canopy",
-    "Tall Canopy",
-]
-
-# we need to know in what order the legend items should be arranged
-category_indices = list(range(len(category_names)))
+class_bins = (-1, 0., 0.2, 0.7, 1)
 
 # The numpy.digitize function returns an unlabeled array, in this case, a
 # classified array without any metadata. That doesn't work--we need the
 # coordinates and other spatial metadata. We can get around this using
 # xarray.apply_ufunc, which can run the function across the data array while
 # preserving metadata.
-canopy_height_classified = xarray.apply_ufunc(
-    np.digitize,  # func to run across the input array
-    canopy_HARV,  # func arg 1 (the array that needs to be classified)
-    class_bins    # func arg 2 (the classification bins)
+ndvi_classified = xarray.apply_ufunc(
+    np.digitize,
+    ndvi_nonan,
+    class_bins
 )
+~~~
+{: .language-python}
 
-#Making the plot
-plt.style.use("default")
-plt.figure()
-im = canopy_height_classified.plot(cmap=height_cmap, add_colorbar=False)
-ep.draw_legend(im_ax=im, classes = category_indices, titles=category_names) # earthpy helps us by drawing a legend given an existing image plot and legend items, plus indices
-plt.title("Classfied Canopy Height Model - NEON Harvard Forest Field Site")
-plt.ticklabel_format(style="plain")
-```
-![](../fig/07-HARV-CHM-class-04.png) 
+Let's now visualize the classified NDVI, customizing the plot with proper title and legend. We then export the
+figure in PNG format:
 
-## Reassigning Geospatial Metadata and Exporting a GeoTiff
-When we computed the CHM, the output no longer contains a reference to a nodata value, like `-9999.0`, which was associated with the DTM and DSM. Some calculations, like `numpy.digitize` can remove all geospatial metadata. Of what can be lost, the CRS and nodata value are particularly important to keep track of. Before we export the product of our calculation to a GeoTiff with the `to_raster` function, we need to reassign this metadata.
+~~~
+import earthpy.plot as ep
+import matplotlib.pyplot as plt
 
-```python
-canopy_HARV.rio.write_crs(surface_HARV.rio.crs, inplace=True)
-canopy_HARV.rio.set_nodata(-9999.0, inplace=True)
-```
+from matplotlib.colors import ListedColormap
 
-When we write this raster object to a GeoTiff file we'll name it
-`CHM_HARV.tif`. This name allows us to quickly remember both what the data
-contains (CHM data) and for where (HARVard Forest). The `to_raster()` function
+# Define color map of the map legend
+ndvi_colors = ["blue", "gray", "green", "darkgreen"]
+ndvi_cmap = ListedColormap(ndvi_colors)
+
+# Define class names for the legend
+category_names = [
+    "Water",
+    "No Vegetation",
+    "Sparse Vegetation",
+    "Dense Vegetation"
+]
+
+# We need to know in what order the legend items should be arranged
+category_indices = list(range(len(category_names)))
+
+# Make the plot
+im = ndvi_classified.plot(cmap=ndvi_cmap, add_colorbar=False)
+plt.title("Classified NDVI")
+# earthpy helps us by drawing a legend given an existing image plot and legend items, plus indices
+ep.draw_legend(im_ax=im, classes=category_indices, titles=category_names)
+
+# Save the figure
+plt.savefig("NDVI_classified.png", bbox_inches="tight", dpi=300)
+~~~
+{: .language-python}
+![](../fig/E09-09-NDVI-classified.png)
+
+We can finally export the classified NDVI raster object to a GeoTiff file. The `to_raster()` function
 by default writes the output file to your working directory unless you specify a
 full file path.
 
-```python
-import os
-os.makedirs("./data/outputs/", exist_ok=True)
-canopy_HARV.rio.to_raster("./data/outputs/CHM_HARV.tif")
-```
+~~~
+ndvi_classified.rio.to_raster("NDVI_classified.tif", dtype="int32")
+~~~
+{: .language-python}
 
-> ## Challenge: Explore the NEON San Joaquin Experimental Range Field Site
-> 
+> ## Exercise: Compute the NDVI for the Texel island
+>
 > Data are often more interesting and powerful when we compare them across various
-> locations. Let's compare some data collected over Harvard Forest to data
-> collected in Southern California. The
-> [NEON San Joaquin Experimental Range (SJER) field site](https://www.neonscience.org/field-sites/field-sites-map/SJER)
-> located in Southern California has a very different ecosystem and climate than
-> the
-> [NEON Harvard Forest Field Site](https://www.neonscience.org/field-sites/field-sites-map/HARV)
-in Massachusetts.
-> 
-> Import the SJER DSM and DTM raster files and create a Canopy Height Model.
-> Then compare the two sites. Be sure to name your Python objects and outputs
-> carefully, as follows: objectType_SJER (e.g. `surface_SJER`). This will help you
-> keep track of data from different sites!
-> 
-> 0. You should have the DSM and DTM data for the SJER site already
-> loaded from the 
-> [Reproject Raster Data with Rioxarray]({{ site.baseurl }}/06-raster-reproject/)
-episode. Don't forget to check the CRSs and units of the data. 
-> 1. Create a CHM from the two raster layers and check to make sure the data
-are what you expect.
-> 2. Plot the CHM from SJER.
-> 3. Export the SJER CHM as a GeoTiff.
-> 4. Compare the vegetation structure of the Harvard Forest and San Joaquin
-> Experimental Range.
-> 
+> locations. Let's compare the computed NDVI map with the one of another region in the same Sentinel-2 scene:
+> the [Texel island](https://en.wikipedia.org/wiki/Texel), located in the North Sea.
+>
+> 0. You should have the red- and the NIR-band rasters already loaded (`red` and `nir` variables, respectively).
+> 1. Crop the two rasters using the following bounding box: `(610000, 5870000, 630000, 5900000)`. Don't forget to check the shape of the data, and make sure the cropped areas have the same CRSs, heights and widths.
+> 2. Compute the NDVI from the two raster layers and check the max/min values to make sure the data
+> is what you expect.
+> 3. Plot the NDVI map and export the NDVI as a GeoTiff.
+> 4. Compare the distributions of NDVI values for the two regions investigated.
+>
 > > ## Answers
-> > 1) Read in the data again if you haven't already with `masked=True`.
+> > 1) We crop the area of interest using `clip_box`:
+> > ~~~
+> > bbox_texel = (610000, 5870000, 630000, 5900000)
+> > nir_texel = nir.rio.clip_box(*bbox_texel)
+> > red_texel = red.rio.clip_box(*bbox_texel)
+> > ~~~
+> > {: .language-python}
 > >
-> > ```python
-surface_SJER = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/SJER/DSM/SJER_dsmCrop.tif", masked=True)
-terrain_SJER_UTM18 = rioxarray.open_rasterio("data/NEON-DS-Airborne-Remote-Sensing/SJER/DTM/SJER_dtmCrop_WGS84.tif", masked=True)
-print(terrain_SJER_UTM18.shape)
-print(surface_SJER.shape)
-> > ```
+> > 2) Reproject and clip one raster to the extent of the smaller raster using `reproject_match`. The lines of code below
+> > assign a variable to the reprojected raster and calculate the NDVI.
 > >
-> > 2) Reproject and clip one raster to the extent of the smaller raster using `reproject_match`. Your output raster may have nodata values at the border. Nodata values are fine and can be removed for later calculations if needed. The lines of code below assign a variable to the reprojected terrain raster and calculate a CHM for SJER.
+> > ~~~
+> > red_texel_matched = red_texel.rio.reproject_match(nir_texel)
+> > ndvi_texel = (nir_texel - red_texel_matched)/ (nir_texel + red_texel_matched)
+> > ~~~
+> > {: .language-python}
 > >
-> > ```python
-terrain_SJER_UTM18_matched = terrain_SJER_UTM18.rio.reproject_match(surface_SJER)
-canopy_SJER = surface_SJER - terrain_SJER_UTM18_matched
-> > ```
-> > 
-> > 3) Plot the CHM with the same color map as HARV and save the CHM to the `outputs` folder.
+> > 3) Plot the NDVI and save the raster data as a GeoTIFF file.
 > >
-> > ```python
-plt.figure()
-canopy_SJER.plot(robust=True, cmap="viridis")
-plt.ticklabel_format(style="plain")
-plt.title("Canopy Height Model for San Joaquin Experimental Range, Z Units: Meters")
-os.makedirs("fig", exist_ok=True)
-canopy_SJER.rio.to_raster("./data/outputs/CHM_SJER.tif")
-> > ```
-> > 
-> > ![](../fig/07-SJER-CHM-map-05.png) 
-> > 
-> > 4) Compare the SJER and HARV CHMs. 
-> > Tree heights are much shorter in SJER. You can confirm this by 
-> > looking at the histograms of the two CHMs. 
+> > ~~~
+> > ndvi_texel.plot()
+> > ndvi_texel.rio.to_raster("NDVI_Texel.tif")
+> > ~~~
+> > {: .language-python}
+> > ![](../fig/E09-10-NDVI-map-Texel.png)
 > >
-> > ```python
-fig, ax = plt.subplots(figsize=(9,6))
-canopy_HARV.plot.hist(ax = ax, bins=50, color = "green")
-canopy_SJER.plot.hist(ax = ax, bins=50, color = "blue")
-> > ```
+> > 4) Compute the NDVI histogram and compare it with the region that we have previously investigated. Many more grid
+> > cells have negative NDVI values, since the area of interest includes much more water. Also, NDVI values close to
+> > zero are more abundant, indicating the presence of bare ground (sand) regions.
+> > ~~~
+> > ndvi_texel.plot.hist(bins=50)
+> > ~~~
+> > {: .language-python}
+> > ![](../fig/E09-11-NDVI-hist-Texel.png)
 > {: .solution}
 {: .challenge}
 
