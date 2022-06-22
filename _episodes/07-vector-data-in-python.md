@@ -166,7 +166,7 @@ array([119594.384 , 485036.2543, 135169.9266, 500782.531 ])
 We can then save this cropped dataset for use in future, using the `to_file()` method of our GeoDataFrame object:
 
 ~~~
-cropfield_crop.to_file('cropped_field.shp')
+cropfield_crop.to_file('data/cropped_field.shp')
 ~~~
 {: .language-python}
 
