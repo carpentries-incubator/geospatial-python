@@ -279,6 +279,11 @@ It is not always the case that the AoI comes in the format of a polygon. Sometim
 wells = gpd.read_file("https://service.pdok.nl/bzk/brogmwvolledigeset/atom/v2_1/downloads/brogmwvolledigeset.zip")
 wells = wells.to_crs(raster_clip.rio.crs)
 
+# Crop the wells to the image extent
+xmin, xmax = raster_clip.x[[0, -1]]
+ymin, ymax = raster_clip.y[[0, -1]]
+wells = wells.cx[xmin:xmax, ymin:ymax]
+
 # Plot the wells over raster
 fig, ax = plt.subplots()
 fig.set_size_inches((8,8))
@@ -303,6 +308,8 @@ fig, (ax1, ax2) = plt.subplots(1, 2)
 fig.set_size_inches((16,8))
 raster_clip.plot.imshow(ax=ax1)
 wells_buffer.plot(ax=ax1, color='red')
+ax1.set_xlim([xmin, xmax])
+ax1.set_ylim([ymin, ymax])
 
 # Visualize cropped buffer
 raster_clip_wells.plot.imshow(ax=ax2)
