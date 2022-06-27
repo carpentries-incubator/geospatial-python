@@ -23,16 +23,17 @@ In this episode, we will explore how to calculate zonal statistics based on the 
 
 
 # Making vector and raster data compatible
-First, let's load the `NDVI.tif` file saved in the previous episode to obtained our calculated raster `ndvi` data.
+First, let's load the `NDVI.tif` file saved in the previous episode to obtained our calculated raster `ndvi` data. We also use the `squeeze()` function in order to reduce our raster data `ndvi` dimension to 2D by removing the singular `band` dimension - this is necessary for use with the `rasterize` and `zonal_stats` functions:
 
 ~~~
-ndvi = rioxarray.open_rasterio("NDVI.tif")
+ndvi = rioxarray.open_rasterio("data/NDVI.tif")
+ndvi_sq = ndvi.squeeze()
 ~~~
 
 Let's also read the crop fields vector data from our saved `cropped_field.shp` file and view the CRS information.
 
 ~~~
-field = gpd.read_file('cropped_field.shp')
+field = gpd.read_file('data/cropped_field.shp')
 field.crs
 ~~~
 {: .language-python}
@@ -113,7 +114,7 @@ We can now rasterize our vector data using `rasterio.features.rasterize`:
 
 ~~~
 from rasterio import features 
-field_cropped_raster = rasterio.features.rasterize(geom, out_shape=ndvi_sq.shape, fill=0, transform=ndvi.rio.transform())
+field_cropped_raster = features.rasterize(geom, out_shape=ndvi_sq.shape, fill=0, transform=ndvi.rio.transform())
 ~~~
 {: .language-python}
 
@@ -128,14 +129,9 @@ field_cropped_raster_xarr = xr.DataArray(field_cropped_raster)
 
 # Calculate zonal statistics 
 
-In order to calculate the statistics for each crop zone, we call the function, `xrspatial.zonal_stats`. The `xrspatial.zonal_stats` function takes as input `zones`, a 2D `xarray.DataArray`, that defines different zones, and `values`, a 2D `xarray.DataArray` providing input values for calculating statistics. We use the `squeeze()` function in order to reduce our raster data `ndvi` dimension to 2D by removing the singular `band` dimension:
+In order to calculate the statistics for each crop zone, we call the function, `xrspatial.zonal_stats`. The `xrspatial.zonal_stats` function takes as input `zones`, a 2D `xarray.DataArray`, that defines different zones, and `values`, a 2D `xarray.DataArray` providing input values for calculating statistics.
 
-~~~
-ndvi_sq = ndvi.squeeze()
-~~~
-{: .language-python}
-
-Then we call the `zonal_stats` function with `field_cropped_raster_xarr` as our classifier and the 2D raster with our values of interest `ndvi_sq` to obtain the NDVI statistics for each crop type:
+We call the `zonal_stats` function with `field_cropped_raster_xarr` as our classifier and the 2D raster with our values of interest `ndvi_sq` to obtain the NDVI statistics for each crop type:
 
 ~~~
 from xrspatial import zonal_stats
@@ -170,8 +166,8 @@ The `zonal_stats` function calculates the minimum, maximum, and sum for each zon
 > > 1) Load and convert raster data into suitable inputs for `zonal_stats`:
 > >
 > > ```python
-ndvi = rioxarray.open_rasterio("NDVI.tif")
-ndvi_classified = rioxarray.open_rasterio("NDVI_classified.tif")
+ndvi = rioxarray.open_rasterio("data/NDVI.tif")
+ndvi_classified = rioxarray.open_rasterio("data/NDVI_classified.tif")
 ndvi_sq = ndvi.squeeze()
 ndvi_classified_sq = ndvi_classified.squeeze()
 > > ```
