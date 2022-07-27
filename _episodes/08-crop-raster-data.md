@@ -49,17 +49,21 @@ print(true_color_image.shape)
 ~~~
 {: .output}
 
-The raster data is quite big. If we want to visualize it, it takes several minutes:
+The raster data is quite big. It will not be wise to visualize the entire image. To investigate the coverage of the image, we can plot the "overview" asset. 
 
 ~~~
+# Get the overview asset
+overview_image = rioxarray.open_rasterio(items[1].assets["overview"].href)
+print(overview_image.shape)
+
 # Visualize it
-true_color_image.plot.imshow(figsize=(8,8))
+overview_image.plot.imshow(figsize=(8,8))
 ~~~
 {: .language-python}
 
-<img src="../fig/20-crop-raster-original-raster-00.png" title="Overview of the raster"  width="512" style="display: block; margin: auto;" />
+<img src="../fig/20-crop-raster-overview-raster-00.png" title="Overview of the raster"  width="512" style="display: block; margin: auto;" />
 
-But do we need the entire raster? Suppose we are interested in the crop fields. To compare its coverage with the raster data, we first check the coordinate systems of both raster and vector data. For raster data, we use `pyproj.CRS`:
+As we can see the overview image is much smaller comparing to the original true color image. Therefore the visualization is much faster. Suppose we are interested in the crop fields. We would like to know where are crop fields locate in the image. To compare its coverage with the raster data, we first check the coordinate systems of both raster and vector data. For raster data, we use `pyproj.CRS`:
 
 ~~~
 from pyproj import CRS
@@ -129,9 +133,6 @@ from matplotlib import pyplot as plt
 # Convert the coordinate system
 cf_boundary_crop = cf_boundary_crop.to_crs(true_color_image.rio.crs)
 
-# Create a bounding box
-bb_cropfields = box(*cf_boundary_crop.total_bounds)
-
 # Plot
 fig, ax = plt.subplots()
 fig.set_size_inches((8,8))
@@ -142,27 +143,17 @@ true_color_image.plot.imshow(ax=ax)
 # Plot crop fields
 cf_boundary_crop.geometry.boundary.plot(
     ax=ax,
-    facecolor="white",
     edgecolor="red",
-    linewidth = 0.5,
-
 )
-
-# Plot bounding box
-plt.plot(*bb_cropfields.exterior.xy,
-         color="black",
-         linewidth = 2,
-         linestyle = '--',
-        )
 ~~~
 {: .language-python}
 
 <img src="../fig/20-crop-raster-bounding-box-01.png" title="Bounding boxes of AoI over the raster"  width="512" style="display: block; margin: auto;" />
 
-Seeing from the bounding boxes, the crop fields (red) only takes a small part of
+Seeing from the location of the polygons, the crop fields (red) only takes a small part of
 the raster. Therefore before actual processing, we can first crop the raster to
 our area of interest. The `clip_box` function allows one to crop a raster by the
-min/max of the x and y coordinates.
+min/max of the x and y coordinates. Note that we are croping the original image `true_color_image` now, but not the overview image `overview_image`.
 
 ~~~
 # Crop the raster with the bounding box
