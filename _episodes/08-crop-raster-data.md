@@ -93,7 +93,7 @@ To open and check the coordinate system of vector data, we use `geopandas`:
 import geopandas as gpd
 
 # Load the polygons of the crop fields
-cf_boundary_crop = gpd.read_file("data/crop_fields/cf_boundary_crop.shp")
+cf_boundary_crop = gpd.read_file("data/cropped_field.shp")
 
 # Check the coordinate system
 cf_boundary_crop.crs
@@ -180,7 +180,6 @@ We successfully cropped the raster to a much smaller piece. We can visualize it 
 ~~~
 raster_clip.plot.imshow(figsize=(8,8))
 ~~~
-
 {: .language-python}
 <img src="../fig/20-crop-raster-crop-by-bb-02.png" title="Crop raster by a bounding box"  width="512" style="display: block; margin: auto;" />
 
@@ -220,7 +219,7 @@ raster_clip_polygon.plot.imshow(figsize=(8,8))
 > ## Exercise: Compare two ways of bounding box cropping
 > So far, we have learned two ways of cropping a raster: by a bounding box (using `clip_box`) and by a polygon (using `clip`). Technically, a bounding box is also a polygon. So what if we crop the original image directly with the polygon? For example:
 > ~~~
-> raster_clip_polygon2 = true_color_image.rio.clip(polygon['geometry'], polygon.crs)
+> raster_clip_polygon2 = true_color_image.rio.clip([polygon_geom], true_color_image.rio.crs)
 > raster_clip_polygon2.plot.imshow()
 > ~~~
 > {: .language-python}
@@ -277,8 +276,13 @@ It is not always the case that the AoI comes in the format of a polygon. Sometim
 
 ~~~
 # Load wells
-wells = gpd.read_file("data/groundwater_monitoring_well/groundwater_monitoring_well.shp")
+wells = gpd.read_file("https://service.pdok.nl/bzk/brogmwvolledigeset/atom/v2_1/downloads/brogmwvolledigeset.zip")
 wells = wells.to_crs(raster_clip.rio.crs)
+
+# Crop the wells to the image extent
+xmin, xmax = raster_clip.x[[0, -1]]
+ymin, ymax = raster_clip.y[[0, -1]]
+wells = wells.cx[xmin:xmax, ymin:ymax]
 
 # Plot the wells over raster
 fig, ax = plt.subplots()
@@ -304,6 +308,8 @@ fig, (ax1, ax2) = plt.subplots(1, 2)
 fig.set_size_inches((16,8))
 raster_clip.plot.imshow(ax=ax1)
 wells_buffer.plot(ax=ax1, color='red')
+ax1.set_xlim([xmin, xmax])
+ax1.set_ylim([ymin, ymax])
 
 # Visualize cropped buffer
 raster_clip_wells.plot.imshow(ax=ax2)

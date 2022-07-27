@@ -241,7 +241,7 @@ Missing values can be interpolated from the values of neighbouring grid cells us
 then save `ndvi` as a GeoTiff file:
 ~~~
 ndvi_nonan = ndvi.interpolate_na(dim="x")
-ndvi_nonan.rio.to_raster("NDVI.tif")
+ndvi_nonan.rio.to_raster("data/NDVI.tif")
 ~~~
 {: .language-python}
 
@@ -325,7 +325,7 @@ by default writes the output file to your working directory unless you specify a
 full file path.
 
 ~~~
-ndvi_classified.rio.to_raster("NDVI_classified.tif", dtype="int32")
+ndvi_classified.rio.to_raster("data/NDVI_classified.tif", dtype="int32")
 ~~~
 {: .language-python}
 
@@ -364,7 +364,7 @@ ndvi_classified.rio.to_raster("NDVI_classified.tif", dtype="int32")
 > >
 > > ~~~
 > > ndvi_texel.plot()
-> > ndvi_texel.rio.to_raster("NDVI_Texel.tif")
+> > ndvi_texel.rio.to_raster("data/NDVI_Texel.tif")
 > > ~~~
 > > {: .language-python}
 > > ![](../fig/E09-10-NDVI-map-Texel.png)

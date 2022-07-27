@@ -82,12 +82,12 @@ cropfield.type
 3         Polygon
 4         Polygon
            ...   
-619994    Polygon
-619995    Polygon
-619996    Polygon
-619997    Polygon
-619998    Polygon
-Length: 619999, dtype: object
+773134    Polygon
+773135    Polygon
+773136    Polygon
+773137    Polygon
+773138    Polygon
+Length: 773139, dtype: object
 ~~~
 {: .output}
 
@@ -166,7 +166,7 @@ array([119594.384 , 485036.2543, 135169.9266, 500782.531 ])
 We can then save this cropped dataset for use in future, using the `to_file()` method of our GeoDataFrame object:
 
 ~~~
-cropfield_crop.to_file('cropped_field.shp')
+cropfield_crop.to_file('data/cropped_field.shp')
 ~~~
 {: .language-python}
 
@@ -233,14 +233,14 @@ different features.
 > > waterways_nl.type
 > > ```
 > >
-> > ```
+> > ```python
 > > wells_nl.type
 > > ```
 > > We also check the CRS and extent of each object: 
 > > ```python
 > > print(waterways_nl.crs)
-> > print(wells_nl.total_bounds)
-> > print(waterways_nl.crs)
+> > print(waterways_nl.total_bounds)
+> > print(wells_nl.crs)
 > > print(wells_nl.total_bounds)
 > > ```
 > > To see the number of objects in each file, we can look at the output from when we print the results in a Jupyter notebook of call `len()` on a `GeoDataFrame`. 
