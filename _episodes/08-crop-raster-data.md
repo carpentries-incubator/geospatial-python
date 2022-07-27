@@ -138,7 +138,7 @@ fig, ax = plt.subplots()
 fig.set_size_inches((8,8))
 
 # Plot image
-true_color_image.plot.imshow(ax=ax)
+overview_image.plot.imshow(ax=ax)
 
 # Plot crop fields
 cf_boundary_crop.geometry.boundary.plot(
@@ -174,44 +174,33 @@ raster_clip.plot.imshow(figsize=(8,8))
 {: .language-python}
 <img src="../fig/20-crop-raster-crop-by-bb-02.png" title="Crop raster by a bounding box"  width="512" style="display: block; margin: auto;" />
 
-
+This cropped image can be saved for later usage:
+~~~
+raster_clip.rio.to_raster("raster_clip.tif")
+~~~
+{: .language-python}
 ## Crop raster data with a polygon
 
-It is common that the AoI is given by a polygon, which can be also used to crop the raster. For the example, we make a simple polygon within the raster clip we just made, and select the raster pixels within the polygon. This can be done with the `clip` function:
+We have a cropped image around the fields. To further analysis the fields, one may want to crop the image to the exact field boudanries.
+This can be done with the `clip` function:
 
 ~~~
-from shapely.geometry import Polygon
-from matplotlib import pyplot as plt
-
-# Create a polygon
-xlist= [630000, 629000, 638000, 639000, 634000, 630000]
-ylist = [5.804e6, 5.814e6, 5.816e6, 5.806e6, 5.803e6, 5.804e6]
-polygon_geom = Polygon(zip(xlist, ylist))
-
-# Plot the polygon over raster
-fig, ax = plt.subplots()
-fig.set_size_inches((8,8))
-raster_clip.plot.imshow(ax=ax)
-plt.plot(*polygon_geom.exterior.xy,
-         color="lightblue",
-         linewidth = 2,
-         linestyle = '--',
-        )
-
-# Crop and visualize
-raster_clip_polygon = raster_clip.rio.clip([polygon_geom], raster_clip.rio.crs)
-raster_clip_polygon.plot.imshow(figsize=(8,8))
+raster_clip_fields = raster_clip.rio.clip(cf_boundary_crop['geometry'], cf_boundary_crop.crs)
 ~~~
 {: .language-python}
 
-<img src="../fig/20-crop-raster-crop-by-polygon-03.png" title="Crop raster by a polygon"  width="1024" style="display: block; margin: auto;" />
-
+And we can visualize the results:
+~~~
+raster_clip_fields.plot.imshow(figsize=(8,8))
+~~~
+{: .language-python}
+<img src="../fig/20-crop-raster-crop-fields-solution-06.png" title="Raster cropped by crop fields" width="512" style="display: block; margin: auto;" />
 
 > ## Exercise: Compare two ways of bounding box cropping
 > So far, we have learned two ways of cropping a raster: by a bounding box (using `clip_box`) and by a polygon (using `clip`). Technically, a bounding box is also a polygon. So what if we crop the original image directly with the polygon? For example:
 > ~~~
-> raster_clip_polygon2 = true_color_image.rio.clip([polygon_geom], true_color_image.rio.crs)
-> raster_clip_polygon2.plot.imshow()
+> raster_clip_fields2 = true_color_image.rio.clip([cf_boundary_crop], cf_boundary_crop.crs)
+> raster_clip_fields2.plot.imshow()
 > ~~~
 > {: .language-python}
 > And try to compare the two methods:
@@ -224,39 +213,6 @@ raster_clip_polygon.plot.imshow(figsize=(8,8))
 > > The two methods give the same results, but cropping directly with a polygon is much slower.
 > >
 > > Therefore, if the AoI is much smaller than the original raster, it would be more efficient to first crop the raster with a bounding box, then crop with the actual AoI polygon.
-> {: .solution}
-{: .challenge}
-
-> ## Exercise: Select the raster data within crop fields
-> Imagine that we want to select out all the crop fields from the raster data,
-> using the `.shp` file in `data/crop_fields`.
->
-> 1. Convert the coordinate system of `raster_clip` to the coordinate
-system of `cf_boundary_crop`. Tip: we can use `rio.reproject()` function.
-> 2. Crop the `raster_clip`.
-> 3. Visualize the cropped data.
-> 4. Store the raster as a GeoTIFF file (`crop_fields.tif`). Tip: we learned how to do this in the first episode.
->
-> > ## Solution
-> >
-> > ~~~
-> > # Load the crop fields polygons
-> > cf_boundary_crop = gpd.read_file("data/crop_fields/cf_boundary_crop.shp")
-> >
-> > # Convert the coordinate system
-> > raster_clip = raster_clip.rio.reproject(cf_boundary_crop.crs)
-> >
-> > # Crop
-> > raster_clip_fields = raster_clip.rio.clip(cf_boundary_crop['geometry'], cf_boundary_crop.crs)
-> >
-> > # Visualize
-> > raster_clip_fields.plot.imshow(figsize=(8,8))
-> >
-> > # Save
-> > raster_clip_fields.rio.to_raster("crop_fields.tif", driver="COG")
-> > ~~~
-> > {: .language-python}
-> > <img src="../fig/20-crop-raster-crop-fields-solution-06.png" title="Raster cropped by crop fields" width="512" style="display: block; margin: auto;" />
 > {: .solution}
 {: .challenge}
 
@@ -285,7 +241,7 @@ wells.plot(ax=ax, color='red', markersize=2)
 
 <img src="../fig/20-crop-raster-wells-04.png" title="Ground weter level wells" width="512" style="display: block; margin: auto;" />
 
-To select pixels around the geometries, one needs to first define a region including the geometries. This region is called a "buffer" and it is defined in the units of the projection. The size of the buffer depends on the analysis in your research. A buffer is also a polygon, which can be used to crop the raster data.  The package `geopandas` has a `buffer` function to make buffer polygons.
+To select pixels around the geometries, one needs to first define a region including the geometries. This region is called a "buffer" and it is defined in the units of the projection. The size of the buffer depends on the analysis in your research. A buffer is also a polygon, which can be used to crop the raster data. The package `geopandas` has a `buffer` function to make buffer polygons.
 
 ~~~
 # Create 200m buffer around the wells
