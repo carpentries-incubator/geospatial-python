@@ -196,26 +196,6 @@ raster_clip_fields.plot.imshow(figsize=(8,8))
 {: .language-python}
 <img src="../fig/20-crop-raster-crop-fields-solution-06.png" title="Raster cropped by crop fields" width="512" style="display: block; margin: auto;" />
 
-> ## Exercise: Compare two ways of bounding box cropping
-> So far, we have learned two ways of cropping a raster: by a bounding box (using `clip_box`) and by a polygon (using `clip`). Technically, a bounding box is also a polygon. So what if we crop the original image directly with the polygon? For example:
-> ~~~
-> raster_clip_fields2 = true_color_image.rio.clip([cf_boundary_crop], cf_boundary_crop.crs)
-> raster_clip_fields2.plot.imshow()
-> ~~~
-> {: .language-python}
-> And try to compare the two methods:
-> - Do you have the same results?
-> - Do you have the same execution time?
-> - How would you choose the two methods in your daily work?
->
-> > ## Solution
-> >
-> > The two methods give the same results, but cropping directly with a polygon is much slower.
-> >
-> > Therefore, if the AoI is much smaller than the original raster, it would be more efficient to first crop the raster with a bounding box, then crop with the actual AoI polygon.
-> {: .solution}
-{: .challenge}
-
 
 ## Crop raster data with a geometry buffer
 
