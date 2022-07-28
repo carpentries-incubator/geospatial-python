@@ -197,6 +197,12 @@ raster_clip_fields.plot.imshow(figsize=(8,8))
 {: .language-python}
 <img src="../fig/20-crop-raster-crop-fields-solution-06.png" title="Raster cropped by crop fields" width="512" style="display: block; margin: auto;" />
 
+We can save this image for later usage:
+~~~
+raster_clip_fields.rio.to_raster("crop_fields.tif")
+~~~
+
+
 
 ## Crop raster data with a geometry buffer
 
@@ -264,36 +270,42 @@ The red dots grow larger, which means they are converted from point to buffer po
 > {: .solution}
 {: .challenge}
 
-> ## Exercise: Select the raster data around the dike
-> The dikes are stored as polylines in `.shp` file in `data/dikes`. Let's select out all the raster data within 100m around the dikes and visualize the results.
+> ## Exercise: Select the raster data around the waterways
+> In the previous episode we have corrected the waterway vector data and saved it in `waterways_nl_corrected.shp`. Can you select out all the raster data within 100m around the waterways, and visualize the results?
 >
 > > ## Solution
 > > ~~~
-> > # Load dikes polyline
-> > dikes = gpd.read_file("data/dikes/dikes.shp")
-> > dikes = dikes.to_crs(true_color_image.rio.crs)
-> > # Dike buffer
-> > dikes_buffer = dikes.buffer(100)
+> > # Load waterways polyline and convert CRS
+> > waterways_nl = gpd.read_file("waterways_nl_corrected.shp")
+> > waterways_nl = waterways_nl.to_crs(raster_clip.rio.crs)
+> > 
+> > # Crop the waterways to the image extent
+> > xmin, xmax = raster_clip.x[[0, -1]]
+> > ymin, ymax = raster_clip.y[[0, -1]]
+> > waterways_nl = waterways_nl.cx[xmin:xmax, ymin:ymax]
+> > 
+> > # waterways buffer
+> > waterways_nl_buffer = waterways_nl.buffer(100)
+> > 
 > > # Crop
-> > raster_clip_dikes = raster_clip.rio.clip(dikes_buffer, dikes_buffer.crs)
+> > raster_clip_waterways = raster_clip.rio.clip(waterways_nl_buffer, waterways_nl_buffer.crs)
+> > 
 > > # Visualize
-> > raster_clip_dikes.plot.imshow(figsize=(8,8))
+> > raster_clip_waterways.plot.imshow(figsize=(8,8))
 > > ~~~
 > > {: .language-python}
-> > <img src="../fig/20-crop-raster-dike-solution-07.png" title="Raster croped by buffer around dikes" width="512" style="display: block; margin: auto;" />
+> > <img src="../fig/20-crop-waterways-07.png" title="Raster croped by buffer around waterways" width="512" style="display: block; margin: auto;" />
 > {: .solution}
 {: .challenge}
 
 ## Crop raster data using another raster data
 
-Imagine that we have two raster datasets, let's say the `true_color_image` and `crop_fields` in
-different coordinate systems. Our goal is to crop the `true_color_image` image using the
+So far we have learnt how to crop raster image with vector data. We can also crop a raster with another raster data. In this section, we will demonstrate how to crop the `true_color_image` image using the
 `crop_fields` image.
 
 > ## Using `crop_fields` raster image
 >
-> For this section, we will use the `crop_fields.tif` image that was produced in
-> the exercise "**Select the raster data within crop fields**".
+> For this section, we will use the `crop_fields.tif` image that was produced in the section "**Crop raster data with polygon**".
 {: .callout}
 
 We read in both images and check their coordinate system:
@@ -359,8 +371,7 @@ cropped_raster.plot.imshow(figsize=(8,8))
 
 > ## Exercise
 >
-> This time, let's crop the `crop_fields` image using the `true_color_image` image. Discuss
-> the results.
+> This time let's do the other way around. Let's crop the `crop_fields` image using the `true_color_image` image. Discuss the results.
 >
 > > ## Solution
 > >
