@@ -179,7 +179,8 @@ This cropped image can be saved for later usage:
 raster_clip.rio.to_raster("raster_clip.tif")
 ~~~
 {: .language-python}
-## Crop raster data with a polygon
+
+## Crop raster data with polygons
 
 We have a cropped image around the fields. To further analysis the fields, one may want to crop the image to the exact field boudanries.
 This can be done with the `clip` function:
@@ -199,7 +200,9 @@ raster_clip_fields.plot.imshow(figsize=(8,8))
 
 ## Crop raster data with a geometry buffer
 
-It is not always the case that the AoI comes in the format of a polygon. Sometimes one would like to perform analysis around a (set of) point(s), or polyline(s). For example, in our AoI, there are also some groundwater monitoring wells coming as point vector data. One may also want to perform analysis around these wells. The location of the wells is stored in `data/groundwater_monitoring_well`.
+It is not always the case that the AoI comes in the format of polygon. Sometimes one would like to perform analysis around a (set of) point(s), or polyline(s). For example, in our AoI, there are also some groundwater monitoring wells coming as point vector data. One may also want to perform analysis around these wells. The location of the wells is stored in `data/groundwater_monitoring_well`. 
+
+We can first load the wells vector data, and select wells within the coverage of the image:
 
 ~~~
 # Load wells
@@ -210,7 +213,11 @@ wells = wells.to_crs(raster_clip.rio.crs)
 xmin, xmax = raster_clip.x[[0, -1]]
 ymin, ymax = raster_clip.y[[0, -1]]
 wells = wells.cx[xmin:xmax, ymin:ymax]
+~~~
+{: .language-python}
 
+Then we can check the location of the wells:
+~~~
 # Plot the wells over raster
 fig, ax = plt.subplots()
 fig.set_size_inches((8,8))
@@ -226,24 +233,36 @@ To select pixels around the geometries, one needs to first define a region inclu
 ~~~
 # Create 200m buffer around the wells
 wells_buffer = wells.buffer(200)
-
-# Crop
-raster_clip_wells = raster_clip.rio.clip(wells_buffer, wells_buffer.crs)
-
-# Visualize buffer on raster
-fig, (ax1, ax2) = plt.subplots(1, 2)
-fig.set_size_inches((16,8))
-raster_clip.plot.imshow(ax=ax1)
-wells_buffer.plot(ax=ax1, color='red')
-ax1.set_xlim([xmin, xmax])
-ax1.set_ylim([ymin, ymax])
-
-# Visualize cropped buffer
-raster_clip_wells.plot.imshow(ax=ax2)
 ~~~
 {: .language-python}
 
-<img src="../fig/20-crop-raster-crop-by-well-buffers-05.png" title="Raster croped by buffer around wells" width="1024" style="display: block; margin: auto;" />
+Now let's see what do the buffers look like in the image:
+~~~
+# Visualize buffer on raster
+fig, ax = plt.subplots()
+fig.set_size_inches((8,8))
+raster_clip.plot.imshow(ax=ax)
+wells_buffer.plot(ax=ax, color='red')
+~~~
+{: .language-python}
+<img src="../fig/20-crop-raster-well-buffers-over-raster-05.png" title="Raster croped by buffer around wells" width="512" style="display: block; margin: auto;" />
+
+The red dots grow larger, which means they are converted from point to buffer polygons.
+
+> ## Exercise: Select the raster data around the wells
+> Now we have the buffer polygons around the groudwater monitoring wells, i.e. `wells_buffer`. Can you crop the image `raster_clip` to the buffer polygons? Can you visualize the results of cropping?
+> > ## Solution
+> > ~~~
+> > # Crop
+> > raster_clip_wells = raster_clip.rio.clip(wells_buffer, wells_buffer.crs)
+> > 
+> > # Visualize cropped buffer
+> > raster_clip_wells.plot.imshow()
+> > ~~~
+> > {: .language-python}
+> > <img src="../fig/20-crop-raster-crop-by-well-buffers-05.png" title="Raster croped by buffer around wells" width="512" style="display: block; margin: auto;" />
+> {: .solution}
+{: .challenge}
 
 > ## Exercise: Select the raster data around the dike
 > The dikes are stored as polylines in `.shp` file in `data/dikes`. Let's select out all the raster data within 100m around the dikes and visualize the results.
