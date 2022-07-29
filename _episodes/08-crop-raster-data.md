@@ -49,7 +49,7 @@ print(true_color_image.shape)
 ~~~
 {: .output}
 
-The raster data is quite big. It will not be wise to visualize the entire image. To investigate the coverage of the image, we can plot the "overview" asset. 
+The large size of the raster data makes it time and memory consuming to visualise in its entirety.  Instead, we can plot the "overview" asset, to investigate the coverage of the image. 
 
 ~~~
 # Get the overview asset
@@ -63,7 +63,7 @@ overview_image.plot.imshow(figsize=(8,8))
 
 <img src="../fig/20-crop-raster-overview-raster-00.png" title="Overview of the raster"  width="512" style="display: block; margin: auto;" />
 
-As we can see the overview image is much smaller comparing to the original true color image. Therefore the visualization is much faster. Suppose we are interested in the crop fields. We would like to know where are crop fields locate in the image. To compare its coverage with the raster data, we first check the coordinate systems of both raster and vector data. For raster data, we use `pyproj.CRS`:
+As we can see, the overview image is much smaller compared to the original true color image. Therefore the visualization is much faster. If we are interested in the crop fields, then we would like to know where these are located in the image. To compare its coverage with the raster data, we first check the coordinate systems of both raster and vector data. For raster data, we use `pyproj.CRS`:
 
 ~~~
 from pyproj import CRS
@@ -153,7 +153,7 @@ cf_boundary_crop.geometry.boundary.plot(
 Seeing from the location of the polygons, the crop fields (red) only takes a small part of
 the raster. Therefore before actual processing, we can first crop the raster to
 our area of interest. The `clip_box` function allows one to crop a raster by the
-min/max of the x and y coordinates. Note that we are croping the original image `true_color_image` now, but not the overview image `overview_image`.
+min/max of the x and y coordinates. Note that we are croping the original image `true_color_image` now, and not the overview image `overview_image`.
 
 ~~~
 # Crop the raster with the bounding box
@@ -206,7 +206,7 @@ raster_clip_fields.rio.to_raster("crop_fields.tif")
 
 ## Crop raster data with a geometry buffer
 
-It is not always the case that the AoI comes in the format of polygon. Sometimes one would like to perform analysis around a (set of) point(s), or polyline(s). For example, in our AoI, there are also some groundwater monitoring wells coming as point vector data. One may also want to perform analysis around these wells. The location of the wells is stored in `data/groundwater_monitoring_well`. 
+It is not always the case that the AoI comes in the format of polygon. Sometimes one would like to perform analysis around a (set of) point(s), or polyline(s). For example, in our AoI, there are also some groundwater monitoring wells available as point vector data. One may also want to perform analysis around these wells. The location of the wells is stored in `data/groundwater_monitoring_well`. 
 
 We can first load the wells vector data, and select wells within the coverage of the image:
 
@@ -253,7 +253,7 @@ wells_buffer.plot(ax=ax, color='red')
 {: .language-python}
 <img src="../fig/20-crop-raster-well-buffers-over-raster-05.png" title="Raster croped by buffer around wells" width="512" style="display: block; margin: auto;" />
 
-The red dots grow larger, which means they are converted from point to buffer polygons.
+The red dots have grown larger indicating the conversion from point to buffer polygons.
 
 > ## Exercise: Select the raster data around the wells
 > Now we have the buffer polygons around the groudwater monitoring wells, i.e. `wells_buffer`. Can you crop the image `raster_clip` to the buffer polygons? Can you visualize the results of cropping?
@@ -371,7 +371,7 @@ cropped_raster.plot.imshow(figsize=(8,8))
 
 > ## Exercise
 >
-> This time let's do the other way around. Let's crop the `crop_fields` image using the `true_color_image` image. Discuss the results.
+> This time let's do it the other way around by cropping the `crop_fields` image using the `true_color_image` image. Discuss the results.
 >
 > > ## Solution
 > >
