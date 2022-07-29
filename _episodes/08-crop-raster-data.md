@@ -308,10 +308,13 @@ So far we have learnt how to crop raster image with vector data. We can also cro
 > For this section, we will use the `crop_fields.tif` image that was produced in the section "**Crop raster data with polygon**".
 {: .callout}
 
-We read in both images and check their coordinate system:
+We read in the `crop_fields.tif` image and reproject it to the RD CRS system:
 ~~~
 # Read crop_fields
 crop_fields = rioxarray.open_rasterio("crop_fields.tif")
+
+# Reproject to RD
+crop_fields = crop_fields.rio.reproject("EPSG:28992")
 CRS(crop_fields.rio.crs)
 ~~~
 {: .language-python}
@@ -332,6 +335,8 @@ Datum: Amersfoort
 - Prime Meridian: Greenwich
 ~~~
 {: .output}
+
+And let's check again the CRS of `true_color_image`:
 
 ~~~
 # Get CRS of true_color_image
@@ -356,7 +361,7 @@ Datum: World Geodetic System 1984
 ~~~
 {: .output}
 
-We can see that these images are in different coordinate systems. Now, we can
+We can see that the two images are in different coordinate systems. Now, we can
 use `rioxarray.reproject_match()` function to crop `true_color_image` image. This might
 take a few minutes, because the `true_color_image` image is large.
 
@@ -369,6 +374,9 @@ cropped_raster.plot.imshow(figsize=(8,8))
 ~~~
 {: .language-python}
 
+<img src="../fig/20-crop-raster-raster-intro-08.png" title="Raster croped by raster" width="512" style="display: block; margin: auto;" />
+
+In this way, we accomplish the reproject and cropping in one go.
 > ## Exercise
 >
 > This time let's do it the other way around by cropping the `crop_fields` image using the `true_color_image` image. Discuss the results.
@@ -383,7 +391,7 @@ cropped_raster.plot.imshow(figsize=(8,8))
 > > cropped_raster.plot.imshow(figsize=(8,8))
 > > ~~~
 > > {: .language-python}
-> > <img src="../fig/20-crop-raster-raster-solution-08.png" title="Raster croped by buffer around dikes" width="512" style="display: block; margin: auto;" />
+> > <img src="../fig/20-crop-raster-raster-solution-08.png" title="Solution: raster croped raster" width="512" style="display: block; margin: auto;" />
 > {: .solution}
 {: .challenge}
 
