@@ -25,6 +25,10 @@ metadata/raster attributes for working with raster data in Python. We will also 
 
 [`rioxarray`](https://corteva.github.io/rioxarray/stable/) is the Python package we will use throughout this lesson to work with raster data.
 It is based on the popular [`rasterio`](https://rasterio.readthedocs.io/en/latest/) package for working with rasters and [`xarray`](http://xarray.pydata.org/en/stable/) for working with multi-dimensional arrays.
+`rioxarray` extends `xarray` by providing top-level functions (e.g. the `open_rasterio` function to open raster
+datasets) and by adding a set of methods to the main objects of the `xarray` package (the `Dataset` and the
+`DataArray`). These additional methods are made available via the `rio` accessor and become available from `xarray`
+objects after importing `rioxarray`.
 
 We will also use the [`pystac`](https://github.com/stac-utils/pystac) package to load rasters from the search results we created in the previous episode.
 
