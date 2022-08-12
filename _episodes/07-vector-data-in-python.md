@@ -18,11 +18,23 @@ keypoints:
 
 As discussed in [Episode 2: Introduction to Vector Data]({{site.baseurl}}/02-intro-vector-data.md/), vector data represents specific features on the Earth's surface using points, lines and polygons. These geographic elements can then have one or more attributes assigned to them, such as 'name' and 'population' for a city, or crop type for a field. Vector data can be much smaller in (file) size than raster data, while being very rich in terms of the information captured.
 
-From this episode onwards, we will be moving from working with raster data to working with vector data. In this episode, we will use python to open and plot point, line and polygon vector data. The data we will use comes from the Dutch government's open geodata sets, obtained from the [PDOK platform](https://www.pdok.nl/). It provides open data for various applications, e.g. cadaster, infrastructure, agriculture, etc. In this episode we will use three data sets:
+In this episode, we will be moving from working with raster data to working with vector data. We will use Python to open
+and plot point, line and polygon vector data. In particular, we will make use of the [`geopandas`](https://geopandas.org/en/stable/)
+package to open, manipulate and write vector datasets. `geopandas` extends the popular `pandas` library for data
+analysis to geospatial applications. The main `pandas` objects (the `Series` and the `DataFrame`) are expanded by
+including geometric types, represented in Python using the `shapely` library, and by providing dedicated methods for
+spatial operations (union, intersection, etc.).
 
-- [Crop fields](https://www.pdok.nl/introductie/-/article/basisregistratie-gewaspercelen-brp-) (polygons)
-- [Water ways](https://www.pdok.nl/introductie/-/article/nationaal-wegen-bestand-nwb-) (lines):
-- [Ground water monitoring wells](https://www.pdok.nl/downloads/-/article/basisregistratie-ondergrond-bro-) (points):
+> ## Introduce the Data
+>
+> The data we will use comes from the Dutch government's open geodata sets, obtained from the [PDOK platform](https://www.pdok.nl/).
+> It provides open data for various applications, e.g. real estate, infrastructure, agriculture, etc. In this episode we
+> will use three data sets:
+>
+> - [Crop fields](https://www.pdok.nl/introductie/-/article/basisregistratie-gewaspercelen-brp-) (polygons)
+> - [Water ways](https://www.pdok.nl/introductie/-/article/nationaal-wegen-bestand-nwb-) (lines)
+> - [Ground water monitoring wells](https://www.pdok.nl/downloads/-/article/basisregistratie-ondergrond-bro-) (points)
+{: .callout}
 
 In later episodes, we will learn how to work with raster and vector data together and combine them into a single plot.
 
