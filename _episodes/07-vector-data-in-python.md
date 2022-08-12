@@ -203,26 +203,24 @@ different features.
 
 
 > ## Challenge: Import Line and Point Vector Datasets
-> 
-> Using the steps above, import the waterways and groundwater well layers into
+>
+> Using the steps above, import the waterways and groundwater well vector datasets into
 > Python using `geopandas`.
 > The waterways data can be fetched from the URL: <https://geo.rijkswaterstaat.nl/services/ogc/gdr/vaarweginformatie/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=status_vaarweg&outputFormat=SHAPE-ZIP>
 > The groundwater motioring wells can be fetched from the URL: <https://service.pdok.nl/bzk/brogmwvolledigeset/atom/v2_1/downloads/brogmwvolledigeset.zip>
 > Name your variables `waterways_nl` and `wells_nl` respectively.
 > 
 > Answer the following questions:
-> 
-> 1. What type of Python spatial object is created when you import each layer? 
-> 
-> 2. What is the CRS and extent (bounds) for each object?
-> 
-> 3. Do the files contain points, lines, or polygons?
-> 
-> 4. How many spatial objects are in each file?
-> 
+>
+> 1. What type of spatial features (points, lines, polygons) are present in each dataset?
+>
+> 2. What is the CRS and total extent (bounds) of each dataset?
+>
+> 4. How many spatial features are present in each file?
+>
 > > ## Answers
-> > 
-> > First we import the data: 
+> >
+> > First we import the datasets:
 > > ```python
 > > waterways_nl = gpd.read_file("https://geo.rijkswaterstaat.nl/services/ogc/gdr/vaarweginformatie/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=status_vaarweg&outputFormat=SHAPE-ZIP")
 > > wells_nl = gpd.read_file("https://service.pdok.nl/bzk/brogmwvolledigeset/atom/v2_1/downloads/brogmwvolledigeset.zip")
@@ -243,8 +241,8 @@ different features.
 > > print(wells_nl.crs)
 > > print(wells_nl.total_bounds)
 > > ```
-> > To see the number of objects in each file, we can look at the output from when we print the results in a Jupyter notebook of call `len()` on a `GeoDataFrame`. 
-> > `waterways_nl` contains 91 features (all lines) and `wells_nl` contains 51664 points.
+> > To see the number of features in each file, we can print the dataset objects in a Jupyter notebook or use the `len()` function.
+> > `waterways_nl` contains 91 lines and `wells_nl` contains 51664 points.
 > {: .solution}
 {: .challenge}
 
