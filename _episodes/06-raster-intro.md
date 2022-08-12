@@ -19,8 +19,8 @@ keypoints:
 - "Missing raster data are filled with nodata values, which should be handled with care for statistics and visualization."
 ---
 
-
-This episode introduces the fundamental principles, packages and
+Raster datasets have been introduced in [Episode 1: Introduction to Raster Data]({{site.baseurl}}/01-intro-raster-data/).
+Here, we introduce the fundamental principles, packages and
 metadata/raster attributes for working with raster data in Python. We will also explore how Python handles missing and bad data values.
 
 [`rioxarray`](https://corteva.github.io/rioxarray/stable/) is the Python package we will use throughout this lesson to work with raster data.
