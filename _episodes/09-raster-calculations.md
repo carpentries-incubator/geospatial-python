@@ -79,7 +79,7 @@ Let's also restrict our analysis to the same crop field area defined in the prev
 using a bounding box:
 
 ~~~
-bbox = (629000, 5804000, 639000, 5814000)
+bbox = (629_000, 5_804_000, 639_000, 5_814_000)
 red_clip = red.rio.clip_box(*bbox)
 nir_clip = nir.rio.clip_box(*bbox)
 ~~~
@@ -122,7 +122,7 @@ print(red_clip.shape, nir_clip.shape)
 ~~~
 {: .output}
 
-Both rasters include a single band, but their width and height does not match.
+Both rasters include a single band, but their width and height do not match.
 We can now use the `reproject_match` function, which both reprojects and clips
 a raster to the CRS and extent of another raster.
 
