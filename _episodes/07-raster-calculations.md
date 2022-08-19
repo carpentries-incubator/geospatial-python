@@ -173,6 +173,7 @@ instead.
 import xarray
 from matplotlib.colors import ListedColormap
 import earthpy.plot as ep
+import numpy as np
 
 # Defines the bins for pixel values
 class_bins = [canopy_HARV.min().values, 2, 10, 20, np.inf]
