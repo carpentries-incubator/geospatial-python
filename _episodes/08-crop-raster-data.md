@@ -308,12 +308,12 @@ So far we have learnt how to crop raster image with vector data. We can also cro
 > For this section, we will use the `crop_fields.tif` image that was produced in the section "**Crop raster data with polygon**".
 {: .callout}
 
-We read in the `crop_fields.tif` image and reproject it to the RD CRS system:
+We read in the `crop_fields.tif` image. For the demonstration purpose, we will reproject it to the RD CRS system, so it will be in a different CRS from the `true_color_image`:
 ~~~
 # Read crop_fields
 crop_fields = rioxarray.open_rasterio("crop_fields.tif")
 
-# Reproject to RD
+# Reproject to RD to make the CRS different from the "true_color_image"
 crop_fields = crop_fields.rio.reproject("EPSG:28992")
 CRS(crop_fields.rio.crs)
 ~~~
@@ -361,9 +361,10 @@ Datum: World Geodetic System 1984
 ~~~
 {: .output}
 
-We can see that the two images are in different coordinate systems. Now, we can
-use `rioxarray.reproject_match()` function to crop `true_color_image` image. This might
-take a few minutes, because the `true_color_image` image is large.
+Now the two images are in different coordinate systems. We can
+use `rioxarray.reproject_match()` function to crop `true_color_image` image. 
+It will perform both the reprojection and the cropping operation.
+This might take a few minutes, because the `true_color_image` image is large.
 
 ~~~
 # Crop and reproject
