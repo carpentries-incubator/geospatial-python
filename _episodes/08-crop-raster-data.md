@@ -153,7 +153,7 @@ cf_boundary_crop.geometry.boundary.plot(
 Seeing from the location of the polygons, the crop fields (red) only takes a small part of
 the raster. Therefore before actual processing, we can first crop the raster to
 our area of interest. The `clip_box` function allows one to crop a raster by the
-min/max of the x and y coordinates. Note that we are croping the original image `true_color_image` now, and not the overview image `overview_image`.
+min/max of the x and y coordinates. Note that we are cropping the original image `true_color_image` now, and not the overview image `overview_image`.
 
 ~~~
 # Crop the raster with the bounding box
@@ -182,7 +182,7 @@ raster_clip.rio.to_raster("raster_clip.tif")
 
 ## Crop raster data with polygons
 
-We have a cropped image around the fields. To further analysis the fields, one may want to crop the image to the exact field boudanries.
+We have a cropped image around the fields. To further analysis the fields, one may want to crop the image to the exact field boundaries.
 This can be done with the `clip` function:
 
 ~~~
@@ -234,7 +234,7 @@ wells.plot(ax=ax, color='red', markersize=2)
 
 <img src="../fig/20-crop-raster-wells-04.png" title="Ground weter level wells" width="512" style="display: block; margin: auto;" />
 
-To select pixels around the geometries, one needs to first define a region including the geometries. This region is called a "buffer" and it is defined in the units of the projection. The size of the buffer depends on the analysis in your research. A buffer is also a polygon, which can be used to crop the raster data. The package `geopandas` has a `buffer` function to make buffer polygons.
+To select pixels around the geometries, one needs to first define a region including the geometries. This region is called a "buffer" and it is defined in the units of the projection. The size of the buffer depends on the analysis in your research. A buffer is also a polygon, which can be used to crop the raster data. `geopandas`' objects have a `buffer` method to generate buffer polygons.
 
 ~~~
 # Create 200m buffer around the wells
@@ -253,7 +253,7 @@ wells_buffer.plot(ax=ax, color='red')
 {: .language-python}
 <img src="../fig/20-crop-raster-well-buffers-over-raster-05.png" title="Raster croped by buffer around wells" width="512" style="display: block; margin: auto;" />
 
-The red dots have grown larger indicating the conversion from point to buffer polygons.
+The red dots have grown larger indicating the conversion from points to buffer polygons.
 
 > ## Exercise: Select the raster data around the wells
 > Now we have the buffer polygons around the groudwater monitoring wells, i.e. `wells_buffer`. Can you crop the image `raster_clip` to the buffer polygons? Can you visualize the results of cropping?
