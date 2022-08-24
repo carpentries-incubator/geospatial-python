@@ -251,7 +251,7 @@ different features.
 > ## Challenge: Investigate the waterway lines
 > Now we will take a deeper look in the Dutch waterway lines: `waterways_nl`. Let's visualize it with the `plot` function. Can you tell what is wrong with this vector file?
 > > ## Answers
-> > By plotting out the vector file, we can tell that the latitude and longitude of the file is flipped.
+> > By plotting out the vector file, we can tell that the latitude and longitude of the file are flipped.
 > > ~~~
 > > waterways_nl.plot()
 > > ~~~
@@ -259,10 +259,15 @@ different features.
 > > ![Wrong waterways](../fig/E07-waterways-wrong.png)
 > {: .solution}
 {: .challenge}
+> ## Axis ordering 
+> According to the standards, the axis ordering for a CRS should follow the definition provided by the competent authority. For the commonly used EPSG:4326 geographic coordinate system, the EPSG defines the ordering as first latitude then longitude.    
+> However, in the GIS world, it is custom to work with coordinate tuples where the first component is aligned with the east/west direction and the second component is aligned with the north/south direction.
+> Multiple software packages thus implement this convention also when dealing with EPSG:4326. 
+> As a result, one can encounter vector files that implement either convention - keep this in mind and always check your datasets!   
+{: .callout}
+## Modify the geometry of a GeoDataFrame
 
-## Modify the geometry column of a GeoDataFrame
-
-Sometimes we need to modify the `geometry` column of a `GeoDataFrame`. For example, as we have seen in the previous exercise **Investigate the waterway lines**, the latitude and longitude are flipped in the vector data `waterways_nl`. This error needs to be fixed before performing further analysis.
+Sometimes we need to modify the `geometry` of a `GeoDataFrame`. For example, as we have seen in the previous exercise **Investigate the waterway lines**, the latitude and longitude are flipped in the vector data `waterways_nl`. This error needs to be fixed before performing further analysis.
 
 Let's first take a look on what makes up the `geometry` column of `waterways_nl`:
 
@@ -299,7 +304,7 @@ LINESTRING (52.100900002 4.25730000099998, 52.1039 4.25529999999998, 52.11129999
 ~~~
 {: .output}
 
-As we can see in the output, the `LINESTRING` object contains a list of coordinates of the vertices. In our situation, we would like to find a way to flip the x and y of every coordinates set. A good way to look for the solution is to use the [documentation](https://shapely.readthedocs.io/en/stable/manual.html) of the `shapely` module, since we are seeking to modify the `LINESTRING` object. Here we are going to use the [`shapely.ops.transform`](https://shapely.readthedocs.io/en/stable/manual.html?highlight=shapely.ops.transform#shapely.ops.transform) function, which applies a self-defined function to all coordinates of a geometry.
+As we can see in the output, the `LINESTRING` object contains a list of coordinates of the vertices. In our situation, we would like to find a way to flip the x and y of every coordinates set. A good way to look for the solution is to use the [documentation](https://shapely.readthedocs.io/en/stable/manual.html) of the `shapely` package, since we are seeking to modify the `LINESTRING` object. Here we are going to use the [`shapely.ops.transform`](https://shapely.readthedocs.io/en/stable/manual.html?highlight=shapely.ops.transform#shapely.ops.transform) function, which applies a self-defined function to all coordinates of a geometry.
 
 ~~~
 import shapely
