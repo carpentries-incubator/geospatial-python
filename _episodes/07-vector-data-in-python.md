@@ -156,8 +156,8 @@ We can create a cropped version of our dataset as follows:
 
 ~~~
 # Define a Boundingbox in RD
-xmin, xmax = (120000, 135000)
-ymin, ymax = (485000, 500000)
+xmin, xmax = (120_000, 135_000)
+ymin, ymax = (485_000, 500_000)
 cropfield_crop = cropfield.cx[xmin:xmax, ymin:ymax]
 ~~~
 {: .language-python}
