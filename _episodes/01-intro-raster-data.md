@@ -29,10 +29,9 @@ and vector data. Raster data is stored as a grid of values which are rendered on
 map as pixels. Each pixel value represents an area on the Earth's surface. Vector data structures represent specific features on the
 Earth's surface, and
 assign attributes to those features. Vector data structures
-will be discussed in more detail in [the next episode](https://carpentries-incubator.github.io/geospatial-python/02-intro-vector-data/index.html).
+will be discussed in more detail in [the next episode]({{site.baseurl}}/02-intro-vector-data).
 
-The [Python for Raster and Vector Data](https://carpentries-incubator.github.io/geospatial-python/)
-lesson will focus on how to work with both raster and vector 
+This workshop will focus on how to work with both raster and vector 
 data sets, therefore it is essential that we understand the 
 basic structures of these types of data and the types of data
 that they can be used to represent.
@@ -83,13 +82,6 @@ al., 2015, Completion of the 2011 National Land Cover Database for the
 conterminous United States-Representing a decade of land cover change
 information. Photogrammetric Engineering and Remote Sensing, v. 81, no. 5, p.
 345-354)
-
-![Classified Canopy Height Model: HARV Field Site](../fig/07-HARV-CHM-class-04.png)
-
-The map above shows elevation data for the NEON Harvard Forest field
-site. We will be working with data from this site later in the workshop. 
-In this map, the elevation data (a continuous variable) has been divided
-into categories to yield a categorical raster. 
 
 > ## Advantages and Disadvantages
 > 
@@ -170,12 +162,12 @@ as tags. These tags should include the following raster metadata:
 1. Extent
 2. Resolution
 3. Coordinate Reference System (CRS) - we will introduce this concept in [a
-   later episode](https://carpentries-incubator.github.io/geospatial-python/03-crs/index.html)
+   later episode]({{site.baseurl}}/03-crs)
 4. Values that represent missing data (`NoDataValue`) - we will introduce this
-   concept in [a later episode](https://carpentries-incubator.github.io/geospatial-python/05-raster-structure/index.html).
+   concept in [a later episode]({{site.baseurl}}/06-raster-intro).
 
 We will discuss these attributes in more detail in [a later
-episode](https://carpentries-incubator.github.io/geospatial-python/05-raster-structure/index.html).
+episode](({{site.baseurl}}/06-raster-intro).
 In that episode, we will also learn how to use Python to extract raster attributes
 from a GeoTIFF file.
 
@@ -214,7 +206,6 @@ resolution, and CRS.
 > Multi-band raster data might also contain:
 > 
 > 1. **Time series:** the same variable, over the same area, over time. 
-> We will be working with time series data in the [Plot Raster Data in Python](https://carpentries-incubator.github.io/geospatial-python/15-time-series-raster/index.html) episode.
 > 2. **Multi or hyperspectral imagery:** image rasters that have 4 or
 > more (multi-spectral) or more than 10-15 (hyperspectral) bands. We
 > won't be working with this type of data in this workshop, but you can
