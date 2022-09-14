@@ -41,12 +41,14 @@ In later episodes, we will learn how to work with raster and vector data togethe
 
 ## Import Vector Datasets
 
+First, let's import the `geopandas` package.
+
 ~~~
 import geopandas as gpd
 ~~~
 {: .language-python}
 
-First let us download and read the crop field dataset, with the following:
+ We are going to use `geopandas` to load the crop field vector data we downloaded at: `data/brpgewaspercelen_definitief_2020.gpkg`.
 
 ~~~
 # Load all crop field boundaries (brpgewaspercelen)
