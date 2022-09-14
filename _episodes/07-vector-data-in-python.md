@@ -70,7 +70,7 @@ cropfield = gpd.read_file("data/brpgewaspercelen_definitief_2020.gpkg", bbox=bbo
 {: .language-python}
 
 ## Vector Metadata & Attributes
-When we import the vector dataset to Python (as our `cropfield` object) it comes in as a `DataFrame`, specifically a `GeoDataFrame`. `read_file()` also automatically stores
+When we import the vector dataset to Python (as our `cropfield` object) it comes in as a `DataFrame`, specifically a `GeoDataFrame`. The `read_file()` function also automatically stores
 geospatial information about the data. We are particularly interested in describing the format, CRS, extent, and other components of
 the vector data, and the attributes which describe properties associated
 with each individual vector object.
