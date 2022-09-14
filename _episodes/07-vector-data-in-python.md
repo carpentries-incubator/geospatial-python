@@ -1,7 +1,7 @@
 ---
 title: "Vector data in python"
-teaching: 20
-exercises: 10
+teaching: 30
+exercises: 20
 questions:
 - "How can I distinguish between and visualize point, line and polygon vector data?"
 objectives:

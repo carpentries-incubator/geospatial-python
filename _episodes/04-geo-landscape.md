@@ -67,7 +67,7 @@ The [Open Source Geospatial Foundation (OSGEO)](http://www.osgeo.org/) supports 
   [Chef Cookbooks from Github](https://github.com/Esri/arcgis-cookbook).
   * Pitney Bowes produce [MapInfo Professional](https://www.pitneybowes.com/us/location-intelligence/geographic-information-systems/mapinfo-pro.html), 
   which was one of the earliest desktop GIS programs on the market. 
-  * [Hexagon Geospatial Power Portfolio](https://www.hexagongeospatial.com/products/power-portfolio) 
+  * [Hexagon Geospatial Power Portfolio](https://www.hexagongeospatial.com/products/products) 
   includes many geospatial tools including ERDAS Imagine, powerful software for remote sensing.
   * [Manifold](http://www.manifold.net/) is a desktop GIS that emphasizes speed through
   the use of parallel and GPU processing. 

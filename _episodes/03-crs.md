@@ -100,7 +100,7 @@ To decide if a projection is right for your data, answer these questions:
   *  What is the area of minimal distortion?  
   *  What aspect of the data does it preserve?  
 
-[Peter Dana from the University of Colorado at Boulder](https://foote.geography.uconn.edu/gcraft/notes/mapproj/mapproj_f.html) and the [Department of Geo-Information Processing](http://kartoweb.itc.nl/geometrics/map%20projections/mappro.html) has a good discussion of these aspects of projections. Online tools like [Projection Wizard](http://projectionwizard.org/) can also help you discover projections that might be a good fit for your data.  
+[Peter Dana from the University of Colorado at Boulder](https://foote.geography.uconn.edu/gcraft/notes/mapproj/mapproj_f.html) and the [Department of Geo-Information Processing](https://kartoweb.itc.nl/geometrics/Map%20projections/mappro.html) has a good discussion of these aspects of projections. Online tools like [Projection Wizard](http://projectionwizard.org/) can also help you discover projections that might be a good fit for your data.  
 
 > ## Data Tip 
 >
@@ -116,7 +116,7 @@ generally comply with ISO 19111. Common systems for describing CRSs include
 EPSG, OGC WKT, and PROJ strings.
 
 # EPSG
-The [EPSG system](http://www.epsg.org) is a database of CRS information maintained by the
+The [EPSG system](https://epsg.org/home.html) is a database of CRS information maintained by the
 International Association of Oil and Gas Producers. The dataset contains both CRS definitions and
 information on how to safely convert data from one CRS to another. Using EPSG is easy as every
 CRS has an integer identifier, e.g. WGS84 is EPSG:4326. The downside is that you can only use the
