@@ -111,6 +111,20 @@ collection = "sentinel-s2-l2a-cogs"  # Sentinel-2, Level 2A, COGs
 ~~~
 {: .language-python}
 
+> ## Cloud Optimized GeoTIFFs
+>
+> Cloud Optimized GeoTIFFs (COGs) are regular GeoTIFF files with some additional features that make them ideal to be
+> employed in the context of cloud computing and other web-based services. This format builds on the widely-employed
+> GeoTIFF format, already introduced in [Episode 1: Introduction to Raster Data]({{site.baseurl}}/01-intro-raster-data/).
+> In essence, COGs are regular GeoTIFF files with a special internal structure. One of the features of COGs is that data
+> is organized in "blocks" that can be accessed remotely via independent HTTP requests. Data users can thus access the
+> only blocks of a GeoTIFF that are relevant for their analysis, without having to download the full file. In addition,
+> COGs typically include multiple lower-resolution versions of the original image, called "overviews", which can also be
+> accessed independently. By providing this "pyramidal" structure, users that are not interested in the details provided
+> by a high-resolution raster can directly access the lower-resolution versions of the same image, significantly saving
+> on the downloading time. More information on the COG format can be fourd [here](https://www.cogeo.org).
+{:callout}
+
 We also ask for scenes intersecting a geometry defined using the `shapely` library (in this case, a point):
 
 ~~~
