@@ -46,26 +46,26 @@ import geopandas as gpd
 ~~~
 {: .language-python}
 
-We will use the `geopandas` module to load the crop field vector data we downloaded at: `data/brpgewaspercelen_definitief_2020.gpkg`. This file contains data for the entirety of the European portion of the Netherlands, with a relatively large volume (512MB). Directly loading the whole file to memory can be slow, or even impossible. Since our Area of Interest (AoI) is northern Amsterdam, we can read this part only.
+We will use the `geopandas` module to load the crop field vector data we downloaded at: `data/brpgewaspercelen_definitief_2020.gpkg`. This file contains data for the entirety of the European portion of the Netherlands, with a relatively large volume (512MB). Directly loading the whole file to memory can be slow, or even impossible. However, our Area of Interest (AoI) is northern Amsterdam, which is a small portion of the Netherlands. We only need to load this part.
 
 We will define a bounding box, and only read the data within the extent of the bounding box.
 ~~~
-# Define Boundingbox in RD coordinates
-xmin, xmax = (120_000, 135_000)
-ymin, ymax = (485_000, 500_000)
+# Define bounding box in RD coordinates
+xmin, xmax = (100_000, 150_000)
+ymin, ymax = (450_000, 500_000)
 bbox = (xmin, ymin, xmax, ymax)
 ~~~
 {: .language-python}
 
 > ## How should I get the extent of my bounding box?
-> For simplicity, here we assume the **CRS** and **boundaries** of the bounding box are known. In reality, to make a bounding box, one needs to know the coverage and CRS of the geospatial file. Some Python tools, e.g. [`fiona`](https://fiona.readthedocs.io/en/latest/)(which is also the backend of `geopandas`), provides the file inspection functionality without actually reading. An example of these tools is `fiona`. An example can be found in [the documentation of fiona](https://fiona.readthedocs.io/en/latest/manual.html), Section 1.4.
+> For simplicity, here we assume the **CRS** and **extent** of the bounding box are known. In reality, to make a bounding box for data loading, one needs to know the extent and Coordinate Reference System (CRS) of the geospatial file. Some Python tools, e.g. [`fiona`](https://fiona.readthedocs.io/en/latest/)(which is also the backend of `geopandas`), provides the file inspection functionality without actually reading. An example of these tools is `fiona`. An example can be found in [the documentation of fiona](https://fiona.readthedocs.io/en/latest/manual.html), Section 1.4.
 {: .callout}
 
 Using the `bbox` input argument, we can load the data only within the bounding box.
 
 ~~~
 # Partially load data within the bounding box
-cf_boundary = gpd.read_file("../data/brpgewaspercelen_definitief_2020.gpkg", bbox=bbox)
+cropfield = gpd.read_file("../data/brpgewaspercelen_definitief_2020.gpkg", bbox=bbox)
 ~~~
 {: .language-python}
 
@@ -74,7 +74,6 @@ When we import the vector dataset to Python (as our `cropfield` object) it comes
 geospatial information about the data. We are particularly interested in describing the format, CRS, extent, and other components of
 the vector data, and the attributes which describe properties associated
 with each individual vector object.
-
 
 
 ## Spatial Metadata
@@ -95,18 +94,18 @@ cropfield.type
 ~~~
 {: .language-python}
 ~~~
-0         Polygon
-1         Polygon
-2         Polygon
-3         Polygon
-4         Polygon
-           ...   
-773134    Polygon
-773135    Polygon
-773136    Polygon
-773137    Polygon
-773138    Polygon
-Length: 773139, dtype: object
+0        Polygon
+1        Polygon
+2        Polygon
+3        Polygon
+4        Polygon
+          ...   
+49501    Polygon
+49502    Polygon
+49503    Polygon
+49504    Polygon
+49505    Polygon
+Length: 49506, dtype: object
 ~~~
 {: .output}
 
@@ -146,7 +145,7 @@ cropfield.total_bounds
 {: .language-python}
 
 ~~~
-array([ 13653.6128, 306851.867 , 277555.288 , 612620.9868])
+array([ 97843.559   , 448986.505   , 151599.304125, 500782.531   ])
 ~~~
 {: .output}
 
@@ -157,9 +156,7 @@ This array contains, in order, the values for minx, miny, maxx and maxy, for the
 We can convert these coordinates to a bounding box or acquire the index of the dataframe to access the geometry. Either of these polygons can be used to clip rasters (more on that later). 
 
 ## Selecting spatial features
-Our `cropfield` dataset is rather large, containing data for the entirety of the European portion of the Netherlands. Before plotting it we will first select a specific section to be our area of interest.
-
-We can create a cropped version of our dataset as follows:
+Sometimes, the loaded data can still be too large. We can cut it is to a even smaller extent using the `.cx` function:
 
 ~~~
 # Define a Boundingbox in RD
