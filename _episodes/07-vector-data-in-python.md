@@ -222,8 +222,11 @@ different features.
 >
 > Using the steps above, import the waterways and groundwater well vector datasets into
 > Python using `geopandas`.
-> The waterways data can be fetched from the URL: <https://geo.rijkswaterstaat.nl/services/ogc/gdr/vaarweginformatie/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=status_vaarweg&outputFormat=SHAPE-ZIP>
-> The groundwater motioring wells can be fetched from the URL: <https://service.pdok.nl/bzk/brogmwvolledigeset/atom/v2_1/downloads/brogmwvolledigeset.zip>
+>
+> The waterways data can be fetched from this URL: <https://geo.rijkswaterstaat.nl/services/ogc/gdr/vaarweginformatie/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=status_vaarweg&outputFormat=SHAPE-ZIP>.
+>
+> The groundwater motioring wells can be fetched from the this URL: <https://service.pdok.nl/bzk/brogmwvolledigeset/atom/v2_1/downloads/brogmwvolledigeset.zip>.
+>
 > Name your variables `waterways_nl` and `wells_nl` respectively.
 > 
 > Answer the following questions:
