@@ -41,36 +41,41 @@ In later episodes, we will learn how to work with raster and vector data togethe
 
 ## Import Vector Datasets
 
-First, let's import the `geopandas` package.
-
 ~~~
 import geopandas as gpd
 ~~~
 {: .language-python}
 
- We are going to use `geopandas` to load the crop field vector data we downloaded at: `data/brpgewaspercelen_definitief_2020.gpkg`.
+We will use the `geopandas` module to load the crop field vector data we downloaded at: `data/brpgewaspercelen_definitief_2020.gpkg`. This file contains data for the entirety of the European portion of the Netherlands, with a relatively large volume (512MB). Directly loading the whole file to memory can be slow, or even impossible. Since our Area of Interest (AoI) is northern Amsterdam, we can read this part only.
 
+We will define a bounding box, and only read the data within the extent of the bounding box.
 ~~~
-# Load all crop field boundaries (brpgewaspercelen)
-cropfield = gpd.read_file("https://service.pdok.nl/rvo/brpgewaspercelen/atom/v1_0/downloads/brpgewaspercelen_definitief_2020.gpkg")
+# Define Boundingbox in RD coordinates
+xmin, xmax = (120_000, 135_000)
+ymin, ymax = (485_000, 500_000)
+bbox = (xmin, ymin, xmax, ymax)
 ~~~
 {: .language-python}
 
-This may take a couple of minutes to complete, as the dataset is somewhat large. It contains all the crop field data for the entirety of the European portion of the Netherlands.
+> ## How should I get the extent of my bounding box?
+> For simplicity, here we assume the **CRS** and **boundaries** of the bounding box are known. In reality, to make a bounding box, one needs to know the coverage and CRS of the geospatial file. Some Python tools, e.g. [`fiona`](https://fiona.readthedocs.io/en/latest/)(which is also the backend of `geopandas`), provides the file inspection functionality without actually reading. An example of these tools is `fiona`. An example can be found in [the documentation of fiona](https://fiona.readthedocs.io/en/latest/manual.html), Section 1.4.
+{: .callout}
 
+Using the `bbox` input argument, we can load the data only within the bounding box.
+
+~~~
+# Partially load data within the bounding box
+cf_boundary = gpd.read_file("../data/brpgewaspercelen_definitief_2020.gpkg", bbox=bbox)
+~~~
+{: .language-python}
 
 ## Vector Metadata & Attributes
-
 When we import the vector dataset to Python (as our `cropfield` object) it comes in as a `DataFrame`, specifically a `GeoDataFrame`. `read_file()` also automatically stores
 geospatial information about the data. We are particularly interested in describing the format, CRS, extent, and other components of
 the vector data, and the attributes which describe properties associated
 with each individual vector object.
 
-> ## Data Tip
-> The [Explore and Plot by Shapefile Attributes]({{site.baseurl}}/10-vector-shapefile-attributes/)
-> episode provides more information on both metadata and attributes
-> and using attributes to subset and plot data.
-{: .callout}
+
 
 ## Spatial Metadata
 Key metadata includes:
