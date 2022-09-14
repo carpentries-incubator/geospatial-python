@@ -1,6 +1,6 @@
 ---
 title: "Read and visualize raster data"
-teaching: 40
+teaching: 60
 exercises: 20
 questions:
 -  "How is a raster represented by rioxarray?"

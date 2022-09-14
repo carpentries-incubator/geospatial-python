@@ -1,7 +1,7 @@
 ---
 title: "Introduction to Raster Data"
 teaching: 15
-exercises: 10
+exercises: 5
 questions:
 - "What format should I use to represent my data?"
 - "What are the main data types used for representing geospatial data?"

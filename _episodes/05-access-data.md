@@ -1,6 +1,6 @@
 ---
 title: "Access satellite imagery using Python"
-teaching: 60
+teaching: 30
 exercises: 15
 questions:
 - "Where can I find open-access satellite data?"
