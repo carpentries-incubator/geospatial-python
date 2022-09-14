@@ -65,7 +65,7 @@ Using the `bbox` input argument, we can load the data only within the bounding b
 
 ~~~
 # Partially load data within the bounding box
-cropfield = gpd.read_file("../data/brpgewaspercelen_definitief_2020.gpkg", bbox=bbox)
+cropfield = gpd.read_file("data/brpgewaspercelen_definitief_2020.gpkg", bbox=bbox)
 ~~~
 {: .language-python}
 
