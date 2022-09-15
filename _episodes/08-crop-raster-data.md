@@ -49,7 +49,7 @@ print(true_color_image.shape)
 ~~~
 {: .output}
 
-The large size of the raster data makes it time and memory consuming to visualise in its entirety.  Instead, we can plot the "overview" asset, to investigate the coverage of the image. 
+The large size of the raster data makes it time and memory consuming to visualise in its entirety.  Instead, we can plot the "overview" asset, to investigate the coverage of the image.
 
 ~~~
 # Get the overview asset
@@ -97,7 +97,7 @@ To open and check the coordinate system of vector data, we use `geopandas`:
 import geopandas as gpd
 
 # Load the polygons of the crop fields
-cf_boundary_crop = gpd.read_file("data/cropped_field.shp")
+cf_boundary_crop = gpd.read_file("cropped_field.shp")
 
 # Check the coordinate system
 cf_boundary_crop.crs
@@ -206,13 +206,13 @@ raster_clip_fields.rio.to_raster("crop_fields.tif")
 
 ## Crop raster data with a geometry buffer
 
-It is not always the case that the AoI comes in the format of polygon. Sometimes one would like to perform analysis around a (set of) point(s), or polyline(s). For example, in our AoI, there are also some groundwater monitoring wells available as point vector data. One may also want to perform analysis around these wells. The location of the wells is stored in `data/groundwater_monitoring_well`. 
+It is not always the case that the AoI comes in the format of polygon. Sometimes one would like to perform analysis around a (set of) point(s), or polyline(s). For example, in our AoI, there are also some groundwater monitoring wells available as point vector data. One may also want to perform analysis around these wells. The location of the wells is stored in `data/groundwater_monitoring_well`.
 
 We can first load the wells vector data, and select wells within the coverage of the image:
 
 ~~~
 # Load wells
-wells = gpd.read_file("https://service.pdok.nl/bzk/brogmwvolledigeset/atom/v2_1/downloads/brogmwvolledigeset.zip")
+wells = gpd.read_file("data/brogmwvolledigeset.zip")
 wells = wells.to_crs(raster_clip.rio.crs)
 
 # Crop the wells to the image extent
@@ -261,7 +261,7 @@ The red dots have grown larger indicating the conversion from points to buffer p
 > > ~~~
 > > # Crop
 > > raster_clip_wells = raster_clip.rio.clip(wells_buffer, wells_buffer.crs)
-> > 
+> >
 > > # Visualize cropped buffer
 > > raster_clip_wells.plot.imshow()
 > > ~~~
@@ -278,18 +278,18 @@ The red dots have grown larger indicating the conversion from points to buffer p
 > > # Load waterways polyline and convert CRS
 > > waterways_nl = gpd.read_file("waterways_nl_corrected.shp")
 > > waterways_nl = waterways_nl.to_crs(raster_clip.rio.crs)
-> > 
+> >
 > > # Crop the waterways to the image extent
 > > xmin, xmax = raster_clip.x[[0, -1]]
 > > ymin, ymax = raster_clip.y[[0, -1]]
 > > waterways_nl = waterways_nl.cx[xmin:xmax, ymin:ymax]
-> > 
+> >
 > > # waterways buffer
 > > waterways_nl_buffer = waterways_nl.buffer(100)
-> > 
+> >
 > > # Crop
 > > raster_clip_waterways = raster_clip.rio.clip(waterways_nl_buffer, waterways_nl_buffer.crs)
-> > 
+> >
 > > # Visualize
 > > raster_clip_waterways.plot.imshow(figsize=(8,8))
 > > ~~~
@@ -362,7 +362,7 @@ Datum: World Geodetic System 1984
 {: .output}
 
 Now the two images are in different coordinate systems. We can
-use `rioxarray.reproject_match()` function to crop `true_color_image` image. 
+use `rioxarray.reproject_match()` function to crop `true_color_image` image.
 It will perform both the reprojection and the cropping operation.
 This might take a few minutes, because the `true_color_image` image is large.
 

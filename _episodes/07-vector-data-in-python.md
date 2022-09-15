@@ -10,8 +10,8 @@ objectives:
 - "Access the attributes of a spatial object with `geopandas`."
 keypoints:
 - "Vector dataset metadata include geometry type, CRS, and extent."
-- "Load spatial objects into Python with the `geopandas.read_file()` method."
-- "Spatial objects can be plotted directly with `geopandas.GeoDataFrame.plot()`."
+- "Load spatial objects into Python with `geopandas`'s `read_file()` function."
+- "Spatial objects can be plotted directly with `GeoDataFrame`'s `.plot()` method."
 ---
 
 ## Introduction
@@ -50,7 +50,7 @@ We will use the `geopandas` module to load the crop field vector data we downloa
 
 We define a bounding box, and will only read the data within the extent of the bounding box.
 ~~~
-# Define bounding box 
+# Define bounding box
 xmin, xmax = (100_000, 150_000)
 ymin, ymax = (450_000, 500_000)
 bbox = (xmin, ymin, xmax, ymax)
@@ -99,7 +99,7 @@ cropfield.type
 2        Polygon
 3        Polygon
 4        Polygon
-          ...   
+          ...
 49501    Polygon
 49502    Polygon
 49503    Polygon
@@ -135,9 +135,9 @@ Datum: Amersfoort
 ~~~
 {: .output}
 
-Our data is in the CRS **RD New**. The CRS is critical to 
+Our data is in the CRS **RD New**. The CRS is critical to
 interpreting the object's extent values as it specifies units. To find
-the extent of our dataset in the projected coordinates, we can use the `.total_bounds` attribute: 
+the extent of our dataset in the projected coordinates, we can use the `.total_bounds` attribute:
 
 ~~~
 cropfield.total_bounds
@@ -153,7 +153,7 @@ This array contains, in order, the values for minx, miny, maxx and maxy, for the
 
 ![Extent image](../fig/E07-01-spatial_extent.png)
 
-We can convert these coordinates to a bounding box or acquire the index of the dataframe to access the geometry. Either of these polygons can be used to clip rasters (more on that later). 
+We can convert these coordinates to a bounding box or acquire the index of the dataframe to access the geometry. Either of these polygons can be used to clip rasters (more on that later).
 
 ## Selecting spatial features
 Sometimes, the loaded data can still be too large. We can cut it is to a even smaller extent using the `.cx` indexer (note the use of square brackets instead of round brackets, which are used instead with functions and methods):
@@ -182,7 +182,7 @@ array([119594.384 , 485036.2543, 135169.9266, 500782.531 ])
 We can then save this cropped dataset for use in future, using the `to_file()` method of our GeoDataFrame object:
 
 ~~~
-cropfield_crop.to_file('data/cropped_field.shp')
+cropfield_crop.to_file('cropped_field.shp')
 ~~~
 {: .language-python}
 
@@ -197,7 +197,7 @@ cropfield_crop.plot()
 ~~~
 {: .language-python}
 
-We can customize our boundary plot by setting the 
+We can customize our boundary plot by setting the
 `figsize`, `edgecolor`, and `color`. Making some polygons transparent will come in handy when we need to add multiple spatial datasets to a single plot.
 
 ~~~
@@ -220,15 +220,10 @@ different features.
 
 > ## Challenge: Import Line and Point Vector Datasets
 >
-> Using the steps above, import the waterways and groundwater well vector datasets into
-> Python using `geopandas`.
+> Using the steps above, load the waterways and groundwater well vector datasets (`data/status_vaarweg.zip` and
+> `data/brogmwvolledigeset.zip`, respectively) into Python using `geopandas`. Name your variables `waterways_nl` and
+> `wells_nl` respectively.
 >
-> The waterways data can be fetched from this URL: <https://geo.rijkswaterstaat.nl/services/ogc/gdr/vaarweginformatie/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=status_vaarweg&outputFormat=SHAPE-ZIP>.
->
-> The groundwater motioring wells can be fetched from the this URL: <https://service.pdok.nl/bzk/brogmwvolledigeset/atom/v2_1/downloads/brogmwvolledigeset.zip>.
->
-> Name your variables `waterways_nl` and `wells_nl` respectively.
-> 
 > Answer the following questions:
 >
 > 1. What type of spatial features (points, lines, polygons) are present in each dataset?
@@ -241,11 +236,11 @@ different features.
 > >
 > > First we import the datasets:
 > > ```python
-> > waterways_nl = gpd.read_file("https://geo.rijkswaterstaat.nl/services/ogc/gdr/vaarweginformatie/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=status_vaarweg&outputFormat=SHAPE-ZIP")
-> > wells_nl = gpd.read_file("https://service.pdok.nl/bzk/brogmwvolledigeset/atom/v2_1/downloads/brogmwvolledigeset.zip")
+> > waterways_nl = gpd.read_file("data/status_vaarweg.zip")
+> > wells_nl = gpd.read_file("data/brogmwvolledigeset.zip")
 > > ```
-> > 
-> > Then we check the types: 
+> >
+> > Then we check the types:
 > > ```python
 > > waterways_nl.type
 > > ```
@@ -253,7 +248,7 @@ different features.
 > > ```python
 > > wells_nl.type
 > > ```
-> > We also check the CRS and extent of each object: 
+> > We also check the CRS and extent of each object:
 > > ```python
 > > print(waterways_nl.crs)
 > > print(waterways_nl.total_bounds)
@@ -276,11 +271,12 @@ different features.
 > > ![Wrong waterways](../fig/E07-03-waterways-wrong.png)
 > {: .solution}
 {: .challenge}
-> ## Axis ordering 
-> According to the standards, the axis ordering for a CRS should follow the definition provided by the competent authority. For the commonly used EPSG:4326 geographic coordinate system, the EPSG defines the ordering as first latitude then longitude.    
+
+> ## Axis ordering
+> According to the standards, the axis ordering for a CRS should follow the definition provided by the competent authority. For the commonly used EPSG:4326 geographic coordinate system, the EPSG defines the ordering as first latitude then longitude.
 > However, in the GIS world, it is custom to work with coordinate tuples where the first component is aligned with the east/west direction and the second component is aligned with the north/south direction.
-> Multiple software packages thus implement this convention also when dealing with EPSG:4326. 
-> As a result, one can encounter vector files that implement either convention - keep this in mind and always check your datasets!   
+> Multiple software packages thus implement this convention also when dealing with EPSG:4326.
+> As a result, one can encounter vector files that implement either convention - keep this in mind and always check your datasets!
 {: .callout}
 ## Modify the geometry of a GeoDataFrame
 
@@ -298,7 +294,7 @@ waterways_nl['geometry']
 2     LINESTRING (52.10090 4.25730, 52.10390 4.25530...
 3     LINESTRING (53.47250 6.84550, 53.47740 6.83840...
 4     LINESTRING (52.32270 5.14300, 52.32100 5.14640...
-                            ...                        
+                            ...
 86    LINESTRING (51.49270 5.39100, 51.48050 5.39160...
 87    LINESTRING (52.15900 5.38510, 52.16010 5.38340...
 88    LINESTRING (51.97340 4.12420, 51.97110 4.12220...
