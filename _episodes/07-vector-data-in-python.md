@@ -46,29 +46,35 @@ import geopandas as gpd
 ~~~
 {: .language-python}
 
-First let us download and read the crop field dataset, with the following:
+We will use the `geopandas` module to load the crop field vector data we downloaded at: `data/brpgewaspercelen_definitief_2020.gpkg`. This file contains data for the entirety of the European portion of the Netherlands, resulting in a very large number of crop field parcels. Directly loading the whole file to memory can be slow. Let's consider as Area of Interest (AoI) northern Amsterdam, which is a small portion of the Netherlands. We only need to load this part.
 
+We define a bounding box, and will only read the data within the extent of the bounding box.
 ~~~
-# Load all crop field boundaries (brpgewaspercelen)
-cropfield = gpd.read_file("https://service.pdok.nl/rvo/brpgewaspercelen/atom/v1_0/downloads/brpgewaspercelen_definitief_2020.gpkg")
+# Define bounding box 
+xmin, xmax = (100_000, 150_000)
+ymin, ymax = (450_000, 500_000)
+bbox = (xmin, ymin, xmax, ymax)
 ~~~
 {: .language-python}
 
-This may take a couple of minutes to complete, as the dataset is somewhat large. It contains all the crop field data for the entirety of the European portion of the Netherlands.
+> ## How should I define my bounding box?
+> For simplicity, here we assume the **CRS** and **extent** of the vector file are known. In reality, to make a bounding box for data loading, one needs to know the extent and the Coordinate Reference System (CRS) of the vector file. Some Python tools, e.g. [`fiona`](https://fiona.readthedocs.io/en/latest/)(which is also the backend of `geopandas`), provides the file inspection functionality without actually the need to read the full data set into memory. An example can be found in [the documentation of fiona](https://fiona.readthedocs.io/en/latest/manual.html#format-drivers-crs-bounds-and-schema).
+{: .callout}
 
+Using the `bbox` input argument, we can load only the spatial features intersecting the provided bounding box.
+
+~~~
+# Partially load data within the bounding box
+cropfield = gpd.read_file("data/brpgewaspercelen_definitief_2020.gpkg", bbox=bbox)
+~~~
+{: .language-python}
 
 ## Vector Metadata & Attributes
-
-When we import the vector dataset to Python (as our `cropfield` object) it comes in as a `DataFrame`, specifically a `GeoDataFrame`. `read_file()` also automatically stores
+When we import the vector dataset to Python (as our `cropfield` object) it comes in as a `DataFrame`, specifically a `GeoDataFrame`. The `read_file()` function also automatically stores
 geospatial information about the data. We are particularly interested in describing the format, CRS, extent, and other components of
 the vector data, and the attributes which describe properties associated
 with each individual vector object.
 
-> ## Data Tip
-> The [Explore and Plot by Shapefile Attributes]({{site.baseurl}}/10-vector-shapefile-attributes/)
-> episode provides more information on both metadata and attributes
-> and using attributes to subset and plot data.
-{: .callout}
 
 ## Spatial Metadata
 Key metadata includes:
@@ -88,18 +94,18 @@ cropfield.type
 ~~~
 {: .language-python}
 ~~~
-0         Polygon
-1         Polygon
-2         Polygon
-3         Polygon
-4         Polygon
-           ...   
-773134    Polygon
-773135    Polygon
-773136    Polygon
-773137    Polygon
-773138    Polygon
-Length: 773139, dtype: object
+0        Polygon
+1        Polygon
+2        Polygon
+3        Polygon
+4        Polygon
+          ...   
+49501    Polygon
+49502    Polygon
+49503    Polygon
+49504    Polygon
+49505    Polygon
+Length: 49506, dtype: object
 ~~~
 {: .output}
 
@@ -139,7 +145,7 @@ cropfield.total_bounds
 {: .language-python}
 
 ~~~
-array([ 13653.6128, 306851.867 , 277555.288 , 612620.9868])
+array([ 97843.559   , 448986.505   , 151599.304125, 500782.531   ])
 ~~~
 {: .output}
 
@@ -150,9 +156,7 @@ This array contains, in order, the values for minx, miny, maxx and maxy, for the
 We can convert these coordinates to a bounding box or acquire the index of the dataframe to access the geometry. Either of these polygons can be used to clip rasters (more on that later). 
 
 ## Selecting spatial features
-Our `cropfield` dataset is rather large, containing data for the entirety of the European portion of the Netherlands. Before plotting it we will first select a specific section to be our area of interest.
-
-We can create a cropped version of our dataset as follows:
+Sometimes, the loaded data can still be too large. We can cut it is to a even smaller extent using the `.cx` indexer (note the use of square brackets instead of round brackets, which are used instead with functions and methods):
 
 ~~~
 # Define a Boundingbox in RD
@@ -218,8 +222,11 @@ different features.
 >
 > Using the steps above, import the waterways and groundwater well vector datasets into
 > Python using `geopandas`.
-> The waterways data can be fetched from the URL: <https://geo.rijkswaterstaat.nl/services/ogc/gdr/vaarweginformatie/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=status_vaarweg&outputFormat=SHAPE-ZIP>
-> The groundwater motioring wells can be fetched from the URL: <https://service.pdok.nl/bzk/brogmwvolledigeset/atom/v2_1/downloads/brogmwvolledigeset.zip>
+>
+> The waterways data can be fetched from this URL: <https://geo.rijkswaterstaat.nl/services/ogc/gdr/vaarweginformatie/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=status_vaarweg&outputFormat=SHAPE-ZIP>.
+>
+> The groundwater motioring wells can be fetched from the this URL: <https://service.pdok.nl/bzk/brogmwvolledigeset/atom/v2_1/downloads/brogmwvolledigeset.zip>.
+>
 > Name your variables `waterways_nl` and `wells_nl` respectively.
 > 
 > Answer the following questions:
