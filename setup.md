@@ -31,20 +31,18 @@ title: Setup
 
   5. Download the data that will be used in this lesson. There are two ways you can do this:
 
-     * **Web browser:** [**Click here**](https://figshare.com/ndownloader/files/33848834) to download the zip file. When it finishes, move the zip file into the `geospatial-python` directory we created above and unzip the file.
-     * **Terminal:**
+     * **Web browser:** Click on the following three links to download the corresponding files, then move them into the `data` directory we created above:
+       * [brpgewaspercelen_definitief_2020.gpkg](https://service.pdok.nl/rvo/brpgewaspercelen/atom/v1_0/downloads/brpgewaspercelen_definitief_2020.gpkg)
+       * [brogmwvolledigeset.zip](https://service.pdok.nl/bzk/brogmwvolledigeset/atom/v2_1/downloads/brogmwvolledigeset.zip)
+       * [status_vaarweg.zip](https://geo.rijkswaterstaat.nl/services/ogc/gdr/vaarweginformatie/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=status_vaarweg&outputFormat=SHAPE-ZIP)
 
+     * **Terminal:** Running the following command will download three files (use the `ls` command to confirm):
       ```bash
-      curl -L --output NEON-GEO-PYTHON-DATASETS.zip https://figshare.com/ndownloader/files/33848834
+      curl -L --progress-bar \
+        --output brpgewaspercelen_definitief_2020.gpkg "https://service.pdok.nl/rvo/brpgewaspercelen/atom/v1_0/downloads/brpgewaspercelen_definitief_2020.gpkg" \
+        --output brogmwvolledigeset.zip "https://service.pdok.nl/bzk/brogmwvolledigeset/atom/v2_1/downloads/brogmwvolledigeset.zip" \
+        --output status_vaarweg.zip "https://geo.rijkswaterstaat.nl/services/ogc/gdr/vaarweginformatie/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=status_vaarweg&outputFormat=SHAPE-ZIP"
       ```
-
-     The file should begin to download. When it is complete, unzip it by entering the following command:
-
-      ```bash
-      unzip NEON-GEO-PYTHON-DATASETS.zip
-      ```
-
-     You should now have a directory named `data` within `geospatial-python`. Use the `ls` command to confirm.
 
   6. Change directories from `data` back into `geospatial-python`:
 
@@ -125,7 +123,7 @@ Once you have installed Anaconda, you should have access to the `conda` command 
 1. Test that this is so by running the `conda` command in the terminal. You should get an output that looks like this:
 
     ```bash
-    → conda
+    $ conda
     usage: conda [-h] [-V] command ...
 
     conda is a tool for managing and deploying applications, environments and packages.

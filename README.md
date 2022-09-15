@@ -13,11 +13,11 @@ Please see the current list of [issues](https://github.com/carpentries-incubator
 repository. For making your contribution, we use the GitHub flow, which is
 nicely explained in the chapter [Contributing to a Project](http://git-scm.com/book/en/v2/GitHub-Contributing-to-a-Project) in Pro Git
 by Scott Chacon.
-Look for the tag ![good_first_issue](https://img.shields.io/badge/-good%20first%20issue-gold.svg). This indicates that the mantainers will welcome a pull request fixing this issue.  
+Look for the tag ![good_first_issue](https://img.shields.io/badge/-good%20first%20issue-gold.svg). This indicates that the mantainers will welcome a pull request fixing this issue.
 
 We are looking for more active developers of this lesson. Edits to existing lesson episodes or additions to new episodes are welcome. If you are interested in contributing a new episode, you can either start by creating a new Github Issue to start discussion or dive in and submit a new Pull Request.
 
-Check out the [Contribution Guide](CONTRIBUTING.md) and [more detailed guidelines][lesson-example] on proper formatting, how to preview the lesson locally, and how to write new episodes. 
+Check out the [Contribution Guide](CONTRIBUTING.md) and [more detailed guidelines][lesson-example] on proper formatting, how to preview the lesson locally, and how to write new episodes.
 
 <h1 align="center"> ️💚️ Thanks Contributors! 💚 </h1>
 
@@ -27,7 +27,15 @@ Check out the [Contribution Guide](CONTRIBUTING.md) and [more detailed guideline
 |-|-|-|-|-|
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-## Thanks Geospatial R Authors!
+## Acknowledgements
+
+### Funding
+The data and lessons in this workshop were originally developed through a hackathon funded by the
+[National Ecological Observatory Network (NEON)](https://www.neonscience.org/) - an NSF funded observatory in Boulder, Colorado - in
+collaboration with Data Carpentry, SESYNC and CYVERSE. NEON is collecting data for 30 years to help scientists understand
+how aquatic and terrestrial ecosystems are changing.
+
+### Thanks Geospatial R Authors!
 This lesson would not be possible without the many contributions from the authors of the [Introduction to Geospatial Raster and Vector Data with R](https://github.com/datacarpentry/r-raster-vector-geospatial) and [Introduction to Geospatial Concepts](https://github.com/datacarpentry/organization-geospatial) lessons. These lessons have served as templates for this geospatial python lesson.
 
 Data Carpentry Introduction to Geospatial Raster and Vector Data with R
@@ -35,7 +43,7 @@ Leah Wasser; Megan A. Jones; Jemma Stachelek; Lachlan Deer; Zack Brym; Lauren O'
 Editors: Jemma Stachelek; Lauren O'Brien; Jane Wyngaard
 https://doi.org/10.5281/zenodo.1404424
 
- 
+
 Data Carpentry Introduction to Geospatial Concepts
 Leah Wasser; Megan A. Jones; Lauren O'Brien; Jemma Stachelek; Tom Wright; Tracy Teal; Dev Paudel; Jane Wyngaard; Anne Fouilloux; Bidhyananda Yadav; Chris Prener; Tyson Swetnam; Erin Becker; Katrin Leinweber
 Editor(s): Tyson Swetnam; Chris Prener
@@ -43,7 +51,7 @@ https://doi.org/10.5281/zenodo.1404414
 
 ## Maintainer(s)
 
-The current maintainer of this lesson is 
+The current maintainer of this lesson is
 
 * Ryan Avery
 
