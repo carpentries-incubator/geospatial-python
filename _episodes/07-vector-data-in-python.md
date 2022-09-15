@@ -46,22 +46,22 @@ import geopandas as gpd
 ~~~
 {: .language-python}
 
-We will use the `geopandas` module to load the crop field vector data we downloaded at: `data/brpgewaspercelen_definitief_2020.gpkg`. This file contains data for the entirety of the European portion of the Netherlands, with a relatively large volume (512MB). Directly loading the whole file to memory can be slow, or even impossible. However, our Area of Interest (AoI) is northern Amsterdam, which is a small portion of the Netherlands. We only need to load this part.
+We will use the `geopandas` module to load the crop field vector data we downloaded at: `data/brpgewaspercelen_definitief_2020.gpkg`. This file contains data for the entirety of the European portion of the Netherlands, resulting in a very large number of crop field parcels. Directly loading the whole file to memory can be slow. Let's consider as Area of Interest (AoI) northern Amsterdam, which is a small portion of the Netherlands. We only need to load this part.
 
-We will define a bounding box, and only read the data within the extent of the bounding box.
+We define a bounding box, and will only read the data within the extent of the bounding box.
 ~~~
-# Define bounding box in RD coordinates
+# Define bounding box 
 xmin, xmax = (100_000, 150_000)
 ymin, ymax = (450_000, 500_000)
 bbox = (xmin, ymin, xmax, ymax)
 ~~~
 {: .language-python}
 
-> ## How should I get the extent of my bounding box?
-> For simplicity, here we assume the **CRS** and **extent** of the bounding box are known. In reality, to make a bounding box for data loading, one needs to know the extent and Coordinate Reference System (CRS) of the geospatial file. Some Python tools, e.g. [`fiona`](https://fiona.readthedocs.io/en/latest/)(which is also the backend of `geopandas`), provides the file inspection functionality without actually reading. An example of these tools is `fiona`. An example can be found in [the documentation of fiona](https://fiona.readthedocs.io/en/latest/manual.html), Section 1.4.
+> ## How should I define my bounding box?
+> For simplicity, here we assume the **CRS** and **extent** of the vector file are known. In reality, to make a bounding box for data loading, one needs to know the extent and the Coordinate Reference System (CRS) of the vector file. Some Python tools, e.g. [`fiona`](https://fiona.readthedocs.io/en/latest/)(which is also the backend of `geopandas`), provides the file inspection functionality without actually the need to read the full data set into memory. An example can be found in [the documentation of fiona](https://fiona.readthedocs.io/en/latest/manual.html#format-drivers-crs-bounds-and-schema).
 {: .callout}
 
-Using the `bbox` input argument, we can load the data only within the bounding box.
+Using the `bbox` input argument, we can load only the spatial features intersecting the provided bounding box.
 
 ~~~
 # Partially load data within the bounding box
@@ -156,7 +156,7 @@ This array contains, in order, the values for minx, miny, maxx and maxy, for the
 We can convert these coordinates to a bounding box or acquire the index of the dataframe to access the geometry. Either of these polygons can be used to clip rasters (more on that later). 
 
 ## Selecting spatial features
-Sometimes, the loaded data can still be too large. We can cut it is to a even smaller extent using the `.cx` function:
+Sometimes, the loaded data can still be too large. We can cut it is to a even smaller extent using the `.cx` indexer (note the use of square brackets instead of round brackets, which are used instead with functions and methods):
 
 ~~~
 # Define a Boundingbox in RD
