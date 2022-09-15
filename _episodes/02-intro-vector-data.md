@@ -20,7 +20,7 @@ locations (x, y values) known as vertices that define the shape of the spatial
 object. The organization of the vertices determines the type of vector that we
 are working with: point, line or polygon.
 
-![Types of vector objects](../fig/dc-spatial-vector/pnt_line_poly.png)
+![Types of vector objects](../fig/E02-01-pnt_line_poly.png)
 
 Image Source: National Ecological Observatory Network (NEON)
 {: .text-center}
@@ -51,7 +51,7 @@ countries are often represented by polygons.
 > objects. Use the definitions above to identify which features
 > are represented by which vector type.
 > 
-> ![Vector Type Examples](../fig/dc-spatial-vector/vector_types_examples.png)
+> ![Vector Type Examples](../fig/E02-02-vector_types_examples.png)
 > 
 > > ## Solution
 > > State boundaries are polygons. The Fisher Tower location is

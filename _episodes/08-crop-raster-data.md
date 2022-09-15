@@ -61,7 +61,7 @@ overview_image.plot.imshow(figsize=(8,8))
 ~~~
 {: .language-python}
 
-<img src="../fig/20-crop-raster-overview-raster-00.png" title="Overview of the raster"  width="512" style="display: block; margin: auto;" />
+<img src="../fig/E08-01-crop-raster-overview-raster-00.png" title="Overview of the raster"  width="512" style="display: block; margin: auto;" />
 
 As we can see, the overview image is much smaller compared to the original true color image. Therefore the visualization is much faster. If we are interested in the crop fields, then we would like to know where these are located in the image. To compare its coverage with the raster data, we first check the coordinate systems of both raster and vector data. For raster data, we use `pyproj.CRS`:
 
@@ -148,7 +148,7 @@ cf_boundary_crop.geometry.boundary.plot(
 ~~~
 {: .language-python}
 
-<img src="../fig/20-crop-raster-bounding-box-01.png" title="Bounding boxes of AoI over the raster"  width="512" style="display: block; margin: auto;" />
+<img src="../fig/E08-02-crop-raster-bounding-box-01.png" title="Bounding boxes of AoI over the raster"  width="512" style="display: block; margin: auto;" />
 
 Seeing from the location of the polygons, the crop fields (red) only takes a small part of
 the raster. Therefore before actual processing, we can first crop the raster to
@@ -172,7 +172,7 @@ We successfully cropped the raster to a much smaller piece. We can visualize it 
 raster_clip.plot.imshow(figsize=(8,8))
 ~~~
 {: .language-python}
-<img src="../fig/20-crop-raster-crop-by-bb-02.png" title="Crop raster by a bounding box"  width="512" style="display: block; margin: auto;" />
+<img src="../fig/E08-03-crop-raster-crop-by-bb-02.png" title="Crop raster by a bounding box"  width="512" style="display: block; margin: auto;" />
 
 This cropped image can be saved for later usage:
 ~~~
@@ -195,7 +195,7 @@ And we can visualize the results:
 raster_clip_fields.plot.imshow(figsize=(8,8))
 ~~~
 {: .language-python}
-<img src="../fig/20-crop-raster-crop-fields-solution-06.png" title="Raster cropped by crop fields" width="512" style="display: block; margin: auto;" />
+<img src="../fig/E08-04-crop-raster-crop-fields-solution-06.png" title="Raster cropped by crop fields" width="512" style="display: block; margin: auto;" />
 
 We can save this image for later usage:
 ~~~
@@ -232,7 +232,7 @@ wells.plot(ax=ax, color='red', markersize=2)
 ~~~
 {: .language-python}
 
-<img src="../fig/20-crop-raster-wells-04.png" title="Ground weter level wells" width="512" style="display: block; margin: auto;" />
+<img src="../fig/E08-05-crop-raster-wells-04.png" title="Ground weter level wells" width="512" style="display: block; margin: auto;" />
 
 To select pixels around the geometries, one needs to first define a region including the geometries. This region is called a "buffer" and it is defined in the units of the projection. The size of the buffer depends on the analysis in your research. A buffer is also a polygon, which can be used to crop the raster data. `geopandas`' objects have a `buffer` method to generate buffer polygons.
 
@@ -251,7 +251,7 @@ raster_clip.plot.imshow(ax=ax)
 wells_buffer.plot(ax=ax, color='red')
 ~~~
 {: .language-python}
-<img src="../fig/20-crop-raster-well-buffers-over-raster-05.png" title="Raster croped by buffer around wells" width="512" style="display: block; margin: auto;" />
+<img src="../fig/E08-06-crop-raster-well-buffers-over-raster-05.png" title="Raster croped by buffer around wells" width="512" style="display: block; margin: auto;" />
 
 The red dots have grown larger indicating the conversion from points to buffer polygons.
 
@@ -266,7 +266,7 @@ The red dots have grown larger indicating the conversion from points to buffer p
 > > raster_clip_wells.plot.imshow()
 > > ~~~
 > > {: .language-python}
-> > <img src="../fig/20-crop-raster-crop-by-well-buffers-05.png" title="Raster croped by buffer around wells" width="512" style="display: block; margin: auto;" />
+> > <img src="../fig/E08-07-crop-raster-crop-by-well-buffers-05.png" title="Raster croped by buffer around wells" width="512" style="display: block; margin: auto;" />
 > {: .solution}
 {: .challenge}
 
@@ -294,7 +294,7 @@ The red dots have grown larger indicating the conversion from points to buffer p
 > > raster_clip_waterways.plot.imshow(figsize=(8,8))
 > > ~~~
 > > {: .language-python}
-> > <img src="../fig/20-crop-waterways-07.png" title="Raster croped by buffer around waterways" width="512" style="display: block; margin: auto;" />
+> > <img src="../fig/E08-08-crop-waterways-07.png" title="Raster croped by buffer around waterways" width="512" style="display: block; margin: auto;" />
 > {: .solution}
 {: .challenge}
 
@@ -375,7 +375,7 @@ cropped_raster.plot.imshow(figsize=(8,8))
 ~~~
 {: .language-python}
 
-<img src="../fig/20-crop-raster-raster-intro-08.png" title="Raster croped by raster" width="512" style="display: block; margin: auto;" />
+<img src="../fig/E08-09-crop-raster-raster-intro-08.png" title="Raster croped by raster" width="512" style="display: block; margin: auto;" />
 
 In this way, we accomplish the reproject and cropping in one go.
 > ## Exercise
@@ -392,7 +392,7 @@ In this way, we accomplish the reproject and cropping in one go.
 > > cropped_raster.plot.imshow(figsize=(8,8))
 > > ~~~
 > > {: .language-python}
-> > <img src="../fig/20-crop-raster-raster-solution-08.png" title="Solution: raster croped raster" width="512" style="display: block; margin: auto;" />
+> > <img src="../fig/E08-10-crop-raster-raster-solution-08.png" title="Solution: raster croped raster" width="512" style="display: block; margin: auto;" />
 > {: .solution}
 {: .challenge}
 

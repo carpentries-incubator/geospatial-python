@@ -48,7 +48,7 @@ that connects the data to a particular location. This includes the
 raster's extent and cell size, the number of rows and columns, and
 its coordinate reference system (or CRS).
 
-![Raster Concept](../fig/dc-spatial-raster/raster_concept.png)
+![Raster Concept](../fig/E01-01-raster_concept.png)
 
 Source: National Ecological Observatory Network (NEON)
 {: .text-center}
@@ -63,7 +63,7 @@ A map of elevation for Harvard Forest derived from the [NEON AOP LiDAR sensor](h
 is below. Elevation is represented as a continuous numeric variable in this map. The legend
 shows the continuous range of values in the data from around 300 to 420 meters.
 
-![Continuous Elevation Map: HARV Field Site](../fig/01-continuous-elevation-HARV-plot-01.png)
+![Continuous Elevation Map: HARV Field Site](../fig/E01-02-continuous-elevation-HARV-plot-01.png)
 
 Some rasters contain categorical data where each pixel represents a discrete
 class such as a landcover type (e.g., "forest" or "grassland") rather than a
@@ -74,7 +74,7 @@ maps include:
 2. Tree height maps classified as short, medium, and tall trees.
 3. Elevation maps classified as low, medium, and high elevation.
 
-![USA landcover classification](../fig/USA_landcover_classification.png)
+![USA landcover classification](../fig/E01-03-USA_landcover_classification.png)
 
 The map above shows the contiguous United States with landcover as categorical
 data. Each color is a different landcover category. (Source: Homer, C.G., et
@@ -119,7 +119,7 @@ The spatial extent of an object represents the geographic edge or
 location that is the furthest north, south, east and west. In other words, extent
 represents the overall geographic coverage of the spatial object.
 
-![Spatial extent image](../fig/dc-spatial-raster/spatial_extent.png)
+![Spatial extent image](../fig/E01-04-spatial_extent.png)
 
 (Image Source: National Ecological Observatory Network (NEON))
 {: .text-center}
@@ -144,7 +144,7 @@ A resolution of a raster represents the area on the ground that each
 pixel of the raster covers. The image below illustrates the effect
 of changes in resolution. 
 
-![Resolution image](../fig/dc-spatial-raster/raster_resolution.png)
+![Resolution image](../fig/E01-05-raster_resolution.png)
 
 (Source: National Ecological Observatory Network (NEON))
 {: .text-center}
@@ -189,7 +189,7 @@ electromagnetic spectrum. The pixel brightness for each band, when
 composited
 creates the colors that we see in an image.
 
-![RGB multi-band raster image](../fig/dc-spatial-raster/RGBSTack_1.jpg)
+![RGB multi-band raster image](../fig/E01-06-RGBSTack_1.jpg)
 
 (Source: National Ecological Observatory Network (NEON).)
 {: .text-center}

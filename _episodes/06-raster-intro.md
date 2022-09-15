@@ -266,7 +266,7 @@ Datum: World Geodetic System 1984 ensemble
 Note that the zone is unique to the UTM projection. Not all CRSs will have a
 zone. Below is a simplified view of US UTM zones. Image source: Chrismurf at English Wikipedia, via [Wikimedia Commons](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system#/media/File:Utm-zones-USA.svg) (CC-BY).
 
-<img src="../images/Utm-zones-USA.svg" title="UTM zones over US" alt="The UTM zones across the continental United States." width="612" style="display: block; margin: auto;" />
+<img src="../fig/E06-06-Utm-zones-USA.svg" title="UTM zones over US" alt="The UTM zones across the continental United States." width="612" style="display: block; margin: auto;" />
 
 
 
@@ -388,7 +388,7 @@ One should notice that there is a side effect of using `nan` instead of `0` to r
 ## Raster Bands
 So far we looked into a single band raster, i.e. the `B09` band of a Sentinel-2 scene. However, to get an overview of the scene, one may also want to visualize the true-color thumbnail of the region. This is provided as a multi-band raster -- a raster dataset that contains more than one band. 
 
-![Multi-band raster image](../images/dc-spatial-raster/single_multi_raster.png)
+![Multi-band raster image](../fig/E06-07-single_multi_raster.png)
 
 The `overview` asset in the Sentinel-2 scene is a multiband asset. Similar to `B09`, we can load it by:
 ~~~
