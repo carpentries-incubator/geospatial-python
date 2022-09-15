@@ -151,7 +151,7 @@ array([ 97843.559   , 448986.505   , 151599.304125, 500782.531   ])
 
 This array contains, in order, the values for minx, miny, maxx and maxy, for the overall dataset. The spatial extent of a GeoDataFrame represents the geographic "edge" or location that is the furthest north, south, east, and west. Thus, it is represents the overall geographic coverage of the spatial object. Image Source: National Ecological Observatory Network (NEON).
 
-![Extent image](../fig/dc-spatial-vector/spatial_extent.png)
+![Extent image](../fig/E07-01-spatial_extent.png)
 
 We can convert these coordinates to a bounding box or acquire the index of the dataframe to access the geometry. Either of these polygons can be used to clip rasters (more on that later). 
 
@@ -205,7 +205,7 @@ cropfield_crop.plot(figsize=(5,5), edgecolor="purple", facecolor="None")
 ~~~
 {: .language-python}
 
-![Cropped fields plot image](../fig/dc-spatial-vector/cropped_fields_plot_output.png)
+![Cropped fields plot image](../fig/E07-02-cropped_fields_plot_output.png)
 {: .output}
 
 
@@ -273,7 +273,7 @@ different features.
 > > waterways_nl.plot()
 > > ~~~
 > > {: .language-python}
-> > ![Wrong waterways](../fig/E07-waterways-wrong.png)
+> > ![Wrong waterways](../fig/E07-03-waterways-wrong.png)
 > {: .solution}
 {: .challenge}
 > ## Axis ordering 
@@ -345,7 +345,7 @@ waterways_nl.plot()
 ~~~
 {: .language-python}
 
-![Corrected waterways](../fig/E07-waterways-corrected.png)
+![Corrected waterways](../fig/E07-04-waterways-corrected.png)
 
 Now the waterways looks good! We can save it for later usage:
 ~~~
