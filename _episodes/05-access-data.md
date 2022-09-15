@@ -61,25 +61,18 @@ access data from different missions, instruments and collections using the same 
 
 ## Search a STAC catalog
 
-The Sentinel-2 collection hosted on AWS is indexed in a STAC catalog that is accessible at the following link:
-
-~~~
-api_url = "https://earth-search.aws.element84.com/v0"
-~~~
-{: .language-python}
+The [STAC browser](https://radiantearth.github.io/stac-browser/#/) is a good starting point to discover available
+datasets, as it provides an up-to-date list of existing STAC catalogs. From the list, let's click on the
+"Earth Search" catalog, i.e. the access point to search the archive of Sentinel-2 images hosted on AWS.
 
 > ## Exercise: Discover a STAC catalog
-> Let's take a moment to explore the Earth Search STAC catalog, which is a catalog listing a few satellite image datasets
-> that are hosted on AWS. The catalog is accessible via the STAC API at the following URL:
-> [https://earth-search.aws.element84.com/v0](https://earth-search.aws.element84.com/v0).
-> We can interactively browse a STAC catalog using the following tool:
-> [https://radiantearth.github.io/stac-browser](https://radiantearth.github.io/stac-browser).
+> Let's take a moment to explore the Earth Search STAC catalog, which is the catalog indexing the Sentinel-2 collection
+> that is hosted on AWS. We can interactively browse this catalog using the STAC browser at [this link](https://radiantearth.github.io/stac-browser/#/external/earth-search.aws.element84.com/v0).
 >
-> 1. Open the tool's link in your web browser, paste the STAC API URL in the navigation bar, and click on "Load".
-> Which collections are available?
-> 2. Open the Sentinel-2 L2A COGs collection, and select one of the items (i.e. a
-> satellite "scene"). Have a look at the metadata fields and browse through the available assets. What type of data can
-> you access for this item?
+> 1. Open the link in your web browser. Which (sub-)catalogs are available?
+> 2. Open the Sentinel-2 L2A COGs collection, and select one item from the list. Each item corresponds to a satellite
+> "scene", i.e. a portion of the footage recorded by the satellite at a given time. Have a look at the metadata fields
+> and the list of assets. What kind of data do the assets represent?
 >
 > > ## Solution
 > > ![](../fig/E05-02-STAC-browser-exercise.jpg)
@@ -92,6 +85,15 @@ api_url = "https://earth-search.aws.element84.com/v0"
 > > satellite images, one for each band captured by the Multispectral Instrument on board Sentinel-2.
 > {: .solution}
 {: .challenge}
+
+When opening a catalog with the STAC browser, you can access the API URL by clicking on the "Source" button on the top
+right of the page. By using this URL, we have access to the catalog content and, if supported by the catalog, to the
+functionality of searching its items. For the Earth Search STAC catalog the API URL is:
+
+~~~
+api_url = "https://earth-search.aws.element84.com/v0"
+~~~
+{: .language-python}
 
 You can query a STAC API endpoint from Python using the `pystac_client` library:
 
