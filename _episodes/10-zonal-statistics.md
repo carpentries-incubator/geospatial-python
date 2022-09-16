@@ -19,7 +19,7 @@ keypoints:
 
 Statistics on predefined zones of the raster data are commonly used for analysis and to better understand the data. These zones are often provided within a single vector dataset, identified by certain vector attributes. For example, in the previous episodes, we used the crop field polygon dataset. The fields with the same crop type can be identified as a "zone", resulting in multiple zones in one vector dataset. One may be interested in performing statistical analysis over these crop zones.
 
-In this episode, we will explore how to calculate zonal statistics based on the types of crops in `cropped_field.shp` . To do this, we will first identify zones from the vector data, then rasterize these vector zones. Finally the zonal statistics for `ndvi` will be calculated over the rasterized zones.  
+In this episode, we will explore how to calculate zonal statistics based on the types of crops in `cropped_field.shp` . To do this, we will first identify zones from the vector data, then rasterize these vector zones. Finally the zonal statistics for `ndvi` will be calculated over the rasterized zones.
 
 
 # Making vector and raster data compatible
@@ -82,7 +82,7 @@ category	gewas	gewascode	jaar	status	geometry
 
 # Rasterizing our vector data
 
-Before calculating zonal statistics, we first need to rasterize our `field_to_raster_crs` vector geodataframe with the `rasterio.features.rasterize` function. With this function, we aim to produce a grid with numerical values representing the types of crop as defined by the column `gewascode` from `field_cropped` - `gewascode` stands for the crop codes as defined by the Netherlands Enterprise Agency (RVO) for different types of crops or `gewas` (Grassland, permanent; Grassland, temporary; corn fields; etc.). This grid of values thus defines the zones for the `xrspatial.zonal_stats` function, where each pixel in the zone grid overlaps with a corresponding pixel in our NDVI raster. 
+Before calculating zonal statistics, we first need to rasterize our `field_to_raster_crs` vector geodataframe with the `rasterio.features.rasterize` function. With this function, we aim to produce a grid with numerical values representing the types of crop as defined by the column `gewascode` from `field_cropped` - `gewascode` stands for the crop codes as defined by the Netherlands Enterprise Agency (RVO) for different types of crops or `gewas` (Grassland, permanent; Grassland, temporary; corn fields; etc.). This grid of values thus defines the zones for the `xrspatial.zonal_stats` function, where each pixel in the zone grid overlaps with a corresponding pixel in our NDVI raster.
 
 We can generate the `geometry, gewascode` pairs for each vector feature to be used as the first argument to `rasterio.features.rasterize` as:
 
@@ -113,7 +113,7 @@ This generates a list of the shapely geometries from the `geometry` column, and 
 We can now rasterize our vector data using `rasterio.features.rasterize`:
 
 ~~~
-from rasterio import features 
+from rasterio import features
 field_cropped_raster = features.rasterize(geom, out_shape=ndvi_sq.shape, fill=0, transform=ndvi.rio.transform())
 ~~~
 {: .language-python}
@@ -127,7 +127,7 @@ field_cropped_raster_xarr = xr.DataArray(field_cropped_raster)
 ~~~
 {: .language-python}
 
-# Calculate zonal statistics 
+# Calculate zonal statistics
 
 In order to calculate the statistics for each crop zone, we call the function, `xrspatial.zonal_stats`. The `xrspatial.zonal_stats` function takes as input `zones`, a 2D `xarray.DataArray`, that defines different zones, and `values`, a 2D `xarray.DataArray` providing input values for calculating statistics.
 
@@ -152,30 +152,30 @@ zonal_stats(field_cropped_raster_xarr, ndvi_sq)
 ~~~
 {: .output}
 
-The `zonal_stats` function calculates the minimum, maximum, and sum for each zone along with statistical measures such as the mean, variance and standard deviation for each rasterized vector zone. In our raster data-set `zone = 0`, corresponding to non-crop areas, has the highest count followed by `zone = 265` which corresponds to 'Grasland, blijvend' or 'Grassland, permanent'. The highest mean NDVI is observed for `zone = 266` for 'Grasslands, temporary' with the lowest mean, aside from non-crop area, going to `zone = 863` representing 'Forest without replanting obligation'. Thus, the `zonal_stats` function can be used to analyse and understand different sections of our raster data. The definition of the zones can be derived from vector data or from classified raster data as presented in the challenge below: 
+The `zonal_stats` function calculates the minimum, maximum, and sum for each zone along with statistical measures such as the mean, variance and standard deviation for each rasterized vector zone. In our raster data-set `zone = 0`, corresponding to non-crop areas, has the highest count followed by `zone = 265` which corresponds to 'Grasland, blijvend' or 'Grassland, permanent'. The highest mean NDVI is observed for `zone = 266` for 'Grasslands, temporary' with the lowest mean, aside from non-crop area, going to `zone = 863` representing 'Forest without replanting obligation'. Thus, the `zonal_stats` function can be used to analyse and understand different sections of our raster data. The definition of the zones can be derived from vector data or from classified raster data as presented in the challenge below:
 
 > ## Challenge: Calculate zonal statistics for zones defined by `ndvi_classified`
-> 
+>
 > Let's calculate NDVI zonal statistics for the different zones as classified by `ndvi_classified` in the previous episode.
-> 
-> Load both raster data-sets and convert into 2D `xarray.DataArray`. 
+>
+> Load both raster data-sets and convert into 2D `xarray.DataArray`.
 > Then, calculate zonal statistics for each `class_bins`. Inspect the output of the `zonal_stats` function.
-> 
-> 
+>
+>
 > > ## Answers
 > > 1) Load and convert raster data into suitable inputs for `zonal_stats`:
 > >
 > > ```python
-ndvi = rioxarray.open_rasterio("data/NDVI.tif")
-ndvi_classified = rioxarray.open_rasterio("data/NDVI_classified.tif")
-ndvi_sq = ndvi.squeeze()
-ndvi_classified_sq = ndvi_classified.squeeze()
+> > ndvi = rioxarray.open_rasterio("data/NDVI.tif")
+> > ndvi_classified = rioxarray.open_rasterio("data/NDVI_classified.tif")
+> > ndvi_sq = ndvi.squeeze()
+> > ndvi_classified_sq = ndvi_classified.squeeze()
 > > ```
 > >
 > > 2) Create and display the zonal statistics table.
 > >
 > > ```python
-zonal_stats(ndvi_classified_sq,ndvi_sq)
+> > zonal_stats(ndvi_classified_sq, ndvi_sq)
 > > ```
 > {: .solution}
 {: .challenge}
