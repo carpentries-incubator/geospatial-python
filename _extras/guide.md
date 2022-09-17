@@ -19,7 +19,7 @@ title: "Instructor Notes"
 ### Episode 7
 
 - Loading the crop fields polygons `data/brpgewaspercelen_definitief_2020.gpkg` is not recommended, because it takes quite some time (about several minutes), and may crush the Jupyter terminal.
-- The cut version of fields: `data/cropped_field.shp` is required for later episodes.
+- The cut version of fields: `cropped_field.shp` is required for later episodes.
 
 ### Episode 8
 
@@ -28,8 +28,8 @@ title: "Instructor Notes"
 
 ### Episode 9
 
-- The calculated NDVI: `data/NDVI.tif` is required for later episodes.
-- The calculated classification identifier: `data/NDVI_classified.tif` is required for later episodes.
+- The calculated NDVI: `NDVI.tif` is required for later episodes.
+- The calculated classification identifier: `NDVI_classified.tif` is required for later episodes.
 
 ## Workshop setup
 
