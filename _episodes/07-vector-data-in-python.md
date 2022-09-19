@@ -327,14 +327,14 @@ def flip(x, y):
     return y, x
 
 # Apply this function to all coordinates and all lines
-geom_corrected = [shapely.ops.transform(flip, line) for line in waterways.geometry[:]]
+geom_corrected = [shapely.ops.transform(flip, line) for line in waterways_nl['geometry']]
 ~~~
 {: .language-python}
 
 Then we can upate the `geometry` column with the corrected geometry `geom_corrected`, and visualize it to check:
 ~~~
 # Update geometry
-waterways_nl.geometry = geom_corrected
+waterways_nl['geometry'] = geom_corrected
 
 # Visualization
 waterways_nl.plot()

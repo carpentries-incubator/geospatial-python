@@ -166,16 +166,16 @@ The `zonal_stats` function calculates the minimum, maximum, and sum for each zon
 > > 1) Load and convert raster data into suitable inputs for `zonal_stats`:
 > >
 > > ```python
-ndvi = rioxarray.open_rasterio("NDVI.tif")
-ndvi_classified = rioxarray.open_rasterio("NDVI_classified.tif")
-ndvi_sq = ndvi.squeeze()
-ndvi_classified_sq = ndvi_classified.squeeze()
+> > ndvi = rioxarray.open_rasterio("NDVI.tif")
+> > ndvi_classified = rioxarray.open_rasterio("NDVI_classified.tif")
+> > ndvi_sq = ndvi.squeeze()
+> > ndvi_classified_sq = ndvi_classified.squeeze()
 > > ```
 > >
 > > 2) Create and display the zonal statistics table.
 > >
 > > ```python
-zonal_stats(ndvi_classified_sq,ndvi_sq)
+> > zonal_stats(ndvi_classified_sq, ndvi_sq)
 > > ```
 > {: .solution}
 {: .challenge}

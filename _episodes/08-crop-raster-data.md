@@ -127,7 +127,6 @@ we first convert the coordinate system of `cf_boundary_crop` to the coordinate
 system of `true_color_image`, and then check the coverage:
 
 ~~~
-from shapely.geometry import box
 from matplotlib import pyplot as plt
 
 # Convert the coordinate system
@@ -141,7 +140,7 @@ fig.set_size_inches((8,8))
 overview_image.plot.imshow(ax=ax)
 
 # Plot crop fields
-cf_boundary_crop.geometry.boundary.plot(
+cf_boundary_crop.plot(
     ax=ax,
     edgecolor="red",
 )
@@ -186,7 +185,7 @@ We have a cropped image around the fields. To further analysis the fields, one m
 This can be done with the `clip` function:
 
 ~~~
-raster_clip_fields = raster_clip.rio.clip(cf_boundary_crop['geometry'], cf_boundary_crop.crs)
+raster_clip_fields = raster_clip.rio.clip(cf_boundary_crop['geometry'])
 ~~~
 {: .language-python}
 
@@ -216,8 +215,7 @@ wells = gpd.read_file("data/brogmwvolledigeset.zip")
 wells = wells.to_crs(raster_clip.rio.crs)
 
 # Crop the wells to the image extent
-xmin, xmax = raster_clip.x[[0, -1]]
-ymin, ymax = raster_clip.y[[0, -1]]
+xmin, ymin, xmax, ymax = raster_clip.rio.bounds()
 wells = wells.cx[xmin:xmax, ymin:ymax]
 ~~~
 {: .language-python}
@@ -260,7 +258,7 @@ The red dots have grown larger indicating the conversion from points to buffer p
 > > ## Solution
 > > ~~~
 > > # Crop
-> > raster_clip_wells = raster_clip.rio.clip(wells_buffer, wells_buffer.crs)
+> > raster_clip_wells = raster_clip.rio.clip(wells_buffer)
 > >
 > > # Visualize cropped buffer
 > > raster_clip_wells.plot.imshow()
@@ -280,15 +278,13 @@ The red dots have grown larger indicating the conversion from points to buffer p
 > > waterways_nl = waterways_nl.to_crs(raster_clip.rio.crs)
 > >
 > > # Crop the waterways to the image extent
-> > xmin, xmax = raster_clip.x[[0, -1]]
-> > ymin, ymax = raster_clip.y[[0, -1]]
 > > waterways_nl = waterways_nl.cx[xmin:xmax, ymin:ymax]
 > >
 > > # waterways buffer
 > > waterways_nl_buffer = waterways_nl.buffer(100)
 > >
 > > # Crop
-> > raster_clip_waterways = raster_clip.rio.clip(waterways_nl_buffer, waterways_nl_buffer.crs)
+> > raster_clip_waterways = raster_clip.rio.clip(waterways_nl_buffer)
 > >
 > > # Visualize
 > > raster_clip_waterways.plot.imshow(figsize=(8,8))
