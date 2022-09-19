@@ -1,5 +1,5 @@
 ---
-title: "Vector data in python"
+title: "Vector data in Python"
 teaching: 30
 exercises: 20
 questions:
@@ -10,8 +10,8 @@ objectives:
 - "Access the attributes of a spatial object with `geopandas`."
 keypoints:
 - "Vector dataset metadata include geometry type, CRS, and extent."
-- "Load spatial objects into Python with the `geopandas.read_file()` method."
-- "Spatial objects can be plotted directly with `geopandas.GeoDataFrame.plot()`."
+- "Load spatial objects into Python with `geopandas.read_file()` function."
+- "Spatial objects can be plotted directly with `GeoDataFrame`'s `.plot()` method."
 ---
 
 ## Introduction
@@ -25,7 +25,7 @@ analysis to geospatial applications. The main `pandas` objects (the `Series` and
 including geometric types, represented in Python using the `shapely` library, and by providing dedicated methods for
 spatial operations (union, intersection, etc.).
 
-> ## Introduce the Data
+> ## Introduce the Vector Data
 >
 > The data we will use comes from the Dutch government's open geodata sets, obtained from the [PDOK platform](https://www.pdok.nl/).
 > It provides open data for various applications, e.g. real estate, infrastructure, agriculture, etc. In this episode we
@@ -182,7 +182,7 @@ array([119594.384 , 485036.2543, 135169.9266, 500782.531 ])
 We can then save this cropped dataset for use in future, using the `to_file()` method of our GeoDataFrame object:
 
 ~~~
-cropfield_crop.to_file('data/cropped_field.shp')
+cropfield_crop.to_file('cropped_field.shp')
 ~~~
 {: .language-python}
 
@@ -220,14 +220,9 @@ different features.
 
 > ## Challenge: Import Line and Point Vector Datasets
 >
-> Using the steps above, import the waterways and groundwater well vector datasets into
-> Python using `geopandas`.
->
-> The waterways data can be fetched from this URL: <https://geo.rijkswaterstaat.nl/services/ogc/gdr/vaarweginformatie/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=status_vaarweg&outputFormat=SHAPE-ZIP>.
->
-> The groundwater motioring wells can be fetched from the this URL: <https://service.pdok.nl/bzk/brogmwvolledigeset/atom/v2_1/downloads/brogmwvolledigeset.zip>.
->
-> Name your variables `waterways_nl` and `wells_nl` respectively.
+> Using the steps above, load the waterways and groundwater well vector datasets (`data/status_vaarweg.zip` and
+> `data/brogmwvolledigeset.zip`, respectively) into Python using `geopandas`. Name your variables `waterways_nl` and
+> `wells_nl` respectively.
 >
 > Answer the following questions:
 >
@@ -241,8 +236,8 @@ different features.
 > >
 > > First we import the datasets:
 > > ```python
-> > waterways_nl = gpd.read_file("https://geo.rijkswaterstaat.nl/services/ogc/gdr/vaarweginformatie/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=status_vaarweg&outputFormat=SHAPE-ZIP")
-> > wells_nl = gpd.read_file("https://service.pdok.nl/bzk/brogmwvolledigeset/atom/v2_1/downloads/brogmwvolledigeset.zip")
+> > waterways_nl = gpd.read_file("data/status_vaarweg.zip")
+> > wells_nl = gpd.read_file("data/brogmwvolledigeset.zip")
 > > ```
 > >
 > > Then we check the types:
@@ -276,6 +271,7 @@ different features.
 > > ![Wrong waterways](../fig/E07-03-waterways-wrong.png)
 > {: .solution}
 {: .challenge}
+
 > ## Axis ordering
 > According to the standards, the axis ordering for a CRS should follow the definition provided by the competent authority. For the commonly used EPSG:4326 geographic coordinate system, the EPSG defines the ordering as first latitude then longitude.
 > However, in the GIS world, it is custom to work with coordinate tuples where the first component is aligned with the east/west direction and the second component is aligned with the north/south direction.

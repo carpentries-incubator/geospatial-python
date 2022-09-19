@@ -26,14 +26,14 @@ In this episode, we will explore how to calculate zonal statistics based on the 
 First, let's load the `NDVI.tif` file saved in the previous episode to obtained our calculated raster `ndvi` data. We also use the `squeeze()` function in order to reduce our raster data `ndvi` dimension to 2D by removing the singular `band` dimension - this is necessary for use with the `rasterize` and `zonal_stats` functions:
 
 ~~~
-ndvi = rioxarray.open_rasterio("data/NDVI.tif")
+ndvi = rioxarray.open_rasterio("NDVI.tif")
 ndvi_sq = ndvi.squeeze()
 ~~~
 
 Let's also read the crop fields vector data from our saved `cropped_field.shp` file and view the CRS information.
 
 ~~~
-field = gpd.read_file('data/cropped_field.shp')
+field = gpd.read_file('cropped_field.shp')
 field.crs
 ~~~
 {: .language-python}
@@ -166,8 +166,8 @@ The `zonal_stats` function calculates the minimum, maximum, and sum for each zon
 > > 1) Load and convert raster data into suitable inputs for `zonal_stats`:
 > >
 > > ```python
-> > ndvi = rioxarray.open_rasterio("data/NDVI.tif")
-> > ndvi_classified = rioxarray.open_rasterio("data/NDVI_classified.tif")
+> > ndvi = rioxarray.open_rasterio("NDVI.tif")
+> > ndvi_classified = rioxarray.open_rasterio("NDVI_classified.tif")
 > > ndvi_sq = ndvi.squeeze()
 > > ndvi_classified_sq = ndvi_classified.squeeze()
 > > ```
