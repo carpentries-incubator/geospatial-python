@@ -10,7 +10,7 @@ objectives:
 - "Access the attributes of a spatial object with `geopandas`."
 keypoints:
 - "Vector dataset metadata include geometry type, CRS, and extent."
-- "Load spatial objects into Python with `geopandas`'s `read_file()` function."
+- "Load spatial objects into Python with `geopandas.read_file()` function."
 - "Spatial objects can be plotted directly with `GeoDataFrame`'s `.plot()` method."
 ---
 
