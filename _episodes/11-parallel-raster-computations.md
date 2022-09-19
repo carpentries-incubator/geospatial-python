@@ -53,10 +53,14 @@ in the next section.
 
 > ## Introduce the Data
 >
-> In this episode, we will use the same dataset as the one introduced in episode
-> [Access satellite imagery using Python]({{ page.root }}{% link _episodes/05-access-data.md %}).
-> Therefore, we continue from search of satellite scenes that we have previously carried out, and load the collection of
-> STAC items from the `search.json` file, that is already saved in your working directory.
+> We'll continue from the results of the satellite image search that we have carried out in an exercise from
+> [a previous episode]({{site.baseurl}}/05-access-data). We will load data starting from the `search.json` file.
+>
+> If you would like to work with the data for this lesson without downloading data on-the-fly, you can download the
+> raster data using this [link](https://figshare.com/ndownloader/files/36028100). Save the `geospatial-python-raster-dataset.tar.gz`
+> file in your current working directory, and extract the archive file by double-clicking on it or by running the
+> following command in your terminal `tar -zxvf geospatial-python-raster-dataset.tar.gz`. Use the file `geospatial-python-raster-dataset/search.json`
+> (instead of `search.json`) to get started with this lesson.
 {: .callout}
 
 Let's set up a raster calculation using assets from our previous search of satellite scenes. We first load the item

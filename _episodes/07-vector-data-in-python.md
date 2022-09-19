@@ -1,5 +1,5 @@
 ---
-title: "Vector data in python"
+title: "Vector data in Python"
 teaching: 30
 exercises: 20
 questions:
@@ -25,7 +25,7 @@ analysis to geospatial applications. The main `pandas` objects (the `Series` and
 including geometric types, represented in Python using the `shapely` library, and by providing dedicated methods for
 spatial operations (union, intersection, etc.).
 
-> ## Introduce the Data
+> ## Introduce the Vector Data
 >
 > The data we will use comes from the Dutch government's open geodata sets, obtained from the [PDOK platform](https://www.pdok.nl/).
 > It provides open data for various applications, e.g. real estate, infrastructure, agriculture, etc. In this episode we

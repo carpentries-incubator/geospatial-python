@@ -21,12 +21,16 @@ In this episode, we will introduce how to crop raster data into the desired area
 
 > ## Introduce the Data
 >
-> In this episode, we will use the same dataset as the one introduced in episode
-> [Introduction to Raster Data in Python]({{ page.root }}{% link _episodes/01-intro-raster-data.md %}).
-> Therefore, we continue from the
-> `search.json` file, that is already saved in your working directory. We also
-> use the PDOK vector data that is already introduced in episode [Introduction
-> to Vector Data]({{ page.root }}{% link _episodes/02-intro-vector-data.md %}).
+> We'll continue from the results of the satellite image search that we have carried out in an exercise from
+> [a previous episode]({{site.baseurl}}/05-access-data). We will load data starting from the `search.json` file.
+>
+> If you would like to work with the data for this lesson without downloading data on-the-fly, you can download the
+> raster data using this [link](https://figshare.com/ndownloader/files/36028100). Save the `geospatial-python-raster-dataset.tar.gz`
+> file in your current working directory, and extract the archive file by double-clicking on it or by running the
+> following command in your terminal `tar -zxvf geospatial-python-raster-dataset.tar.gz`. Use the file `geospatial-python-raster-dataset/search.json`
+> (instead of `search.json`) to get started with this lesson.
+>
+> We also use the vector data that has already been introduced in episode [Vector data in python]({{site.baseurl}}/07-vector-data-in-python).
 {: .callout}
 
 ## Crop raster data with a bounding box

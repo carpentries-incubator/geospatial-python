@@ -13,12 +13,6 @@ keypoints:
 math: true
 ---
 
-> ## Things You’ll Need To Complete This Episode
-> See the [lesson homepage]({{ site.baseurl }}) for detailed information about the software,
-> data, and other prerequisites you will need to work through the examples in this episode.
-> TODO mention alternatives for data access
-{: .prereq}
-
 ## Introduction
 
 We often want to combine values of and perform calculations on rasters to create a new output raster. This episode
@@ -49,8 +43,21 @@ Source: Wu C-D, McNeely E, Cedeño-Laurent JG, Pan W-C, Adamkiewicz G, Dominici 
 {: .callout}
 
 ### Load and crop the Data
-For this episode, we will use one of the Sentinel-2 scenes that we have already employed in the previous episodes. Let's
-load the results of our initial imagery search using `pystac`:
+For this episode, we will use one of the Sentinel-2 scenes that we have already employed in the previous episodes.
+
+> ## Introduce the Data
+>
+> We'll continue from the results of the satellite image search that we have carried out in an exercise from
+> [a previous episode]({{site.baseurl}}/05-access-data). We will load data starting from the `search.json` file.
+>
+> If you would like to work with the data for this lesson without downloading data on-the-fly, you can download the
+> raster data using this [link](https://figshare.com/ndownloader/files/36028100). Save the `geospatial-python-raster-dataset.tar.gz`
+> file in your current working directory, and extract the archive file by double-clicking on it or by running the
+> following command in your terminal `tar -zxvf geospatial-python-raster-dataset.tar.gz`. Use the file `geospatial-python-raster-dataset/search.json`
+> (instead of `search.json`) to get started with this lesson.
+{: .callout}
+
+Let's load the results of our initial imagery search using `pystac`:
 
 ~~~
 import pystac

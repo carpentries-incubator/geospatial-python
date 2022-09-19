@@ -19,7 +19,7 @@ keypoints:
 - "Missing raster data are filled with nodata values, which should be handled with care for statistics and visualization."
 ---
 
-Raster datasets have been introduced in [Episode 1: Introduction to Raster Data]({{site.baseurl}}/01-intro-raster-data/).
+Raster datasets have been introduced in [Episode 1: Introduction to Raster Data]({{site.baseurl}}/01-intro-raster-data).
 Here, we introduce the fundamental principles, packages and
 metadata/raster attributes for working with raster data in Python. We will also explore how Python handles missing and bad data values.
 
@@ -33,11 +33,20 @@ objects after importing `rioxarray`.
 We will also use the [`pystac`](https://github.com/stac-utils/pystac) package to load rasters from the search results we created in the previous episode.
 
 
-> ## Introduce the Data
+> ## Introduce the Raster Data
 >
-> We'll continue from the `search.json` file, which we saved in an exercise from the previous episode. One scene in the search results will serve as an example and demonstrate data loading and visualization.
+> We'll continue from the results of the satellite image search that we have carried out in an exercise from
+> [a previous episode]({{site.baseurl}}/05-access-data). We will load data starting from the `search.json` file,
+> using one scene from the search results as an example to demonstrate data loading and visualization.
 >
-> If you would like to work with the data for this lesson without using pystac, you can download the same raster data from the [data repository](ToDo: add link) of this lesson. This can be useful if you need to download the data ahead of time to work through the lesson if you are without internet, or if you want to work with the data in a different GIS.
+> If you would like to work with the data for this lesson without downloading data on-the-fly, you can download the
+> raster data using this [link](https://figshare.com/ndownloader/files/36028100). Save the `geospatial-python-raster-dataset.tar.gz`
+> file in your current working directory, and extract the archive file by double-clicking on it or by running the
+> following command in your terminal `tar -zxvf geospatial-python-raster-dataset.tar.gz`. Use the file `geospatial-python-raster-dataset/search.json`
+> (instead of `search.json`) to get started with this lesson.
+>
+> This can be useful if you need to download the data ahead of time to work through the lesson offline, or if you want
+> to work with the data in a different GIS.
 {: .callout}
 
 ## Load a Raster and View Attributes
@@ -82,7 +91,7 @@ The first call to `rioxarray.open_rasterio()` opens the file from remote or loca
 
 The output tells us that we are looking at an `xarray.DataArray`, with `1` band, `1830` rows, and `1830` columns. We can also see the number of pixel values in the `DataArray`, and the type of those pixel values, which is unsigned integer (or `uint16`). The `DataArray` also stores different values for the coordinates of the `DataArray`. When using `rioxarray`, the term coordinates refers to spatial coordinates like `x` and `y` but also the `band` coordinate. Each of these sequences of values has its own data type, like `float64` for the spatial coordinates and `int64` for the `band` coordinate.
 
-This `DataArray` object also has a couple of attributes that are accessed like `.rio.crs`, `.rio.nodata`, and `.rio.bounds()`, which contain the metadata for the file we opened. Note that many of the metadata are accessed as attributes without `()`, but `bounds()` is a function and needs parentheses. 
+This `DataArray` object also has a couple of attributes that are accessed like `.rio.crs`, `.rio.nodata`, and `.rio.bounds()`, which contain the metadata for the file we opened. Note that many of the metadata are accessed as attributes without `()`, but `bounds()` is a function and needs parentheses.
 
 ~~~
 print(raster_ams_b9.rio.crs)
@@ -139,7 +148,7 @@ raster_ams_b9.plot()
 
 Nice plot! Notice that `rioxarray` helpfully allows us to plot this raster with spatial coordinates on the x and y axis (this is not the default in many cases with other functions or libraries).
 
-This plot shows the satellite measurement of the spectral band `B09` for an area that covers part of the Netherlands. According to the [Sentinel-2 documentaion](https://sentinels.copernicus.eu/web/sentinel/technical-guides/sentinel-2-msi/msi-instrument), this is a band with the central wavelength of 945nm, which is sensitive to water vapor. It has a spatial resolution of 60m. Note that the `band=1` in the image title refers to the ordering of all the bands in the  `DataArray`, not the Sentinel-2 band number `B09` that we saw in the pystac search results. 
+This plot shows the satellite measurement of the spectral band `B09` for an area that covers part of the Netherlands. According to the [Sentinel-2 documentaion](https://sentinels.copernicus.eu/web/sentinel/technical-guides/sentinel-2-msi/msi-instrument), this is a band with the central wavelength of 945nm, which is sensitive to water vapor. It has a spatial resolution of 60m. Note that the `band=1` in the image title refers to the ordering of all the bands in the  `DataArray`, not the Sentinel-2 band number `B09` that we saw in the pystac search results.
 
 With a quick view of the image, we notice that half of the image is blank, no data is captured. We also see that the cloudy pixels at the top have high reflectance values, while the contrast of everything else is quite low. This is expected because this band is sensitive to the water vapor. However if one would like to have a better color contrast, one can add the option `robust=True`, which displays values between the 2nd and 98th percentile:
 
@@ -153,7 +162,7 @@ Now the color limit is set in a way fitting most of the values in the image. We 
 
 > ## Tool Tip
 > The option `robust=True` always forces displaying values between the 2nd and 98th percentile. Of course, this will not work for every case. For a customized displaying range, you can also manually specifying the keywords `vmin` and `vmax`. For example ploting between `100` and `7000`:
-> 
+>
 > ~~~
 > raster_ams_b9.plot(vmin=100, vmax=7000)
 > ~~~
@@ -317,7 +326,7 @@ Coordinates:
 
 > ## Data Tip - NumPy methods
 > You could also get each of these values one by one using `numpy`.
-> 
+>
 > ~~~
 > import numpy
 > print(numpy.percentile(raster_ams_b9, 25))
@@ -386,7 +395,7 @@ And if we plot the image, the `nodata` pixels are not shown because they are not
 One should notice that there is a side effect of using `nan` instead of `0` to represent the missing data: the data type of the `DataArray` was changed from integers to float. This need to be taken into consideration when the data type matters in your application.
 
 ## Raster Bands
-So far we looked into a single band raster, i.e. the `B09` band of a Sentinel-2 scene. However, to get an overview of the scene, one may also want to visualize the true-color thumbnail of the region. This is provided as a multi-band raster -- a raster dataset that contains more than one band. 
+So far we looked into a single band raster, i.e. the `B09` band of a Sentinel-2 scene. However, to get an overview of the scene, one may also want to visualize the true-color thumbnail of the region. This is provided as a multi-band raster -- a raster dataset that contains more than one band.
 
 ![Multi-band raster image](../fig/E06-07-single_multi_raster.png)
 
@@ -435,12 +444,12 @@ Note that the `DataArray.plot.imshow()` function makes assumptions about the sha
 > As seen in the figure above, the true-color image is stretched. Let's visualize it with the right aspect ratio. You can use the [documentation](https://xarray.pydata.org/en/stable/generated/xarray.DataArray.plot.imshow.html) of `DataArray.plot.imshow()`.
 >
 > > ## Answers
-> > Since we know the height/width ratio is 1:1 (check the `rio.height` and `rio.width` attributes), we can set the aspect ratio to be 1. For example, we can choose the size to be 5 inches, and set `aspect=1`. Note that according to the [documentation](https://xarray.pydata.org/en/stable/generated/xarray.DataArray.plot.imshow.html) of `DataArray.plot.imshow()`, when specifying the `aspect` argument, `size` also needs to be provided. 
+> > Since we know the height/width ratio is 1:1 (check the `rio.height` and `rio.width` attributes), we can set the aspect ratio to be 1. For example, we can choose the size to be 5 inches, and set `aspect=1`. Note that according to the [documentation](https://xarray.pydata.org/en/stable/generated/xarray.DataArray.plot.imshow.html) of `DataArray.plot.imshow()`, when specifying the `aspect` argument, `size` also needs to be provided.
 > > ~~~
 > > raster_ams_overview.plot.imshow(size=5, aspect=1)
 > > ~~~
 > > {: .language-python}
-> > 
+> >
 > > ![Amsterdam true color overview equal aspect](../fig/E06-05-overview-plot-true-color-aspect-equal.png)
 > {: .solution}
 {: .challenge}
