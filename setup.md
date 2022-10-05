@@ -43,6 +43,8 @@ title: Setup
       ```bash
       unzip NEON-GEO-PYTHON-DATASETS.zip
       ```
+   
+     If you are using a different command line other than Bash, the `unzip` command will not work. You can troubleshoot this by unzipping the file directly in your file explorer. Make sure the unzipped files are in the `geospatial-python` folder.
 
      You should now have a directory named `data` within `geospatial-python`. Use the `ls` command to confirm.
 
