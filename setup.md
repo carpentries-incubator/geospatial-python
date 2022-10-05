@@ -258,19 +258,27 @@ code on the Terminal:
     > /Users/your-username/anaconda3/envs/geospatial/bin/python
                                           ^^^^^^^^^^
     ```
-
+    
     > ## IMPORTANT
     > If you close the terminal, you will need to 
     reactivate this environment with `conda activate geospatial` to use the Python libraries required for the lesson and
    > to start JupyterLab, which is also installed in the `geospatial` environment.
     {: .callout}
-
+    
 
 ## Starting JupyterLab
 
 In order to follow the lessons on using Python (episode 5 and onward), you should launch JupyterLab 
 after activating the geospatial conda environment in your working directory that contains the data you downloaded. 
-See [Starting JupyterLab][starting-jupyterlab] for guidance.
+See [Starting JupyterLab][starting-jupyterlab] for guidance or enter the code snippet below:
+   ```bash
+   jupyter lab
+   ```
+  
+Once you have opened a new Jupyter Lab file, confirm that all modules have been installed correctly by importing a module:
+    ```
+    import rioxarray
+    ```
 
 If all of the steps above completed successfully you are ready to follow along with the lesson!
 
