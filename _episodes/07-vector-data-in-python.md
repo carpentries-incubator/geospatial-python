@@ -46,13 +46,13 @@ import geopandas as gpd
 ~~~
 {: .language-python}
 
-We will use the `geopandas` module to load the crop field vector data we downloaded at: `data/brpgewaspercelen_definitief_2020.gpkg`. This file contains data for the entirety of the European portion of the Netherlands, resulting in a very large number of crop field parcels. Directly loading the whole file to memory can be slow. Let's consider as Area of Interest (AoI) northern Amsterdam, which is a small portion of the Netherlands. We only need to load this part.
+We will use the `geopandas` module to load the crop field vector data we downloaded at: `data/brpgewaspercelen_definitief_2020_small.gpkg`. This file contains data for the entirety of the European portion of the Netherlands, resulting in a very large number of crop field parcels. Directly loading the whole file to memory can be slow. Let's consider as Area of Interest (AoI) northern Amsterdam, which is a small portion of the Netherlands. We only need to load this part.
 
 We define a bounding box, and will only read the data within the extent of the bounding box.
 ~~~
 # Define bounding box
-xmin, xmax = (100_000, 150_000)
-ymin, ymax = (450_000, 500_000)
+xmin, xmax = (110_000, 140_000)
+ymin, ymax = (470_000, 510_000)
 bbox = (xmin, ymin, xmax, ymax)
 ~~~
 {: .language-python}
@@ -65,7 +65,7 @@ Using the `bbox` input argument, we can load only the spatial features intersect
 
 ~~~
 # Partially load data within the bounding box
-cropfield = gpd.read_file("data/brpgewaspercelen_definitief_2020.gpkg", bbox=bbox)
+cropfield = gpd.read_file("data/brpgewaspercelen_definitief_2020_small.gpkg", bbox=bbox)
 ~~~
 {: .language-python}
 
@@ -99,13 +99,13 @@ cropfield.type
 2        Polygon
 3        Polygon
 4        Polygon
-          ...
-49501    Polygon
-49502    Polygon
-49503    Polygon
-49504    Polygon
-49505    Polygon
-Length: 49506, dtype: object
+          ...   
+22026    Polygon
+22027    Polygon
+22028    Polygon
+22029    Polygon
+22030    Polygon
+Length: 22031, dtype: object
 ~~~
 {: .output}
 
@@ -145,7 +145,7 @@ cropfield.total_bounds
 {: .language-python}
 
 ~~~
-array([ 97843.559   , 448986.505   , 151599.304125, 500782.531   ])
+array([109222.03325 , 469461.512625, 140295.122125, 510939.997875])
 ~~~
 {: .output}
 
@@ -175,7 +175,7 @@ cropfield_crop.total_bounds
 {: .language-python}
 
 ~~~
-array([119594.384 , 485036.2543, 135169.9266, 500782.531 ])
+array([119594.384, 484949.292625, 135375.77025, 500782.531])
 ~~~
 {: .output}
 
