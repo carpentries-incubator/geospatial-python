@@ -7,7 +7,7 @@ title: "Instructor Notes"
 
 ### Episode 1-3
 
-- The three episodes are basic introductions for raster, vector, and CRS. Keep in mind the audience may already be very experienced in these topics. Please consider not going into too many details if not necessary.
+- The three episodes are basic introductions for raster, vector, and CRS. Keep in mind the audience may already be very experienced in these topics. Please consider starting the lesson with episodes 4 or 5 if the introductory episodes are not necessary.
 
 ### Episode 5
 
@@ -18,8 +18,8 @@ title: "Instructor Notes"
 
 ### Episode 7
 
-- Loading the crop fields polygons `data/brpgewaspercelen_definitief_2020.gpkg` is not recommended, because it takes quite some time (about several minutes), and may crush the Jupyter terminal.
-- The cut version of fields: `cropped_field.shp` is required for later episodes.
+-  `brpgewaspercelen_definitief_2020_small.gpkg` was created because the original file was too large to download and load. Original file, which was ~500Mb could take several minutes to load, and could crash the Jupyter terminal.
+- The cropped version of `brpgewaspercelen_definitief_2020_small.gpkg`: `cropped_field.shp` is required for later episodes.
 
 ### Episode 8
 
