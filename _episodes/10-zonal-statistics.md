@@ -26,6 +26,7 @@ In this episode, we will explore how to calculate zonal statistics based on the 
 First, let's load the `NDVI.tif` file saved in the previous episode to obtained our calculated raster `ndvi` data. We also use the `squeeze()` function in order to reduce our raster data `ndvi` dimension to 2D by removing the singular `band` dimension - this is necessary for use with the `rasterize` and `zonal_stats` functions:
 
 ~~~
+import rioxarray
 ndvi = rioxarray.open_rasterio("NDVI.tif")
 ndvi_sq = ndvi.squeeze()
 ~~~
