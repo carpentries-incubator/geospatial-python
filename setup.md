@@ -43,6 +43,7 @@ title: Setup
         --output brogmwvolledigeset.zip "https://figshare.com/ndownloader/files/37729416" \
         --output status_vaarweg.zip "https://figshare.com/ndownloader/files/37729419"
       ```
+      Do not unzip the files, no need since we will read from them directly.
 
   6. Change directories from `data` back into `geospatial-python`:
 
@@ -70,7 +71,7 @@ you are ready to go as soon as the workshop begins.
 2. Download the Python 3 installer for Windows.
 
 3. Double-click the executable and install Python 3 using the recommended settings. Make sure that **Register Anaconda
-   as my default Python 3.x** option is checked - it should be in the latest version of Anaconda
+   as my default Python 3.x** option is checked - it should be in the latest version of Anaconda. We also recommend that you make sure "Add Anaconda to my PATH environment variable" is selected.
 
 ### Mac OS X - [Video tutorial][video-mac]
 
@@ -256,19 +257,27 @@ code on the Terminal:
     > /Users/your-username/anaconda3/envs/geospatial/bin/python
                                           ^^^^^^^^^^
     ```
-
+    
     > ## IMPORTANT
     > If you close the terminal, you will need to
     reactivate this environment with `conda activate geospatial` to use the Python libraries required for the lesson and
    > to start JupyterLab, which is also installed in the `geospatial` environment.
     {: .callout}
-
+    
 
 ## Starting JupyterLab
 
-In order to follow the lessons on using Python (episode 5 and onward), you should launch JupyterLab
-after activating the geospatial conda environment in your working directory that contains the data you downloaded.
-See [Starting JupyterLab][starting-jupyterlab] for guidance.
+In order to follow the lessons on using Python (episode 5 and onward), you should launch JupyterLab 
+after activating the geospatial conda environment in your working directory that contains the data you downloaded. 
+See [Starting JupyterLab][starting-jupyterlab] for guidance or enter the code snippet below:
+   ```bash
+   jupyter lab
+   ```
+  
+Once you have opened a new Jupyter Lab file, confirm that all modules have been installed correctly by importing a module:
+    ```
+    import rioxarray
+    ```
 
 If all of the steps above completed successfully you are ready to follow along with the lesson!
 
