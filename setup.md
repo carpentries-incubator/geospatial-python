@@ -32,16 +32,16 @@ title: Setup
   5. Download the data that will be used in this lesson. There are two ways you can do this:
 
      * **Web browser:** Click on the following three links to download the corresponding files, then move them into the `data` directory we created above:
-       * [brpgewaspercelen_definitief_2020.gpkg](https://service.pdok.nl/rvo/brpgewaspercelen/atom/v1_0/downloads/brpgewaspercelen_definitief_2020.gpkg)
-       * [brogmwvolledigeset.zip](https://service.pdok.nl/bzk/brogmwvolledigeset/atom/v2_1/downloads/brogmwvolledigeset.zip)
-       * [status_vaarweg.zip](https://geo.rijkswaterstaat.nl/services/ogc/gdr/vaarweginformatie/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=status_vaarweg&outputFormat=SHAPE-ZIP)
+       * [brpgewaspercelen_definitief_2020_small.gpkg](https://figshare.com/ndownloader/files/37729413)
+       * [brogmwvolledigeset.zip](https://figshare.com/ndownloader/files/37729416)
+       * [status_vaarweg.zip](https://figshare.com/ndownloader/files/37729419)
 
      * **Terminal:** Running the following command will download three files (use the `ls` command to confirm):
       ```bash
       curl -L --progress-bar \
-        --output brpgewaspercelen_definitief_2020.gpkg "https://service.pdok.nl/rvo/brpgewaspercelen/atom/v1_0/downloads/brpgewaspercelen_definitief_2020.gpkg" \
-        --output brogmwvolledigeset.zip "https://service.pdok.nl/bzk/brogmwvolledigeset/atom/v2_1/downloads/brogmwvolledigeset.zip" \
-        --output status_vaarweg.zip "https://geo.rijkswaterstaat.nl/services/ogc/gdr/vaarweginformatie/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=status_vaarweg&outputFormat=SHAPE-ZIP"
+        --output brpgewaspercelen_definitief_2020_small.gpkg "https://figshare.com/ndownloader/files/37729413" \
+        --output brogmwvolledigeset.zip "https://figshare.com/ndownloader/files/37729416" \
+        --output status_vaarweg.zip "https://figshare.com/ndownloader/files/37729419"
       ```
 
   6. Change directories from `data` back into `geospatial-python`:
