@@ -208,7 +208,7 @@ Xarray and Dask also provide a graphical representation of the raster data array
 >
 > ~~~
 > import rasterio
-> with rasterio.open(cog_uri) as r:
+> with rasterio.open(visual_href) as r:
 >     if r.is_tiled:
 >         print(f"Chunk size: {r.block_shapes}")
 > ~~~
