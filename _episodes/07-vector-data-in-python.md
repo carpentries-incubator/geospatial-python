@@ -323,15 +323,15 @@ As we can see in the output, the `LINESTRING` object contains a list of coordina
 import shapely
 
 # Define a function flipping the x and y coordinate values
-def flip(x, y):
-    return y, x
+def flip(geometry):
+    return shapely.ops.transform(lambda x, y: (y, x), geometry)
 
 # Apply this function to all coordinates and all lines
-geom_corrected = [shapely.ops.transform(flip, line) for line in waterways_nl['geometry']]
+geom_corrected = waterways_nl['geometry'].apply(flip)
 ~~~
 {: .language-python}
 
-Then we can upate the `geometry` column with the corrected geometry `geom_corrected`, and visualize it to check:
+Then we can update the `geometry` column with the corrected geometry `geom_corrected`, and visualize it to check:
 ~~~
 # Update geometry
 waterways_nl['geometry'] = geom_corrected
@@ -343,7 +343,7 @@ waterways_nl.plot()
 
 ![Corrected waterways](../fig/E07-04-waterways-corrected.png)
 
-Now the waterways looks good! We can save it for later usage:
+Now the waterways look good! We can save the vector data for later usage:
 ~~~
 # Update geometry
 waterways_nl.to_file('waterways_nl_corrected.shp')
