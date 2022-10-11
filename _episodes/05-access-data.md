@@ -76,7 +76,7 @@ datasets, as it provides an up-to-date list of existing STAC catalogs. From the 
 >
 > > ## Solution
 > > ![](../fig/E05-02-STAC-browser-exercise.jpg)
-> > 1) Four subcatalags are available, including both Sentinel 2 and Landsat 8 images (see left screenshot in the figure
+> > 1) Four subcatalogs are available, including both Sentinel 2 and Landsat 8 images (see left screenshot in the figure
 > > above).
 > >
 > > 2) When you select the Sentinel-2 L2A COGs collection, and randomly choose one of the items from the list, you
@@ -124,7 +124,7 @@ collection = "sentinel-s2-l2a-cogs"  # Sentinel-2, Level 2A, COGs
 > COGs typically include multiple lower-resolution versions of the original image, called "overviews", which can also be
 > accessed independently. By providing this "pyramidal" structure, users that are not interested in the details provided
 > by a high-resolution raster can directly access the lower-resolution versions of the same image, significantly saving
-> on the downloading time. More information on the COG format can be fourd [here](https://www.cogeo.org).
+> on the downloading time. More information on the COG format can be found [here](https://www.cogeo.org).
 {:callout}
 
 We also ask for scenes intersecting a geometry defined using the `shapely` library (in this case, a point):
@@ -363,8 +363,8 @@ b01.rio.to_raster("B01.tif")
 > In this exercise we put in practice all the skills we have learned in this episode to retrieve images from a different
 > mission: [Landsat 8](https://www.usgs.gov/landsat-missions/landsat-8). In particular, we browse images from the
 > [Harmonized Landsat Sentinel-2 (HLS) project](https://lpdaac.usgs.gov/products/hlsl30v002/), which provides images
-> from the two missions that have been made consistent with each other. The HLS catalog is indexed in the NASA Common
-> Metadata Repository (CMR) and it can be accessed from the STAC API endpoint at the following URL:
+> from NASA's Landsat 8 and ESA's Sentinel-2 that have been made consistent with each other. The HLS catalog is indexed
+> in the NASA Common Metadata Repository (CMR) and it can be accessed from the STAC API endpoint at the following URL:
 > `https://cmr.earthdata.nasa.gov/stac/LPCLOUD`.
 >
 > - Using `pystac_client`, search for all assets of the Landsat 8 collection (`HLSL30.v2.0`) from February to March

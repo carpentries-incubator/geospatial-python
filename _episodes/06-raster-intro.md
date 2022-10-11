@@ -40,7 +40,7 @@ We will also use the [`pystac`](https://github.com/stac-utils/pystac) package to
 > using one scene from the search results as an example to demonstrate data loading and visualization.
 >
 > If you would like to work with the data for this lesson without downloading data on-the-fly, you can download the
-> raster data using this [link](https://figshare.com/ndownloader/files/36028100). Save the `geospatial-python-raster-dataset.tar.gz`
+> raster data ahead of time using this [link](https://figshare.com/ndownloader/files/36028100). Save the `geospatial-python-raster-dataset.tar.gz`
 > file in your current working directory, and extract the archive file by double-clicking on it or by running the
 > following command in your terminal `tar -zxvf geospatial-python-raster-dataset.tar.gz`. Use the file `geospatial-python-raster-dataset/search.json`
 > (instead of `search.json`) to get started with this lesson.
@@ -91,7 +91,7 @@ The first call to `rioxarray.open_rasterio()` opens the file from remote or loca
 
 The output tells us that we are looking at an `xarray.DataArray`, with `1` band, `1830` rows, and `1830` columns. We can also see the number of pixel values in the `DataArray`, and the type of those pixel values, which is unsigned integer (or `uint16`). The `DataArray` also stores different values for the coordinates of the `DataArray`. When using `rioxarray`, the term coordinates refers to spatial coordinates like `x` and `y` but also the `band` coordinate. Each of these sequences of values has its own data type, like `float64` for the spatial coordinates and `int64` for the `band` coordinate.
 
-This `DataArray` object also has a couple of attributes that are accessed like `.rio.crs`, `.rio.nodata`, and `.rio.bounds()`, which contain the metadata for the file we opened. Note that many of the metadata are accessed as attributes without `()`, but `bounds()` is a function and needs parentheses.
+This `DataArray` object also has a couple of attributes that are accessed like `.rio.crs`, `.rio.nodata`, and `.rio.bounds()`, which contain the metadata for the file we opened. Note that many of the metadata are accessed as attributes without `()`, but `bounds()` is a method (i.e. a function in an object) and needs parentheses.
 
 ~~~
 print(raster_ams_b9.rio.crs)

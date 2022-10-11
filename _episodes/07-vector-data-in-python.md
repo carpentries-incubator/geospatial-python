@@ -58,7 +58,7 @@ bbox = (xmin, ymin, xmax, ymax)
 {: .language-python}
 
 > ## How should I define my bounding box?
-> For simplicity, here we assume the **CRS** and **extent** of the vector file are known. In reality, to make a bounding box for data loading, one needs to know the extent and the Coordinate Reference System (CRS) of the vector file. Some Python tools, e.g. [`fiona`](https://fiona.readthedocs.io/en/latest/)(which is also the backend of `geopandas`), provides the file inspection functionality without actually the need to read the full data set into memory. An example can be found in [the documentation of fiona](https://fiona.readthedocs.io/en/latest/manual.html#format-drivers-crs-bounds-and-schema).
+> For simplicity, here we assume the **Coordinate Reference System (CRS)** and **extent** of the vector file are known (for instance they are provided in the dataset documentation). Some Python tools, e.g. [`fiona`](https://fiona.readthedocs.io/en/latest/)(which is also the backend of `geopandas`), provides the file inspection functionality without actually the need to read the full data set into memory. An example can be found in [the documentation of fiona](https://fiona.readthedocs.io/en/latest/manual.html#format-drivers-crs-bounds-and-schema).
 {: .callout}
 
 Using the `bbox` input argument, we can load only the spatial features intersecting the provided bounding box.
@@ -99,7 +99,7 @@ cropfield.type
 2        Polygon
 3        Polygon
 4        Polygon
-          ...   
+          ...
 22026    Polygon
 22027    Polygon
 22028    Polygon

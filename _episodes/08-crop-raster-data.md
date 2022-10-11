@@ -9,8 +9,8 @@ objectives:
 - "Crop raster data with a polygon."
 - "Crop raster data within a geometry buffer."
 keypoints:
-- "Use `clip_box` in `DataArray.rio` to crop raster with a bounding box."
-- "Use `clip` in `DataArray.rio` to crop raster with a given polygon."
+- "Use `clip_box` in `DataArray.rio` to crop a raster with a bounding box."
+- "Use `clip` in `DataArray.rio` to crop a raster with a given polygon."
 - "Use `buffer` in `geopandas` to make a buffer polygon of a (multi)point or a polyline. This polygon can be used to crop data."
 - "Use `reproject_match` function in `DataArray.rio` to reproject and crop a raster data using another raster data."
 ---
@@ -154,7 +154,7 @@ cf_boundary_crop.plot(
 <img src="../fig/E08-02-crop-raster-bounding-box-01.png" title="Bounding boxes of AoI over the raster"  width="512" style="display: block; margin: auto;" />
 
 Seeing from the location of the polygons, the crop fields (red) only takes a small part of
-the raster. Therefore before actual processing, we can first crop the raster to
+the raster. Therefore, before actual processing, we can first crop the raster to
 our area of interest. The `clip_box` function allows one to crop a raster by the
 min/max of the x and y coordinates. Note that we are cropping the original image `true_color_image` now, and not the overview image `overview_image`.
 
@@ -185,7 +185,7 @@ raster_clip.rio.to_raster("raster_clip.tif")
 
 ## Crop raster data with polygons
 
-We have a cropped image around the fields. To further analysis the fields, one may want to crop the image to the exact field boundaries.
+We have a cropped image around the fields. To further analyze the fields, one may want to crop the image to the exact field boundaries.
 This can be done with the `clip` function:
 
 ~~~
@@ -298,9 +298,9 @@ The red dots have grown larger indicating the conversion from points to buffer p
 > {: .solution}
 {: .challenge}
 
-## Crop raster data using another raster data
+## Crop raster data using another raster dataset
 
-So far we have learnt how to crop raster image with vector data. We can also crop a raster with another raster data. In this section, we will demonstrate how to crop the `true_color_image` image using the
+So far we have learned how to crop raster image with vector data. We can also crop a raster with another raster data. In this section, we will demonstrate how to crop the `true_color_image` image using the
 `crop_fields` image.
 
 > ## Using `crop_fields` raster image
