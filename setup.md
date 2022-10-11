@@ -6,7 +6,7 @@ title: Setup
 ## Setting up your Lesson Directory and Getting the Data
 
   1. Open the terminal/shell:
-     * On **Windows**, open **Git Bash**. 
+     * On **Windows**, open **Git Bash**.
      * On **Mac OS** or **Linux**, open the **Terminal** app.
 
   2. Change your working directory to your **Desktop** :
@@ -31,22 +31,19 @@ title: Setup
 
   5. Download the data that will be used in this lesson. There are two ways you can do this:
 
-     * **Web browser:** [**Click here**](https://figshare.com/ndownloader/files/33848834) to download the zip file. When it finishes, move the zip file into the `geospatial-python` directory we created above and unzip the file.
-     * **Terminal:**
+     * **Web browser:** Click on the following three links to download the corresponding files, then move them into the `data` directory we created above:
+       * [brpgewaspercelen_definitief_2020_small.gpkg](https://figshare.com/ndownloader/files/37729413)
+       * [brogmwvolledigeset.zip](https://figshare.com/ndownloader/files/37729416)
+       * [status_vaarweg.zip](https://figshare.com/ndownloader/files/37729419)
 
+     * **Terminal:** Running the following command will download three files (use the `ls` command to confirm):
       ```bash
-      curl -L --output NEON-GEO-PYTHON-DATASETS.zip https://figshare.com/ndownloader/files/33848834
+      curl -L --progress-bar \
+        --output brpgewaspercelen_definitief_2020_small.gpkg "https://figshare.com/ndownloader/files/37729413" \
+        --output brogmwvolledigeset.zip "https://figshare.com/ndownloader/files/37729416" \
+        --output status_vaarweg.zip "https://figshare.com/ndownloader/files/37729419"
       ```
-
-     The file should begin to download. When it is complete, unzip it by entering the following command:
-
-      ```bash
-      unzip NEON-GEO-PYTHON-DATASETS.zip
-      ```
-   
-     If you are using a different command line other than Bash, the `unzip` command will not work. You can troubleshoot this by unzipping the file directly in your file explorer. Make sure the unzipped files are in the `geospatial-python` folder.
-
-     You should now have a directory named `data` within `geospatial-python`. Use the `ls` command to confirm.
+      Do not unzip the files, no need since we will read from them directly.
 
   6. Change directories from `data` back into `geospatial-python`:
 
@@ -62,8 +59,8 @@ individually can be a bit difficult, however, so we recommend the all-in-one
 installer [Anaconda][anaconda].
 
 Regardless of how you choose to install it, please make sure you install Python
-version 3.x (e.g., 3.7 is fine). Also, please set up your python environment at 
-least a day in advance of the workshop.  If you encounter problems with the 
+version 3.x (e.g., 3.7 is fine). Also, please set up your python environment at
+least a day in advance of the workshop.  If you encounter problems with the
 installation procedure, ask your workshop organizers via e-mail for assistance so
 you are ready to go as soon as the workshop begins.
 
@@ -89,7 +86,7 @@ you are ready to go as soon as the workshop begins.
 
 ### Linux
 
-Note that the following installation steps require you to work from the shell. 
+Note that the following installation steps require you to work from the shell.
 If you run into any difficulties, please request help before the workshop begins.
 
 1.  Open [https://www.anaconda.com/distribution/][anaconda-linux] with your web browser.
@@ -114,20 +111,20 @@ If you run into any difficulties, please request help before the workshop begins
     d.  Press enter.
 
     e.  Follow the text-only prompts.  When the license agreement appears (a colon
-        will be present at the bottom of the screen) press the space bar until you see the 
-        bottom of the text. Type `yes` and press enter to approve the license. Press 
-        enter again to approve the default location for the files. Type `yes` and 
-        press enter to prepend Anaconda to your `PATH` (this makes the Anaconda 
+        will be present at the bottom of the screen) press the space bar until you see the
+        bottom of the text. Type `yes` and press enter to approve the license. Press
+        enter again to approve the default location for the files. Type `yes` and
+        press enter to prepend Anaconda to your `PATH` (this makes the Anaconda
         distribution your user's default Python).
 
 ## Setting up the workshop environment with conda
 
-Once you have installed Anaconda, you should have access to the `conda` command in your terminal. 
+Once you have installed Anaconda, you should have access to the `conda` command in your terminal.
 
 1. Test that this is so by running the `conda` command in the terminal. You should get an output that looks like this:
 
     ```bash
-    → conda                    
+    $ conda
     usage: conda [-h] [-V] command ...
 
     conda is a tool for managing and deploying applications, environments and packages.
@@ -170,27 +167,27 @@ Once you have installed Anaconda, you should have access to the `conda` command 
 
 2. Create the environment using the `conda create` command. It's possible to paste the following
 code on the Terminal:
-   
+
     ```bash
     conda create -n geospatial -c conda-forge -y \
       jupyterlab numpy matplotlib \
-      xarray rasterio geopandas rioxarray earthpy descartes xarray-spatial pystac-client python-graphviz
+      xarray rasterio geopandas rioxarray earthpy descartes xarray-spatial pystac-client==0.3.2 python-graphviz
 
     ```
-   
+
    _Please note that this step may take several minutes to complete. If it takes more than a few minutes, see below for another method._
 
    In this command, the `-n` argument specifies the environment name, the `-c` argument specifies the Conda channel
    where the libraries are hosted, and the `-y` argument spares the need for confirmation. The following arguments are
    the names of the libraries we are going to use. As you can see, geospatial analysis requires many libraries!
    Luckily, package managers like `conda` facilitate the process of installing and managing them.
-    
+
    If the above command does not work, it's also possible to create the environment from a file:
-    
+
    Right-click and "Save Link As..." on this link:
-   
+
    [https://carpentries-incubator.github.io/geospatial-python/files/environment.yaml](files/environment.yaml)
-   
+
    Name it `environment.yaml` and save it to your `geospatial-python` folder.
    The `environment.yaml` contains the names of Python libraries that are required to run the lesson:
 
@@ -212,10 +209,10 @@ code on the Terminal:
       - xarray-spatial
       - earthpy
       - descartes # necessary for geopandas plotting
-      - pystac-client
+      - pystac-client==0.3.2 # pin version to work with earth-search STAC API
       - python-graphviz
     ```
-   
+
     In the terminal, navigate to the directory where you saved the `environment.yaml` file using the `cd` command.
     Then run:
 
@@ -224,9 +221,9 @@ code on the Terminal:
     ```
 
     `conda` should begin to locate, download, and install the Python libraries listed in the `environment.yaml` file.
-   
+
     > ## Faster Environment Install With One Extra Step
-    > If you see a spinning `/` for more than a few minutes, you may want to try the following to speed up the environment installation. 
+    > If you see a spinning `/` for more than a few minutes, you may want to try the following to speed up the environment installation.
     > 1. Cancel the currently running `conda create` process with CTRL+C
     > 2. Run `conda install -c conda-forge mamba`
     > 3. Run `mamba env create -f environment.yaml`
@@ -262,7 +259,7 @@ code on the Terminal:
     ```
     
     > ## IMPORTANT
-    > If you close the terminal, you will need to 
+    > If you close the terminal, you will need to
     reactivate this environment with `conda activate geospatial` to use the Python libraries required for the lesson and
    > to start JupyterLab, which is also installed in the `geospatial` environment.
     {: .callout}
@@ -300,7 +297,7 @@ If all of the steps above completed successfully you are ready to follow along w
     % ls ~
     > Applications      Downloads       Pictures
       anaconda3         Library         Public
-      Desktop           Movies      
+      Desktop           Movies
       Documents         Music
     ```
 

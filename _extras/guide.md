@@ -1,33 +1,39 @@
 ---
 layout: page
-title: "Instructor Notes, FIX"
+title: "Instructor Notes"
 ---
 
 ## Instructor notes
 
-## Workshop Structure
+### Episode 1-3
 
-The following table provides the structure for the Geospatial Workshop and *estimated* timings for each lesson.
+- The three episodes are basic introductions for raster, vector, and CRS. Keep in mind the audience may already be very experienced in these topics. Please consider starting the lesson with episodes 4 or 5 if the introductory episodes are not necessary.
 
-| Lesson  | Length  | Include if: |
-|---|---|---|
-| [Introduction to Geospatial Concepts](https://datacarpentry.org/organization-geospatial/) ([instructor notes](https://datacarpentry.org/organization-geospatial/guide/index.html))   | **75 minutes** - estimated, will not be accurate  | Learners have no experience with geospatial data.  |
-| [Introduction to R for Geospatial Data](https://datacarpentry.org/r-intro-geospatial/) ([instructor notes](https://datacarpentry.org/r-intro-geospatial/guide/index.html))  | **4 hours** - estimated, will not be accurate  | Learners have no experience with R.  |
-| [Introduction to Geospatial Raster and Vector Data with R](https://datacarpentry.org/r-raster-vector-geospatial/) ([instructor notes](https://datacarpentry.org/r-raster-vector-geospatial/guide/index.html))  | **7 hours** - estimated, will not be accurate  | Always.  |
+### Episode 5
 
-If the workshop audience is experienced in both R and geospatial concepts, this workshop could theoretically be taught in one day. However, note that these timings are estimates and we are relying on feedback from pilot workshop Instructors to add accurate timing information.
+- The exercise **Exercise: Search satellite scenes using metadata filters** needs extra attention. Its output `search.json` is required for the later episodes. Therefore we recommend:
+  - Do not skip this exercise;
+  - Think twice when you would like to change the query arguments in this exercise;
+  - Make sure all the audience have the output `search.json` before continuing.
 
-[Instructors: add information about timing and selecting materials as these workshops are piloted]
+### Episode 7
 
-## Technical tips and tricks
+-  `brpgewaspercelen_definitief_2020_small.gpkg` was created because the original file was too large to download and load. Original file, which was ~500Mb could take several minutes to load, and could crash the Jupyter terminal.
+- The cropped version of `brpgewaspercelen_definitief_2020_small.gpkg`: `cropped_field.shp` is required for later episodes.
 
-#### Installation
-- For the [Introduction to Geospatial Raster and Vector Data with R](https://datacarpentry.org/r-raster-vector-geospatial/) lesson, learners MUST download the data and install the software before the workshop. The data set is large (>150 Mb) and there are numerous software packages and R libraries to install. **Remind your learners multiple times!**
-  - Instructions to download data and set up a machine to analyze and process geospatial data: http://datacarpentry.org/geospatial-workshop/setup.html
-- You may find it helpful to host an "install party" prior to your workshop where you and your co-instructors help learners install the necessary software for the workshop. If this is unfeasible, leave time at the beginning of your workshop to ensure that learners have necessary geospatial software (GDAL, GEOS, PROJ.4) installed prior to teaching the course.
+### Episode 8
 
-[Instructors: add information about supporting learners with installation here]
+- It is not recommended to plot the `visual` band directly, due to its size (3 x 10980 x 10980). Please plot the `overview` as in the teaching material.
+- The clipped raster data: `raster_clip.tif` is required for later episodes.
 
-## Common problems
+### Episode 9
+
+- The calculated NDVI: `NDVI.tif` is required for later episodes.
+- The calculated classification identifier: `NDVI_classified.tif` is required for later episodes.
+
+## Workshop setup
+
+- Consider using `mamba` for speeding up the Python environment setup. 
+- Make sure the audience has downloaded the three vector datasets to the `data` repository.
 
 {% include links.md %}

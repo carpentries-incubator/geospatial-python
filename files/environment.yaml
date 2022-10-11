@@ -6,6 +6,7 @@ dependencies:
   - jupyterlab>=3.1.0
   # Python scientific libraries
   - numpy>=1.20.0
+  - numba>=0.53
   - matplotlib>=3.4.0
   - xarray>=0.17
   # Geospatial libraries
@@ -15,5 +16,5 @@ dependencies:
   - earthpy>=0.9.0
   - xarray-spatial
   - descartes>=1.0.0 # necessary for geopandas plotting
-  - pystac-client
+  - pystac-client==0.3.2 # pin version to work with earth-search STAC API
   - python-graphviz # necessary for plotting dask graphs
