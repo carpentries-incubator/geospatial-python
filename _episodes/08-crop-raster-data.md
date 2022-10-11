@@ -160,8 +160,8 @@ min/max of the x and y coordinates. Note that we are cropping the original image
 
 ~~~
 # Crop the raster with the bounding box
-raster_clip = true_color_image.rio.clip_box(*cf_boundary_crop.total_bounds)
-print(raster_clip.shape)
+raster_clip_box = true_color_image.rio.clip_box(*cf_boundary_crop.total_bounds)
+print(raster_clip_box.shape)
 ~~~
 {: .language-python}
 ~~~
@@ -172,14 +172,14 @@ print(raster_clip.shape)
 We successfully cropped the raster to a much smaller piece. We can visualize it now:
 
 ~~~
-raster_clip.plot.imshow(figsize=(8,8))
+raster_clip_box.plot.imshow(figsize=(8,8))
 ~~~
 {: .language-python}
 <img src="../fig/E08-03-crop-raster-crop-by-bb-02.png" title="Crop raster by a bounding box"  width="512" style="display: block; margin: auto;" />
 
 This cropped image can be saved for later usage:
 ~~~
-raster_clip.rio.to_raster("raster_clip.tif")
+raster_clip_box.rio.to_raster("raster_clip.tif")
 ~~~
 {: .language-python}
 
@@ -189,7 +189,7 @@ We have a cropped image around the fields. To further analyze the fields, one ma
 This can be done with the `clip` function:
 
 ~~~
-raster_clip_fields = raster_clip.rio.clip(cf_boundary_crop['geometry'])
+raster_clip_fields = raster_clip_box.rio.clip(cf_boundary_crop['geometry'])
 ~~~
 {: .language-python}
 
@@ -216,10 +216,10 @@ We can first load the wells vector data, and select wells within the coverage of
 ~~~
 # Load wells
 wells = gpd.read_file("data/brogmwvolledigeset.zip")
-wells = wells.to_crs(raster_clip.rio.crs)
+wells = wells.to_crs(raster_clip_box.rio.crs)
 
 # Crop the wells to the image extent
-xmin, ymin, xmax, ymax = raster_clip.rio.bounds()
+xmin, ymin, xmax, ymax = raster_clip_box.rio.bounds()
 wells = wells.cx[xmin:xmax, ymin:ymax]
 ~~~
 {: .language-python}
@@ -229,7 +229,7 @@ Then we can check the location of the wells:
 # Plot the wells over raster
 fig, ax = plt.subplots()
 fig.set_size_inches((8,8))
-raster_clip.plot.imshow(ax=ax)
+raster_clip_box.plot.imshow(ax=ax)
 wells.plot(ax=ax, color='red', markersize=2)
 ~~~
 {: .language-python}
@@ -249,7 +249,7 @@ Now let's see what do the buffers look like in the image:
 # Visualize buffer on raster
 fig, ax = plt.subplots()
 fig.set_size_inches((8,8))
-raster_clip.plot.imshow(ax=ax)
+raster_clip_box.plot.imshow(ax=ax)
 wells_buffer.plot(ax=ax, color='red')
 ~~~
 {: .language-python}
@@ -258,11 +258,11 @@ wells_buffer.plot(ax=ax, color='red')
 The red dots have grown larger indicating the conversion from points to buffer polygons.
 
 > ## Exercise: Select the raster data around the wells
-> Now we have the buffer polygons around the groudwater monitoring wells, i.e. `wells_buffer`. Can you crop the image `raster_clip` to the buffer polygons? Can you visualize the results of cropping?
+> Now we have the buffer polygons around the groudwater monitoring wells, i.e. `wells_buffer`. Can you crop the image `raster_clip_box` to the buffer polygons? Can you visualize the results of cropping?
 > > ## Solution
 > > ~~~
 > > # Crop
-> > raster_clip_wells = raster_clip.rio.clip(wells_buffer)
+> > raster_clip_wells = raster_clip_box.rio.clip(wells_buffer)
 > >
 > > # Visualize cropped buffer
 > > raster_clip_wells.plot.imshow()
@@ -279,7 +279,7 @@ The red dots have grown larger indicating the conversion from points to buffer p
 > > ~~~
 > > # Load waterways polyline and convert CRS
 > > waterways_nl = gpd.read_file("waterways_nl_corrected.shp")
-> > waterways_nl = waterways_nl.to_crs(raster_clip.rio.crs)
+> > waterways_nl = waterways_nl.to_crs(raster_clip_box.rio.crs)
 > >
 > > # Crop the waterways to the image extent
 > > waterways_nl = waterways_nl.cx[xmin:xmax, ymin:ymax]
@@ -288,7 +288,7 @@ The red dots have grown larger indicating the conversion from points to buffer p
 > > waterways_nl_buffer = waterways_nl.buffer(100)
 > >
 > > # Crop
-> > raster_clip_waterways = raster_clip.rio.clip(waterways_nl_buffer)
+> > raster_clip_waterways = raster_clip_box.rio.clip(waterways_nl_buffer)
 > >
 > > # Visualize
 > > raster_clip_waterways.plot.imshow(figsize=(8,8))
