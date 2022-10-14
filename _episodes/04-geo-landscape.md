@@ -176,7 +176,7 @@ raster file types.
 | --------- | ---------- | ----------- |
 | Esri Shapefile | .SHP .DBF .SHX | The most common geospatial file type. This has become the industry standard. The three required files are: SHP is the feature geometry. SHX is the shape index position. DBF is the attribute data. |
 | Geographic JavaScript Object Notation (GeoJSON) | .GEOJSON .JSON |Used for web-based mapping and uses JavaScript Object Notation to store the coordinates as text. |
-| Google Keyhole Markup Language| .KML .KMZ | KML stands for Keyhole Markup Language. This GIS format is XML-based and is primarily used for Google Earth. |
+| Google Keyhole Markup Language (KML) | .KML .KMZ | KML stands for Keyhole Markup Language. This GIS format is XML-based and is primarily used for Google Earth. |
 | OpenStreetMap | .OSM | OSM files are the native file for OpenStreetMap which had become the largest crowdsourcing GIS data project in the world. These files are a collection of vector features from crowd-sourced contributions from the open community. |
 
 ### Raster
