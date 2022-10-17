@@ -173,15 +173,18 @@ raster file types.
 ### Vector
 
 | File Type | Extensions | Description |
-|Esri ShapeFile|.SHP .DBF .SHX|The most common geospatial file type. This has become the industry standard. The three required files are: SHP is the feature geometry. SHX is the shape index position. DBF is the attribute data. |
-|Geographic JavaScript Object Notation |.GEOJSON .JSON|Used for web-based mapping and uses JavaScript Object Notation to store the coordinates as text.|
-|Google Keyhole Markup Language|.KML .KMZ|KML stands for Keyhole Markup Language. This GIS format is XML-based and is primarily used for Google Earth.|
-|OpenStreetMap|.OSM|OSM files are the native file for OpenStreetMap which had become the largest crowdsourcing GIS data project in the world. These files are a collection of vector features from crowd-sourced contributions from the open community.|
+| --------- | ---------- | ----------- |
+| Esri Shapefile | .SHP .DBF .SHX | The most common geospatial file type. This has become the industry standard. The three required files are: SHP is the feature geometry. SHX is the shape index position. DBF is the attribute data. |
+| Geographic JavaScript Object Notation (GeoJSON) | .GEOJSON .JSON |Used for web-based mapping and uses JavaScript Object Notation to store the coordinates as text. |
+| Google Keyhole Markup Language (KML) | .KML .KMZ | KML stands for Keyhole Markup Language. This GIS format is XML-based and is primarily used for Google Earth. |
+| OpenStreetMap | .OSM | OSM files are the native file for OpenStreetMap which had become the largest crowdsourcing GIS data project in the world. These files are a collection of vector features from crowd-sourced contributions from the open community. |
 
 ### Raster
 
 | File Type | Extensions | Description |
-|ERDAS Imagine |.IMG|	ERDAS Imagine IMG files is a proprietary file format developed by Hexagon Geospatial. IMG files are commonly used for raster data to store single and multiple bands of satellite data.Each raster layer as part of an IMG file contains information about its data values. For example, this includes projection, statistics, attributes, pyramids and whether or not it’s a continuous or discrete type of raster.|
-|GeoTIFF|.TIF .TIFF .OVR|The GeoTIFF has become an industry image standard file for GIS and satellite remote sensing applications. GeoTIFFs may be accompanied by other files:TFW is the world file that is required to give your raster geolocation.XML optionally accompany GeoTIFFs and are your metadata.AUX auxiliary files store projections and other information.OVR pyramid files improves performance for raster display.|
+| --------- | ---------- | ----------- |
+| ERDAS Imagine | .IMG | ERDAS Imagine IMG files is a proprietary file format developed by Hexagon Geospatial. IMG files are commonly used for raster data to store single and multiple bands of satellite data.Each raster layer as part of an IMG file contains information about its data values. For example, this includes projection, statistics, attributes, pyramids and whether or not it’s a continuous or discrete type of raster. |
+| GeoTIFF |.TIF .TIFF .OVR | The GeoTIFF has become an industry image standard file for GIS and satellite remote sensing applications. GeoTIFFs may be accompanied by other files:TFW is the world file that is required to give your raster geolocation.XML optionally accompany GeoTIFFs and are your metadata.AUX auxiliary files store projections and other information.OVR pyramid files improves performance for raster display. |
+| Cloud Optimized GeoTIFF (COG) | .TIF .TIFF | Based on the GeoTIFF standard, COGs incorporate tiling and overviews to support HTTP range requests where users can query and load subsets of the image without having to transfer the entire file. | 
 
 {% include links.md %}
