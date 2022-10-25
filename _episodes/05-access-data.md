@@ -368,9 +368,8 @@ b01.rio.to_raster("B01.tif")
 > `https://cmr.earthdata.nasa.gov/stac/LPCLOUD`.
 >
 > - Using `pystac_client`, search for all assets of the Landsat 8 collection (`HLSL30.v2.0`) from February to March
->   2021, intersecting the point with latitute/longitude coordinates (40.78, -73.97) deg.
-> - Select the scene with the lowest cloud cover.
-> - Visualize its thumbnail (asset key `browse`).
+>   2021, intersecting the point with longitude/latitute coordinates (-73.97, 40.78) deg.
+> - Visualize an item's thumbnail (asset key `browse`).
 >
 > >## Solution
 > >
@@ -384,7 +383,7 @@ b01.rio.to_raster("B01.tif")
 > >     collections=["HLSL30.v2.0"],
 > >     intersects=Point(-73.97, 40.78),
 > >     datetime="2021-02-01/2021-03-30",
-> > )
+> > ) # nasa cmr cloud cover filtering is currently broken: https://github.com/nasa/cmr-stac/issues/239
 > >
 > > # retrieve search results
 > > items = search.get_all_items()
@@ -398,7 +397,7 @@ b01.rio.to_raster("B01.tif")
 > > {: .output}
 > >
 > > ~~~
-> > items_sorted = sorted(items, key=lambda x: x.properties["eo:cloud_cover"])
+> > items_sorted = sorted(items, key=lambda x: x.properties["eo:cloud_cover"]) # sorting and then selecting by cloud cover
 > > item = items_sorted[0]
 > > print(item)
 > > ~~~
