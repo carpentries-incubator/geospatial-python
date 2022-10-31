@@ -171,7 +171,7 @@ code on the Terminal:
     ```bash
     conda create -n geospatial -c conda-forge -y \
       jupyterlab numpy matplotlib \
-      xarray rasterio geopandas rioxarray earthpy descartes xarray-spatial pystac-client==0.3.2 python-graphviz
+      xarray rasterio geopandas rioxarray earthpy descartes xarray-spatial pystac-client python-graphviz
 
     ```
 
@@ -209,7 +209,7 @@ code on the Terminal:
       - xarray-spatial
       - earthpy
       - descartes # necessary for geopandas plotting
-      - pystac-client==0.3.2 # pin version to work with earth-search STAC API
+      - pystac-client
       - python-graphviz
     ```
 
