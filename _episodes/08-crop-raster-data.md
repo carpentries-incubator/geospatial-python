@@ -1,7 +1,7 @@
 ---
 title: "Crop raster data with rioxarray and geopandas"
-teaching: 40
-exercises: 20
+teaching: 70
+exercises: 30
 questions:
 - "How can I crop my raster data to the area of interest?"
 objectives:
