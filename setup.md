@@ -2,13 +2,14 @@
 layout: page
 title: Setup
 ---
-## Prerequirisite software:
+## Set-up Instructions:
+
+### Prerequirisite software:
 1. Anaconda
 2. Python 3.x 
 3. Jupyter Lab
 
-## Set-up Instructions:
-This setup uses **Anaconda prompt** to install the prerequisites for the course on **Windows**. Experienced users may opt for other options such as **Git Bash** or **Windows Subsystem for Linux**
+On **Windows**, this setup uses **Anaconda prompt** to install the prerequisites for the course. Experienced users may opt for other options such as **Git Bash** or **Windows Subsystem for Linux**
 
 ## Installing Python Using Anaconda
 
@@ -80,7 +81,7 @@ If you run into any difficulties, please request help before the workshop begins
 ## Setting up your Lesson Directory and Getting the Data
 
   1. Open the terminal/shell:
-     * On **Windows**, open **Anaconda prompt**.
+     * On **Windows**, open **Anaconda prompt** from the _Start Menu_.
      * On **Mac OS** or **Linux**, open the **Terminal** app.
 
   2. Change your working directory to your **Desktop** :
@@ -196,7 +197,9 @@ code on the terminal/anaconda prompt:
     > If you see a spinning `/` for more than a few minutes, you may want to try the following to speed up the environment installation.
     > 1. Cancel the currently running `conda create` process with CTRL+C
     > 2. Run `conda install -c conda-forge mamba`
-    > 3. Run `mamba env create -f environment.yaml`
+    > 3. Run `mamba create -n geospatial -c conda-forge -y \
+      jupyterlab numpy matplotlib \
+      xarray rasterio geopandas rioxarray earthpy descartes xarray-spatial pystac-client python-graphviz`
     {: .callout}
 
   	
@@ -292,10 +295,6 @@ Once you have opened a new Jupyter Lab file, confirm that all modules have been 
 If all of the steps above completed successfully you are ready to follow along with the lesson!
 
 ## Troubleshooting `conda: command not found`
-
-* **Windows users:** use the _Start Menu_ to
-  [**open the _Anaconda Prompt_**](https://docs.anaconda.com/anaconda/install/verify-install/#conda) and
-  [continue from the beginning of step 3](#env-create-anchor) in the section *Setting up the workshop environment with conda*.
 * **Mac OS and Linux users:**
 
 1. First, find out where Anaconda is installed.
