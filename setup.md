@@ -2,54 +2,13 @@
 layout: page
 title: Setup
 ---
+## Prerequirisite software:
+1. Anaconda
+2. Python 3.x 
+3. Jupyter Lab
 
-## Setting up your Lesson Directory and Getting the Data
-
-  1. Open the terminal/shell:
-     * On **Windows**, open **Git Bash**.
-     * On **Mac OS** or **Linux**, open the **Terminal** app.
-
-  2. Change your working directory to your **Desktop** :
-
-      ```bash
-      cd ~/Desktop
-      ```
-
-  3. Create a new directory on your Desktop called `geospatial-python` and change into it:
-
-      ```bash
-      mkdir geospatial-python
-      cd geospatial-python
-      ```
-
-  4. Create a subdirectory within `geospatial-python` called `data` and change into it:
-
-      ```bash
-      mkdir data
-      cd data
-      ```
-
-  5. Download the data that will be used in this lesson. There are two ways you can do this:
-
-     * **Web browser:** Click on the following three links to download the corresponding files, then move them into the `data` directory we created above:
-       * [brpgewaspercelen_definitief_2020_small.gpkg](https://figshare.com/ndownloader/files/37729413)
-       * [brogmwvolledigeset.zip](https://figshare.com/ndownloader/files/37729416)
-       * [status_vaarweg.zip](https://figshare.com/ndownloader/files/37729419)
-
-     * **Terminal:** Running the following command will download three files (use the `ls` command to confirm):
-      ```bash
-      curl -L --progress-bar \
-        --output brpgewaspercelen_definitief_2020_small.gpkg "https://figshare.com/ndownloader/files/37729413" \
-        --output brogmwvolledigeset.zip "https://figshare.com/ndownloader/files/37729416" \
-        --output status_vaarweg.zip "https://figshare.com/ndownloader/files/37729419"
-      ```
-      Do not unzip the files, no need since we will read from them directly.
-
-  6. Change directories from `data` back into `geospatial-python`:
-
-      ```bash
-      cd ..
-      ```
+## Set-up Instructions:
+This setup uses **Anaconda prompt** to install the prerequisites for the course on **Windows**. Experienced users may opt for other options such as **Git Bash** or **Windows Subsystem for Linux**
 
 ## Installing Python Using Anaconda
 
@@ -117,11 +76,60 @@ If you run into any difficulties, please request help before the workshop begins
         press enter to prepend Anaconda to your `PATH` (this makes the Anaconda
         distribution your user's default Python).
 
+
+## Setting up your Lesson Directory and Getting the Data
+
+  1. Open the terminal/shell:
+     * On **Windows**, open **Anaconda prompt**.
+     * On **Mac OS** or **Linux**, open the **Terminal** app.
+
+  2. Change your working directory to your **Desktop** :
+
+      ```bash
+      cd ~/Desktop
+      ```
+
+  3. Create a new directory on your Desktop called `geospatial-python` and change into it:
+
+      ```bash
+      mkdir geospatial-python
+      cd geospatial-python
+      ```
+
+  4. Create a subdirectory within `geospatial-python` called `data` and change into it:
+
+      ```bash
+      mkdir data
+      cd data
+      ```
+
+  5. Download the data that will be used in this lesson. There are two ways you can do this:
+
+     * **Web browser:** Click on the following three links to download the corresponding files, then move them into the `data` directory we created above:
+       * [brpgewaspercelen_definitief_2020_small.gpkg](https://figshare.com/ndownloader/files/37729413)
+       * [brogmwvolledigeset.zip](https://figshare.com/ndownloader/files/37729416)
+       * [status_vaarweg.zip](https://figshare.com/ndownloader/files/37729419)
+
+     * **Terminal:** Running the following command will download three files (use the `ls` command to confirm):
+      ```bash
+      curl -L --progress-bar \
+        --output brpgewaspercelen_definitief_2020_small.gpkg "https://figshare.com/ndownloader/files/37729413" \
+        --output brogmwvolledigeset.zip "https://figshare.com/ndownloader/files/37729416" \
+        --output status_vaarweg.zip "https://figshare.com/ndownloader/files/37729419"
+      ```
+      Do not unzip the files, since we will read from them directly.
+
+  6. Change directories from `data` back into `geospatial-python`:
+
+      ```bash
+      cd ..
+      ```
+
 ## Setting up the workshop environment with conda
 
-Once you have installed Anaconda, you should have access to the `conda` command in your terminal.
+If Anaconda was properly installed, you should have access to the `conda` command in your terminal/anaconda prompt.
 
-1. Test that this is so by running the `conda` command in the terminal. You should get an output that looks like this:
+1. Test that it works by running the `conda` command in the terminal. You should get an output that looks like this:
 
     ```bash
     $ conda
@@ -166,7 +174,7 @@ Once you have installed Anaconda, you should have access to the `conda` command 
     ```
 
 2. Create the environment using the `conda create` command. It's possible to paste the following
-code on the Terminal:
+code on the terminal/anaconda prompt:
 
     ```bash
     conda create -n geospatial -c conda-forge -y \
@@ -182,14 +190,15 @@ code on the Terminal:
    the names of the libraries we are going to use. As you can see, geospatial analysis requires many libraries!
    Luckily, package managers like `conda` facilitate the process of installing and managing them.
 
-   If the above command does not work, it's also possible to create the environment from a file:
+    > ## Alternative Method for environment set-up in conda
+    > If the above command does not work, it's also possible to create the environment from a file:
 
-   Right-click and "Save Link As..." on this link:
+    > Right-click and "Save Link As..." on this link:
 
-   [https://carpentries-incubator.github.io/geospatial-python/files/environment.yaml](files/environment.yaml)
+    > [https://carpentries-incubator.github.io/geospatial-python/files/environment.yaml](files/environment.yaml)
 
-   Name it `environment.yaml` and save it to your `geospatial-python` folder.
-   The `environment.yaml` contains the names of Python libraries that are required to run the lesson:
+    > Name it `environment.yaml` and save it to your `geospatial-python` folder.
+    > The `environment.yaml` contains the names of Python libraries that are required to run the lesson:
 
     ```
     name: geospatial
@@ -213,14 +222,15 @@ code on the Terminal:
       - python-graphviz
     ```
 
-    In the terminal, navigate to the directory where you saved the `environment.yaml` file using the `cd` command.
-    Then run:
+    > In the terminal, navigate to the directory where you saved the `environment.yaml` file using the `cd` command.
+    > Then run:
 
     ```bash
     conda env create -f environment.yaml
     ```
 
     `conda` should begin to locate, download, and install the Python libraries listed in the `environment.yaml` file.
+    {: .callout}
 
     > ## Faster Environment Install With One Extra Step
     > If you see a spinning `/` for more than a few minutes, you may want to try the following to speed up the environment installation.
