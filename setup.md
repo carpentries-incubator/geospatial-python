@@ -198,12 +198,13 @@ code on the terminal/anaconda prompt:
     > 1. Cancel the currently running `conda create` process with CTRL+C
     > 2. Run `conda install -c conda-forge mamba`
     > 3. Run the following command:
-    > ```bash
-      mamba create -n geospatial -c conda-forge -y \
-    > jupyterlab numpy matplotlib \
-    > xarray rasterio geopandas rioxarray earthpy descartes xarray-spatial pystac-client
-    > python-graphviz
-    > ```
+    > 
+    >```bash
+    >mamba create -n geospatial -c conda-forge -y \
+    >jupyterlab numpy matplotlib \
+    >xarray rasterio geopandas rioxarray earthpy descartes xarray-spatial pystac-client
+    >python-graphviz
+    >```
     {: .callout}
 
   	
