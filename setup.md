@@ -190,53 +190,56 @@ code on the terminal/anaconda prompt:
    the names of the libraries we are going to use. As you can see, geospatial analysis requires many libraries!
    Luckily, package managers like `conda` facilitate the process of installing and managing them.
 
-    > ## Alternative Method for environment set-up in conda
-    > If the above command does not work, it's also possible to create the environment from a file:
+   **If the above method does not work please try with one of the two other methods provided below:**
 
-    > Right-click and "Save Link As..." on this link:
-
-    > [https://carpentries-incubator.github.io/geospatial-python/files/environment.yaml](files/environment.yaml)
-
-    > Name it `environment.yaml` and save it to your `geospatial-python` folder.
-    > The `environment.yaml` contains the names of Python libraries that are required to run the lesson:
-
-    ```
-    name: geospatial
-    channels:
-      - conda-forge
-    dependencies:
-    # JupyterLab
-      - jupyterlab
-    # Python scientific libraries
-      - numpy
-      - matplotlib
-      - xarray
-    # Geospatial libraries
-      - rasterio
-      - geopandas
-      - rioxarray
-      - xarray-spatial
-      - earthpy
-      - descartes # necessary for geopandas plotting
-      - pystac-client
-      - python-graphviz
-    ```
-
-    > In the terminal, navigate to the directory where you saved the `environment.yaml` file using the `cd` command.
-    > Then run:
-
-    ```bash
-    conda env create -f environment.yaml
-    ```
-
-    `conda` should begin to locate, download, and install the Python libraries listed in the `environment.yaml` file.
-    {: .callout}
-
-    > ## Faster Environment Install With One Extra Step
+    > ## Alternative Method 1: Faster Environment Install With One Extra Step
     > If you see a spinning `/` for more than a few minutes, you may want to try the following to speed up the environment installation.
     > 1. Cancel the currently running `conda create` process with CTRL+C
     > 2. Run `conda install -c conda-forge mamba`
     > 3. Run `mamba env create -f environment.yaml`
+    {: .callout}
+
+  	
+    > ## Alternative Method 2: Using environment.yaml file
+    > If the above methods do not work, it's also possible to create the environment from a file:
+    >
+    > Right-click and "Save Link As..." on this link:
+    >
+    > [https://carpentries-incubator.github.io/geospatial-python/files/environment.yaml](files/environment.yaml)
+    >
+    > Name it `environment.yaml` and save it to your `geospatial-python` folder.
+    > The `environment.yaml` contains the names of Python libraries that are required to run the lesson:
+    >
+    >```
+    >name: geospatial
+    >channels:
+    >  - conda-forge
+    >dependencies:
+    ># JupyterLab
+    >  - jupyterlab
+    ># Python scientific libraries
+    >  - numpy
+    >  - matplotlib
+    >  - xarray
+    ># Geospatial libraries
+    >  - rasterio
+    >  - geopandas
+    >  - rioxarray
+    >  - xarray-spatial
+    >  - earthpy
+    >  - descartes # necessary for geopandas plotting
+    >  - pystac-client
+    >  - python-graphviz
+    >```
+    >
+    > In the terminal, navigate to the directory where you saved the `environment.yaml` file using the `cd` command.
+    > Then run:
+    >
+    >```bash
+    >conda env create -f environment.yaml
+    >```
+    >
+    >`conda` should begin to locate, download, and install the Python libraries listed in the `environment.yaml` file.
     {: .callout}
 
     When installation has finished you should see the following message in the terminal:
