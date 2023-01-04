@@ -183,14 +183,14 @@ code on the terminal/anaconda prompt:
 
     ```
 
-   _Please note that this step may take several minutes to complete. If it takes more than a few minutes, see below for another method._
+   _Please note that this step may take several minutes to complete. If it takes more than a few minutes, see below for other options._
 
    In this command, the `-n` argument specifies the environment name, the `-c` argument specifies the Conda channel
    where the libraries are hosted, and the `-y` argument spares the need for confirmation. The following arguments are
    the names of the libraries we are going to use. As you can see, geospatial analysis requires many libraries!
    Luckily, package managers like `conda` facilitate the process of installing and managing them.
 
-   **If the above method does not work please try with one of the two other methods provided below:**
+   **If the above method does not work please try with one of the two methods provided below:**
 
     > ## Alternative Method 1: Faster Environment Install With One Extra Step
     > If you see a spinning `/` for more than a few minutes, you may want to try the following to speed up the environment installation.
@@ -203,37 +203,36 @@ code on the terminal/anaconda prompt:
     > ## Alternative Method 2: Using environment.yaml file
     > If the above methods do not work, it's also possible to create the environment from a file:
     >
-    > Right-click and "Save Link As..." on this link:
-    >
+    > 1. Right-click and "Save Link As..." on this link:
     > [https://carpentries-incubator.github.io/geospatial-python/files/environment.yaml](files/environment.yaml)
     >
-    > Name it `environment.yaml` and save it to your `geospatial-python` folder.
+    > 2. Name it `environment.yaml` and save it to your `geospatial-python` folder.
     > The `environment.yaml` contains the names of Python libraries that are required to run the lesson:
     >
-    >```
-    >name: geospatial
-    >channels:
-    >  - conda-forge
-    >dependencies:
-    ># JupyterLab
-    >  - jupyterlab
-    ># Python scientific libraries
-    >  - numpy
-    >  - matplotlib
-    >  - xarray
-    ># Geospatial libraries
-    >  - rasterio
-    >  - geopandas
-    >  - rioxarray
-    >  - xarray-spatial
-    >  - earthpy
-    >  - descartes # necessary for geopandas plotting
-    >  - pystac-client
-    >  - python-graphviz
-    >```
+    > ```
+    > name: geospatial
+    > channels:
+    >   - conda-forge
+    > dependencies:
+    > # JupyterLab
+    >   - jupyterlab
+    > # Python scientific libraries
+    >   - numpy
+    >   - matplotlib
+    >   - xarray
+    > # Geospatial libraries
+    >   - rasterio
+    >   - geopandas
+    >   - rioxarray
+    >   - xarray-spatial
+    >   - earthpy
+    >   - descartes # necessary for geopandas plotting
+    >   - pystac-client
+    >   - python-graphviz
+    > ```
     >
-    > In the terminal, navigate to the directory where you saved the `environment.yaml` file using the `cd` command.
-    > Then run:
+    > 3. In the terminal, navigate to the directory where you saved the `environment.yaml` file using the `cd` command.
+    > 4. Run the following command to create the environment from the file:
     >
     >```bash
     >conda env create -f environment.yaml
@@ -272,9 +271,7 @@ code on the terminal/anaconda prompt:
     ```
     
     > ## IMPORTANT
-    > If you close the terminal, you will need to
-    reactivate this environment with `conda activate geospatial` to use the Python libraries required for the lesson and
-   > to start JupyterLab, which is also installed in the `geospatial` environment.
+    > If you close the terminal, you will need to reactivate this environment with `conda activate geospatial` to use the Python libraries required for the lesson and to start JupyterLab, which is also installed in the `geospatial` environment.
     {: .callout}
     
 
@@ -288,9 +285,9 @@ See [Starting JupyterLab][starting-jupyterlab] for guidance or enter the code sn
    ```
   
 Once you have opened a new Jupyter Lab file, confirm that all modules have been installed correctly by importing a module:
-    ```
-    import rioxarray
-    ```
+  ```
+  import rioxarray
+  ```
 
 If all of the steps above completed successfully you are ready to follow along with the lesson!
 
