@@ -195,53 +195,18 @@ fields_cx.to_file('fields_cropped.shp')
 ~~~
 {: .language-python}
 
+
 This will write it to disk (in this case, in 'shapefile' format), containing only the data from our cropped area. It can be read in again at a later time using the `read_file()` method we have been using above. Note that this actually writes multiple files to disk (`fields_cropped.cpg`, `fields_cropped.dbf`, `fields_cropped.prj`, `fields_cropped.shp`, `fields_cropped.shx`). All these files should ideally be present in order to re-read the dataset later, although only the `.shp`, `.shx`, and `.dbf` files are mandatory (see the [Introduction to Vector Data]({{site.baseurl}}/02-intro-to-vector-data) lesson for more information.)
 
 
+## Vector data processing
+
+~~~
+wells = gpd.read_file("data/brogmwvolledigeset.zip")
+~~~
+{: .language-python}
+
 ## (optional) Modify the geometry of a GeoDataFrame
-
-> ## Challenge: Import Line and Point Vector Datasets
->
-> Using the steps above, load the waterways and groundwater well vector datasets (`data/status_vaarweg.zip` and
-> `data/brogmwvolledigeset.zip`, respectively) into Python using `geopandas`. Name your variables `waterways_nl` and
-> `wells_nl` respectively.
->
-> Answer the following questions:
->
-> 1. What type of spatial features (points, lines, polygons) are present in each dataset?
->
-> 2. What is the CRS and total extent (bounds) of each dataset?
->
-> 4. How many spatial features are present in each file?
->
-> > ## Answers
-> >
-> > First we import the datasets:
-> > ```python
-> > waterways_nl = gpd.read_file("data/status_vaarweg.zip")
-> > wells_nl = gpd.read_file("data/brogmwvolledigeset.zip")
-> > ```
-> >
-> > Then we check the types:
-> > ```python
-> > waterways_nl.type
-> > ```
-> >
-> > ```python
-> > wells_nl.type
-> > ```
-> > We also check the CRS and extent of each object:
-> > ```python
-> > print(waterways_nl.crs)
-> > print(waterways_nl.total_bounds)
-> > print(wells_nl.crs)
-> > print(wells_nl.total_bounds)
-> > ```
-> > To see the number of features in each file, we can print the dataset objects in a Jupyter notebook or use the `len()` function.
-> > `waterways_nl` contains 91 lines and `wells_nl` contains 51664 points.
-> {: .solution}
-{: .challenge}
-
 
 > ## Challenge: Investigate the waterway lines
 > Now we will take a deeper look in the Dutch waterway lines: `waterways_nl`. Let's visualize it with the `plot` function. Can you tell what is wrong with this vector file?
