@@ -40,14 +40,29 @@ import geopandas as gpd
 ~~~
 {: .language-python}
 
-We will use the `geopandas` module to load the crop field vector data we downloaded at: `data/brpgewaspercelen_definitief_2020_small.gpkg`. This file contains data for the entirety of the European portion of the Netherlands, resulting in a very large number of crop field parcels. Directly loading the whole file to memory can be slow. Let's consider as Area of Interest (AoI) northern Amsterdam, which is a small portion of the Netherlands. We only need to load this part.
+We will use the `geopandas` module to load the crop field vector data we downloaded at: `data/brpgewaspercelen_definitief_2020_small.gpkg`. 
 
-We define a bounding box, and will only read the data within the extent of the bounding box.
+~~~
+fields = gpd.read_file("data/brpgewaspercelen_definitief_2020_small.gpkg", bbox=bbox)
+fields
+~~~
+{: .language-python}
+
+
+This file contains a relatively large number of crop field parcels. Directly loading the a large file to memory can be slow. If the Area of Interest (AoI) is small, we cam define a bounding box of the AoI, and  only read the data within the extent of the bounding box.
 ~~~
 # Define bounding box
 xmin, xmax = (110_000, 140_000)
 ymin, ymax = (470_000, 510_000)
 bbox = (xmin, ymin, xmax, ymax)
+~~~
+{: .language-python}
+
+Using the `bbox` input argument, we can load only the spatial features intersecting the provided bounding box.
+
+~~~
+# Partially load data within the bounding box
+fields = gpd.read_file("data/brpgewaspercelen_definitief_2020_small.gpkg", bbox=bbox)
 ~~~
 {: .language-python}
 
@@ -58,15 +73,6 @@ bbox = (xmin, ymin, xmax, ymax)
 > 
 > Some Python tools, e.g. [`fiona`](https://fiona.readthedocs.io/en/latest/)(which is also the backend of `geopandas`), provides the file inspection functionality without actually the need to read the full data set into memory. An example can be found in [the documentation of fiona](https://fiona.readthedocs.io/en/latest/manual.html#format-drivers-crs-bounds-and-schema).
 {: .callout}
-
-Using the `bbox` input argument, we can load only the spatial features intersecting the provided bounding box.
-
-~~~
-# Partially load data within the bounding box
-fields = gpd.read_file("data/brpgewaspercelen_definitief_2020_small.gpkg", bbox=bbox)
-~~~
-{: .language-python}
-
 
 And we can plot the overview by:
 ~~~
@@ -191,7 +197,7 @@ We can convert these coordinates to a bounding box or acquire the index of the d
 From now on, we will continue with the cropped fields data `fields_cx`. It can be written to a shapefile (`.shp`) using the `to_file` function:
 
 ~~~
-fields_cx.to_file('fields_cropped.shp')
+fields_cx.to_file('data/fields_cropped.shp')
 ~~~
 {: .language-python}
 
@@ -202,6 +208,7 @@ This will write it to disk (in this case, in 'shapefile' format), containing onl
 ## Vector data processing
 
 ~~~
+fields_cropped =  gpd.read_file("data/fields_cropped.shp")
 wells = gpd.read_file("data/brogmwvolledigeset.zip")
 ~~~
 {: .language-python}
