@@ -25,18 +25,12 @@ analysis to geospatial applications. The main `pandas` objects (the `Series` and
 including geometric types, represented in Python using the `shapely` library, and by providing dedicated methods for
 spatial operations (union, intersection, etc.).
 
+In later episodes, we will learn how to work with raster and vector data together and combine them into a single plot.
+
 > ## Introduce the Vector Data
 >
-> The data we will use comes from the Dutch government's open geodata sets, obtained from the [PDOK platform](https://www.pdok.nl/).
-> It provides open data for various applications, e.g. real estate, infrastructure, agriculture, etc. In this episode we
-> will use three data sets:
->
-> - [Crop fields](https://www.pdok.nl/introductie/-/article/basisregistratie-gewaspercelen-brp-) (polygons)
-> - [Water ways](https://www.pdok.nl/introductie/-/article/nationaal-wegen-bestand-nwb-) (lines)
-> - [Ground water monitoring wells](https://www.pdok.nl/downloads/-/article/basisregistratie-ondergrond-bro-) (points)
+> In this episode, we will use the downloaded vector data in the `data` directory. Please refer to the [setup page](../setup.md) on how to download the data.
 {: .callout}
-
-In later episodes, we will learn how to work with raster and vector data together and combine them into a single plot.
 
 
 ## Import Vector Datasets
@@ -262,6 +256,9 @@ different features.
 > {: .solution}
 {: .challenge}
 
+
+## (optional) Modify the geometry of a GeoDataFrame
+
 > ## Challenge: Investigate the waterway lines
 > Now we will take a deeper look in the Dutch waterway lines: `waterways_nl`. Let's visualize it with the `plot` function. Can you tell what is wrong with this vector file?
 > > ## Answers
@@ -280,7 +277,6 @@ different features.
 > Multiple software packages thus implement this convention also when dealing with EPSG:4326.
 > As a result, one can encounter vector files that implement either convention - keep this in mind and always check your datasets!
 {: .callout}
-## Modify the geometry of a GeoDataFrame
 
 Sometimes we need to modify the `geometry` of a `GeoDataFrame`. For example, as we have seen in the previous exercise **Investigate the waterway lines**, the latitude and longitude are flipped in the vector data `waterways_nl`. This error needs to be fixed before performing further analysis.
 
