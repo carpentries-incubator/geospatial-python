@@ -157,18 +157,18 @@ We can convert these coordinates to a bounding box or acquire the index of the d
 > Sometimes, the loaded data can still be too large. We can cut it is to a even smaller extent. There are two potential ways to do this:
 > 
 > - [`cx`](https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoDataFrame.cx.html) indexer
-> - [`clip_by_rect`](https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoSeries.clip_by_rect.> html#geopandas.GeoSeries.clip_by_rect) function
+> - [`clip_by_rect`](https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoSeries.clip_by_rect.html) function
 > 
 > In this exercise, please:
 > 
 > 1. Read the documentation of both function
 > 2. Try both methods to crop `fields` to the following extent:
 > ~~~
-> # Define a Boundingbox in RD
+> # A smaller bounding box in RD
 > xmin, xmax = (120_000, 135_000)
 > ymin, ymax = (485_000, 500_000)
 > ~~~
-> 3. What are the differences of the two methods? In what circumstances will you use `cx`? When will you use `clip_by_rect`?
+> 3. Think of: what are the differences of the two methods? In what circumstances will you use `cx`? When will you use `clip_by_rect`?
 > {: .language-python}
 > > ## Answers
 > > 
@@ -197,26 +197,6 @@ fields_cx.to_file('fields_cropped.shp')
 
 This will write it to disk (in this case, in 'shapefile' format), containing only the data from our cropped area. It can be read in again at a later time using the `read_file()` method we have been using above. Note that this actually writes multiple files to disk (`fields_cropped.cpg`, `fields_cropped.dbf`, `fields_cropped.prj`, `fields_cropped.shp`, `fields_cropped.shx`). All these files should ideally be present in order to re-read the dataset later, although only the `.shp`, `.shx`, and `.dbf` files are mandatory (see the [Introduction to Vector Data]({{site.baseurl}}/02-intro-to-vector-data) lesson for more information.)
 
-## Plotting a vector dataset
-
-We can now plot this data. Any `GeoDataFrame` can be plotted in CRS units to view the shape of the object with `.plot()`.
-
-~~~
-fields_crop.plot()
-~~~
-{: .language-python}
-
-We can customize our boundary plot by setting the
-`figsize`, `edgecolor`, and `color`. Making some polygons transparent will come in handy when we need to add multiple spatial datasets to a single plot.
-
-~~~
-fields_crop.plot(figsize=(5,5), edgecolor="purple", facecolor="None")
-~~~
-{: .language-python}
-
-
-
-Under the hood, `geopandas` is using `matplotlib` to generate this plot. In the next episode we will see how we can add `DataArrays` and other vector datasets to this plot to start building an informative map of our area of interest.
 
 ## (optional) Modify the geometry of a GeoDataFrame
 
