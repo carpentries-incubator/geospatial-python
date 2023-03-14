@@ -63,32 +63,35 @@ Using the `bbox` input argument, we can load only the spatial features intersect
 
 ~~~
 # Partially load data within the bounding box
-cropfield = gpd.read_file("data/brpgewaspercelen_definitief_2020_small.gpkg", bbox=bbox)
+fields = gpd.read_file("data/brpgewaspercelen_definitief_2020_small.gpkg", bbox=bbox)
 ~~~
 {: .language-python}
 
+
+And we can plot the overview by:
+~~~
+fields.plot()
+~~~
+{: .language-python}
+![Cropped fields plot image](../fig/E07-02-cropped_fields_plot_output.png)
+{: .output}
 ## Vector Metadata & Attributes
-When we import the vector dataset to Python (as our `cropfield` object) it comes in as a `DataFrame`, specifically a `GeoDataFrame`. The `read_file()` function also automatically stores
-geospatial information about the data. We are particularly interested in describing the format, CRS, extent, and other components of
-the vector data, and the attributes which describe properties associated
-with each individual vector object.
+When we import the vector dataset to Python (as our `fields` object) it comes in as a`GeoDataFrame`. The `read_file()` function also automatically stores geospatial information about the data. We are particularly interested in describing the format, CRS, extent, and other components of the vector data, and the attributes which describe properties associated
+with each individual vector object. 
 
-
-## Spatial Metadata
-Key metadata includes:
+For example, we will explore
 
 1. **Object Type:** the class of the imported object.
 2. **Coordinate Reference System (CRS):** the projection of the data.
-3. **Extent:** the spatial extent (i.e. geographic area that the data covers). Note that the spatial extent for a vector dataset represents the combined
-extent for all spatial objects in the dataset.
+3. **Extent:** the spatial extent (i.e. geographic area that the data covers). Note that the spatial extent for a vector dataset represents the combined extent for all spatial objects in the dataset.
 
-Each `GeoDataFrame` has a `"geometry"` column that contains geometries. In the case of our `cropfield`  object, this geometry is represented by a `shapely.geometry.Polygon` object. `geopandas` uses the `shapely` library to represent polygons, lines, and points, so the types are inherited from `shapely`.
+Each `GeoDataFrame` has a `"geometry"` column that contains geometries. In the case of our `fields` object, this geometry is represented by a `shapely.geometry.Polygon` object. `geopandas` uses the `shapely` library to represent polygons, lines, and points, so the types are inherited from `shapely`.
 
 We can view the metadata using the `.crs`, `.bounds` and `.type` attributes. First, let's view the
-geometry type for our crop field dataset. To view the geometry type, we use the `pandas` method `.type` on the `GeoDataFrame` object, `cropfield`.
+geometry type for our crop field dataset. To view the geometry type, we use the `pandas` method `.type` on the `GeoDataFrame` object, `fields`.
 
 ~~~
-cropfield.type
+fields.type
 ~~~
 {: .language-python}
 ~~~
@@ -109,9 +112,8 @@ Length: 22031, dtype: object
 
 To view the CRS metadata:
 
-
 ~~~
-cropfield.crs
+fields.crs
 ~~~
 {: .language-python}
 
@@ -138,7 +140,7 @@ interpreting the object's extent values as it specifies units. To find
 the extent of our dataset in the projected coordinates, we can use the `.total_bounds` attribute:
 
 ~~~
-cropfield.total_bounds
+fields.total_bounds
 ~~~
 {: .language-python}
 
@@ -151,45 +153,56 @@ This array contains, in order, the values for minx, miny, maxx and maxy, for the
 
 We can convert these coordinates to a bounding box or acquire the index of the dataframe to access the geometry. Either of these polygons can be used to clip rasters (more on that later).
 
-## Selecting spatial features
-Sometimes, the loaded data can still be too large. We can cut it is to a even smaller extent using the `.cx` indexer (note the use of square brackets instead of round brackets, which are used instead with functions and methods):
+> ## Challenge: Further crop the dataset
+> Sometimes, the loaded data can still be too large. We can cut it is to a even smaller extent. There are two potential ways to do this:
+> 
+> - [`cx`](https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoDataFrame.cx.html) indexer
+> - [`clip_by_rect`](https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoSeries.clip_by_rect.> html#geopandas.GeoSeries.clip_by_rect) function
+> 
+> In this exercise, please:
+> 
+> 1. Read the documentation of both function
+> 2. Try both methods to crop `fields` to the following extent:
+> ~~~
+> # Define a Boundingbox in RD
+> xmin, xmax = (120_000, 135_000)
+> ymin, ymax = (485_000, 500_000)
+> ~~~
+> 3. What are the differences of the two methods? In what circumstances will you use `cx`? When will you use `clip_by_rect`?
+> {: .language-python}
+> > ## Answers
+> > 
+> > ~~~
+> > fields_cx = fields.cx[xmin:xmax, ymin:ymax]
+> > fields_rect = fields.clip_by_rect(xmin, ymin, xmax, ymax)
+> > fields_rect = fields_rect[~fields_rect.is_empty] # drop rows with empty geometries
+> > ~~~
+> > {: .language-python}
+> > 
+> > The method `cx` is an indexer, using square brackets, while `clip_by_rect` is a function using round brackets. The `cx` produces another `GeoDataFrame` with the attribute columns, while `clip_by_rect` produces a `GeoSeries`, with only the geometry information. `clip_by_rect` keep all entries, the entries outside the bounding box will be empty.
+> > 
+> > If attribute columns are needed, one should use `cx`. Otherwise if only the gemetries are needed, `clip_by_rect` can be used.
+> {: .solution}
+{: .challenge}
+
+
+## Export data to file
+
+From now on, we will continue with the cropped fields data `fields_cx`. It can be written to a shapefile (`.shp`) using the `to_file` function:
 
 ~~~
-# Define a Boundingbox in RD
-xmin, xmax = (120_000, 135_000)
-ymin, ymax = (485_000, 500_000)
-cropfield_crop = cropfield.cx[xmin:xmax, ymin:ymax]
+fields_cx.to_file('fields_cropped.shp')
 ~~~
 {: .language-python}
 
-
-This will cut out a smaller area, defined by a box in units of the projection, discarding the rest of the data. The resultant GeoDataframe, which includes all the features intersecting the box, is found in the `cropfield_crop` object. Note that the edge elements are not 'cropped' themselves. We can check the total bounds of this new data as before:
-
-~~~
-cropfield_crop.total_bounds
-~~~
-{: .language-python}
-
-~~~
-array([119594.384, 484949.292625, 135375.77025, 500782.531])
-~~~
-{: .output}
-
-We can then save this cropped dataset for use in future, using the `to_file()` method of our GeoDataFrame object:
-
-~~~
-cropfield_crop.to_file('cropped_field.shp')
-~~~
-{: .language-python}
-
-This will write it to disk (in this case, in 'shapefile' format), containing only the data from our cropped area. It can be read in again at a later time using the `read_file()` method we have been using above. Note that this actually writes multiple files to disk (`cropped_field.cpg`, `cropped_field.dbf`, `cropped_field.prj`, `cropped_field.shp`, `cropped_field.shx`). All these files should ideally be present in order to re-read the dataset later, although only the `.shp`, `.shx`, and `.dbf` files are mandatory (see the [Introduction to Vector Data]({{site.baseurl}}/02-intro-to-vector-data) lesson for more information.
+This will write it to disk (in this case, in 'shapefile' format), containing only the data from our cropped area. It can be read in again at a later time using the `read_file()` method we have been using above. Note that this actually writes multiple files to disk (`fields_cropped.cpg`, `fields_cropped.dbf`, `fields_cropped.prj`, `fields_cropped.shp`, `fields_cropped.shx`). All these files should ideally be present in order to re-read the dataset later, although only the `.shp`, `.shx`, and `.dbf` files are mandatory (see the [Introduction to Vector Data]({{site.baseurl}}/02-intro-to-vector-data) lesson for more information.)
 
 ## Plotting a vector dataset
 
 We can now plot this data. Any `GeoDataFrame` can be plotted in CRS units to view the shape of the object with `.plot()`.
 
 ~~~
-cropfield_crop.plot()
+fields_crop.plot()
 ~~~
 {: .language-python}
 
@@ -197,22 +210,15 @@ We can customize our boundary plot by setting the
 `figsize`, `edgecolor`, and `color`. Making some polygons transparent will come in handy when we need to add multiple spatial datasets to a single plot.
 
 ~~~
-cropfield_crop.plot(figsize=(5,5), edgecolor="purple", facecolor="None")
+fields_crop.plot(figsize=(5,5), edgecolor="purple", facecolor="None")
 ~~~
 {: .language-python}
 
-![Cropped fields plot image](../fig/E07-02-cropped_fields_plot_output.png)
-{: .output}
 
 
 Under the hood, `geopandas` is using `matplotlib` to generate this plot. In the next episode we will see how we can add `DataArrays` and other vector datasets to this plot to start building an informative map of our area of interest.
 
-## Spatial Data Attributes
-We introduced the idea of spatial data attributes in [an earlier lesson]({{site.baseurl}}/02-intro-to-vector-data). Now we will explore
-how to use spatial data attributes stored in our data to plot
-different features.
-
-
+## (optional) Modify the geometry of a GeoDataFrame
 
 > ## Challenge: Import Line and Point Vector Datasets
 >
@@ -256,8 +262,6 @@ different features.
 > {: .solution}
 {: .challenge}
 
-
-## (optional) Modify the geometry of a GeoDataFrame
 
 > ## Challenge: Investigate the waterway lines
 > Now we will take a deeper look in the Dutch waterway lines: `waterways_nl`. Let's visualize it with the `plot` function. Can you tell what is wrong with this vector file?
