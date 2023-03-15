@@ -79,7 +79,7 @@ And we can plot the overview by:
 fields.plot()
 ~~~
 {: .language-python}
-![Cropped fields plot image](../fig/E07-02-cropped_fields_plot_output.png)
+![Cropped fields plot image](../fig/E07-02-fields.png)
 {: .output}
 ## Vector Metadata & Attributes
 When we import the vector dataset to Python (as our `fields` object) it comes in as a`GeoDataFrame`. The `read_file()` function also automatically stores geospatial information about the data. We are particularly interested in describing the format, CRS, extent, and other components of the vector data, and the attributes which describe properties associated
