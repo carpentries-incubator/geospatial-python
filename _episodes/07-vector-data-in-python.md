@@ -205,13 +205,88 @@ fields_cx.to_file('data/fields_cropped.shp')
 This will write it to disk (in this case, in 'shapefile' format), containing only the data from our cropped area. It can be read in again at a later time using the `read_file()` method we have been using above. Note that this actually writes multiple files to disk (`fields_cropped.cpg`, `fields_cropped.dbf`, `fields_cropped.prj`, `fields_cropped.shp`, `fields_cropped.shx`). All these files should ideally be present in order to re-read the dataset later, although only the `.shp`, `.shx`, and `.dbf` files are mandatory (see the [Introduction to Vector Data]({{site.baseurl}}/02-intro-to-vector-data) lesson for more information.)
 
 
-## Vector data processing
+## Selecting spatial features
+
+From now on, we will take in a point dataset `brogmwvolledigeset.zip`, which are the underground water monitoring wells. We will perform vector processing on this dataset, together with the cropped field polygons `fields_cropped.shp`.
+
+Let's read in the two datasets.
 
 ~~~
-fields_cropped =  gpd.read_file("data/fields_cropped.shp")
+fields =  gpd.read_file("data/fields_cropped.shp")
 wells = gpd.read_file("data/brogmwvolledigeset.zip")
 ~~~
 {: .language-python}
+
+And take a look at the wells:
+
+~~~
+wells.plot(markersize=0.1)
+~~~
+{: .language-python}
+![All wells](../fig/E07-03-wells-nl.png)
+
+The points we read in represents all the wells over the Netherlands. Now we would like to compare the wells with the cropped fields. We can select the wells within the fields using the `.clip` function:
+~~~
+wells_clip = wells.clip(fields)
+wells_clip.plot()
+~~~
+{: .language-python}
+
+This after this selection, all the wells outside fields are dropped. This takes a while to execute, because we are clipping a relatively large number of points with many polygons.
+
+If we do not want a precise clipping, but rather have the points in the neighborhood of the fields, we can use the `buffer` function to define a neighborhood of the fields with a given `distance`. The unit of the `distance` argument is the same as the CRS. Here we use a 50 meter buffer. Also notice that the `.buffer` function produce a `GeoSeries`, so to keep the other columns, we assign it to the `GeoDataFramce` as a geometry column.
+
+~~~
+buffer = fields.buffer(50)
+fields_buffer = fields.copy()
+fields_buffer['geometry'] = buffer
+fields_buffer.plot()
+~~~
+![50m buffer of fields](../fig/E07-04-fields-buffer.png)
+
+To further simplify them, we can use the `dissolve` function to dissolve the buffers into one:
+
+~~~
+fields_buffer_dissolve = fields_buffer.dissolve()
+fields_buffer_dissolve
+~~~
+
+All the fields will be dissolved into one multi-polygon, which can be used to `clip` the wells.
+
+~~~
+wells_clip_buffer = wells.clip(fields_buffer_dissolve)
+~~~
+![Wells in 50m buffer of fields](../fig/E07-05-wells-in-buffer.png)
+
+In this way we selected all wells within 50m range of the fields. It is also significantly faster than the previous `clip` operation, since the polygon geometry is much simplier after `dissolve`.
+
+> ## Challenge: select fields within 500m from the wells
+> This time, we will do a selection the other way around. Can you find and plot the field polygons (stored in `fields_cropped.shp`), which are within the 500m radius of any wells (stored in `brogmwvolledigeset.zip`)? 
+> Hint1: `brogmwvolledigeset.zip` is in CRS 4326. Don't forget the CRS conversion.
+> Hint2: `brogmwvolledigeset.zip` is big. To improve the performance, you may want to crop it first.
+> > ## Answers
+> > ~~~
+> > # Read in data
+> > fields =  gpd.read_file("data/fields_cropped.shp")
+> > wells = gpd.read_file("data/brogmwvolledigeset.zip")
+> > 
+> > # Crop points with bounding box
+> > xmin, ymin, xmax, ymax = fields.total_bounds
+> > wells = wells.to_crs(28992)
+> > wells_cropped = wells.cx[xmin-500:xmax+500, ymin-500:ymax+500]
+> > 
+> > # Create buffer
+> > wells_cropped_buffer = wells_cropped.copy()
+> > wells_cropped_buffer['geometry'] = wells_cropped.buffer(500)
+> > 
+> > # Clip
+> > fields_clip_buffer = fields.clip(wells_cropped_buffer)
+> > fields_clip_buffer.plot()
+> > ~~~
+> > {: .language-python}
+> {: .solution}
+{: .challenge}
+
 
 ## (optional) Modify the geometry of a GeoDataFrame
 
@@ -223,7 +298,7 @@ wells = gpd.read_file("data/brogmwvolledigeset.zip")
 > > waterways_nl.plot()
 > > ~~~
 > > {: .language-python}
-> > ![Wrong waterways](../fig/E07-03-waterways-wrong.png)
+> > ![Wrong waterways](../fig/E07-06-waterways-wrong.png)
 > {: .solution}
 {: .challenge}
 
@@ -295,7 +370,7 @@ waterways_nl.plot()
 ~~~
 {: .language-python}
 
-![Corrected waterways](../fig/E07-04-waterways-corrected.png)
+![Corrected waterways](../fig/E07-07-waterways-corrected.png)
 
 Now the waterways look good! We can save the vector data for later usage:
 ~~~
