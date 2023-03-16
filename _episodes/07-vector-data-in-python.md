@@ -225,6 +225,13 @@ wells.plot(markersize=0.1)
 {: .language-python}
 ![All wells](../fig/E07-03-wells-nl.png)
 
+The wells are in the lat/lon coordinates. To make it comparable with fields, we need to transfer the CRS to RD first:
+
+~~~
+wells = wells.to_crs(28992)
+~~~
+{: .language-python}
+
 The points we read in represents all the wells over the Netherlands. Now we would like to compare the wells with the cropped fields. We can select the wells within the fields using the `.clip` function:
 ~~~
 wells_clip = wells.clip(fields)
