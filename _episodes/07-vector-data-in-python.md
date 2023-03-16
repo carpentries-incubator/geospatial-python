@@ -50,6 +50,7 @@ fields
 
 
 This file contains a relatively large number of crop field parcels. Directly loading the a large file to memory can be slow. If the Area of Interest (AoI) is small, we cam define a bounding box of the AoI, and  only read the data within the extent of the bounding box.
+
 ~~~
 # Define bounding box
 xmin, xmax = (110_000, 140_000)
@@ -100,6 +101,7 @@ geometry type for our crop field dataset. To view the geometry type, we use the 
 fields.type
 ~~~
 {: .language-python}
+
 ~~~
 0        Polygon
 1        Polygon
@@ -174,6 +176,7 @@ We can convert these coordinates to a bounding box or acquire the index of the d
 > xmin, xmax = (120_000, 135_000)
 > ymin, ymax = (485_000, 500_000)
 > ~~~
+> {: .language-python}
 > 3. Think of: what are the differences of the two methods? In what circumstances will you use `cx`? When will you use `clip_by_rect`?
 > {: .language-python}
 > > ## Answers
@@ -233,11 +236,23 @@ wells = wells.to_crs(28992)
 {: .language-python}
 
 The points we read in represents all the wells over the Netherlands. Now we would like to compare the wells with the cropped fields. We can select the wells within the fields using the `.clip` function:
+
 ~~~
 wells_clip = wells.clip(fields)
-wells_clip.plot()
+wells_clip
 ~~~
 {: .language-python}
+
+~~~
+bro_id delivery_accountable_party quality_regime  ...
+40744  GMW000000043703  27364178    IMBRO/A    ...
+38728  GMW000000045818  27364178    IMBRO/A    ...
+...                ...       ...        ...    ...
+40174  GMW000000043963  27364178    IMBRO/A    ...
+19445  GMW000000024992  50200097    IMBRO/A    ...
+[79 rows x 40 columns]
+~~~
+{: .output}
 
 This after this selection, all the wells outside fields are dropped. This takes a while to execute, because we are clipping a relatively large number of points with many polygons.
 
@@ -249,6 +264,8 @@ fields_buffer = fields.copy()
 fields_buffer['geometry'] = buffer
 fields_buffer.plot()
 ~~~
+{: .language-python}
+
 ![50m buffer of fields](../fig/E07-04-fields-buffer.png)
 
 To further simplify them, we can use the `dissolve` function to dissolve the buffers into one:
@@ -257,12 +274,16 @@ To further simplify them, we can use the `dissolve` function to dissolve the buf
 fields_buffer_dissolve = fields_buffer.dissolve()
 fields_buffer_dissolve
 ~~~
+{: .language-python}
 
 All the fields will be dissolved into one multi-polygon, which can be used to `clip` the wells.
 
 ~~~
 wells_clip_buffer = wells.clip(fields_buffer_dissolve)
+wells_clip_buffer.plot()
 ~~~
+{: .language-python}
+
 ![Wells in 50m buffer of fields](../fig/E07-05-wells-in-buffer.png)
 
 In this way we selected all wells within 50m range of the fields. It is also significantly faster than the previous `clip` operation, since the polygon geometry is much simplier after `dissolve`.
@@ -307,6 +328,7 @@ print(fields_wells.shape)
 print(fields_wells.columns)
 ~~~
 {: .language-python}
+
 ~~~
 (79, 8)
 Index(['category', 'gewas', 'gewascode', 'jaar', 'status', 'geometry',
