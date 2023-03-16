@@ -3,15 +3,23 @@ title: "Vector data in Python"
 teaching: 30
 exercises: 20
 questions:
-- "How can I distinguish between and visualize point, line and polygon vector data?"
+- "How can I process the spatial objects?"
 objectives:
-- "Know the difference between point, line, and polygon vector elements."
-- "Load point, line, and polygon vector data with `geopandas`."
-- "Access the attributes of a spatial object with `geopandas`."
+- "Load spatial objects."
+- "Crop spatial objects with bounding box."
+- "Perform CRS conversion to spatial objects."
+- "Select spatial features of spatial objects."
+- "Spatially join spatial objects."
+- 
 keypoints:
-- "Vector dataset metadata include geometry type, CRS, and extent."
 - "Load spatial objects into Python with `geopandas.read_file()` function."
 - "Spatial objects can be plotted directly with `GeoDataFrame`'s `.plot()` method."
+- "Crop spatial objects with `.cx[]` indexer or `clip_by_rect()` function."
+- "Convert CRS of spatial objects with `.to_crs().`"
+- "Select spatial features with `.clip()`."
+- "Create buffer of spatial objects with `.buffer()`."
+- "Merge overlaping spatial objects with `.dissolve()`."
+- "Join spatial features spatially with `.sjoin()`"
 ---
 
 ## Introduction
