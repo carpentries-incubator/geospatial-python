@@ -194,7 +194,7 @@ We can convert these coordinates to a bounding box or acquire the index of the d
 
 ## Export data to file
 
-From now on, we will continue with the cropped fields data `fields_cx`. It can be written to a shapefile (`.shp`) using the `to_file` function:
+From now on, we will continue with the cropped fields data `fields_cx`. We will save it to a shapefile (`.shp`) and use it later. The `to_file` function can be used for exportation:
 
 ~~~
 fields_cx.to_file('data/fields_cropped.shp')
@@ -261,9 +261,12 @@ wells_clip_buffer = wells.clip(fields_buffer_dissolve)
 In this way we selected all wells within 50m range of the fields. It is also significantly faster than the previous `clip` operation, since the polygon geometry is much simplier after `dissolve`.
 
 > ## Challenge: select fields within 500m from the wells
-> This time, we will do a selection the other way around. Can you find and plot the field polygons (stored in `fields_cropped.shp`), which are within the 500m radius of any wells (stored in `brogmwvolledigeset.zip`)? 
-> Hint1: `brogmwvolledigeset.zip` is in CRS 4326. Don't forget the CRS conversion.
-> Hint2: `brogmwvolledigeset.zip` is big. To improve the performance, you may want to crop it first.
+> This time, we will do a selection the other way around. Can you find and plot the field polygons (stored in `fields_cropped.shp`), which intersects the 500m radius of any wells (stored in `brogmwvolledigeset.zip`)? 
+> 
+> - Hint1: `brogmwvolledigeset.zip` is in CRS 4326. Don't forget the CRS conversion.
+>
+> - Hint2: `brogmwvolledigeset.zip` is big. To improve the performance, you may want to crop it first.
+> 
 > > ## Answers
 > > ~~~
 > > # Read in data
@@ -273,20 +276,61 @@ In this way we selected all wells within 50m range of the fields. It is also sig
 > > # Crop points with bounding box
 > > xmin, ymin, xmax, ymax = fields.total_bounds
 > > wells = wells.to_crs(28992)
-> > wells_cropped = wells.cx[xmin-500:xmax+500, ymin-500:ymax+500]
+> > wells_cx = wells.cx[xmin-500:xmax+500, ymin-500:ymax+500]
 > > 
 > > # Create buffer
-> > wells_cropped_buffer = wells_cropped.copy()
-> > wells_cropped_buffer['geometry'] = wells_cropped.buffer(500)
+> > wells_cx_500mbuffer = wells_cx.copy()
+> > wells_cx_500mbuffer['geometry'] = wells_cx.buffer(500)
 > > 
 > > # Clip
-> > fields_clip_buffer = fields.clip(wells_cropped_buffer)
+> > fields_clip_buffer = fields.clip(wells_cx_500mbuffer)
 > > fields_clip_buffer.plot()
 > > ~~~
 > > {: .language-python}
 > {: .solution}
 {: .challenge}
 
+## Spatially join the features
+
+Sometimes, we would like to search an attribute in attribute in another `GeoDataFrame`, and add the results to the existing `GeoDataFrame`. For example, we may want to store the well IDs as a new column in the `fields` object. To do this, we can use the `sjoin` function to join two `GeoDataFrame`:
+
+~~~
+fields_wells = fields.sjoin(wells[['bro_id', 'geometry']])
+print(fields_wells.shape)
+print(fields_wells.columns)
+~~~
+{: .language-python}
+~~~
+(79, 8)
+Index(['category', 'gewas', 'gewascode', 'jaar', 'status', 'geometry',
+       'index_right', 'bro_id'],
+      dtype='object') 
+~~~
+{: .output}
+
+This will result in a `GeodataFrame` of all polygons intersecting the wells, adding the well IDs as a new column: `bro_id`.
+
+> ## Challenge: count the number of field polygons within a distance from the points
+> Use the `sjoin` function to join two polygons: the field polygons (`fields`, read in from `data/fields_cropped.shp`) and the wells 500m buffer polygons (`wells_cx_500mbuffer` from the previous exercise). And answer the following questions: 
+> 
+> - How many fields are intersecting the 500m buffer of wells?
+>
+> - How many wells are intersecting the fields with a 500 buffer?
+> 
+> > ## Answers
+> > ~~~
+> > fields_wells_buffer = fields.sjoin(wells_cx_500mbuffer)
+> > print(fields_wells_buffer.shape)
+> > print(fields_wells_buffer.index.unique().shape) # Take the unique of the index
+> > print(fields_wells_buffer['bro_id'].unique().shape) # Take the unique of the bro_ids
+> > 
+> > # validation
+> > print(fields.clip(wells_cx_500mbuffer).shape)
+> > ~~~
+> > {: .language-python}
+> > Note that a ploygon can fall in the 500m buffer of multiple points. So we should use `.unique()` function to get the actual number of the polygons.
+> {: .solution}
+{: .challenge}
 
 ## (optional) Modify the geometry of a GeoDataFrame
 
