@@ -187,17 +187,12 @@ We can save this image for later usage:
 raster_clip_fields.rio.to_raster("raster_clip_fields.tif")
 ~~~
 
-## Crop raster data using another raster dataset
+## Crop raster data using `reproject_match()` function
 
-So far we have learned how to crop raster image with vector data. We can also crop a raster with another raster data. In this section, we will demonstrate how to crop the `raster` image using the
-`raster_clip_fields` image.
+So far we have learned how to crop raster image with vector data. We can also crop a raster with another raster data. In this section, we will demonstrate how to crop the `raster` image using the `raster_clip_fields` image.
 
-> ## Using `raster_clip_fields` raster image
->
-> For this section, we will use the `raster_clip_fields.tif` image that was produced in the section "**Crop raster data with polygon**".
-{: .callout}
 
-We read in the `raster_clip_fields.tif` image. For the demonstration purpose, we will reproject it to the RD CRS system, so it will be in a different CRS from the `raster`:
+We read in the `raster_clip_fields.tif` image. For the demonstration purpose, we will reproject it to the RD CRS system, so it will be in a different CRS from the original true color imgae `raster`:
 ~~~
 # Read raster_clip_fields
 raster_clip_fields = rioxarray.open_rasterio("raster_clip_fields.tif")
@@ -265,25 +260,6 @@ cropped_raster.plot.imshow(figsize=(8,8))
 {: .language-python}
 
 <img src="../fig/E08-09-crop-raster-raster-intro-08.png" title="Raster croped by raster" width="512" style="display: block; margin: auto;" />
-
-In this way, we accomplish the reproject and cropping in one go.
-> ## Exercise
->
-> This time let's do it the other way around by cropping the `raster_clip_fields` image using the `raster` image. Discuss the results.
->
-> > ## Solution
-> >
-> > ~~~
-> > # Crop
-> > cropped_raster = raster_clip_fields.rio.reproject_match(raster)
-> >
-> > # Visualize
-> > cropped_raster.plot.imshow(figsize=(8,8))
-> > ~~~
-> > {: .language-python}
-> > <img src="../fig/E08-10-crop-raster-raster-solution-08.png" title="Solution: raster croped raster" width="512" style="display: block; margin: auto;" />
-> {: .solution}
-{: .challenge}
 
 In one line `reproject_match` does a lot of helpful things:
 
