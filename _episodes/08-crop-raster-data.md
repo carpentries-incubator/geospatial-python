@@ -33,7 +33,7 @@ In this episode, we will introduce how to crop raster data into the desired area
 > We also use the cropped fields polygons `data/cropped_field.shp`, which was generated in an exercise from [Episode 7: Vector data in python]({{site.baseurl}}/07-vector-data-in-python).
 {: .callout}
 
-## Crop raster data with a bounding box
+## Align CRS of the ratser and the vector data
 
 We load a true color image using `pystac` and `rioxarray` and check the shape of the raster:
 
@@ -43,8 +43,8 @@ import rioxarray
 
 # Load image and inspect the shape
 items = pystac.ItemCollection.from_file("search.json")
-true_color_image = rioxarray.open_rasterio(items[1].assets["visual"].href) # Select a true color image
-print(true_color_image.shape)
+raster = rioxarray.open_rasterio(items[1].assets["visual"].href) # Select a true color image
+print(raster.shape)
 ~~~
 {: .language-python}
 
@@ -57,11 +57,11 @@ The large size of the raster data makes it time and memory consuming to visualis
 
 ~~~
 # Get the overview asset
-overview_image = rioxarray.open_rasterio(items[1].assets["overview"].href)
-print(overview_image.shape)
+raster_overview = rioxarray.open_rasterio(items[1].assets["overview"].href)
+print(raster_overview.shape)
 
 # Visualize it
-overview_image.plot.imshow(figsize=(8,8))
+raster_overview.plot.imshow(figsize=(8,8))
 ~~~
 {: .language-python}
 
@@ -73,7 +73,7 @@ As we can see, the overview image is much smaller compared to the original true 
 from pyproj import CRS
 
 # Check the coordinate system
-CRS(true_color_image.rio.crs)
+CRS(raster.rio.crs)
 ~~~
 {: .language-python}
 
@@ -101,10 +101,10 @@ To open and check the coordinate system of vector data, we use `geopandas`:
 import geopandas as gpd
 
 # Load the polygons of the crop fields
-cf_boundary_crop = gpd.read_file("fields_cropped.shp")
+fields = gpd.read_file("fields_cropped.shp")
 
 # Check the coordinate system
-cf_boundary_crop.crs
+fields.crs
 ~~~
 {: .language-python}
 
@@ -127,20 +127,22 @@ Datum: Amersfoort
 {: .output}
 
 As seen, the coordinate systems differ. To crop the raster using the shapefile,
-we first convert the coordinate system of `cf_boundary_crop` to the coordinate
-system of `true_color_image`:
+we first convert the coordinate system of `fields` to the coordinate
+system of `raster`:
 
 ~~~
-cf_boundary_crop = cf_boundary_crop.to_crs(true_color_image.rio.crs)
+fields = fields.to_crs(raster.rio.crs)
 ~~~
 {: .language-python}
 
+## Crop raster data with a bounding box
+
 The `clip_box` function allows one to crop a raster by the
-min/max of the x and y coordinates. Note that we are cropping the original image `true_color_image` now, and not the overview image `overview_image`.
+min/max of the x and y coordinates. Note that we are cropping the original image `raster` now, and not the overview image `raster_overview`.
 
 ~~~
 # Crop the raster with the bounding box
-raster_clip_box = true_color_image.rio.clip_box(*cf_boundary_crop.total_bounds)
+raster_clip_box = raster.rio.clip_box(*fields.total_bounds)
 print(raster_clip_box.shape)
 ~~~
 {: .language-python}
@@ -169,7 +171,7 @@ We have a cropped image around the fields. To further analyze the fields, one ma
 This can be done with the `clip` function:
 
 ~~~
-raster_clip_fields = raster_clip_box.rio.clip(cf_boundary_crop['geometry'])
+raster_clip_fields = raster_clip_box.rio.clip(fields['geometry'])
 ~~~
 {: .language-python}
 
@@ -182,7 +184,7 @@ raster_clip_fields.plot.imshow(figsize=(8,8))
 
 We can save this image for later usage:
 ~~~
-raster_clip_fields.rio.to_raster("crop_fields.tif")
+raster_clip_fields.rio.to_raster("raster_clip_fields.tif")
 ~~~
 
 
@@ -280,22 +282,22 @@ The red dots have grown larger indicating the conversion from points to buffer p
 
 ## Crop raster data using another raster dataset
 
-So far we have learned how to crop raster image with vector data. We can also crop a raster with another raster data. In this section, we will demonstrate how to crop the `true_color_image` image using the
-`crop_fields` image.
+So far we have learned how to crop raster image with vector data. We can also crop a raster with another raster data. In this section, we will demonstrate how to crop the `raster` image using the
+`raster_clip_fields` image.
 
-> ## Using `crop_fields` raster image
+> ## Using `raster_clip_fields` raster image
 >
-> For this section, we will use the `crop_fields.tif` image that was produced in the section "**Crop raster data with polygon**".
+> For this section, we will use the `raster_clip_fields.tif` image that was produced in the section "**Crop raster data with polygon**".
 {: .callout}
 
-We read in the `crop_fields.tif` image. For the demonstration purpose, we will reproject it to the RD CRS system, so it will be in a different CRS from the `true_color_image`:
+We read in the `raster_clip_fields.tif` image. For the demonstration purpose, we will reproject it to the RD CRS system, so it will be in a different CRS from the `raster`:
 ~~~
-# Read crop_fields
-crop_fields = rioxarray.open_rasterio("crop_fields.tif")
+# Read raster_clip_fields
+raster_clip_fields = rioxarray.open_rasterio("raster_clip_fields.tif")
 
-# Reproject to RD to make the CRS different from the "true_color_image"
-crop_fields = crop_fields.rio.reproject("EPSG:28992")
-CRS(crop_fields.rio.crs)
+# Reproject to RD to make the CRS different from the "raster"
+raster_clip_fields = raster_clip_fields.rio.reproject("EPSG:28992")
+CRS(raster_clip_fields.rio.crs)
 ~~~
 {: .language-python}
 
@@ -316,11 +318,11 @@ Datum: Amersfoort
 ~~~
 {: .output}
 
-And let's check again the CRS of `true_color_image`:
+And let's check again the CRS of `raster`:
 
 ~~~
-# Get CRS of true_color_image
-CRS(true_color_image.rio.crs)
+# Get CRS of raster
+CRS(raster.rio.crs)
 ~~~
 {: .language-python}
 
@@ -342,13 +344,13 @@ Datum: World Geodetic System 1984
 {: .output}
 
 Now the two images are in different coordinate systems. We can
-use `rioxarray.reproject_match()` function to crop `true_color_image` image.
+use `rioxarray.reproject_match()` function to crop `raster` image.
 It will perform both the reprojection and the cropping operation.
-This might take a few minutes, because the `true_color_image` image is large.
+This might take a few minutes, because the `raster` image is large.
 
 ~~~
 # Crop and reproject
-cropped_raster = true_color_image.rio.reproject_match(crop_fields)
+cropped_raster = raster.rio.reproject_match(raster_clip_fields)
 
 # Visualize
 cropped_raster.plot.imshow(figsize=(8,8))
@@ -360,13 +362,13 @@ cropped_raster.plot.imshow(figsize=(8,8))
 In this way, we accomplish the reproject and cropping in one go.
 > ## Exercise
 >
-> This time let's do it the other way around by cropping the `crop_fields` image using the `true_color_image` image. Discuss the results.
+> This time let's do it the other way around by cropping the `raster_clip_fields` image using the `raster` image. Discuss the results.
 >
 > > ## Solution
 > >
 > > ~~~
 > > # Crop
-> > cropped_raster = crop_fields.rio.reproject_match(true_color_image)
+> > cropped_raster = raster_clip_fields.rio.reproject_match(raster)
 > >
 > > # Visualize
 > > cropped_raster.plot.imshow(figsize=(8,8))
