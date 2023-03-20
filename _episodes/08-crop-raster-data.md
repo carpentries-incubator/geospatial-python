@@ -67,7 +67,7 @@ overview_image.plot.imshow(figsize=(8,8))
 
 <img src="../fig/E08-01-crop-raster-overview-raster-00.png" title="Overview of the raster"  width="512" style="display: block; margin: auto;" />
 
-As we can see, the overview image is much smaller compared to the original true color image. Therefore the visualization is much faster. If we are interested in the crop fields, then we would like to know where these are located in the image. To compare its coverage with the raster data, we first check the coordinate systems of both raster and vector data. For raster data, we use `pyproj.CRS`:
+As we can see, the overview image is much smaller compared to the original true color image. We first check the coordinate systems of both raster and vector data. For raster data, we use `pyproj.CRS`:
 
 ~~~
 from pyproj import CRS
@@ -101,7 +101,7 @@ To open and check the coordinate system of vector data, we use `geopandas`:
 import geopandas as gpd
 
 # Load the polygons of the crop fields
-cf_boundary_crop = gpd.read_file("cropped_field.shp")
+cf_boundary_crop = gpd.read_file("fields_cropped.shp")
 
 # Check the coordinate system
 cf_boundary_crop.crs
@@ -128,34 +128,14 @@ Datum: Amersfoort
 
 As seen, the coordinate systems differ. To crop the raster using the shapefile,
 we first convert the coordinate system of `cf_boundary_crop` to the coordinate
-system of `true_color_image`, and then check the coverage:
+system of `true_color_image`:
 
 ~~~
-from matplotlib import pyplot as plt
-
-# Convert the coordinate system
 cf_boundary_crop = cf_boundary_crop.to_crs(true_color_image.rio.crs)
-
-# Plot
-fig, ax = plt.subplots()
-fig.set_size_inches((8,8))
-
-# Plot image
-overview_image.plot.imshow(ax=ax)
-
-# Plot crop fields
-cf_boundary_crop.plot(
-    ax=ax,
-    edgecolor="red",
-)
 ~~~
 {: .language-python}
 
-<img src="../fig/E08-02-crop-raster-bounding-box-01.png" title="Bounding boxes of AoI over the raster"  width="512" style="display: block; margin: auto;" />
-
-Seeing from the location of the polygons, the crop fields (red) only takes a small part of
-the raster. Therefore, before actual processing, we can first crop the raster to
-our area of interest. The `clip_box` function allows one to crop a raster by the
+The `clip_box` function allows one to crop a raster by the
 min/max of the x and y coordinates. Note that we are cropping the original image `true_color_image` now, and not the overview image `overview_image`.
 
 ~~~
