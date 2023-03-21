@@ -282,7 +282,9 @@ bro_id delivery_accountable_party quality_regime  ...
 
 After this selection, all the wells outside the fields are dropped. This takes a while to execute, because we are clipping a relatively large number of points with many polygons.
 
-If we do not want a precise clipping, but rather have the points in the neighborhood of the fields, we can use the `buffer` function to define a neighborhood of the fields with a given `distance`. The unit of the `distance` argument is the same as the CRS. Here we use a 50-meter buffer. Also notice that the `.buffer` function produces a `GeoSeries`, so to keep the other columns, we assign it to the `GeoDataFrame` as a geometry column.
+If we do not want a precise clipping, but rather have the points in the neighborhood of the fields, we will need to create another polygon, which is slightly bigger than the coverage of the field. To do this, we can increase the size of the field polygons, to make them overlap with each other, and then merge the overlapping polygons together.
+
+We will first use the `buffer` function to increase field size with a given `distance`. The unit of the `distance` argument is the same as the CRS. Here we use a 50-meter buffer. Also notice that the `.buffer` function produces a `GeoSeries`, so to keep the other columns, we assign it to the `GeoDataFrame` as a geometry column.
 
 ~~~
 buffer = fields.buffer(50)
