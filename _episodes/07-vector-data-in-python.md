@@ -392,10 +392,11 @@ This will result in a `GeodataFrame` of all polygons intersecting the wells, add
 ## Modify the geometry of a GeoDataFrame
 
 > ## Challenge: Investigate the waterway lines
-> Now we will take a deeper look at the Dutch waterway lines: `waterways_nl`. Let's visualize it with the `plot` function. Can you tell what is wrong with this vector file?
+> Now we will take a deeper look at the Dutch waterway lines: `waterways_nl`. Let's load the file `status_vaarweg.zip`, and visualize it with the `plot()` function. Can you tell what is wrong with this vector file?
 > > ## Answers
 > > By plotting out the vector file, we can tell that the latitude and longitude of the file are flipped.
 > > ~~~
+> > waterways_nl = gpd.read_file('data/status_vaarweg.zip')
 > > waterways_nl.plot()
 > > ~~~
 > > {: .language-python}
