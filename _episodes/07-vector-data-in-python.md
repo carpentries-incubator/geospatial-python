@@ -212,7 +212,7 @@ We can convert these coordinates to a bounding box or acquire the index of the D
 > > Their key differences are: 
 > > - The method `cx` is an indexer, using square brackets, while `clip_by_rect` is a function using round brackets. 
 > > - The `cx` produces another `GeoDataFrame` with the attribute columns, while `clip_by_rect` produces a `GeoSeries`, with only the geometry information.
-> > - `cx` only keeps selected entries; `clip_by_rect` keep all entries, the entries outside the bounding box will be empty.
+> > - `cx` only keeps selected entries; `clip_by_rect` keeps all entries and the entries outside the bounding box will be empty.
 > > - `cx` will returns the geometries intersecting the bbox, while `clip_by_rect` will actually clip the geometries using the bounding box. So all the polygons crossing the bbox edges will differ using the two approaches. This can be seen by plotting the upper-left corner:
 > > ![Fields at the edge](../fig/E07-02-fields-on-edge.png)
 > > 
