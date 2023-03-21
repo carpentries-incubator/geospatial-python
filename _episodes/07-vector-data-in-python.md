@@ -3,14 +3,13 @@ title: "Vector data in Python"
 teaching: 30
 exercises: 20
 questions:
-- "How can I process the spatial objects?"
+- "How can I process the spatial objects, such as points, lines, and polygons?"
 objectives:
 - "Load spatial objects."
-- "Crop spatial objects with bounding box."
-- "Perform CRS conversion to spatial objects."
-- "Select spatial features of spatial objects."
-- "Spatially join spatial objects."
-- 
+- "Select the spatial objects within a bounding box."
+- "Perform a CRS conversion of spatial objects."
+- "Select features of spatial objects."
+- "Match objects in two datasets based on their spatial relationships."
 keypoints:
 - "Load spatial objects into Python with `geopandas.read_file()` function."
 - "Spatial objects can be plotted directly with `GeoDataFrame`'s `.plot()` method."
@@ -48,7 +47,7 @@ import geopandas as gpd
 ~~~
 {: .language-python}
 
-We will use the `geopandas` module to load the crop field vector data we downloaded at: `data/brpgewaspercelen_definitief_2020_small.gpkg`. 
+We will use the `geopandas` package to load the crop field vector data we downloaded at: `data/brpgewaspercelen_definitief_2020_small.gpkg`. 
 
 ~~~
 fields = gpd.read_file("data/brpgewaspercelen_definitief_2020_small.gpkg", bbox=bbox)
@@ -91,7 +90,7 @@ fields.plot()
 ![Cropped fields plot image](../fig/E07-02-fields.png)
 {: .output}
 ## Vector Metadata & Attributes
-When we import the vector dataset to Python (as our `fields` object) it comes in as a `GeoDataFrame`. The `read_file()` function also automatically stores geospatial information about the data. We are particularly interested in describing the format, CRS, extent, and other components of the vector data, and the attributes which describe properties associated
+When we read the vector dataset with Python (as our `fields` variable) it is loaded as a `GeoDataFrame` object. The `read_file()` function also automatically stores geospatial information about the data. We are particularly interested in describing the format, CRS, extent, and other components of the vector data, and the attributes which describe properties associated
 with each vector object. 
 
 For example, we will explore
@@ -170,14 +169,14 @@ This array contains, in order, the values for minx, miny, maxx and maxy, for the
 We can convert these coordinates to a bounding box or acquire the index of the Dataframe to access the geometry. Either of these polygons can be used to clip rasters (more on that later).
 
 > ## Challenge: Further crop the dataset
-> Sometimes, the loaded data can still be too large. We can cut it to an even smaller extent. There are two potential ways to do this:
+> We might realize that the loaded dataset is still too large. If we want to refine our area of interest to an even smaller extent, without reloading the data, we can use one of the following methods:
 > 
 > - [`cx`](https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoDataFrame.cx.html) indexer
-> - [`clip_by_rect`](https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoSeries.clip_by_rect.html) function
+> - [`clip_by_rect`](https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoSeries.clip_by_rect.html) method
 > 
 > In this exercise, please:
 > 
-> 1. Read the documentation of both function
+> 1. Read the documentation of both functions
 > 2. Try both methods to crop `fields` to the following extent:
 > ~~~
 > # A smaller bounding box in RD
@@ -239,7 +238,7 @@ wells.plot(markersize=0.1)
 The points represents all the wells over the Netherlands. Since the wells are in the lat/lon coordinates. To make it comparable with fields, we need to transfer the CRS to RD first:
 
 ~~~
-wells = wells.to_crs(28992)
+wells = wells.to_crs(epsg=28992)
 ~~~
 {: .language-python}
 
@@ -262,9 +261,9 @@ bro_id delivery_accountable_party quality_regime  ...
 ~~~
 {: .output}
 
-After this selection, all the wells outside fields are dropped. This takes a while to execute, because we are clipping a relatively large number of points with many polygons.
+After this selection, all the wells outside the fields are dropped. This takes a while to execute, because we are clipping a relatively large number of points with many polygons.
 
-If we do not want a precise clipping, but rather have the points in the neighborhood of the fields, we can use the `buffer` function to define a neighborhood of the fields with a given `distance`. The unit of the `distance` argument is the same as the CRS. Here we use a 50-meter buffer. Also notice that the `.buffer` function produces a `GeoSeries`, so to keep the other columns, we assign it to the `GeoDataFramce` as a geometry column.
+If we do not want a precise clipping, but rather have the points in the neighborhood of the fields, we can use the `buffer` function to define a neighborhood of the fields with a given `distance`. The unit of the `distance` argument is the same as the CRS. Here we use a 50-meter buffer. Also notice that the `.buffer` function produces a `GeoSeries`, so to keep the other columns, we assign it to the `GeoDataFrame` as a geometry column.
 
 ~~~
 buffer = fields.buffer(50)
@@ -294,7 +293,7 @@ wells_clip_buffer.plot()
 
 ![Wells in 50m buffer of fields](../fig/E07-05-wells-in-buffer.png)
 
-In this way, we selected all wells within the 50m range of the fields. It is also significantly faster than the previous `clip` operation, since the polygon geometry is much simpler after `dissolve`.
+In this way, we selected all wells within the 50m range of the fields. It is also significantly faster than the previous `clip` operation, since the number of polygons is much smaller after `dissolve`.
 
 > ## Challenge: select fields within 500m from the wells
 > This time, we will do a selection the other way around. Can you find and plot the field polygons (stored in `fields_cropped.shp`), which intersect the 500m radius of any wells (stored in `brogmwvolledigeset.zip`)? 
@@ -328,7 +327,7 @@ In this way, we selected all wells within the 50m range of the fields. It is als
 
 ## Spatially join the features
 
-Sometimes, we would like to search for an attribute in attribute in another `GeoDataFrame`, and add the results to the existing `GeoDataFrame`. For example, we may want to store the well IDs as a new column in the `fields` object. To do this, we can use the `sjoin` function to join two `GeoDataFrame`:
+Sometimes, we would like to match elements between two `GeoDataFrame`'s on the basis of their spatial relationship. For example, we may want to pair water wells to the crop fields they fall within. To do this, we can use the `sjoin` function to "spatially" join two `GeoDataFrame`'s:
 
 ~~~
 fields_wells = fields.sjoin(wells[['bro_id', 'geometry']])
@@ -369,7 +368,7 @@ This will result in a `GeodataFrame` of all polygons intersecting the wells, add
 > {: .solution}
 {: .challenge}
 
-## (optional) Modify the geometry of a GeoDataFrame
+## Modify the geometry of a GeoDataFrame
 
 > ## Challenge: Investigate the waterway lines
 > Now we will take a deeper look at the Dutch waterway lines: `waterways_nl`. Let's visualize it with the `plot` function. Can you tell what is wrong with this vector file?
