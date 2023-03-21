@@ -53,7 +53,7 @@ print(raster.shape)
 ~~~
 {: .output}
 
-This will perform a "lazy" loading of the image, i.e. the image will not be actually loaded into the memory until neccessary, but we can still access some acttribute, e.g. the shape of the image.
+This will perform a "lazy" loading of the image, i.e. the image will not be actually loaded into the memory until neccessary, but we can still access some attributes, e.g. the shape of the image.
 
 The large size of the raster data makes it time and memory consuming to visualise in its entirety. Instead, we can plot the "overview" asset, to investigate the coverage of the image.
 
@@ -180,16 +180,32 @@ And we can visualize the results:
 raster_clip_fields.plot.imshow(figsize=(8,8))
 ~~~
 {: .language-python}
-<img src="../fig/E08-04-crop-raster-crop-fields-solution-06.png" title="Raster cropped by crop fields" width="512" style="display: block; margin: auto;" />
+<img src="../fig/E08-04-crop-raster-crop-fields.png" title="Raster cropped by crop fields" width="512" style="display: block; margin: auto;" />
 
-We can save this image for later usage:
-~~~
-raster_clip_fields.rio.to_raster("raster_clip_fields.tif")
-~~~
+ ## Challenge: crop raster data with a specific code
+> In the column "gewascode" of `fields`, you can find the code representing the type of plant grown in each field. Can you:
+> 1. Select the fields with "gewascode" equal to `257`;
+> 2. Crop the raster `raster_clip_box` with the selected fields;
+> 3. Visualize the cropped image.
+>
+> > ## Answers
+> > ~~~
+> > mask = fields['gewascode']==257
+> > fields_gwascode = fields.where(mask)
+> > fields_gwascode = fields_gwascode.dropna()
+> > raster_clip_fields_gwascode = raster_clip_box.rio.clip(fields_gwascode['geometry'])
+> > raster_clip_fields_gwascode.plot.imshow(figsize=(8,8))
+> > ~~~
+> > {: .language-python}
+> > <img src="../fig/E08-05-crop-raster-fields-gewascode.png" title="Raster cropped by crop fields with gewascode" width="512" style="display: block; margin: auto;" />
+> > 
+> {: .solution}
+{: .challenge}
+
 
 ## Crop raster data using `reproject_match()` function
 
-So far we have learned how to crop raster image with vector data. We can also crop a raster with another raster data. In this section, we will demonstrate how to crop the `raster` image using the `raster_clip_fields` image.
+So far we have learned how to crop raster image with vector data. We can also crop a raster with another raster data. In this section, we will demonstrate how to crop the `raster_clip_box` image using the `raster_clip_fields_gwascode` image.
 
 
 We read in the `raster_clip_fields.tif` image. For the demonstration purpose, we will reproject it to the RD CRS system, so it will be in a different CRS from the original true color imgae `raster`:
