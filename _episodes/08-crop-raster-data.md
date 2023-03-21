@@ -53,7 +53,9 @@ print(raster.shape)
 ~~~
 {: .output}
 
-The large size of the raster data makes it time and memory consuming to visualise in its entirety.  Instead, we can plot the "overview" asset, to investigate the coverage of the image.
+This will perform a "lazy" loading of the image, i.e. the image will not be actually loaded into the memory until neccessary, but we can still access some acttribute, e.g. the shape of the image.
+
+The large size of the raster data makes it time and memory consuming to visualise in its entirety. Instead, we can plot the "overview" asset, to investigate the coverage of the image.
 
 ~~~
 # Get the overview asset
@@ -126,9 +128,7 @@ Datum: Amersfoort
 ~~~
 {: .output}
 
-As seen, the coordinate systems differ. To crop the raster using the shapefile,
-we first convert the coordinate system of `fields` to the coordinate
-system of `raster`:
+As seen, the coordinate systems differ. To crop the raster using the shapefile, we first need to unform the CRS. We can conver one to the other. But considering the size of `raster` is huge, to avoid loading the entire image, we will convert the coordinate system of `fields` to the coordinate system of `raster`:
 
 ~~~
 fields = fields.to_crs(raster.rio.crs)
