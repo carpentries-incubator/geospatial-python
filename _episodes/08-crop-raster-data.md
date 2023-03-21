@@ -7,12 +7,11 @@ questions:
 objectives:
 - "Crop raster data with a bounding box."
 - "Crop raster data with a polygon."
-- "Crop raster data within a geometry buffer."
+- "Match two raster datasets in different CRS."
 keypoints:
-- "Use `clip_box` in `DataArray.rio` to crop a raster with a bounding box."
-- "Use `clip` in `DataArray.rio` to crop a raster with a given polygon."
-- "Use `buffer` in `geopandas` to make a buffer polygon of a (multi)point or a polyline. This polygon can be used to crop data."
-- "Use `reproject_match` function in `DataArray.rio` to reproject and crop a raster data using another raster data."
+- "Use `clip_box` to crop a raster with a bounding box."
+- "Use `clip` to crop a raster with a given polygon."
+- "Use `reproject_match` to match two raster datasets."
 ---
 
 It is quite common that the raster data you have in hand is too large to process, or not all the pixels are relevant to your area of interest (AoI). In both situations, you should consider cropping your raster data before performing data analysis.
@@ -33,7 +32,7 @@ In this episode, we will introduce how to crop raster data into the desired area
 > We also use the cropped fields polygons `data/cropped_field.shp`, which was generated in an exercise from [Episode 7: Vector data in python]({{site.baseurl}}/07-vector-data-in-python).
 {: .callout}
 
-## Align CRS of the ratser and the vector data
+## Align the CRS of the raster and the vector data
 
 We load a true color image using `pystac` and `rioxarray` and check the shape of the raster:
 
@@ -53,9 +52,9 @@ print(raster.shape)
 ~~~
 {: .output}
 
-This will perform a "lazy" loading of the image, i.e. the image will not be actually loaded into the memory until neccessary, but we can still access some attributes, e.g. the shape of the image.
+This will perform a "lazy" loading of the image, i.e. the image will not be loaded into the memory until necessary, but we can still access some attributes, e.g. the shape of the image.
 
-The large size of the raster data makes it time and memory consuming to visualise in its entirety. Instead, we can plot the "overview" asset, to investigate the coverage of the image.
+The large size of the raster data makes it time and memory consuming to visualize in its entirety. Instead, we can plot the "overview" asset, to investigate the coverage of the image.
 
 ~~~
 # Get the overview asset
@@ -128,7 +127,7 @@ Datum: Amersfoort
 ~~~
 {: .output}
 
-As seen, the coordinate systems differ. To crop the raster using the shapefile, we first need to unform the CRS. We can conver one to the other. But considering the size of `raster` is huge, to avoid loading the entire image, we will convert the coordinate system of `fields` to the coordinate system of `raster`:
+As seen, the coordinate systems differ. To crop the raster using the shapefile, we first need to uniform the CRS. We can convert one to the other. But considering the size of `raster` is huge, to avoid loading the entire image, we will convert the coordinate system of `fields` to the coordinate system of `raster`:
 
 ~~~
 fields = fields.to_crs(raster.rio.crs)
@@ -183,7 +182,7 @@ raster_clip_fields.plot.imshow(figsize=(8,8))
 <img src="../fig/E08-04-crop-raster-crop-fields.png" title="Raster cropped by crop fields" width="512" style="display: block; margin: auto;" />
 
  ## Challenge: crop raster data with a specific code
-> In the column "gewascode" of `fields`, you can find the code representing the type of plant grown in each field. Can you:
+> In the column "gewascode" (translated as "crop code") of `fields`, you can find the code representing the types of plants grown in each field. Can you:
 > 1. Select the fields with "gewascode" equal to `257`;
 > 2. Crop the raster `raster_clip_box` with the selected fields;
 > 3. Visualize the cropped image.
@@ -205,17 +204,14 @@ raster_clip_fields.plot.imshow(figsize=(8,8))
 
 ## Crop raster data using `reproject_match()` function
 
-So far we have learned how to crop raster image with vector data. We can also crop a raster with another raster data. In this section, we will demonstrate how to crop the `raster_clip_box` image using the `raster_clip_fields_gwascode` image.
+So far we have learned how to crop raster images with vector data. We can also crop a raster with another raster data. In this section, we will demonstrate how to crop the `raster_clip_box` image using the `raster_clip_fields_gwascode` image. We will use the `reproject_match` function. As indicated by its name, it performs reprojection and clipping in one go.
 
 
-We read in the `raster_clip_fields.tif` image. For the demonstration purpose, we will reproject it to the RD CRS system, so it will be in a different CRS from the original true color imgae `raster`:
+To demonstrate the reprojection, we will first reproject `raster_clip_fields_gwascode` to the RD CRS system, so it will be in a different CRS from `raster_clip_box`:
 ~~~
-# Read raster_clip_fields
-raster_clip_fields = rioxarray.open_rasterio("raster_clip_fields.tif")
-
 # Reproject to RD to make the CRS different from the "raster"
-raster_clip_fields = raster_clip_fields.rio.reproject("EPSG:28992")
-CRS(raster_clip_fields.rio.crs)
+raster_clip_fields_gwascode = raster_clip_fields_gwascode.rio.reproject("EPSG:28992")
+CRS(raster_clip_fields_gwascode.rio.crs)
 ~~~
 {: .language-python}
 
@@ -236,11 +232,10 @@ Datum: Amersfoort
 ~~~
 {: .output}
 
-And let's check again the CRS of `raster`:
+And let's check again the CRS of `raster_clip_box`:
 
 ~~~
-# Get CRS of raster
-CRS(raster.rio.crs)
+CRS(raster_clip_box.rio.crs)
 ~~~
 {: .language-python}
 
@@ -261,21 +256,27 @@ Datum: World Geodetic System 1984
 ~~~
 {: .output}
 
-Now the two images are in different coordinate systems. We can
-use `rioxarray.reproject_match()` function to crop `raster` image.
-It will perform both the reprojection and the cropping operation.
-This might take a few minutes, because the `raster` image is large.
+Now the two images are in different coordinate systems. We can use `rioxarray.reproject_match()` function to crop `raster_clip_box` image.
 
 ~~~
-# Crop and reproject
-cropped_raster = raster.rio.reproject_match(raster_clip_fields)
-
-# Visualize
-cropped_raster.plot.imshow(figsize=(8,8))
+raster_reproject_match = raster_clip_box.rio.reproject_match(raster_clip_fields_gwascode)
+raster_reproject_match.plot.imshow(figsize=(8,8))
 ~~~
 {: .language-python}
 
-<img src="../fig/E08-09-crop-raster-raster-intro-08.png" title="Raster croped by raster" width="512" style="display: block; margin: auto;" />
+<!-- ![Reproject match big to small](../fig/E08-06-reprojectmatch-big-to-small.png) -->
+<img src="../fig/E08-06-reprojectmatch-big-to-small.png" title="Reproject match big to small" width="512" style="display: block; margin: auto;" />
+
+We can also use it to expand `raster_clip_fields_gwascode` to the extent of `raster_clip_box`:
+
+~~~
+raster_reproject_match = raster_clip_fields_gwascode.rio.reproject_match(raster_clip_box)
+raster_reproject_match.plot.imshow(figsize=(8,8))
+~~~
+{: .language-python}
+
+<!-- ![Reproject match small to big](../fig/E08-07-reprojectmatch-small-to-big.png) -->
+<img src="../fig/E08-07-reprojectmatch-small-to-big.png" title="Reproject match small to big" width="512" style="display: block; margin: auto;" />
 
 In one line `reproject_match` does a lot of helpful things:
 
