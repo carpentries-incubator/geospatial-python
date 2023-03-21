@@ -177,15 +177,16 @@ We can convert these coordinates to a bounding box or acquire the index of the D
 > In this exercise, please:
 > 
 > 1. Read the documentation of both functions
+>
 > 2. Try both methods to crop `fields` to the following extent:
-> ~~~
+> ```
 > # A smaller bounding box in RD
 > xmin, xmax = (120_000, 135_000)
 > ymin, ymax = (485_000, 500_000)
-> ~~~
-> {: .language-python}
+> ```
+>
 > 3. Think of: what are the differences of the two methods? In what circumstances will you use `cx`? When will you use `clip_by_rect`?
-> {: .language-python}
+>
 > > ## Answers
 > > 
 > > ~~~
@@ -195,9 +196,27 @@ We can convert these coordinates to a bounding box or acquire the index of the D
 > > ~~~
 > > {: .language-python}
 > > 
-> > The method `cx` is an indexer, using square brackets, while `clip_by_rect` is a function using round brackets. The `cx` produces another `GeoDataFrame` with the attribute columns, while `clip_by_rect` produces a `GeoSeries`, with only the geometry information. `clip_by_rect` keep all entries, the entries outside the bounding box will be empty.
+> > ~~~
+> > # Plot out upper-left coner
+> > from matplotlib import pyplot as plt
+> > fig, ax = plt.subplots(2,1)
+> > fields_cx.plot(ax=ax[0])
+> > ax[0].set_xlim([119500, 121000])
+> > ax[0].set_ylim([499000, 500500])
+> > fields_rect.plot(ax=ax[1])
+> > ax[1].set_xlim([119500, 121000])
+> > ax[1].set_ylim([499000, 500500])
+> > ~~~
+> > {: .language-python}
 > > 
-> > If attribute columns are needed, one should use `cx`. Otherwise, if only the geometries are needed, `clip_by_rect` can be used.
+> > Their key differences are: 
+> > - The method `cx` is an indexer, using square brackets, while `clip_by_rect` is a function using round brackets. 
+> > - The `cx` produces another `GeoDataFrame` with the attribute columns, while `clip_by_rect` produces a `GeoSeries`, with only the geometry information.
+> > - `cx` only keeps selected entries; `clip_by_rect` keep all entries, the entries outside the bounding box will be empty.
+> > - `cx` will returns the geometries intersecting the bbox, while `clip_by_rect` will actually clip the geometries using the bounding box. So all the polygons crossing the bbox edges will differ using the two approaches. This can be seen by plotting the upper-left corner:
+> > ![Fields at the edge](../fig/E07-02-fields-on-edge.png)
+> > 
+> > If attribute columns are needed, or it is desired to keep the original geometries, one should use `cx`. Otherwise, if only the geometries are needed, and clipped geometries are needed, `clip_by_rect` can be used.
 > {: .solution}
 {: .challenge}
 
