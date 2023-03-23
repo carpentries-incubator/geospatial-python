@@ -84,14 +84,46 @@ fields_rasterized = features.rasterize(geom, out_shape=ndvi.shape, transform=ndv
 ~~~
 {: .language-python}
 
-The argument `out_shape` specifies the shape of the output grid in pixel units, while `transform` represents the projection from pixel space to the projected coordinate space. We also need to specify the fill value for pixels that are not contained within a polygon in our shapefile, which we do with `fill = 0`. It's important to pick a fill value that is not the same as any value already defined in `gewascode` or else we won't distinguish between this zone and the background.
+The argument `out_shape` specifies the shape of the output grid in pixel units, while `transform` represents the projection from pixel space to the projected coordinate space. By default, the pixels that are not contained within a polygon in our shapefile will be filled with 0. It's important to pick a fill value that is not the same as any value already defined in `gewascode` or else we won't distinguish between this zone and the background.
 
-We convert the output of the `rasterio.features.rasterize` function, which generates a numpy array `np.ndarray`, to `xarray.DataArray` which will be used further:
+Let's inspect the results of rasterization:
+
 ~~~
-import xarray as xr
-fields_rasterized_xarr = xr.DataArray(fields_rasterized)
+import numpy as np
+print(fields_rasterized.shape)
+print(np.unique(fields_rasterized))
 ~~~
 {: .language-python}
+
+~~~
+(500, 500)
+[  0 259 265 266 331 332 335 863]
+~~~
+{: .output}
+
+The output `fields_rasterized` is an `np.ndarray` with the same shape as `ndvi`. It contains `gewascode` values at the location of fields, and 0 outside the fields. Let's visualize it:
+
+~~~
+from matplotlib import pyplot as plt
+plt.imshow(fields_rasterized)
+plt.colorbar()
+~~~
+{: .language-python}
+
+![Rasterization results](../fig/E10-01-rasterization-results.png)
+
+We will convert the output to `xarray.DataArray` which will be used further. To do this, we will "borrow" the coordinates from `ndvi`, and fill in the rasterization datat:
+~~~
+import xarray as xr
+fields_rasterized_xarr = ndvi.copy()
+fields_rasterized_xarr.data = fields_rasterized
+
+# visualize
+fields_rasterized_xarr.plot(robust=True)
+~~~
+{: .language-python}
+
+![Rasterization results Xarray](../fig/E10-02-rasterization-results-xr.png)
 
 # Calculate zonal statistics
 
@@ -141,6 +173,15 @@ The `zonal_stats` function calculates the minimum, maximum, and sum for each zon
 > > ```python
 > > zonal_stats(ndvi_classified, ndvi)
 > > ```
+> > 
+> > ~~~
+> > 	zone    mean       max        min           sum         std      var	  count  
+> > 0     1  -0.355660  -0.000257  -0.998648  -12838.253906  0.145916  0.021291  36097.0  
+> > 1     2   0.110731   0.199839   0.000000    1754.752441  0.055864  0.003121  15847.0  
+> > 2     3   0.507998   0.700000   0.200000   50410.167969  0.140193  0.019654  99233.0  
+> > 3     4   0.798281   0.999579   0.700025   78888.523438  0.051730  0.002676  98823.0
+> > ~~~
+> > {: .output}
 > {: .solution}
 {: .challenge}
 
