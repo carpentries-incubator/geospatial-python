@@ -226,7 +226,7 @@ We can convert these coordinates to a bounding box or acquire the index of the D
 From now on, we will continue with the cropped fields data `fields_cx`. We will save it to a shapefile (`.shp`) and use it later. The `to_file` function can be used for exportation:
 
 ~~~
-fields_cx.to_file('data/fields_cropped.shp')
+fields_cx.to_file('fields_cropped.shp')
 ~~~
 {: .language-python}
 
@@ -241,7 +241,7 @@ From now on, we will take in a point dataset `brogmwvolledigeset.zip`, which is 
 Let's read the two datasets.
 
 ~~~
-fields =  gpd.read_file("data/fields_cropped.shp")
+fields =  gpd.read_file("fields_cropped.shp")
 wells = gpd.read_file("data/brogmwvolledigeset.zip")
 ~~~
 {: .language-python}
@@ -326,7 +326,7 @@ In this way, we selected all wells within the 50m range of the fields. It is als
 > > ## Answers
 > > ~~~
 > > # Read in data
-> > fields =  gpd.read_file("data/fields_cropped.shp")
+> > fields =  gpd.read_file("fields_cropped.shp")
 > > wells = gpd.read_file("data/brogmwvolledigeset.zip")
 > > 
 > > # Crop points with bounding box
@@ -368,7 +368,7 @@ Index(['category', 'gewas', 'gewascode', 'jaar', 'status', 'geometry',
 This will result in a `GeodataFrame` of all polygons intersecting the wells, adding the well IDs as a new column: `bro_id`.
 
 > ## Challenge: count the number of field polygons within a distance from the points
-> Use the `sjoin` function to join two polygons: the field polygons (`fields`, read in from `data/fields_cropped.shp`) and the wells 500m buffer polygons (`wells_cx_500mbuffer` from the previous exercise). And answer the following questions: 
+> Use the `sjoin` function to join two polygons: the field polygons (`fields`, read in from `fields_cropped.shp`) and the wells 500m buffer polygons (`wells_cx_500mbuffer` from the previous exercise). And answer the following questions: 
 > 
 > - How many fields are intersecting the 500m buffer of wells?
 >
