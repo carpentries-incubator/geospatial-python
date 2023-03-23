@@ -156,8 +156,7 @@ The `zonal_stats` function calculates the minimum, maximum, and sum for each zon
 >
 > Let's calculate NDVI zonal statistics for the different zones as classified by `ndvi_classified` in the previous episode.
 >
-> Load both raster data-sets and convert into 2D `xarray.DataArray`.
-> Then, calculate zonal statistics for each `class_bins`. Inspect the output of the `zonal_stats` function.
+> Load both raster datasets: `NDVI.tif` and `NDVI_classified.tif`. Then, calculate zonal statistics for each `class_bins`. Inspect the output of the `zonal_stats` function.
 >
 >
 > > ## Answers
