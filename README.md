@@ -21,11 +21,10 @@ Check out the [Contribution Guide](CONTRIBUTING.md) and [more detailed guideline
 
 <h1 align="center"> ️💚️ Thanks Contributors! 💚 </h1>
 
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section. Created with https://www.tablesgenerator.com/markdown_tables# -->
-<!-- prettier-ignore -->
-|  [<img src="https://github.com/rbavery.png" width="100px;"/><br /><sub><b>Ryan Avery</b></sub>](https://github.com/rbavery)  |  [<img src="https://github.com/marwahaha.png" width="100px;"/><br /><sub><b>Kunal Marwaha</b></sub>](https://github.com/marwahaha)  |  [<img src="https://github.com/alex-pakalniskis.png" width="100px;"/><br /><sub><b>Alex Pakalniskis</b></sub>](https://github.com/alex-pakalniskis)  | [<img src="https://github.com/bmcandr.png" width="100px;"/><br /><sub><b>Brendan McAndrew</b></sub>](https://github.com/bmcandr)                     | [<img src="https://github.com/seanemccartney.png" width="100px;"/><br /><sub><b>Sean McCartney</b></sub>](https://github.com/seanemccartney) |
-|-|-|-|-|-|
-<!-- ALL-CONTRIBUTORS-LIST:END -->
+<a href="https://github.com/carpentries-incubator/geospatial-python/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=carpentries-incubator/geospatial-python" />
+</a>
+Made with [contrib.rocks](https://contrib.rocks).
 
 ## Acknowledgements
 
