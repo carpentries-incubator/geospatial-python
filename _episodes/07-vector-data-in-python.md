@@ -50,7 +50,7 @@ import geopandas as gpd
 We will use the `geopandas` package to load the crop field vector data we downloaded at: `data/brpgewaspercelen_definitief_2020_small.gpkg`. 
 
 ~~~
-fields = gpd.read_file("data/brpgewaspercelen_definitief_2020_small.gpkg", bbox=bbox)
+fields = gpd.read_file("data/brpgewaspercelen_definitief_2020_small.gpkg")
 fields
 ~~~
 {: .language-python}
