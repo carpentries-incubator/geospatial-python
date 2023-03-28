@@ -181,7 +181,7 @@ raster_clip_fields.plot.imshow(figsize=(8,8))
 {: .language-python}
 <img src="../fig/E08-04-crop-raster-crop-fields.png" title="Raster cropped by crop fields" width="512" style="display: block; margin: auto;" />
 
- ## Challenge: crop raster data with a specific code
+> ## Challenge: crop raster data with a specific code
 > In the column "gewascode" (translated as "crop code") of `fields`, you can find the code representing the types of plants grown in each field. Can you:
 > 1. Select the fields with "gewascode" equal to `257`;
 > 2. Crop the raster `raster_clip_box` with the selected fields;
