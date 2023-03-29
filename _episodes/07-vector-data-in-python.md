@@ -168,7 +168,7 @@ This array contains, in order, the values for minx, miny, maxx and maxy, for the
 
 We can convert these coordinates to a bounding box or acquire the index of the Dataframe to access the geometry. Either of these polygons can be used to clip rasters (more on that later).
 
-> ## Challenge: Further crop the dataset
+> ## Exercise: Further crop the dataset
 > We might realize that the loaded dataset is still too large. If we want to refine our area of interest to an even smaller extent, without reloading the data, we can use one of the following methods:
 > 
 > - [`cx`](https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoDataFrame.cx.html) indexer
@@ -316,7 +316,7 @@ wells_clip_buffer.plot()
 
 In this way, we selected all wells within the 50m range of the fields. It is also significantly faster than the previous `clip` operation, since the number of polygons is much smaller after `dissolve`.
 
-> ## Challenge: select fields within 500m from the wells
+> ## Exercise: select fields within 500m from the wells
 > This time, we will do a selection the other way around. Can you find and plot the field polygons (stored in `fields_cropped.shp`), which intersect the 500m radius of any wells (stored in `brogmwvolledigeset.zip`)? 
 > 
 > - Hint1: `brogmwvolledigeset.zip` is in CRS 4326. Don't forget the CRS conversion.
@@ -367,31 +367,47 @@ Index(['category', 'gewas', 'gewascode', 'jaar', 'status', 'geometry',
 
 This will result in a `GeodataFrame` of all polygons intersecting the wells, adding the well IDs as a new column: `bro_id`.
 
-> ## Challenge: count the number of field polygons within a distance from the points
+> ## Exercise: sjoin for spatial query
 > Use the `sjoin` function to join two polygons: the field polygons (`fields`, read in from `fields_cropped.shp`) and the wells 500m buffer polygons (`wells_cx_500mbuffer` from the previous exercise). And answer the following questions: 
 > 
-> - How many fields are intersecting the 500m buffer of wells?
+> - Q1: How many fields are intersecting the 500m buffer of wells?
 >
-> - How many wells are intersecting the fields with a 500 buffer?
+> - Q2: How many wells have at least one field intersecting its 500m buffer?
 > 
 > > ## Answers
 > > ~~~
+> > # Join fields and wells_cx_500mbuffer
 > > fields_wells_buffer = fields.sjoin(wells_cx_500mbuffer)
+> > 
+> > # Q1
 > > print(fields_wells_buffer.shape)
 > > print(fields_wells_buffer.index.unique().shape) # Take the unique of the index
-> > print(fields_wells_buffer['bro_id'].unique().shape) # Take the unique of the bro_ids
-> > 
-> > # validation
+> > # validate Q1 by clipping
 > > print(fields.clip(wells_cx_500mbuffer).shape)
+> > 
+> > # Q2
+> > print(fields_wells_buffer['bro_id'].unique().shape) # Take the unique of the bro_ids column
 > > ~~~
 > > {: .language-python}
+> > 
+> > ~~~
+> > (11420, 46)
+> > (1721,)
+> > (1721, 6)
+> > (434,)
+> > ~~~
+> > {: .output}
+> > 
+> > - Q1: There are 1721 fields intersecting the 500m buffer of wells.
+> > - Q2: There are 434 wells have at least one field intersecting its 500m buffer.
+> > 
 > > Note that a polygon can fall in the 500m buffer of multiple points. So we should use `.unique()` function to get the actual number of the polygons.
 > {: .solution}
 {: .challenge}
 
 ## Modify the geometry of a GeoDataFrame
 
-> ## Challenge: Investigate the waterway lines
+> ## Exercise: Investigate the waterway lines
 > Now we will take a deeper look at the Dutch waterway lines: `waterways_nl`. Let's load the file `status_vaarweg.zip`, and visualize it with the `plot()` function. Can you tell what is wrong with this vector file?
 > > ## Answers
 > > By plotting out the vector file, we can tell that the latitude and longitude of the file are flipped.
