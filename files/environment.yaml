@@ -2,6 +2,8 @@ name: geospatial
 channels:
   - conda-forge
 dependencies:
+  # Python
+  - python=3.10
   # Jupyter Lab
   - jupyterlab>=3.1.0
   # Python scientific libraries

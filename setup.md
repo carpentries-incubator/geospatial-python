@@ -6,7 +6,7 @@ title: Setup
 
 ### Prerequirisite software:
 1. Anaconda
-2. Python 3.x 
+2. Python 3.x (<=3.10) 
 3. Jupyter Lab
 
 On **Windows**, this setup uses **Anaconda prompt** to install the prerequisites for the course. Experienced users may opt for other options such as **Git Bash** or **Windows Subsystem for Linux**
@@ -179,7 +179,7 @@ code on the terminal/anaconda prompt:
 
     ```bash
     conda create -n geospatial -c conda-forge -y \
-      jupyterlab numpy matplotlib \
+      python=3.10 jupyterlab numpy matplotlib \
       xarray rasterio geopandas rioxarray earthpy descartes xarray-spatial pystac-client python-graphviz
 
     ```
@@ -201,7 +201,7 @@ code on the terminal/anaconda prompt:
     > 
     >```bash
     >mamba create -n geospatial -c conda-forge -y \
-    > jupyterlab numpy matplotlib \
+    > python=3.10 jupyterlab numpy matplotlib \
     > xarray rasterio geopandas rioxarray earthpy descartes xarray-spatial pystac-client python-graphviz
     >```
     {: .callout}
@@ -221,6 +221,8 @@ code on the terminal/anaconda prompt:
     > channels:
     >   - conda-forge
     > dependencies:
+    > # Python
+    >   - python=3.10
     > # JupyterLab
     >   - jupyterlab
     > # Python scientific libraries
