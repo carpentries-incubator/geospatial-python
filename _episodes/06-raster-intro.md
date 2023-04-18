@@ -237,7 +237,7 @@ AreaOfUse(west=0.0, south=0.0, east=6.0, north=84.0, name='Between 0°E and 6°E
 {: .output}
 
 > ## Exercise: find the axes units of the CRS
-> What units are our data in? See if you can find a method to examine this information using `help(crs)` or `dir(crs)`
+> What units are our coordinates in? See if you can find a method to examine this information using `help(crs)` or `dir(crs)`
 >
 > > ## Answers
 > > `crs.axis_info` tells us that the CRS for our raster has two axis and both are in meters.

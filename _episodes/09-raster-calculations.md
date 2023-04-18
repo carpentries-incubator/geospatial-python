@@ -228,7 +228,7 @@ ndvi.plot.hist()
 > > ~~~
 > > {: .language-python}
 > > ![](../fig/E09-06-NDVI-hist-bins.png)
-> > 3) We can discretize the color bar by specifying the intervals via the `level` argument to `plot()`.
+> > 3) We can discretize the color bar by specifying the intervals via the `levels` argument to `plot()`.
 > > Suppose we want to bin our data in the following intervals:
 > > * $-1 \le NDVI \lt 0$ for water;
 > > * $0 \le NDVI \lt 0.2$ for no vegetation;
