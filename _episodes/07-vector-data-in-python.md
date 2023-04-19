@@ -13,7 +13,7 @@ objectives:
 keypoints:
 - "Load spatial objects into Python with `geopandas.read_file()` function."
 - "Spatial objects can be plotted directly with `GeoDataFrame`'s `.plot()` method."
-- "Crop spatial objects with `.cx[]` indexer or `clip_by_rect()` function."
+- "Crop spatial objects with `.cx[]` indexer."
 - "Convert CRS of spatial objects with `.to_crs().`"
 - "Select spatial features with `.clip()`."
 - "Create a buffer of spatial objects with `.buffer()`."
@@ -174,62 +174,22 @@ This array contains, in order, the values for minx, miny, maxx and maxy, for the
 
 We can convert these coordinates to a bounding box or acquire the index of the Dataframe to access the geometry. Either of these polygons can be used to clip rasters (more on that later).
 
-> ## Exercise: Further crop the dataset
-> We might realize that the loaded dataset is still too large. If we want to refine our area of interest to an even smaller extent, without reloading the data, we can use one of the following methods:
-> 
-> - [`cx`](https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoDataFrame.cx.html) indexer
-> - [`clip_by_rect`](https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoSeries.clip_by_rect.html) method
-> 
-> In this exercise, please:
-> 
-> 1. Read the documentation of both functions
->
-> 2. Try both methods to crop `fields` to the following extent:
-> ```
-> # A smaller bounding box in RD
-> xmin, xmax = (120_000, 135_000)
-> ymin, ymax = (485_000, 500_000)
-> ```
->
-> 3. Think of: what are the differences of the two methods? In what circumstances will you use `cx`? When will you use `clip_by_rect`?
->
-> > ## Answers
-> > 
-> > ~~~
-> > fields_cx = fields.cx[xmin:xmax, ymin:ymax]
-> > fields_rect = fields.clip_by_rect(xmin, ymin, xmax, ymax)
-> > fields_rect = fields_rect[~fields_rect.is_empty] # drop rows with empty geometries
-> > ~~~
-> > {: .language-python}
-> > 
-> > ~~~
-> > # Plot out upper-left coner
-> > from matplotlib import pyplot as plt
-> > fig, ax = plt.subplots(2,1)
-> > fields_cx.plot(ax=ax[0])
-> > ax[0].set_xlim([119500, 121000])
-> > ax[0].set_ylim([499000, 500500])
-> > fields_rect.plot(ax=ax[1])
-> > ax[1].set_xlim([119500, 121000])
-> > ax[1].set_ylim([499000, 500500])
-> > ~~~
-> > {: .language-python}
-> > 
-> > Their key differences are: 
-> > - The method `cx` is an indexer, using square brackets, while `clip_by_rect` is a function using round brackets. 
-> > - The `cx` produces another `GeoDataFrame` with the attribute columns, while `clip_by_rect` produces a `GeoSeries`, with only the geometry information.
-> > - `cx` only keeps selected entries; `clip_by_rect` keeps all entries and the entries outside the bounding box will be empty.
-> > - `cx` will returns the geometries intersecting the bbox, while `clip_by_rect` will actually clip the geometries using the bounding box. So all the polygons crossing the bbox edges will differ using the two approaches. This can be seen by plotting the upper-left corner:
-> > ![Fields at the edge](../fig/E07-02-fields-on-edge.png)
-> > 
-> > If attribute columns are needed, or it is desired to keep the original geometries, one should use `cx`. Otherwise, if only the geometries are needed, and clipped geometries are needed, `clip_by_rect` can be used.
-> {: .solution}
-{: .challenge}
 
+## Further crop the dataset
+
+We might realize that the loaded dataset is still too large. If we want to refine our area of interest to an even smaller extent, without reloading the data, we can use the [`cx`](https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoDataFrame.cx.html) indexer: 
+
+ ```
+ # A smaller bounding box in RD
+ xmin, xmax = (120_000, 135_000)
+ ymin, ymax = (485_000, 500_000)
+
+ fields_cx = fields.cx[xmin:xmax, ymin:ymax]
+ ```
 
 ## Export data to file
 
-From now on, we will continue with the cropped fields data `fields_cx`. We will save it to a shapefile (`.shp`) and use it later. The `to_file` function can be used for exportation:
+We will save the cropped results to a shapefile (`.shp`) and use it later. The `to_file` function can be used for exportation:
 
 ~~~
 fields_cx.to_file('fields_cropped.shp')
@@ -247,7 +207,7 @@ From now on, we will take in a point dataset `brogmwvolledigeset.zip`, which is 
 Let's read the two datasets.
 
 ~~~
-fields =  gpd.read_file("fields_cropped.shp")
+fields = gpd.read_file("fields_cropped.shp")
 wells = gpd.read_file("data/brogmwvolledigeset.zip")
 ~~~
 {: .language-python}
