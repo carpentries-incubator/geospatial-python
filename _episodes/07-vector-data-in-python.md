@@ -25,12 +25,16 @@ keypoints:
 
 As discussed in [Episode 2: Introduction to Vector Data]({{site.baseurl}}/02-intro-vector-data.md/), vector data represents specific features on the Earth's surface using points, lines, and polygons. These geographic elements can then have one or more attributes assigned to them, such as 'name' and 'population' for a city, or crop type for a field. Vector data can be much smaller in (file) size than raster data, while being very rich in terms of the information captured.
 
-In this episode, we will be moving from working with raster data to working with vector data. We will use Python to open
-and plot point, line, and polygon vector data. In particular, we will make use of the [`geopandas`](https://geopandas.org/en/stable/)
-package to open, manipulate and write vector datasets. `geopandas` extends the popular `pandas` library for data
-analysis to geospatial applications. The main `pandas` objects (the `Series` and the `DataFrame`) are expanded by
-including geometric types, represented in Python using the `shapely` library, and by providing dedicated methods for
-spatial operations (union, intersection, etc.).
+In this episode, we will be moving from working with raster data to working with vector data. We will use Python to open and plot point, line, and polygon vector data. In particular, we will make use of the [`geopandas`](https://geopandas.org/en/stable/) package to open, manipulate and write vector datasets. 
+
+![Pandas and Geopandas](../fig/E07-00-pandas_geopandas_relation.png)
+
+`geopandas` extends the popular `pandas` library for data analysis to geospatial applications. The main `pandas` objects (the `Series` and the `DataFrame`) are expanded to `geopandas` objects (`GeoSeries` and `GeoDataFrame`). This extension is implemented by including geometric types, represented in Python using the `shapely` library, and by providing dedicated methods for spatial operations (union, intersection, etc.). The relationship between `Series`, `DataFrame`, `GeoSeries` and `GeoDataFrame` can be briefly explained as follow:
+
+ - A `Series` is a one-dimensional array with axis, holding any data type (integers, strings, floating-point numbers, Python objects, etc.)
+ - A `DataFrame` is a two-dimensional labeled data structure with columns of potentially different types1.
+ - A `GeoSeries` is a `Series` object designed to store shapely geometry objects.
+ - A `GeoDataFrame` is an extened `pandas.DataFrame`, which has a column with geometry objects, and this column is a `GeoSeries`.
 
 In later episodes, we will learn how to work with raster and vector data together and combine them into a single plot.
 
@@ -55,6 +59,8 @@ fields
 ~~~
 {: .language-python}
 
+
+The data are read into the variable `fields` as a `GeoDataFrame`. This is an extened data format of `pandas.DataFrame`, with an extra column `geometry`.
 
 This file contains a relatively large number of crop field parcels. Directly loading a large file to memory can be slow. If the Area of Interest (AoI) is small, we can define a bounding box of the AoI, and only read the data within the extent of the bounding box.
 
