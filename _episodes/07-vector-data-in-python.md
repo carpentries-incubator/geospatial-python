@@ -308,68 +308,38 @@ In this way, we selected all wells within the 50m range of the fields. It is als
 > > fields_clip_buffer = fields.clip(wells_cx_500mbuffer)
 > > fields_clip_buffer.plot()
 > > ~~~
+> > ![Wells in 50m buffer of fields](../fig/E07-05-fields-in-buffer-clip.png)
 > > {: .language-python}
 > {: .solution}
 {: .challenge}
 
 ## Spatially join the features
 
-Sometimes, we would like to match elements between two `GeoDataFrame`'s on the basis of their spatial relationship. For example, we may want to pair water wells to the crop fields they fall within. To do this, we can use the `sjoin` function to "spatially" join two `GeoDataFrame`'s:
+In the exercise, we clipped the fields polygons with the 500m buffers of wells. The results from this clipping changed the shape of the polygons. If we would like to keep the original shape of the fields, one way is to use the `sjoin` function, which join two `GeoDataFrame`'s on the basis of their spatial relationship:
 
 ~~~
-fields_wells = fields.sjoin(wells[['bro_id', 'geometry']])
-print(fields_wells.shape)
-print(fields_wells.columns)
+# Join fields and wells_cx_500mbuffer
+fields_wells_buffer = fields.sjoin(wells_cx_500mbuffer)
+print(fields_wells_buffer.shape)
 ~~~
 {: .language-python}
 
 ~~~
-(79, 8)
-Index(['category', 'gewas', 'gewascode', 'jaar', 'status', 'geometry',
-       'index_right', 'bro_id'],
-      dtype='object') 
+(11420, 46)
 ~~~
 {: .output}
 
-This will result in a `GeodataFrame` of all polygons intersecting the wells, adding the well IDs as a new column: `bro_id`.
+This will result in a `GeodataFrame` of all possible combinations of polygons and well buffers intersecting each other. Since a polygon can fall into multiple buffers, there will be duplicated field indexes in the results. To select the fields which intersects the well buffers, we can first get the unique indexes, and use the `iloc` indexer to select: 
 
-> ## Exercise: sjoin for spatial query
-> Use the `sjoin` function to join two polygons: the field polygons (`fields`, read in from `fields_cropped.shp`) and the wells 500m buffer polygons (`wells_cx_500mbuffer` from the previous exercise). And answer the following questions: 
-> 
-> - Q1: How many fields are intersecting the 500m buffer of wells?
->
-> - Q2: How many wells have at least one field intersecting its 500m buffer?
-> 
-> > ## Answers
-> > ~~~
-> > # Join fields and wells_cx_500mbuffer
-> > fields_wells_buffer = fields.sjoin(wells_cx_500mbuffer)
-> > 
-> > # Q1
-> > print(fields_wells_buffer.shape)
-> > print(fields_wells_buffer.index.unique().shape) # Take the unique of the index
-> > # validate Q1 by clipping
-> > print(fields.clip(wells_cx_500mbuffer).shape)
-> > 
-> > # Q2
-> > print(fields_wells_buffer['bro_id'].unique().shape) # Take the unique of the bro_ids column
-> > ~~~
-> > {: .language-python}
-> > 
-> > ~~~
-> > (11420, 46)
-> > (1721,)
-> > (1721, 6)
-> > (434,)
-> > ~~~
-> > {: .output}
-> > 
-> > - Q1: There are 1721 fields intersecting the 500m buffer of wells.
-> > - Q2: There are 434 wells have at least one field intersecting its 500m buffer.
-> > 
-> > Note that a polygon can fall in the 500m buffer of multiple points. So we should use `.unique()` function to get the actual number of the polygons.
-> {: .solution}
-{: .challenge}
+~~~
+idx = fields_wells_buffer.index.unique()
+fiedls_in_buffer = fields.iloc[idx]
+
+fiedls_in_buffer.plot()
+~~~
+{: .language-python}
+
+![Wells in 50m buffer of fields](../fig/E07-05-fields-in-buffer-sjoin.png)
 
 ## Modify the geometry of a GeoDataFrame
 
