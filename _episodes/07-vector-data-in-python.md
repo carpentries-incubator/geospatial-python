@@ -282,12 +282,12 @@ wells_clip_buffer.plot()
 
 In this way, we selected all wells within the 50m range of the fields. It is also significantly faster than the previous `clip` operation, since the number of polygons is much smaller after `dissolve`.
 
-> ## Exercise: select fields within 500m from the wells
-> This time, we will do a selection the other way around. Can you find and plot the field polygons (stored in `fields_cropped.shp`), which intersect the 500m radius of any wells (stored in `brogmwvolledigeset.zip`)? 
+> ## Exercise: clip fields within 500m from the wells
+> This time, we will do a selection the other way around. Can you clip the field polygons (stored in fields_cropped.shp) with the 500m buffer of the wells (stored in brogmwvolledigeset.zip)? Please visualize the results.
 > 
-> - Hint1: `brogmwvolledigeset.zip` is in CRS 4326. Don't forget the CRS conversion.
->
-> - Hint2: `brogmwvolledigeset.zip` is big. To improve the performance, you may want to crop it first.
+> - Hint 1: The file `brogmwvolledigeset.zip` is in CRS 4326. Don’t forget the CRS conversion.
+> 
+> - Hint 2: `brogmwvolledigeset.zip` contains all the wells in the Netherlands, which means it might be too big for the `.buffer()` function. To improve the performance, first crop it with the bounding box of the fields.
 > 
 > > ## Answers
 > > ~~~
