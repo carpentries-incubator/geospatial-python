@@ -42,7 +42,7 @@ fields = gpd.read_file('fields_cropped.shp')
 In order to use the vector data as a classifier for our raster, we need to convert the vector data to the appropriate CRS. We can perform the CRS conversion from the vector CRS (EPSG:28992) to our raster `ndvi` CRS (EPSG:32631) with:
 ~~~
 # Uniform CRS
-fields = fields.to_crs(ndvi.rio.crs)
+fields_utm = fields.to_crs(ndvi.rio.crs)
 ~~~
 {: .language-python}
 
@@ -53,7 +53,7 @@ To make the vector data `fields` comparable with the raster `ndvi`, we will rast
 We can generate the `geometry, gewascode` pairs for each vector feature to be used as the first argument to `rasterio.features.rasterize` as:
 
 ~~~
-geom = fields[['geometry', 'gewascode']].values.tolist()
+geom = fields_utm[['geometry', 'gewascode']].values.tolist()
 geom
 ~~~
 {: .language-python}
@@ -74,7 +74,7 @@ geom
 ~~~
 {: .output}
 
-This generates a list of the shapely geometries from the `geometry` column, and the unique field ID from the `gewascode` column in the `fields` geodataframe.
+This generates a list of the shapely geometries from the `geometry` column, and the unique field ID from the `gewascode` column in the `fields_utm` geodataframe.
 
 We can now rasterize our vector data using `rasterio.features.rasterize`:
 
