@@ -1,7 +1,7 @@
 ---
 title: "Access satellite imagery using Python"
-teaching: 30
-exercises: 15
+teaching: 70
+exercises: 30
 questions:
 - "Where can I find open-access satellite data?"
 - "How do I search for satellite imagery with the STAC API?"
