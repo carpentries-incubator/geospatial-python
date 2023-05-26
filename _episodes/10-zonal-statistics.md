@@ -112,7 +112,7 @@ plt.colorbar()
 
 ![Rasterization results](../fig/E10-01-rasterization-results.png)
 
-We will convert the output to `xarray.DataArray` which will be used further. To do this, we will "borrow" the coordinates from `ndvi`, and fill in the rasterization datat:
+We will convert the output to `xarray.DataArray` which will be used further. To do this, we will "borrow" the coordinates from `ndvi`, and fill in the rasterization data:
 ~~~
 import xarray as xr
 fields_rasterized_xarr = ndvi.copy()
