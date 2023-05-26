@@ -1,6 +1,6 @@
 ---
 title: "Raster Calculations in Python"
-teaching: 30
+teaching: 60
 exercises: 15
 questions:
 - "How do I perform calculations on rasters and extract pixel values for defined locations?"
