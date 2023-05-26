@@ -5,16 +5,16 @@ exercises: 15
 ---
 
 :::questions
-- "Where can I find open-access satellite data?"
-- "How do I search for satellite imagery with the STAC API?"
-- "How do I fetch remote raster datasets using Python?"
+- Where can I find open-access satellite data?
+- How do I search for satellite imagery with the STAC API?
+- How do I fetch remote raster datasets using Python?
 :::
 
 :::objectives
-- "Search public STAC repositories of satellite imagery using Python."
-- "Inspect search result's metadata."
-- "Download (a subset of) the assets available for a satellite scene."
-- "Open satellite imagery as raster data and save it to disk."
+- Search public STAC repositories of satellite imagery using Python.
+- Inspect search result's metadata.
+- Download (a subset of) the assets available for a satellite scene.
+- Open satellite imagery as raster data and save it to disk.
 :::
 
 
@@ -52,7 +52,7 @@ The SpatioTemporal Asset Catalog (STAC) specification is an emerging standard fo
 organizing metadata in a form that adheres to the STAC specifications, data providers make it possible for users to
 access data from different missions, instruments and collections using the same set of tools.
 
-![](../fig/E05-01-STAC-browser.jpg)
+![STAC-browser](../fig/E05-01-STAC-browser.jpg)
 
 :::callout
 ## More Resources on STAC
@@ -79,11 +79,11 @@ that is hosted on AWS. We can interactively browse this catalog using the STAC b
 and the list of assets. What kind of data do the assets represent?
 
 ::::solution
-![](../fig/E05-02-STAC-browser-exercise.jpg)
-1) Four subcatalogs are available, including both Sentinel 2 and Landsat 8 images (see left screenshot in the figure
- above).
 
-2) When you select the Sentinel-2 L2A COGs collection, and randomly choose one of the items from the list, you should find yourself on a page similar to the right screenshot in the figure above. On the left side you will find a list of the available assets: overview images (thumbnail and true color images), metadata files and the "real" satellite images, one for each band captured by the Multispectral Instrument on board Sentinel-2.
+![STAC-browser-exercise](../fig/E05-02-STAC-browser-exercise.jpg)
+
+1. Four subcatalogs are available, including both Sentinel 2 and Landsat 8 images (see left screenshot in the figure above).
+2. When you select the Sentinel-2 L2A COGs collection, and randomly choose one of the items from the list, you should find yourself on a page similar to the right screenshot in the figure above. On the left side you will find a list of the available assets: overview images (thumbnail and true color images), metadata files and the "real" satellite images, one for each band captured by the Multispectral Instrument on board Sentinel-2.
 ::::
 :::
 
@@ -310,7 +310,7 @@ https://roda.sentinel-hub.com/sentinel-s2-l1c/tiles/31/U/FU/2020/3/28/0/preview.
 
 This can be used to download the corresponding file:
 
-![](../fig/E05-03-STAC-s2-preview.jpg)
+![STAC-s2-preview](../fig/E05-03-STAC-s2-preview.jpg)
 
 Remote raster data can be directly opened via the `rioxarray` library. We will
 learn more about this library in the next episodes.
@@ -399,7 +399,7 @@ print(item.assets["browse"].href)
 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-public/HLSL30.020/HLS.L30.T18TWL.2021039T153324.v2.0/HLS.L30.T18TWL.039T153324.v2.0.jpg'
 ```
 
-![](../fig/E05-04-STAC-l8-preview.jpg)
+![STAC-l8-preview](../fig/E05-04-STAC-l8-preview.jpg)
 ::::
 :::
 
@@ -425,7 +425,7 @@ os.environ["GDAL_HTTP_COOKIEJAR"] = "./cookies.txt"
 :::
 
 :::keypoints
-- "Accessing satellite images via the providers' API enables a more reliable and scalable data retrieval."
-- "STAC catalogs can be browsed and searched using the same tools and scripts."
-- "`rioxarray` allows you to open and download remote raster files."
+- Accessing satellite images via the providers' API enables a more reliable and scalable data retrieval.
+- STAC catalogs can be browsed and searched using the same tools and scripts.
+- `rioxarray` allows you to open and download remote raster files.
 :::
