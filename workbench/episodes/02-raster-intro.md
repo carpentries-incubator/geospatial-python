@@ -41,7 +41,6 @@ to work with the data in a different GIS.
 :::
 
 ## Load a Raster and View Attributes
-
 In the previous episode, we searched for Sentinel-2 images, and then saved the search results to a file:`search.json`. This contains the information on where and how to access the target images from a remote repository. We can use the function `pystac.ItemCollection.from_file()` to load the search results as an `Item` list.
 
 
@@ -220,7 +219,7 @@ crs.area_of_use
 AreaOfUse(west=0.0, south=0.0, east=6.0, north=84.0, name='Between 0°E and 6°E, northern hemisphere between equator and 84°N, onshore and offshore. Algeria. Andorra. Belgium. Benin. Burkina Faso. Denmark - North Sea. France. Germany - North Sea. Ghana. Luxembourg. Mali. Netherlands. Niger. Nigeria. Norway. Spain. Togo. United Kingdom (UK) - North Sea.')
 ```
 
-:::challeng
+:::challenge
 ## Exercise: find the axes units of the CRS
 What units are our coordinates in? See if you can find a method to examine this information using `help(crs)` or `dir(crs)`
 

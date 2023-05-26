@@ -19,7 +19,7 @@ exercises: 15
 
 
 
-# Introduction
+## Introduction
 
 A number of satellites take snapshots of the Earth's surface from space. The images recorded by these remote sensors
 represent a very precious data source for any activity that involves monitoring changes on Earth. Satellite imagery is
@@ -32,9 +32,9 @@ This dataset consists of multi-band optical images acquired by the two satellite
 [the Sentinel-2 mission](https://sentinel.esa.int/web/sentinel/missions/sentinel-2) and it is continuously updated with
 new images.
 
-# Search for satellite imagery
+## Search for satellite imagery
 
-## The SpatioTemporal Asset Catalog (STAC) specification
+### The SpatioTemporal Asset Catalog (STAC) specification
 
 Current sensor resolutions and satellite revisit periods are such that terabytes of data products are added daily to the
 corresponding collections. Such datasets cannot be made accessible to users via full-catalog download. Space agencies
@@ -56,14 +56,12 @@ access data from different missions, instruments and collections using the same 
 
 :::callout
 ## More Resources on STAC
-
 - [STAC specification](https://github.com/radiantearth/stac-spec#readme)
 - [Tools based on STAC](https://stacindex.org/ecosystem)
 - [STAC catalogs](https://stacindex.org/catalogs)
 :::
 
 ## Search a STAC catalog
-
 The [STAC browser](https://radiantearth.github.io/stac-browser/#/) is a good starting point to discover available
 datasets, as it provides an up-to-date list of existing STAC catalogs. From the list, let's click on the
 "Earth Search" catalog, i.e. the access point to search the archive of Sentinel-2 images hosted on AWS.
@@ -250,7 +248,7 @@ items.save_object("search.json")
 ::::
 :::
 
-# Access the assets
+## Access the assets
 
 So far we have only discussed metadata - but how can one get to the actual images of a satellite scene (the "assets" in
 the STAC nomenclature)? These can be reached via links that are made available through the item's attribute `assets`.
