@@ -7,4 +7,5 @@ any links that you are not going to use.
 [r-markdown]: https://rmarkdown.rstudio.com/
 [rstudio]: https://www.rstudio.com/
 [carpentries-workbench]: https://carpentries.github.io/sandpaper-docs/
-
+[geospatial-intro]: https://datacarpentry.org/organization-geospatial/
+[python-intro]: https://swcarpentry.github.io/python-novice-gapminder/

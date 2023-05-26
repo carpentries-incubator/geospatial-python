@@ -11,23 +11,23 @@
 carpentry: 'incubator'
 
 # Overall title for pages.
-title: 'Lesson Title'
+title: 'Introduction to Geospatial Raster and Vector Data with Python'
 
 # Date the lesson was created (YYYY-MM-DD, this is empty by default)
-created: '2023-05-26'
+# created: '2023-05-26'
 
 # Comma-separated list of keywords for the lesson
 keywords: 'software, data, lesson, The Carpentries'
 
 # Life cycle stage of the lesson
 # possible values: pre-alpha, alpha, beta, stable
-life_cycle: 'pre-alpha'
+life_cycle: 'alpha'
 
 # License of the lesson materials (recommended CC-BY 4.0)
 license: 'CC-BY 4.0'
 
 # Link to the source repository for this lesson
-source: 'https://github.com/fnattino/geospatial-python-workbench'
+source: 'https://github.com/carpentries-incubator/geospatial-python'
 
 # Default branch of your lesson
 branch: 'main'
@@ -59,7 +59,6 @@ contact: 'team@carpentries.org'
 
 # Order of episodes in your lesson
 episodes: 
-- introduction.Rmd
 
 # Information for Learners
 learners: 
