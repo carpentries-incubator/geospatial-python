@@ -1,7 +1,7 @@
 ---
 title: "Read and visualize raster data"
-teaching: 60
-exercises: 20
+teaching: 70
+exercises: 30
 questions:
 -  "How is a raster represented by rioxarray?"
 -  "How do I read and plot raster data in Python?"
