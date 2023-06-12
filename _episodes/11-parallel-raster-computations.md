@@ -126,7 +126,7 @@ visual.plot.imshow(figsize=(10,10))
 
 Let's now apply a median filter to the image while keeping track of the execution time of this task. The filter is
 carried out in two steps: first, we define the size and centering of the region around each pixel that will be
-considered for the median calculation (the so-called "windows"), using the `.rolling()` method. We chose here windows
+considered for the median calculation (the so-called "windows"), using the `.rolling()` method. We choose here windows
 that are 7 pixel wide in both x and y dimensions, and, for each window, consider the central pixel as the window target.
 We then call the `.median()` method, which initiates the construction of the windows and the actual calculation.
 
