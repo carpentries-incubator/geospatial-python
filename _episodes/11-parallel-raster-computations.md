@@ -88,7 +88,7 @@ The true-color image is available as a raster file with 10 m resolution and 3 ba
 file with `rioxarray`), which makes it a relatively large file (few hundreds MBs). In order to keep calculations
 "manageable" (reasonable execution time and memory usage) we select here a lower resolution version of the image, taking
 advantage of the so-called "pyramidal" structure of cloud-optimized GeoTIFFs (COGs). COGs, in fact, typically include
-multiple lower-resolution versions of the original image, called "overviews", in the same file. This allows to avoid
+multiple lower-resolution versions of the original image, called "overviews", in the same file. This allows us to avoid
 downloading high-resolution images when only quick previews are required.
 
 Overviews are often computed using powers of 2 as down-sampling (or zoom) factors. So, typically, the first level
