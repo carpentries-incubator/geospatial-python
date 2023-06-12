@@ -50,7 +50,7 @@ Being able to profile the computational time is thus essential, and we will see 
 in the next section.
 
 The example that we consider here is the application of a median filter to a satellite image.
-[Median filtering](https://en.wikipedia.org/wiki/Median_filter) is a common noise removal technique, and it consists in
+[Median filtering](https://en.wikipedia.org/wiki/Median_filter) is a common noise removal technique which
 replacing a pixel intensity with the value computed from the median of the surrounding pixels.
 
 # Time profiling in Jupyter
