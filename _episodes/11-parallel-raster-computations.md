@@ -51,7 +51,7 @@ in the next section.
 
 The example that we consider here is the application of a median filter to a satellite image.
 [Median filtering](https://en.wikipedia.org/wiki/Median_filter) is a common noise removal technique which
-replacing a pixel intensity with the value computed from the median of the surrounding pixels.
+replaces a pixel's value with the median value computed from its surrounding pixels.
 
 # Time profiling in Jupyter
 
