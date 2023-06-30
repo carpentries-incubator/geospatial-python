@@ -3,7 +3,7 @@ title: "Vector data in Python"
 teaching: 30
 exercises: 20
 questions:
-- "How can I process the spatial objects, such as points, lines, and polygons?"
+- "How can I read, inspect, and process spatial objects, such as points, lines, and polygons?"
 objectives:
 - "Load spatial objects."
 - "Select the spatial objects within a bounding box."
@@ -83,9 +83,9 @@ fields = gpd.read_file("data/brpgewaspercelen_definitief_2020_small.gpkg", bbox=
 > ## How should I define my bounding box?
 > For simplicity, here we assume the **Coordinate Reference System (CRS)** and **extent** of the vector file are known (for instance they are provided in the dataset documentation). 
 > 
-> You can also define your bounding box with online coordinates visualization tools. For example, in our case, we can use the [RD-viewer](https://openstate.github.io/rdnewviewer/).
+> You can also define your bounding box with online coordinates visualization tools. For example, we can use the "Draw Rectangular Polygon" tool in [geojson.io](https://geojson.io/#map=8.62/52.45/4.96).
 > 
-> Some Python tools, e.g. [`fiona`](https://fiona.readthedocs.io/en/latest/)(which is also the backend of `geopandas`), provide the file inspection functionality without actually the need to read the full data set into memory. An example can be found in [the documentation of fiona](https://fiona.readthedocs.io/en/latest/manual.html#format-drivers-crs-bounds-and-schema).
+> Some Python tools, e.g. [`fiona`](https://fiona.readthedocs.io/en/latest/)(which is also the backend of `geopandas`), provide the file inspection functionality without the need to read the full data set into memory. An example can be found in [the documentation of fiona](https://fiona.readthedocs.io/en/latest/manual.html#format-drivers-crs-bounds-and-schema).
 {: .callout}
 
 And we can plot the overview by:
@@ -99,7 +99,7 @@ fields.plot()
 When we read the vector dataset with Python (as our `fields` variable) it is loaded as a `GeoDataFrame` object. The `read_file()` function also automatically stores geospatial information about the data. We are particularly interested in describing the format, CRS, extent, and other components of the vector data, and the attributes which describe properties associated
 with each vector object. 
 
-For example, we will explore
+We will explore
 
 1. **Object Type:** the class of the imported object.
 2. **Coordinate Reference System (CRS):** the projection of the data.
@@ -220,7 +220,7 @@ wells.plot(markersize=0.1)
 {: .language-python}
 ![All wells](../fig/E07-03-wells-nl.png)
 
-The points represents all the wells over the Netherlands. Since the wells are in the lat/lon coordinates. To make it comparable with fields, we need to transfer the CRS to RD first:
+The points represents all the wells over the Netherlands. Since the wells are in the lat/lon coordinates. To make it comparable with fields, we need to first transfer the CRS to the "RD New" projection:
 
 ~~~
 wells = wells.to_crs(epsg=28992)
