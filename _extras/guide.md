@@ -19,7 +19,8 @@ title: "Instructor Notes"
 ### Episode 7
 
 -  `brpgewaspercelen_definitief_2020_small.gpkg` was created because the original file was too large to download and load. Original file, which was ~500Mb could take several minutes to load, and could crash the Jupyter terminal.
-- The cropped version of `brpgewaspercelen_definitief_2020_small.gpkg`: `cropped_field.shp` is required for later episodes.
+- The cropped version of `brpgewaspercelen_definitief_2020_small.gpkg`: `data/fields_cropped.shp` is required for later episodes.
+- The "Modify the geometry of a GeoDataFrame" section is optional and can be skipped without consequences.
 
 ### Episode 8
 
