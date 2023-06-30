@@ -127,7 +127,7 @@ Datum: Amersfoort
 ~~~
 {: .output}
 
-As seen, the coordinate systems differ. To crop the raster using the shapefile, we first need to uniform the CRS. We can convert one to the other. But considering the size of `raster` is huge, to avoid loading the entire image, we will convert the coordinate system of `fields` to the coordinate system of `raster`:
+As seen, the coordinate systems differ. To crop the raster using the shapefile, we first need to reproject one dataset to the other's CRS. Since `raster` is large, we will convert the CRS of `fields` to the CRS of `raster` to avoid loading the entire image:
 
 ~~~
 fields = fields.to_crs(raster.rio.crs)
