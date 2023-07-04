@@ -380,7 +380,7 @@ Since that might take awhile, given there are over 10000 x 10000 = a hundred mil
 Here, we specify that we want to download the first (and only) band, and a slice of the width and height dimensions.
 
 ~~~
-# save whole image to disk
+# save portion of an image to disk
 nir[0,1500:2200,1500:2200].rio.to_raster("nir_subset.tif")
 ~~~
 {: .language-python}
