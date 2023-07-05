@@ -430,8 +430,9 @@ b01.rio.to_raster("B01.tif")
 > linked assets are available only for registered users (the thumbnail is publicly accessible).
 >
 > The authentication procedure for dataset with restricted access might differ depending on the data provider. For the
-> NASA CMR, follow these steps in order to access data using Python:
-> * Create a NASA Earthdata login account [here](https://urs.earthdata.nasa.gov);
+> NASA CMR you should first create a NASA Earthdata login account [here](https://urs.earthdata.nasa.gov).
+>
+> Then you can install and use the [`earthaccess`](https://github.com/nsidc/earthaccess) library or follow these steps in order to access data using Python:
 > * Set up a netrc file with your credentials, e.g. by using [this script](https://git.earthdata.nasa.gov/projects/LPDUR/repos/daac_data_download_python/browse/EarthdataLoginSetup.py);
 > * Define the following environment variables:
 >
