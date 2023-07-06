@@ -54,11 +54,11 @@ print(raster.shape)
 
 This will perform a "lazy" loading of the image, i.e. the image will not be loaded into the memory until necessary, but we can still access some attributes, e.g. the shape of the image.
 
-The large size of the raster data makes it time and memory consuming to visualize in its entirety. Instead, we can plot the "overview" asset, to investigate the coverage of the image.
+The large size of the raster data makes it time and memory consuming to visualize in its entirety. Instead, we can fetch and plot the overviews of the raster. "Overviews" are precomputed lower resolution representations of a raster, stored in the same COG that contains the original raster.
 
 ~~~
 # Get the overview asset
-raster_overview = rioxarray.open_rasterio(items[1].assets["overview"].href)
+raster_overview = rioxarray.open_rasterio(items[1].assets["visual"].href, overview_level=3)
 print(raster_overview.shape)
 
 # Visualize it
@@ -68,7 +68,9 @@ raster_overview.plot.imshow(figsize=(8,8))
 
 <img src="../fig/E08-01-crop-raster-overview-raster-00.png" title="Overview of the raster"  width="512" style="display: block; margin: auto;" />
 
-As we can see, the overview image is much smaller compared to the original true color image. We first check the coordinate systems of both raster and vector data. For raster data, we use `pyproj.CRS`:
+As we can see, the overview image is much smaller compared to the original true color image. 
+
+To align the raster and vector data, we first check each coordinate system. For raster data, we use `pyproj.CRS`:
 
 ~~~
 from pyproj import CRS
