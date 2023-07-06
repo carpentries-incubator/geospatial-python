@@ -67,7 +67,7 @@ datasets, as it provides an up-to-date list of existing STAC catalogs. From the 
 
 > ## Exercise: Discover a STAC catalog
 > Let's take a moment to explore the Earth Search STAC catalog, which is the catalog indexing the Sentinel-2 collection
-> that is hosted on AWS. We can interactively browse this catalog using the STAC browser at [this link](https://radiantearth.github.io/stac-browser/#/external/earth-search.aws.element84.com/v0).
+> that is hosted on AWS. We can interactively browse this catalog using the STAC browser at [this link](https://radiantearth.github.io/stac-browser/#/external/earth-search.aws.element84.com/v1).
 >
 > 1. Open the link in your web browser. Which (sub-)catalogs are available?
 > 2. Open the Sentinel-2 L2A collection, and select one item from the list. Each item corresponds to a satellite
@@ -76,10 +76,10 @@ datasets, as it provides an up-to-date list of existing STAC catalogs. From the 
 >
 > > ## Solution
 > > ![](../fig/E05-02-STAC-browser-exercise.jpg)
-> > 1) Four subcatalogs are available, including both Sentinel 2 and Landsat 8 images (see left screenshot in the figure
-> > above).
+> > 1) 7 subcatalogs are available, including a catalog for Landsat Collection 2,
+> > Level-2 and Sentinel-2 Level 2A (see left screenshot in the figure above).
 > >
-> > 2) When you select the Sentinel-2 L2A collection, and randomly choose one of the items from the list, you
+> > 2) When you select the Sentinel-2 Level 2A collection, and randomly choose one of the items from the list, you
 > > should find yourself on a page similar to the right screenshot in the figure above. On the left side you will find
 > > a list of the available assets: overview images (thumbnail and true color images), metadata files and the "real"
 > > satellite images, one for each band captured by the Multispectral Instrument on board Sentinel-2.
