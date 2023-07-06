@@ -395,33 +395,36 @@ And if we plot the image, the `nodata` pixels are not shown because they are not
 One should notice that there is a side effect of using `nan` instead of `0` to represent the missing data: the data type of the `DataArray` was changed from integers to float. This need to be taken into consideration when the data type matters in your application.
 
 ## Raster Bands
-So far we looked into a single band raster, i.e. the `nir09` band of a Sentinel-2 scene. However, to get a smaller, non georeferenced version of the scene, one may also want to visualize the true-color thumbnail of the region. This is provided as a multi-band raster -- a raster dataset that contains more than one band.
+So far we looked into a single band raster, i.e. the `nir09` band of a Sentinel-2 scene. However, to get a smaller, non georeferenced version of the scene, one may also want to visualize the true-color overview of the region. This is provided as a multi-band raster -- a raster dataset that contains more than one band.
 
 ![Multi-band raster image](../fig/E06-07-single_multi_raster.png)
 
-The `thumbnail` asset in the Sentinel-2 scene is a multiband asset. Similar to `nir09`, we can load it by:
+The `overview` asset in the Sentinel-2 scene is a multiband asset. Similar to `nir09`, we can load it by:
 ~~~
-raster_ams_thumbnail = rioxarray.open_rasterio(items[0].assets['thumbnail'].href)
-raster_ams_thumbnail
+raster_ams_overview = rioxarray.open_rasterio(items[0].assets['overview'].href)
+raster_ams_overview
 ~~~
 {: .language-python}
 ~~~
-<xarray.DataArray (band: 3, y: 343, x: 343)>
-[352947 values with dtype=uint8]
+<xarray.DataArray (band: 3, y: 687, x: 687)>
+[1415907 values with dtype=uint8]
 Coordinates:
   * band         (band) int64 1 2 3
-  * x            (x) float64 0.5 1.5 2.5 3.5 4.5 ... 339.5 340.5 341.5 342.5
-  * y            (y) float64 0.5 1.5 2.5 3.5 4.5 ... 339.5 340.5 341.5 342.5
+  * x            (x) float64 6.001e+05 6.002e+05 ... 7.096e+05 7.097e+05
+  * y            (y) float64 5.9e+06 5.9e+06 5.9e+06 ... 5.79e+06 5.79e+06
     spatial_ref  int64 0
 Attributes:
-    scale_factor:  1.0
-    add_offset:    0.0
+    AREA_OR_POINT:       Area
+    OVR_RESAMPLING_ALG:  AVERAGE
+    _FillValue:          0
+    scale_factor:        1.0
+    add_offset:          0.0
 ~~~
 {: .output}
 
 The band number comes first when GeoTiffs are read with the `.open_rasterio()` function. As we can see in the `xarray.DataArray` object, the shape is now `(band: 3, y: 343, x: 343)`, with three bands in the `band` dimension. It's always a good idea to examine the shape of the raster array you are working with and make sure it's what you expect. Many functions, especially the ones that plot images, expect a raster array to have a particular shape. One can also check the shape using the `.shape` attribute:
 ~~~
-raster_ams_thumbnail.shape
+raster_ams_overview.shape
 ~~~
 {: .language-python}
 ~~~
@@ -431,7 +434,7 @@ raster_ams_thumbnail.shape
 
 One can visualize the multi-band data with the `DataArray.plot.imshow()` function:
 ~~~
-raster_ams_thumbnail.plot.imshow()
+raster_ams_overview.plot.imshow()
 ~~~
 {: .language-python}
 
@@ -445,7 +448,7 @@ Note that the `DataArray.plot.imshow()` function makes assumptions about the sha
 > > ## Answers
 > > Since we know the height/width ratio is 1:1 (check the `rio.height` and `rio.width` attributes), we can set the aspect ratio to be 1. For example, we can choose the size to be 5 inches, and set `aspect=1`. Note that according to the [documentation](https://xarray.pydata.org/en/stable/generated/xarray.DataArray.plot.imshow.html) of `DataArray.plot.imshow()`, when specifying the `aspect` argument, `size` also needs to be provided.
 > > ~~~
-> > raster_ams_thumbnail.plot.imshow(size=5, aspect=1)
+> > raster_ams_overview.plot.imshow(size=5, aspect=1)
 > > ~~~
 > > {: .language-python}
 > >
