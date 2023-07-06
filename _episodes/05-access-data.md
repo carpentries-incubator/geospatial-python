@@ -240,14 +240,14 @@ print(item.properties)
 > >     collections=[collection],
 > >     bbox=bbox,
 > >     datetime="2020-03-20/2020-03-30",
-> >     query=["eo:cloud_cover<10"]
+> >     query=["eo:cloud_cover<15"]
 > > )
 > > print(search.matched())
 > > ~~~
 > > {: .language-python}
 > >
 > > ~~~
-> > 2
+> > 4
 > > ~~~
 > > {: .output}
 > >
@@ -375,9 +375,9 @@ nir.rio.to_raster("nir.tif")
 ~~~
 {: .language-python}
 
-Since that might take awhile, given there are over 10000 x 10000 = a hundred million pixels in a full Sentinel-2 image, you can take a smaller subset before downloading a raster. Becuase the raster is a COG, we can download just what we need!
+Since that might take awhile, given there are over 10000 x 10000 = a hundred million pixels in the 10 meter NIR band, you can take a smaller subset before downloading it. Becuase the raster is a COG, we can download just what we need!
 
-Here, we specify that we want to download the first (and only) band, and a slice of the width and height dimensions.
+Here, we specify that we want to download the first (and only) band in the tif file, and a slice of the width and height dimensions.
 
 ~~~
 # save portion of an image to disk
