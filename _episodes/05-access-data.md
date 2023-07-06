@@ -446,7 +446,7 @@ b01.rio.to_raster("B01.tif")
 
 > ## Exercise: Downloading data from a protected bucket
 >
-> Use `earthaccess`, to download an asset from the ASTGTM version 003 dataset.
+> Use `earthaccess` to download 10 files from the ASTGTM version 003 dataset.
 >
 > >## Solution
 > >
@@ -464,7 +464,7 @@ b01.rio.to_raster("B01.tif")
 > > ~~~
 > > results = earthaccess.search_data(
 > >   short_name='ASTGTM',
-> >   version="003",
+> >   version='003',
 > >   cloud_hosted=True,
 > >   count=10
 > > )
