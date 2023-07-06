@@ -67,19 +67,19 @@ datasets, as it provides an up-to-date list of existing STAC catalogs. From the 
 
 > ## Exercise: Discover a STAC catalog
 > Let's take a moment to explore the Earth Search STAC catalog, which is the catalog indexing the Sentinel-2 collection
-> that is hosted on AWS. We can interactively browse this catalog using the STAC browser at [this link](https://radiantearth.github.io/stac-browser/#/external/earth-search.aws.element84.com/v0).
+> that is hosted on AWS. We can interactively browse this catalog using the STAC browser at [this link](https://radiantearth.github.io/stac-browser/#/external/earth-search.aws.element84.com/v1).
 >
 > 1. Open the link in your web browser. Which (sub-)catalogs are available?
-> 2. Open the Sentinel-2 L2A COGs collection, and select one item from the list. Each item corresponds to a satellite
+> 2. Open the Sentinel-2 L2A collection, and select one item from the list. Each item corresponds to a satellite
 > "scene", i.e. a portion of the footage recorded by the satellite at a given time. Have a look at the metadata fields
 > and the list of assets. What kind of data do the assets represent?
 >
 > > ## Solution
 > > ![](../fig/E05-02-STAC-browser-exercise.jpg)
-> > 1) Four subcatalogs are available, including both Sentinel 2 and Landsat 8 images (see left screenshot in the figure
-> > above).
+> > 1) 7 subcatalogs are available, including a catalog for Landsat Collection 2,
+> > Level-2 and Sentinel-2 Level 2A (see left screenshot in the figure above).
 > >
-> > 2) When you select the Sentinel-2 L2A COGs collection, and randomly choose one of the items from the list, you
+> > 2) When you select the Sentinel-2 Level 2A collection, and randomly choose one of the items from the list, you
 > > should find yourself on a page similar to the right screenshot in the figure above. On the left side you will find
 > > a list of the available assets: overview images (thumbnail and true color images), metadata files and the "real"
 > > satellite images, one for each band captured by the Multispectral Instrument on board Sentinel-2.
@@ -91,7 +91,7 @@ right of the page. By using this URL, we have access to the catalog content and,
 functionality of searching its items. For the Earth Search STAC catalog the API URL is:
 
 ~~~
-api_url = "https://earth-search.aws.element84.com/v0"
+api_url = "https://earth-search.aws.element84.com/v1"
 ~~~
 {: .language-python}
 
@@ -109,7 +109,7 @@ data products pre-processed at level 2A (bottom-of-atmosphere reflectance) and s
 format:
 
 ~~~
-collection = "sentinel-s2-l2a-cogs"  # Sentinel-2, Level 2A, COGs
+collection = "sentinel-2-l2a"  # Sentinel-2, Level 2A, Cloud Optimized GeoTiffs (COGs)
 ~~~
 {: .language-python}
 
@@ -155,13 +155,13 @@ print(search.matched())
 {: .language-python}
 
 ~~~
-630
+840
 ~~~
 {: .output}
 
 Finally, we retrieve the metadata of the search results:
 ~~~
-items = search.get_all_items()
+items = search.item_collection()
 ~~~
 {: .language-python}
 
@@ -186,16 +186,16 @@ for item in items:
 {: .language-python}
 
 ~~~
-<Item id=S2B_31UFU_20220313_0_L2A>
-<Item id=S2A_31UFU_20220311_0_L2A>
-<Item id=S2A_31UFU_20220308_0_L2A>
-<Item id=S2B_31UFU_20220306_0_L2A>
-<Item id=S2B_31UFU_20220303_0_L2A>
-<Item id=S2A_31UFU_20220301_0_L2A>
-<Item id=S2A_31UFU_20220226_0_L2A>
-<Item id=S2B_31UFU_20220224_0_L2A>
-<Item id=S2B_31UFU_20220221_0_L2A>
-<Item id=S2A_31UFU_20220219_0_L2A>
+<Item id=S2A_31UFU_20230701_0_L2A>
+<Item id=S2B_31UFU_20230629_0_L2A>
+<Item id=S2B_31UFU_20230626_0_L2A>
+<Item id=S2A_31UFU_20230624_0_L2A>
+<Item id=S2A_31UFU_20230621_0_L2A>
+<Item id=S2B_31UFU_20230616_0_L2A>
+<Item id=S2A_31UFU_20230614_0_L2A>
+<Item id=S2A_31UFU_20230611_0_L2A>
+<Item id=S2B_31UFU_20230609_0_L2A>
+<Item id=S2B_31UFU_20230606_0_L2A>
 ~~~
 {: .output}
 
@@ -212,15 +212,15 @@ print(item.properties)
 {: .language-python}
 
 ~~~
-2022-03-13 10:46:26+00:00
-{'type': 'Polygon', 'coordinates': [[[6.071664488869862, 52.22257539160586], [4.81543624496389, 52.24859574950519], [5.134718264192548, 52.98684040773408], [6.115758198408397, 52.84931817668945], [6.071664488869862, 52.22257539160586]]]}
-{'datetime': '2022-03-13T10:46:26Z', 'platform': 'sentinel-2b', 'constellation': 'sentinel-2', 'instruments': ['msi'], 'gsd': 10, 'view:off_nadir': 0, 'proj:epsg': 32631, 'sentinel:utm_zone': 31, 'sentinel:latitude_band': 'U', 'sentinel:grid_square': 'FU', 'sentinel:sequence': '0', 'sentinel:product_id': 'S2B_MSIL2A_20220313T103729_N0400_R008_T31UFU_20220313T140234', 'sentinel:data_coverage': 48.71, 'eo:cloud_cover': 99.95, 'sentinel:valid_cloud_cover': True, 'sentinel:processing_baseline': '04.00', 'sentinel:boa_offset_applied': True, 'created': '2022-03-13T17:43:18.861Z', 'updated': '2022-03-13T17:43:18.861Z'}
+2023-07-01 10:46:30.262000+00:00
+{'type': 'Polygon', 'coordinates': [[[5.233744523520149, 53.228684673408296], [6.141754296879459, 53.20819279121764], [6.071664488869862, 52.22257539160585], [4.80943323800081, 52.2486879358387], [5.233744523520149, 53.228684673408296]]]}
+{'created': '2023-07-02T01:49:17.191Z', 'platform': 'sentinel-2a', 'constellation': 'sentinel-2', 'instruments': ['msi'], 'eo:cloud_cover': 99.952936, 'proj:epsg': 32631, 'mgrs:utm_zone': 31, 'mgrs:latitude_band': 'U', 'mgrs:grid_square': 'FU', 'grid:code': 'MGRS-31UFU', 'view:sun_azimuth': 154.716674921261, 'view:sun_elevation': 58.4960054056685, 's2:degraded_msi_data_percentage': 0.0346, 's2:nodata_pixel_percentage': 33.00232, 's2:saturated_defective_pixel_percentage': 0, 's2:dark_features_percentage': 0, 's2:cloud_shadow_percentage': 0.030847, 's2:vegetation_percentage': 0, 's2:not_vegetated_percentage': 0.004947, 's2:water_percentage': 0.011271, 's2:unclassified_percentage': 0, 's2:medium_proba_clouds_percentage': 5.838514, 's2:high_proba_clouds_percentage': 94.035202, 's2:thin_cirrus_percentage': 0.07922, 's2:snow_ice_percentage': 0, 's2:product_type': 'S2MSI2A', 's2:processing_baseline': '05.09', 's2:product_uri': 'S2A_MSIL2A_20230701T103631_N0509_R008_T31UFU_20230701T200058.SAFE', 's2:generation_time': '2023-07-01T20:00:58.000000Z', 's2:datatake_id': 'GS2A_20230701T103631_041904_N05.09', 's2:datatake_type': 'INS-NOBS', 's2:datastrip_id': 'S2A_OPER_MSI_L2A_DS_2APS_20230701T200058_S20230701T104159_N05.09', 's2:granule_id': 'S2A_OPER_MSI_L2A_TL_2APS_20230701T200058_A041904_T31UFU_N05.09', 's2:reflectance_conversion_factor': 0.967641353116838, 'datetime': '2023-07-01T10:46:30.262000Z', 's2:sequence': '0', 'earthsearch:s3_path': 's3://sentinel-cogs/sentinel-s2-l2a-cogs/31/U/FU/2023/7/S2A_31UFU_20230701_0_L2A', 'earthsearch:payload_id': 'roda-sentinel2/workflow-sentinel2-to-stac/7b1a81ed3fb8d763a0cecf8d9edd4d4a', 'earthsearch:boa_offset_applied': True, 'processing:software': {'sentinel2-to-stac': '0.1.0'}, 'updated': '2023-07-02T01:49:17.191Z'}
 ~~~
 {: .output}
 
 
 > ## Exercise: Search satellite scenes using metadata filters
-> Search for all the available Sentinel-2 scenes in the `sentinel-s2-l2a-cogs` collection that satisfy the following
+> Search for all the available Sentinel-2 scenes in the `sentinel-2-l2a` collection that satisfy the following
 > criteria:
 > - intersect a provided bounding box (use ±0.01 deg in lat/lon from the previously defined point);
 > - have been recorded between 20 March 2020 and 30 March 2020;
@@ -240,7 +240,7 @@ print(item.properties)
 > >     collections=[collection],
 > >     bbox=bbox,
 > >     datetime="2020-03-20/2020-03-30",
-> >     query=["eo:cloud_cover<10"]
+> >     query=["eo:cloud_cover<15"]
 > > )
 > > print(search.matched())
 > > ~~~
@@ -252,7 +252,7 @@ print(item.properties)
 > > {: .output}
 > >
 > > ~~~
-> > items = search.get_all_items()
+> > items = search.item_collection()
 > > items.save_object("search.json")
 > > ~~~
 > > {: .language-python}
@@ -271,7 +271,7 @@ print(assets.keys())
 {: .language-python}
 
 ~~~
-dict_keys(['thumbnail', 'overview', 'info', 'metadata', 'visual', 'B01', 'B02', 'B03', 'B04', 'B05', 'B06', 'B07', 'B08', 'B8A', 'B09', 'B11', 'B12', 'AOT', 'WVP', 'SCL'])
+dict_keys(['aot', 'blue', 'coastal', 'granule_metadata', 'green', 'nir', 'nir08', 'nir09', 'red', 'rededge1', 'rededge2', 'rededge3', 'scl', 'swir16', 'swir22', 'thumbnail', 'tileinfo_metadata', 'visual', 'wvp', 'aot-jp2', 'blue-jp2', 'coastal-jp2', 'green-jp2', 'nir-jp2', 'nir08-jp2', 'nir09-jp2', 'red-jp2', 'rededge1-jp2', 'rededge2-jp2', 'rededge3-jp2', 'scl-jp2', 'swir16-jp2', 'swir22-jp2', 'visual-jp2', 'wvp-jp2'])
 ~~~
 {: .output}
 
@@ -284,26 +284,41 @@ for key, asset in assets.items():
 {: .language-python}
 
 ~~~
-thumbnail: Thumbnail
-overview: True color image
-info: Original JSON metadata
-metadata: Original XML metadata
+aot: Aerosol optical thickness (AOT)
+blue: Blue (band 2) - 10m
+coastal: Coastal aerosol (band 1) - 60m
+granule_metadata: None
+green: Green (band 3) - 10m
+nir: NIR 1 (band 8) - 10m
+nir08: NIR 2 (band 8A) - 20m
+nir09: NIR 3 (band 9) - 60m
+red: Red (band 4) - 10m
+rededge1: Red edge 1 (band 5) - 20m
+rededge2: Red edge 2 (band 6) - 20m
+rededge3: Red edge 3 (band 7) - 20m
+scl: Scene classification map (SCL)
+swir16: SWIR 1 (band 11) - 20m
+swir22: SWIR 2 (band 12) - 20m
+thumbnail: Thumbnail image
+tileinfo_metadata: None
 visual: True color image
-B01: Band 1 (coastal)
-B02: Band 2 (blue)
-B03: Band 3 (green)
-B04: Band 4 (red)
-B05: Band 5
-B06: Band 6
-B07: Band 7
-B08: Band 8 (nir)
-B8A: Band 8A
-B09: Band 9
-B11: Band 11 (swir16)
-B12: Band 12 (swir22)
-AOT: Aerosol Optical Thickness (AOT)
-WVP: Water Vapour (WVP)
-SCL: Scene Classification Map (SCL)
+wvp: Water vapour (WVP)
+aot-jp2: Aerosol optical thickness (AOT)
+blue-jp2: Blue (band 2) - 10m
+coastal-jp2: Coastal aerosol (band 1) - 60m
+green-jp2: Green (band 3) - 10m
+nir-jp2: NIR 1 (band 8) - 10m
+nir08-jp2: NIR 2 (band 8A) - 20m
+nir09-jp2: NIR 3 (band 9) - 60m
+red-jp2: Red (band 4) - 10m
+rededge1-jp2: Red edge 1 (band 5) - 20m
+rededge2-jp2: Red edge 2 (band 6) - 20m
+rededge3-jp2: Red edge 3 (band 7) - 20m
+scl-jp2: Scene classification map (SCL)
+swir16-jp2: SWIR 1 (band 11) - 20m
+swir22-jp2: SWIR 2 (band 12) - 20m
+visual-jp2: True color image
+wvp-jp2: Water vapour (WVP)
 ~~~
 {: .output}
 
@@ -317,7 +332,7 @@ print(assets["thumbnail"].href)
 {: .language-python}
 
 ~~~
-https://roda.sentinel-hub.com/sentinel-s2-l1c/tiles/31/U/FU/2020/3/28/0/preview.jpg
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/31/U/FU/2020/3/S2B_31UFU_20200326_0_L2A/thumbnail.jpg
 ~~~
 {: .output}
 
@@ -329,35 +344,48 @@ Remote raster data can be directly opened via the `rioxarray` library. We will
 learn more about this library in the next episodes.
 ~~~
 import rioxarray
-b01_href = assets["B01"].href
-b01 = rioxarray.open_rasterio(b01_href)
-print(b01)
+nir_href = assets["nir"].href
+nir = rioxarray.open_rasterio(nir_href)
+print(nir)
 ~~~
 {: .language-python}
 
 ~~~
-<xarray.DataArray (band: 1, y: 1830, x: 1830)>
-[3348900 values with dtype=uint16]
+<xarray.DataArray (band: 1, y: 10980, x: 10980)>
+[120560400 values with dtype=uint16]
 Coordinates:
   * band         (band) int64 1
-  * x            (x) float64 6e+05 6.001e+05 6.002e+05 ... 7.097e+05 7.098e+05
+  * x            (x) float64 6e+05 6e+05 6e+05 ... 7.098e+05 7.098e+05 7.098e+05
   * y            (y) float64 5.9e+06 5.9e+06 5.9e+06 ... 5.79e+06 5.79e+06
     spatial_ref  int64 0
 Attributes:
-    _FillValue:    0.0
-    scale_factor:  1.0
-    add_offset:    0.0
+    AREA_OR_POINT:       Area
+    OVR_RESAMPLING_ALG:  AVERAGE
+    _FillValue:          0
+    scale_factor:        1.0
+    add_offset:          0.0
 ~~~
 {: .output}
 
 We can then save the data to disk:
 
 ~~~
-# save image to disk
-b01.rio.to_raster("B01.tif")
+# save whole image to disk
+nir.rio.to_raster("nir.tif")
 ~~~
 {: .language-python}
 
+Since that might take awhile, given there are over 10000 x 10000 = a hundred million pixels in the 10 meter NIR band, you can take a smaller subset before downloading it. Becuase the raster is a COG, we can download just what we need!
+
+Here, we specify that we want to download the first (and only) band in the tif file, and a slice of the width and height dimensions.
+
+~~~
+# save portion of an image to disk
+nir[0,1500:2200,1500:2200].rio.to_raster("nir_subset.tif")
+~~~
+{: .language-python}
+
+The difference is 155 Megabytes for the large image vs about 1 Megabyte for the subset.
 
 > ## Exercise: Downloading Landsat 8 Assets
 > In this exercise we put in practice all the skills we have learned in this episode to retrieve images from a different
@@ -386,7 +414,7 @@ b01.rio.to_raster("B01.tif")
 > > ) # nasa cmr cloud cover filtering is currently broken: https://github.com/nasa/cmr-stac/issues/239
 > >
 > > # retrieve search results
-> > items = search.get_all_items()
+> > items = search.item_collection()
 > > print(len(items))
 > > ~~~
 > > {: .language-python}
