@@ -11,3 +11,4 @@ _site
 search.json
 
 /Gemfile.lock
+data/

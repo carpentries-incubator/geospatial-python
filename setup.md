@@ -180,7 +180,7 @@ code on the terminal/anaconda prompt:
     ```bash
     conda create -n geospatial -c conda-forge -y \
       python=3.10 jupyterlab numpy matplotlib \
-      xarray rasterio geopandas rioxarray earthpy descartes xarray-spatial pystac-client python-graphviz
+      xarray rasterio geopandas rioxarray earthpy descartes xarray-spatial pystac-client python-graphviz earthaccess
 
     ```
 
@@ -202,7 +202,7 @@ code on the terminal/anaconda prompt:
     >```bash
     >mamba create -n geospatial -c conda-forge -y \
     > python=3.10 jupyterlab numpy matplotlib \
-    > xarray rasterio geopandas rioxarray earthpy descartes xarray-spatial pystac-client python-graphviz
+    > xarray rasterio geopandas rioxarray earthpy descartes xarray-spatial pystac-client python-graphviz earthaccess
     >```
     {: .callout}
 
@@ -238,6 +238,7 @@ code on the terminal/anaconda prompt:
     >   - descartes # necessary for geopandas plotting
     >   - pystac-client
     >   - python-graphviz
+    >   - earthaccess
     > ```
     >
     > 3. In the terminal, navigate to the directory where you saved the `environment.yaml` file using the `cd` command.

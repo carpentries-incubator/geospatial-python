@@ -443,3 +443,53 @@ b01.rio.to_raster("B01.tif")
 > ~~~
 > {: .language-python}
 {: .callout}
+
+> ## Exercise: Downloading data from a protected bucket
+>
+> Use `earthaccess`, to download an asset from the ASTGTM version 003 dataset.
+>
+> >## Solution
+> >
+> > ~~~
+> > import earthaccess
+> > auth = earthaccess.login()
+> > ~~~
+> > {: .language-python}
+> >
+> > ~~~
+> > Using .netrc file for EDL
+> > ~~~
+> > {: .output}
+> >
+> > ~~~
+> > results = earthaccess.search_data(
+> >   short_name='ASTGTM',
+> >   version="003",
+> >   cloud_hosted=True,
+> >   count=10
+> > )
+> > len(results)
+> > ~~~
+> > {: .language-python}
+> >
+> > ~~~
+> > Granules found: 22912
+> > 10
+> > ~~~
+> > {: .output}
+> >
+> > ~~~
+> > files = earthaccess.download(results, "./data")
+> > ~~~
+> > {: .language-python}
+> >
+> > ~~~
+> > Getting 10 granules, approx download size: 0.0 GB
+> > QUEUEING TASKS | : 100%|██████████████████████ 20/20 [00:00<00:00, 680.78it/s]
+> > PROCESSING TASKS | : 100%|██████████████████████ 20/20 [00:09<00:00, 2.42it/s]
+> > COLLECTING RESULTS | : 100%|██████████████████████ 20/20 [00:00<00:00, 1102.10it/s]
+> > ~~~
+> > {: .output}
+> >
+> {: .solution}
+{: .challenge}
