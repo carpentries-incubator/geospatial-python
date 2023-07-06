@@ -60,10 +60,10 @@ items = pystac.ItemCollection.from_file("search.json")
 ~~~
 {: .language-python}
 
-In the search results, we have 2 `Item` type objects, corresponding to 4 Sentinel-2 scenes from March 26th and 28th in 2020. We will focus on the first scene `S2A_31UFU_20200328_0_L2A`, and load band `B09` (central wavelength 945 nm). We can load this band using the function `rioxarray.open_rasterio()`, via the Hypertext Reference `href` (commonly referred to as a URL):
+In the search results, we have 2 `Item` type objects, corresponding to 4 Sentinel-2 scenes from March 26th and 28th in 2020. We will focus on the first scene `S2A_31UFU_20200328_0_L2A`, and load band `nir09` (central wavelength 945 nm). We can load this band using the function `rioxarray.open_rasterio()`, via the Hypertext Reference `href` (commonly referred to as a URL):
 ~~~
 import rioxarray
-raster_ams_b9 = rioxarray.open_rasterio(items[0].assets["B09"].href)
+raster_ams_b9 = rioxarray.open_rasterio(items[0].assets["nir09"].href)
 ~~~
 {: .language-python}
 
@@ -148,7 +148,7 @@ raster_ams_b9.plot()
 
 Nice plot! Notice that `rioxarray` helpfully allows us to plot this raster with spatial coordinates on the x and y axis (this is not the default in many cases with other functions or libraries).
 
-This plot shows the satellite measurement of the spectral band `B09` for an area that covers part of the Netherlands. According to the [Sentinel-2 documentaion](https://sentinels.copernicus.eu/web/sentinel/technical-guides/sentinel-2-msi/msi-instrument), this is a band with the central wavelength of 945nm, which is sensitive to water vapor. It has a spatial resolution of 60m. Note that the `band=1` in the image title refers to the ordering of all the bands in the  `DataArray`, not the Sentinel-2 band number `B09` that we saw in the pystac search results.
+This plot shows the satellite measurement of the spectral band `nir09` for an area that covers part of the Netherlands. According to the [Sentinel-2 documentaion](https://sentinels.copernicus.eu/web/sentinel/technical-guides/sentinel-2-msi/msi-instrument), this is a band with the central wavelength of 945nm, which is sensitive to water vapor. It has a spatial resolution of 60m. Note that the `band=1` in the image title refers to the ordering of all the bands in the  `DataArray`, not the Sentinel-2 band number `09` that we saw in the pystac search results.
 
 With a quick view of the image, we notice that half of the image is blank, no data is captured. We also see that the cloudy pixels at the top have high reflectance values, while the contrast of everything else is quite low. This is expected because this band is sensitive to the water vapor. However if one would like to have a better color contrast, one can add the option `robust=True`, which displays values between the 2nd and 98th percentile:
 
@@ -350,7 +350,7 @@ As we have seen above, the `nodata` value of this dataset (`raster_ams_b9.rio.no
 
 To distinguish missing data from real data, one possible way is to use `nan` to represent them. This can be done by specifying `masked=True` when loading the raster:
 ~~~
-raster_ams_b9 = rioxarray.open_rasterio(items[0].assets["B09"].href, masked=True)
+raster_ams_b9 = rioxarray.open_rasterio(items[0].assets["nir09"].href, masked=True)
 ~~~
 {: .language-python}
 
@@ -395,14 +395,14 @@ And if we plot the image, the `nodata` pixels are not shown because they are not
 One should notice that there is a side effect of using `nan` instead of `0` to represent the missing data: the data type of the `DataArray` was changed from integers to float. This need to be taken into consideration when the data type matters in your application.
 
 ## Raster Bands
-So far we looked into a single band raster, i.e. the `B09` band of a Sentinel-2 scene. However, to get an overview of the scene, one may also want to visualize the true-color thumbnail of the region. This is provided as a multi-band raster -- a raster dataset that contains more than one band.
+So far we looked into a single band raster, i.e. the `nir09` band of a Sentinel-2 scene. However, to get a smaller, non georeferenced version of the scene, one may also want to visualize the true-color thumbnail of the region. This is provided as a multi-band raster -- a raster dataset that contains more than one band.
 
 ![Multi-band raster image](../fig/E06-07-single_multi_raster.png)
 
-The `overview` asset in the Sentinel-2 scene is a multiband asset. Similar to `B09`, we can load it by:
+The `thumbnail` asset in the Sentinel-2 scene is a multiband asset. Similar to `nir09`, we can load it by:
 ~~~
-raster_ams_overview = rioxarray.open_rasterio(items[0].assets['overview'].href)
-raster_ams_overview
+raster_ams_thumbnail = rioxarray.open_rasterio(items[0].assets['thumbnail'].href)
+raster_ams_thumbnail
 ~~~
 {: .language-python}
 ~~~
@@ -410,11 +410,10 @@ raster_ams_overview
 [352947 values with dtype=uint8]
 Coordinates:
   * band         (band) int64 1 2 3
-  * x            (x) float64 6.002e+05 6.005e+05 ... 7.093e+05 7.096e+05
-  * y            (y) float64 5.9e+06 5.9e+06 5.899e+06 ... 5.791e+06 5.79e+06
+  * x            (x) float64 0.5 1.5 2.5 3.5 4.5 ... 339.5 340.5 341.5 342.5
+  * y            (y) float64 0.5 1.5 2.5 3.5 4.5 ... 339.5 340.5 341.5 342.5
     spatial_ref  int64 0
 Attributes:
-    _FillValue:    0.0
     scale_factor:  1.0
     add_offset:    0.0
 ~~~
@@ -422,7 +421,7 @@ Attributes:
 
 The band number comes first when GeoTiffs are read with the `.open_rasterio()` function. As we can see in the `xarray.DataArray` object, the shape is now `(band: 3, y: 343, x: 343)`, with three bands in the `band` dimension. It's always a good idea to examine the shape of the raster array you are working with and make sure it's what you expect. Many functions, especially the ones that plot images, expect a raster array to have a particular shape. One can also check the shape using the `.shape` attribute:
 ~~~
-raster_ams_overview.shape
+raster_ams_thumbnail.shape
 ~~~
 {: .language-python}
 ~~~
@@ -432,7 +431,7 @@ raster_ams_overview.shape
 
 One can visualize the multi-band data with the `DataArray.plot.imshow()` function:
 ~~~
-raster_ams_overview.plot.imshow()
+raster_ams_thumbnail.plot.imshow()
 ~~~
 {: .language-python}
 
@@ -446,7 +445,7 @@ Note that the `DataArray.plot.imshow()` function makes assumptions about the sha
 > > ## Answers
 > > Since we know the height/width ratio is 1:1 (check the `rio.height` and `rio.width` attributes), we can set the aspect ratio to be 1. For example, we can choose the size to be 5 inches, and set `aspect=1`. Note that according to the [documentation](https://xarray.pydata.org/en/stable/generated/xarray.DataArray.plot.imshow.html) of `DataArray.plot.imshow()`, when specifying the `aspect` argument, `size` also needs to be provided.
 > > ~~~
-> > raster_ams_overview.plot.imshow(size=5, aspect=1)
+> > raster_ams_thumbnail.plot.imshow(size=5, aspect=1)
 > > ~~~
 > > {: .language-python}
 > >
