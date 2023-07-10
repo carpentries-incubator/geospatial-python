@@ -179,11 +179,11 @@ serial calculation that we have just run.
 As we have mentioned, `rioxarray` supports the use of Dask's chunked arrays as underlying data structure. When opening
 a raster file with `open_rasterio` and providing the `chunks` argument, Dask arrays are employed instead of regular
 Numpy arrays. `chunks` describes the shape of the blocks which the data will be split in. As an example, we
-open the blue band raster ("B02") using a chunk shape of `(1, 4000, 4000)` (block size of `1` in the first dimension and
+open the blue band raster using a chunk shape of `(1, 4000, 4000)` (block size of `1` in the first dimension and
 of `4000` in the second and third dimensions):
 
 ~~~
-blue_band_href = assets["B02"].href
+blue_band_href = assets["blue"].href
 blue_band = rioxarray.open_rasterio(blue_band_href, chunks=(1, 4000, 4000))
 ~~~
 {: .language-python}
@@ -207,7 +207,7 @@ Xarray and Dask also provide a graphical representation of the raster data array
 > {: .language-python}
 >
 > In order to optimally access COGs it is best to align the blocksize of the file with the chunks employed when loading
-> the file. Open the blue-band asset ("B02") of a Sentinel-2 scene as a chunked `DataArray` object using a suitable
+> the file. Open the blue-band asset (the "blue" asset) of a Sentinel-2 scene as a chunked `DataArray` object using a suitable
 > chunk size. Which elements do you think should be considered when choosing the chunk size?
 >
 > > ## Solution
