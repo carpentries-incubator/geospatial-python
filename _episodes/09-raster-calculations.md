@@ -65,11 +65,11 @@ items = pystac.ItemCollection.from_file("search.json")
 ~~~
 {: .language-python}
 
-We then select the second item, and extract the URIs of the red and NIR bands ("B04" and "B8A", respectively):
+We then select the second item, and extract the URIs of the red and NIR bands ("red" and "nir08", respectively):
 
 ~~~
-red_uri = items[1].assets["B04"].href
-nir_uri = items[1].assets["B8A"].href
+red_uri = items[1].assets["red"].href
+nir_uri = items[1].assets["nir08"].href
 ~~~
 {: .language-python}
 
