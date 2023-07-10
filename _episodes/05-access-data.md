@@ -125,7 +125,7 @@ collection = "sentinel-2-l2a"  # Sentinel-2, Level 2A, Cloud Optimized GeoTiffs 
 > accessed independently. By providing this "pyramidal" structure, users that are not interested in the details provided
 > by a high-resolution raster can directly access the lower-resolution versions of the same image, significantly saving
 > on the downloading time. More information on the COG format can be found [here](https://www.cogeo.org).
-{:callout}
+{: .callout}
 
 We also ask for scenes intersecting a geometry defined using the `shapely` library (in this case, a point):
 
