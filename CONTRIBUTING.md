@@ -73,7 +73,7 @@ and submitting [bug reports][issues]
 about things that don't work, aren't clear, or are missing.
 If you are looking for ideas, please see the 'Issues' tab for
 a list of issues associated with this repository,
-or you may also look at the issues for [Data Carpentry][dc-issues], 
+or you may also look at the issues for [Data Carpentry][dc-issues],
 [Software Carpentry][swc-issues], and [Library Carpentry][lc-issues] projects.
 
 Comments on issues and reviews of pull requests are just as welcome:
@@ -86,7 +86,7 @@ so fresh eyes are always welcome.
 ## What *Not* to Contribute
 
 Our lessons already contain more material than we can cover in a typical workshop,
-so we are usually *not* looking for more concepts or tools to add to them (but for this 
+so we are usually *not* looking for more concepts or tools to add to them (but for this
 geospatial incubator lesson, we are looking for this since it is in alpha!).
 As a rule,
 if you want to introduce a new idea,
@@ -109,16 +109,31 @@ Each lesson has two maintainers who review issues and pull requests or encourage
 The maintainers are community volunteers and have final say over what gets merged into the lesson.
 To use the web interface for contributing to a lesson:
 
-1.  Fork the originating repository to your GitHub profile.
-2.  Within your version of the forked repository, move to the `gh-pages` branch and
+1. Fork the originating repository to your GitHub profile.
+1. Within your version of the forked repository, move to the `gh-pages` branch and
 create a new branch for each significant change being made.
-3.  Navigate to the file(s) you wish to change within the new branches and make revisions as required.
-4.  Commit all changed files within the appropriate branches.
-5.  Create individual pull requests from each of your changed branches
+1. Navigate to the file(s) you wish to change within the new branches and make revisions as required.
+1. Verify your changes by launching a local web server to view changes in a browser
+   by doing the following:
+   1. Install [Docker], if not already installed
+   1. Run Docker, if not already running
+   1. From the root of your repository, run the following command:
+      `make docker-serve`
+   1. Wait for the server to startup (about 10-15 seconds), until you see the
+      message `Server running... press ctrl-c to stop.`
+   1. Open a browser to <http://localhost:4000> and navigate to the pages that
+      you changed (or added) to confirm that your changes are rendered as you
+      expect.  (Note that if you make changes while the server is running, they
+      will be reloaded in your browser automatically because the server is
+      started with "live reload" enabled.)
+   1. When you are satisfied with your changes, you may press ctrl-c to stop
+      the server.
+1. Commit all changed files within the appropriate branches.
+1. Create individual pull requests from each of your changed branches
 to the `gh-pages` branch within the originating repository.
-6.  If you receive feedback, make changes using your issue-specific branches of the forked
+1. If you receive feedback, make changes using your issue-specific branches of the forked
 repository and the pull requests will update automatically.
-7.  Repeat as needed until all feedback has been addressed.
+1. Repeat as needed until all feedback has been addressed.
 
 When starting work, please make sure your clone of the originating `gh-pages` branch is up-to-date
 before creating your own revision-specific branch(es) from there.
@@ -139,6 +154,7 @@ You can also [reach us by email][email].
 [dc-lessons]: http://datacarpentry.org/lessons/
 [dc-site]: http://datacarpentry.org/
 [discuss-list]: http://lists.software-carpentry.org/listinfo/discuss
+[docker]: https://www.docker.com/
 [github]: https://github.com
 [github-flow]: https://guides.github.com/introduction/flow/
 [github-join]: https://github.com/join

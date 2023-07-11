@@ -31,8 +31,8 @@ Earth's surface, and
 assign attributes to those features. Vector data structures
 will be discussed in more detail in [the next episode]({{site.baseurl}}/02-intro-vector-data).
 
-This workshop will focus on how to work with both raster and vector 
-data sets, therefore it is essential that we understand the 
+This workshop will focus on how to work with both raster and vector
+data sets, therefore it is essential that we understand the
 basic structures of these types of data and the types of data
 that they can be used to represent.
 
@@ -84,37 +84,36 @@ information. Photogrammetric Engineering and Remote Sensing, v. 81, no. 5, p.
 345-354)
 
 > ## Advantages and Disadvantages
-> 
+>
 > With your neighbor, brainstorm potential advantages and
 > disadvantages of storing data in raster format. Add your
 > ideas to the Etherpad. The Instructor will discuss and
 > add any points that weren't brought up in the small group
-> discussions. 
-> 
+> discussions.
+>
 > > ## Solution
 > >
 > > Raster data has some important advantages:
-> > 
+> >
 > > * representation of continuous surfaces
 > > * potentially very high levels of detail
-> > * data is 'unweighted' across its extent - the geometry doesn't 
+> > * data is 'unweighted' across its extent - the geometry doesn't
 > > implicitly highlight features
 > > * cell-by-cell calculations can be very fast and efficient
-> > 
+> >
 > > The downsides of raster data are:
-> > 
+> >
 > > * very large file sizes as cell size gets smaller
 > > * currently popular formats don't embed metadata well (more on this later!)
 > > * can be difficult to represent complex information
 > {: .solution}
 {: .challenge}
 
-
 ## Important Attributes of Raster Data
 
 ### Extent
 
-The spatial extent is the geographic area that the raster data covers. 
+The spatial extent is the geographic area that the raster data covers.
 The spatial extent of an object represents the geographic edge or
 location that is the furthest north, south, east and west. In other words, extent
 represents the overall geographic coverage of the spatial object.
@@ -125,15 +124,15 @@ represents the overall geographic coverage of the spatial object.
 {: .text-center}
 
 > ## Extent Challenge
-> 
-> In the image above, the dashed boxes around each set of objects 
-> seems to imply that the three objects have the same extent. Is this 
+>
+> In the image above, the dashed boxes around each set of objects
+> seems to imply that the three objects have the same extent. Is this
 > accurate? If not, which object(s) have a different extent?
-> 
+>
 > > ## Solution
 > >
 > > The lines and polygon objects have the same extent. The extent for
-> > the points object is smaller in the vertical direction than the 
+> > the points object is smaller in the vertical direction than the
 > > other two because there are no points on the line at y = 8.
 > {: .solution}
 {: .challenge}
@@ -142,7 +141,7 @@ represents the overall geographic coverage of the spatial object.
 
 A resolution of a raster represents the area on the ground that each
 pixel of the raster covers. The image below illustrates the effect
-of changes in resolution. 
+of changes in resolution.
 
 ![Resolution image](../fig/E01-05-raster_resolution.png)
 
@@ -167,7 +166,7 @@ as tags. These tags should include the following raster metadata:
    concept in [a later episode]({{site.baseurl}}/06-raster-intro).
 
 We will discuss these attributes in more detail in [a later
-episode](({{site.baseurl}}/06-raster-intro).
+episode]({{site.baseurl}}/06-raster-intro).
 In that episode, we will also learn how to use Python to extract raster attributes
 from a GeoTIFF file.
 
@@ -202,14 +201,14 @@ In a multi-band dataset, the rasters will always have the same extent,
 resolution, and CRS.
 
 > ## Other Types of Multi-band Raster Data
-> 
+>
 > Multi-band raster data might also contain:
-> 
-> 1. **Time series:** the same variable, over the same area, over time. 
+>
+> 1. **Time series:** the same variable, over the same area, over time.
 > 2. **Multi or hyperspectral imagery:** image rasters that have 4 or
 > more (multi-spectral) or more than 10-15 (hyperspectral) bands. We
 > won't be working with this type of data in this workshop, but you can
-> check out the NEON Data Skills 
+> check out the NEON Data Skills
 > [Imaging Spectroscopy HDF5 in R](https://www.neonscience.org/hsi-hdf5-r)
 > tutorial if you're interested in working with hyperspectral data cubes.
 {: .callout}

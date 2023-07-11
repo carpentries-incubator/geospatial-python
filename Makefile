@@ -1,39 +1,52 @@
 ## ========================================
-## Commands for both workshop and lesson websites.
+## Commands for both workshop and lesson websites:
 
 # Settings
 MAKEFILES=Makefile $(wildcard *.mk)
 JEKYLL=bundle exec jekyll
 JEKYLL_VERSION=3.8.5
+JEKYLL_PORT=4000
+JEKYLL_LIVERELOAD_PORT=35729
 PARSER=bin/markdown_ast.rb
 DST=_site
+DOCKER_TAG=carpentries-geospatial-python
+DOCKER_WORKDIR=/srv/jekyll
 
 # Controls
 .PHONY : commands clean files
 .NOTPARALLEL:
 all : commands
 
-## commands         : show all commands.
+## commands         : show all commands
 commands :
 	@grep -h -E '^##' ${MAKEFILES} | sed -e 's/## //g'
 
-## docker-serve     : use docker to build the site
-docker-serve :
-	docker run --rm -it -v ${PWD}:/srv/jekyll -p 127.0.0.1:4000:4000 jekyll/jekyll:${JEKYLL_VERSION} make serve
+## docker-build     : build docker image for serving the site locally
+docker-build :
+	docker build --build-arg JEKYLL_VERSION=${JEKYLL_VERSION} -t ${DOCKER_TAG} .
 
-## serve            : run a local server.
+## docker-serve     : use docker to serve the site locally
+docker-serve : docker-build
+	docker run --rm -it \
+		-v ${PWD}:${DOCKER_WORKDIR} \
+		-w ${DOCKER_WORKDIR} \
+		-p ${JEKYLL_PORT}:${JEKYLL_PORT} \
+		-p ${JEKYLL_LIVERELOAD_PORT}:${JEKYLL_LIVERELOAD_PORT} \
+		${DOCKER_TAG} ${JEKYLL} serve --livereload --host 0.0.0.0
+
+## serve            : run a local server
 serve : lesson-md
 	${JEKYLL} serve
 
-## site             : build files but do not run a server.
+## site             : build files but do not run a server
 site : lesson-md
 	${JEKYLL} build
 
-# repo-check        : check repository settings.
+# repo-check        : check repository settings
 repo-check :
 	@bin/repo_check.py -s .
 
-## clean            : clean up junk files.
+## clean            : clean up junk files
 clean :
 	@rm -rf ${DST}
 	@rm -rf .sass-cache
@@ -42,22 +55,22 @@ clean :
 	@find . -name '*~' -exec rm {} \;
 	@find . -name '*.pyc' -exec rm {} \;
 
-## clean-rmd        : clean intermediate R files (that need to be committed to the repo).
+## clean-rmd        : clean intermediate R files (that need to be committed to the repo)
 clean-rmd :
 	@rm -rf ${RMD_DST}
 	@rm -rf fig/rmd-*
 
 ## ----------------------------------------
-## Commands specific to workshop websites.
+## Commands specific to workshop websites:
 
 .PHONY : workshop-check
 
-## workshop-check   : check workshop homepage.
+## workshop-check   : check workshop homepage
 workshop-check :
 	@bin/workshop_check.py .
 
 ## ----------------------------------------
-## Commands specific to lesson websites.
+## Commands specific to lesson websites:
 
 .PHONY : lesson-check lesson-md lesson-files lesson-fixme
 
@@ -91,26 +104,26 @@ lesson-md : ${RMD_DST}
 _episodes/%.md: _episodes_rmd/%.Rmd
 	@bin/knit_lessons.sh $< $@
 
-## lesson-check     : validate lesson Markdown.
+## lesson-check     : validate lesson Markdown
 lesson-check : lesson-fixme
 	@bin/lesson_check.py -s . -p ${PARSER} -r _includes/links.md
 
-## lesson-check-all : validate lesson Markdown, checking line lengths and trailing whitespace.
+## lesson-check-all : validate lesson Markdown, checking line lengths and trailing whitespace
 lesson-check-all :
 	@bin/lesson_check.py -s . -p ${PARSER} -r _includes/links.md -l -w --permissive
 
-## unittest         : run unit tests on checking tools.
+## unittest         : run unit tests on checking tools
 unittest :
 	@bin/test_lesson_check.py
 
-## lesson-files     : show expected names of generated files for debugging.
+## lesson-files     : show expected names of generated files for debugging
 lesson-files :
 	@echo 'RMD_SRC:' ${RMD_SRC}
 	@echo 'RMD_DST:' ${RMD_DST}
 	@echo 'MARKDOWN_SRC:' ${MARKDOWN_SRC}
 	@echo 'HTML_DST:' ${HTML_DST}
 
-## lesson-fixme     : show FIXME markers embedded in source files.
+## lesson-fixme     : show FIXME markers embedded in source files
 lesson-fixme :
 	@fgrep -i -n FIXME ${MARKDOWN_SRC} || true
 
