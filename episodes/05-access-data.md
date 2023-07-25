@@ -105,7 +105,7 @@ from pystac_client import Client
 client = Client.open(api_url)
 ```
 
-In the following, we ask for scenes belonging to the `sentinel-s2-l2a-cogs` collection. This dataset includes Sentinel-2
+In the following, we ask for scenes belonging to the `sentinel-2-l2a` collection. This dataset includes Sentinel-2
 data products pre-processed at level 2A (bottom-of-atmosphere reflectance) and saved in Cloud Optimized GeoTIFF (COG)
 format:
 
