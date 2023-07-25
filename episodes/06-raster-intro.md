@@ -256,9 +256,9 @@ Datum: World Geodetic System 1984 ensemble
 * **Datum**: Details about the datum, or the reference point for coordinates. `WGS 84` and `NAD 1983` are common datums. `NAD 1983` is [set to be replaced in 2022](https://en.wikipedia.org/wiki/Datum_of_2022).
 
 Note that the zone is unique to the UTM projection. Not all CRSs will have a
-zone. Below is a simplified view of US UTM zones. Image source: Chrismurf at English Wikipedia, via [Wikimedia Commons](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system#/media/File:Utm-zones-USA.svg) (CC-BY).
+zone. Below is a simplified view of US UTM zones.
 
-![The UTM zones across the continental United States](fig/E03/Utm-zones-USA.svg){alt="UTM zones across the CONUS"}
+![The UTM zones across the continental United States (Chrismurf at English Wikipedia, via [Wikimedia Commons](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system#/media/File:Utm-zones-USA.svg) (CC-BY))](fig/E03/Utm-zones-USA.svg){alt="UTM zones across the CONUS"}
 
 ## Calculate Raster Statistics
 
