@@ -23,7 +23,7 @@ In this episode, we will introduce how to crop raster data into the desired area
 ## Introduce the Data
 
 We will use the results of the satellite image search: `search.json`, which is generated in an exercise from
-[Episode 5: Access satellite imagery using Python]({{site.baseurl}}/05-access-data).
+[Episode 5: Access satellite imagery using Python](../05-access-data).
 
 If you would like to work with the data for this lesson without downloading data on-the-fly, you can download the
 raster data using this [link](https://figshare.com/ndownloader/files/36028100). Save the `geospatial-python-raster-dataset.tar.gz`
@@ -31,7 +31,7 @@ file in your current working directory, and extract the archive file by double-c
 following command in your terminal `tar -zxvf geospatial-python-raster-dataset.tar.gz`. Use the file `geospatial-python-raster-dataset/search.json`
 (instead of `search.json`) to get started with this lesson.
 
-We also use the cropped fields polygons `fields_cropped.shp`, which was generated in an exercise from [Episode 7: Vector data in python]({{site.baseurl}}/07-vector-data-in-python).
+We also use the cropped fields polygons `fields_cropped.shp`, which was generated in an exercise from [Episode 7: Vector data in python](07-vector-data-in-python.md).
 :::
 
 ## Align the CRS of the raster and the vector data

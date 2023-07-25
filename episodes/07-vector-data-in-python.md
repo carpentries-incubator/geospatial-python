@@ -19,7 +19,7 @@ questions:
 
 ## Introduction
 
-As discussed in [Episode 2: Introduction to Vector Data]({{site.baseurl}}/02-intro-vector-data.md/), vector data represents specific features on the Earth's surface using points, lines, and polygons. These geographic elements can then have one or more attributes assigned to them, such as 'name' and 'population' for a city, or crop type for a field. Vector data can be much smaller in (file) size than raster data, while being very rich in terms of the information captured.
+As discussed in [Episode 2: Introduction to Vector Data](../02-intro-vector-data.md/), vector data represents specific features on the Earth's surface using points, lines, and polygons. These geographic elements can then have one or more attributes assigned to them, such as 'name' and 'population' for a city, or crop type for a field. Vector data can be much smaller in (file) size than raster data, while being very rich in terms of the information captured.
 
 In this episode, we will be moving from working with raster data to working with vector data. We will use Python to open and plot point, line, and polygon vector data. In particular, we will make use of the [`geopandas`](https://geopandas.org/en/stable/) package to open, manipulate and write vector datasets. 
 
@@ -191,7 +191,7 @@ fields_cx.to_file('fields_cropped.shp')
 
 
 
-This will write it to disk (in this case, in 'shapefile' format), containing only the data from our cropped area. It can be read again at a later time using the `read_file()` method we have been using above. Note that this actually writes multiple files to disk (`fields_cropped.cpg`, `fields_cropped.dbf`, `fields_cropped.prj`, `fields_cropped.shp`, `fields_cropped.shx`). All these files should ideally be present in order to re-read the dataset later, although only the `.shp`, `.shx`, and `.dbf` files are mandatory (see the [Introduction to Vector Data]({{site.baseurl}}/02-intro-to-vector-data) lesson for more information.)
+This will write it to disk (in this case, in 'shapefile' format), containing only the data from our cropped area. It can be read again at a later time using the `read_file()` method we have been using above. Note that this actually writes multiple files to disk (`fields_cropped.cpg`, `fields_cropped.dbf`, `fields_cropped.prj`, `fields_cropped.shp`, `fields_cropped.shx`). All these files should ideally be present in order to re-read the dataset later, although only the `.shp`, `.shx`, and `.dbf` files are mandatory (see the [Introduction to Vector Data](02-intro-to-vector-data.md) lesson for more information.)
 
 
 ## Selecting spatial features
