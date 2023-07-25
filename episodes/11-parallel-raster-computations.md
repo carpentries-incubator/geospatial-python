@@ -186,7 +186,7 @@ blue_band = rioxarray.open_rasterio(blue_band_href, chunks=(1, 4000, 4000))
 
 Xarray and Dask also provide a graphical representation of the raster data array and of its blocked structure.
 
-![Xarray Dask-backed DataArray](fig/E11-03-xarray-with-dask.png){"DataArray with Dask"}
+![Xarray Dask-backed DataArray](fig/E11-03-xarray-with-dask.png){alt="DataArray with Dask"}
 
 :::challenge
 
