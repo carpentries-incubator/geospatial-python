@@ -156,7 +156,7 @@ the data
 Note that the zone is unique to the UTM projection. Not all CRSs will have a
 zone.
 
-![Image source: Chrismurf at English Wikipedia, via [Wikimedia Commons](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system#/media/File:Utm-zones-USA.svg) (CC-BY).](fig/E03-03-Utm-zones-USA.svg){alt="UTM time zones CONUS"}
+![The UTM zones across the continental United States (Chrismurf at English Wikipedia, via [Wikimedia Commons](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system#/media/File:Utm-zones-USA.svg) (CC-BY))](fig/E03/Utm-zones-USA.svg){alt="UTM zones across the CONUS"}
 
 :::challenge
 ## Reading a PROJ4 String
