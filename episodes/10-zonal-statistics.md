@@ -47,7 +47,7 @@ fields_utm = fields.to_crs(ndvi.rio.crs)
 
 # Rasterizing the vector data
 
-Before calculating zonal statistics, we first need to rasterize our `field_to_raster_crs` vector geodataframe with the `rasterio.features.rasterize` function. With this function, we aim to produce a grid with numerical values representing the types of crops as defined by the column `gewascode` from `field_cropped` - `gewascode` stands for the crop codes as defined by the Netherlands Enterprise Agency (RVO) for different types of crop or `gewas` (Grassland, permanent; Grassland, temporary; corn fields; etc.). This grid of values thus defines the zones for the `xrspatial.zonal_stats` function, where each pixel in the zone grid overlaps with a corresponding pixel in our NDVI raster.
+Before calculating zonal statistics, we first need to rasterize our `fields_utm` vector geodataframe with the `rasterio.features.rasterize` function. With this function, we aim to produce a grid with numerical values representing the types of crops as defined by the column `gewascode` from `field_cropped` - `gewascode` stands for the crop codes as defined by the Netherlands Enterprise Agency (RVO) for different types of crop or `gewas` (Grassland, permanent; Grassland, temporary; corn fields; etc.). This grid of values thus defines the zones for the `xrspatial.zonal_stats` function, where each pixel in the zone grid overlaps with a corresponding pixel in our NDVI raster.
 
 We can generate the `geometry, gewascode` pairs for each vector feature to be used as the first argument to `rasterio.features.rasterize` as:
 
@@ -103,7 +103,7 @@ plt.imshow(fields_rasterized)
 plt.colorbar()
 ```
 
-![Rasterization results](../fig/E10-01-rasterization-results.png)
+![](fig/E10/rasterization-results.png){alt="rasterization results"}
 
 We will convert the output to `xarray.DataArray` which will be used further. To do this, we will "borrow" the coordinates from `ndvi`, and fill in the rasterization data:
 ```python
@@ -115,7 +115,7 @@ fields_rasterized_xarr.data = fields_rasterized
 fields_rasterized_xarr.plot(robust=True)
 ```
 
-![Rasterization results Xarray](../fig/E10-02-rasterization-results-xr.png)
+![](fig/E10/rasterization-results-xr.png){alt="Rasterization results Xarray"}
 
 # Calculate zonal statistics
 
