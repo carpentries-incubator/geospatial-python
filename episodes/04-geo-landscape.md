@@ -23,7 +23,7 @@ licenses and price points. Some of the most common are listed below.
 
 ### Open-source software
 
-The [Open Source Geospatial Foundation (OSGEO)](http://www.osgeo.org/) supports several actively managed GIS platforms:
+The [Open Source Geospatial Foundation (OSGEO)](https://www.osgeo.org/) supports several actively managed GIS platforms:
 
   * [QGIS](https://www.qgis.org/en/site/) is a professional GIS application that is
   built on top of and proud to be itself Free and Open Source Software (FOSS). QGIS is
@@ -37,11 +37,11 @@ The [Open Source Geospatial Foundation (OSGEO)](http://www.osgeo.org/) supports 
   agencies and environmental consulting companies. It is a founding member of the Open
   Source Geospatial Foundation (OSGeo). GRASS GIS can be installed along with and made
   accessible within QGIS 3.
-  * [GDAL](http://www.gdal.org/) is a multiplatform
+  * [GDAL](https://www.gdal.org/) is a multiplatform
   set of tools for translating between geospatial data formats. It can also handle
   reprojection and a variety of geoprocessing tasks. GDAL is built in to many
   applications both FOSS and commercial, including GRASS and QGIS.
-  * [SAGA-GIS](http://www.saga-gis.org/en/index.html), or System for Automated
+  * [SAGA-GIS](https://www.saga-gis.org/en/index.html), or System for Automated
   Geoscientific Analyses, is a FOSS-GIS application developed by a small team of
   researchers from the Dept. of Physical Geography, Göttingen, and the Dept. of
   Physical Geography, Hamburg. SAGA has been designed for an easy and effective
@@ -58,8 +58,8 @@ The [Open Source Geospatial Foundation (OSGEO)](http://www.osgeo.org/) supports 
   is an international supplier of geographic information system (GIS) software, web GIS
   and geodatabase management applications. ESRI provides several licenced platforms for
   performing GIS, including [ArcGIS](https://www.arcgis.com/home/index.html),
-  [ArcGIS Online](http://www.esri.com/software/arcgis/arcgisonline), and
-  [Portal for ArcGIS](http://server.arcgis.com/en/portal/) a standalone version of
+  [ArcGIS Online](https://www.esri.com/software/arcgis/arcgisonline), and
+  [Portal for ArcGIS](https://server.arcgis.com/en/portal/) a standalone version of
   ArGIS Online which you host locally. ESRI welcomes development on their platforms
   through their [DevLabs](https://developers.arcgis.com/). ArcGIS software can be
   installed using
@@ -68,7 +68,7 @@ The [Open Source Geospatial Foundation (OSGEO)](http://www.osgeo.org/) supports 
   which was one of the earliest desktop GIS programs on the market.
   * [Hexagon Geospatial Power Portfolio](https://www.hexagongeospatial.com/products/products)
   includes many geospatial tools including ERDAS Imagine, powerful software for remote sensing.
-  * [Manifold](http://www.manifold.net/) is a desktop GIS that emphasizes speed through
+  * [Manifold](https://www.manifold.net/) is a desktop GIS that emphasizes speed through
   the use of parallel and GPU processing.
 
 ### Online + Cloud computing
@@ -82,18 +82,18 @@ The [Open Source Geospatial Foundation (OSGEO)](http://www.osgeo.org/) supports 
   researchers, and developers to detect changes, map trends, and quantify differences
   on the Earth's surface. [Earth Engine API](https://developers.google.com/earth-engine/)
   runs in both Python and JavaScript.
-  * [ArcGIS Online](http://www.arcgis.com/features/features.html) provides access to
+  * [ArcGIS Online](https://www.arcgis.com/features/features.html) provides access to
   thousands of maps and base layers.
 
 Private companies have released SDK platforms for large scale GIS analysis:
 
- * [Kepler.gl](http://kepler.gl/#/) is Uber's toolkit for handling large datasets (i.e. Uber's data archive).
+ * [Kepler.gl](https://kepler.gl/#/) is Uber's toolkit for handling large datasets (i.e. Uber's data archive).
  * [Boundless Geospatial](https://boundlessgeo.com/) is built upon OSGEO software for enterprise solutions.
 
 Publicly funded open-source platforms for large scale GIS analysis:
 
- * [PANGEO](http://pangeo.io/) for the Earth Sciences. This community organization also supports python libraries like xarray, iris, dask, jupyter, and many other packages.
- * [Sepal.io](https://sepal.io/) by [FAO Open Foris](http://www.openforis.org/) utilizing EOS satellite imagery and cloud resources for global forest monitoring.
+ * [PANGEO](https://pangeo.io/) for the Earth Sciences. This community organization also supports python libraries like xarray, iris, dask, jupyter, and many other packages.
+ * [Sepal.io](https://sepal.io/) by [FAO Open Foris](https://www.openforis.org/) utilizing EOS satellite imagery and cloud resources for global forest monitoring.
 
 ## GUI vs CLI
 

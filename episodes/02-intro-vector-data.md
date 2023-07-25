@@ -21,7 +21,7 @@ locations (x, y values) known as vertices that define the shape of the spatial
 object. The organization of the vertices determines the type of vector that we
 are working with: point, line or polygon.
 
-![Types of vector objects (Image Source: National Ecological Observatory Network (NEON))](../fig/E02-01-pnt_line_poly.png)
+![Types of vector objects (Image Source: National Ecological Observatory Network (NEON))](fig/E02-01-pnt_line_poly.png)
 
 * **Points:** Each point is defined by a single x, y coordinate. There can be
 many points in a vector point file. Examples of point data include: sampling
@@ -51,7 +51,7 @@ The plot below includes examples of two of the three types of vector
 objects. Use the definitions above to identify which features
 are represented by which vector type.
 
-![Vector Type Examples](../fig/E02-02-vector_types_examples.png)
+![Vector Type Examples](fig/E02-02-vector_types_examples.png)
 
 ::::solution
 ## Solution

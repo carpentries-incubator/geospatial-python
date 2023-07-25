@@ -79,11 +79,11 @@ peel is similar to how projections get made.
 * A datum is the choice of fruit to use. Is the Earth an orange, a lemon, a
   lime, a grapefruit?
 
-![Datum Fruit Example ([Image source](https://github.com/MicheleTobias/R-Projections-Workshop))](../fig/E03-01-citrus.jpg)
+![Datum Fruit Example ([Image source](https://github.com/MicheleTobias/R-Projections-Workshop))](fig/E03-01-citrus.jpg)
 
 A projection is how you peel your orange and then flatten the peel.
 
-![Projection Citrus Peel Example ([Image source](http://blogs.lincoln.ac.nz/gis/2017/03/29/where-on-earth-are-we/))](../fig/E03-02-orange-peel-earth.jpg)
+![Projection Citrus Peel Example ([Image source](https://blogs.lincoln.ac.nz/gis/2017/03/29/where-on-earth-are-we/))](fig/E03-02-orange-peel-earth.jpg)
 
 * An additional parameter could include a definition of the location of the
 stem of the fruit. What other parameters could be included in this analogy?
@@ -96,7 +96,7 @@ To decide if a projection is right for your data, answer these questions:
   *  What is the area of minimal distortion?
   *  What aspect of the data does it preserve?
 
-[Peter Dana from the University of Colorado at Boulder](https://foote.geography.uconn.edu/gcraft/notes/mapproj/mapproj_f.html) and the [Department of Geo-Information Processing](https://kartoweb.itc.nl/geometrics/Map%20projections/mappro.html) have a good discussion of these aspects of projections. Online tools like [Projection Wizard](http://projectionwizard.org/) can also help you discover projections that might be a good fit for your data.
+[Peter Dana from the University of Colorado at Boulder](https://foote.geography.uconn.edu/gcraft/notes/mapproj/mapproj_f.html) and the [Department of Geo-Information Processing](https://kartoweb.itc.nl/geometrics/Map%20projections/mappro.html) have a good discussion of these aspects of projections. Online tools like [Projection Wizard](https://projectionwizard.org/) can also help you discover projections that might be a good fit for your data.
 
 :::callout
 ## Data Tip
@@ -117,21 +117,21 @@ The [EPSG system](https://epsg.org/home.html) is a database of CRS information m
 International Association of Oil and Gas Producers. The dataset contains both CRS definitions and
 information on how to safely convert data from one CRS to another. Using EPSG is easy as every
 CRS has an integer identifier, e.g. WGS84 is EPSG:4326. The downside is that you can only use the
-CRSs defined by EPSG and cannot customise them (some datasets do not have EPSG codes). [epsg.io](http://epsg.io/) is an
+CRSs defined by EPSG and cannot customise them (some datasets do not have EPSG codes). [epsg.io](https://epsg.io/) is an
 excellent website for finding suitable projections by location or for finding information about a
 particular EPSG code.
 
 ### Well-Known Text
 The Open Geospatial Consortium WKT standard is used by a number of important geospatial apps and
 software libraries. WKT is a nested list of geodetic parameters. The structure of the information is
-[defined on their website](http://www.opengeospatial.org/standards/wkt-crs). WKT is valuable in
+[defined on their website](https://www.opengeospatial.org/standards/wkt-crs). WKT is valuable in
 that the CRS information is more transparent than in EPSG, but can be more difficult to read and
 compare than PROJ since it is meant to necessarily represent more complex CRS information. Additionally,
 the WKT standard is implemented inconsistently across various software platforms, and the spec itself has
 [some known issues](https://gdal.org/tutorials/wktproblems.html).
 
 ### PROJ
-[PROJ](http://proj4.org/) is an open-source library for storing, representing
+[PROJ](https://proj4.org/) is an open-source library for storing, representing
 and transforming CRS information. PROJ strings continue to be used, but the format
 [is deprecated by the PROJ C maintainers](https://proj.org/faq.html#what-is-the-best-format-for-describing-coordinate-reference-systems)
 due to inaccuracies when converting to the WKT format. The data and
@@ -156,7 +156,7 @@ the data
 Note that the zone is unique to the UTM projection. Not all CRSs will have a
 zone.
 
-![Image source: Chrismurf at English Wikipedia, via [Wikimedia Commons](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system#/media/File:Utm-zones-USA.svg) (CC-BY).](https://upload.wikimedia.org/wikipedia/commons/8/8d/Utm-zones-USA.svg)
+![Image source: Chrismurf at English Wikipedia, via [Wikimedia Commons](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system#/media/File:Utm-zones-USA.svg) (CC-BY).](fig/E03-03-Utm-zones-USA.svg)
 
 :::challenge
 ## Reading a PROJ4 String
@@ -183,7 +183,7 @@ Here is a PROJ4 string for one of the datasets we will use in this workshop:
 Many existing file formats were invented by GIS software developers, often in a
 closed-source environment. This led to the large number of formats on offer today, and
 considerable problems transferring data between software environments.
-The [Geospatial Data Abstraction Library](http://www.gdal.org/) (GDAL) is an
+The [Geospatial Data Abstraction Library](https://www.gdal.org/) (GDAL) is an
 open-source answer to this issue.
 
 GDAL is a set of software tools that translate between almost any geospatial format in
@@ -207,7 +207,7 @@ generated and maintained manually.
 :::callout
 ## More Resources on CRS
 
-* [spatialreference.org](http://spatialreference.org/ref/epsg/) - A comprehensive online library of CRS information.
+* [spatialreference.org](https://spatialreference.org/ref/epsg/) - A comprehensive online library of CRS information.
 * [QGIS Documentation - CRS Overview.](https://docs.qgis.org/2.18/en/docs/gentle_gis_introduction/coordinate_reference_systems.html)
 * [Choosing the Right Map Projection.](https://source.opennews.org/en-US/learning/choosing-right-map-projection/)
 * [Video](https://www.youtube.com/embed/KUF_Ckv8HbE) highlighting how map projections can make continents
