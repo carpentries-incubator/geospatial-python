@@ -28,7 +28,7 @@ may bypass the need to store the full dataset in memory by processing it chunk b
 
 In this episode, we will introduce the use of Dask in the context of raster calculations. Dask is a Python library for
 parallel and distributed computing. It provides a framework to work with different data structures, including chunked
-arrays (Dask Arrays). Dask is well integrated with (`rio`)`xarray` objects, which can use Dask arrays as underlying
+arrays (Dask Arrays). Dask is well integrated with (`rio`)`xarray`, which can use Dask arrays as underlying
 data structures.
 
 :::callout
@@ -51,6 +51,10 @@ computations. Depending on the specifics of the calculations, serial calculation
 Being able to profile the computational time is thus essential, and we will see how to do that in a Jupyter environment
 in the next section.
 
+The example that we consider here is the application of a median filter to a satellite image.
+[Median filtering](https://en.wikipedia.org/wiki/Median_filter) is a common noise removal technique which
+replaces a pixel's value with the median value computed from its surrounding pixels.
+
 ## Time profiling in Jupyter
 
 :::callout
@@ -58,7 +62,7 @@ in the next section.
 ## Introduce the Data
 
 We'll continue from the results of the satellite image search that we have carried out in an exercise from
-[a previous episode](./01-access-data.md). We will load data starting from the `search.json` file.
+[a previous episode](./05-access-data.md). We will load data starting from the `search.json` file.
 
 If you would like to work with the data for this lesson without downloading data on-the-fly, you can download the
 raster data using this [link](https://figshare.com/ndownloader/files/36028100). Save the `geospatial-python-raster-dataset.tar.gz`
@@ -75,101 +79,92 @@ import pystac
 items = pystac.ItemCollection.from_file("search.json")
 ```
 
-We select the last scene, and extract the URLs of two assets: the true-color image ("visual") and the scene
-classification layer ("SCL"). The latter is a mask where each grid cell is assigned a label that represents a specific
-class e.g. "4" for vegetation, "6" for water, etc. (all classes and labels are reported in the
-[Sentinel-2 documentation](https://sentinels.copernicus.eu/web/sentinel/technical-guides/sentinel-2-msi/level-2a/algorithm),
-see Figure 3):
+We select the last scene, and extract the URL of the true-color image ("visual"):
 
 ```python
 assets = items[-1].assets  # last item's assets
 visual_href = assets["visual"].href  # true color image
-scl_href = assets["SCL"].href  # scene classification layer
 ```
 
-Opening the two assets with `rioxarray` shows that the true-color image is available as a raster file with 10 m
-resolution, while the scene classification layer has a lower resolution (20 m):
+The true-color image is available as a raster file with 10 m resolution and 3 bands (you can verify this by opening the
+file with `rioxarray`), which makes it a relatively large file (few hundreds MBs). In order to keep calculations
+"manageable" (reasonable execution time and memory usage) we select here a lower resolution version of the image, taking
+advantage of the so-called "pyramidal" structure of cloud-optimized GeoTIFFs (COGs). COGs, in fact, typically include
+multiple lower-resolution versions of the original image, called "overviews", in the same file. This allows us to avoid
+downloading high-resolution images when only quick previews are required.
+
+Overviews are often computed using powers of 2 as down-sampling (or zoom) factors. So, typically, the first level
+overview (index 0) corresponds to a zoom factor of 2, the second level overview (index 1) corresponds to a zoom factor
+of 4, and so on. Here, we open the third level overview (zoom factor 8) and check that the resolution is about 80 m:
 
 ```python
 import rioxarray
-scl = rioxarray.open_rasterio(scl_href)
-visual = rioxarray.open_rasterio(visual_href)
-print(scl.rio.resolution(), visual.rio.resolution())
-```
-
-```output
-(20.0, -20.0), (10.0, -10.0)
-```
-
-
-In order to match the image and the mask pixels, we take advantage of a feature of the cloud-optimized GeoTIFF (COG)
-format, which is used to store these raster files. COGs typically include multiple lower-resolution versions of the
-original image, called "overviews", in the same file. This allows to avoid downloading high-resolution images when only
-quick previews are required.
-
-Overviews are often computed using powers of 2 as down-sampling (or zoom) factors (e.g. 2, 4, 8, 16). For the true-color
-image we thus open the first level overview (zoom factor 2) and check that the resolution is now also 20 m:
-
-```python
-visual = rioxarray.open_rasterio(visual_href, overview_level=0)
+visual = rioxarray.open_rasterio(visual_href, overview_level=2)
 print(visual.rio.resolution())
 ```
 
 ```output
-(20.0, -20.0)
+(79.97086671522214, -79.97086671522214)
 ```
 
-We can now time profile the first step of our raster calculation: the (down)loading of the rasters' content. We do it by
-using the Jupyter magic `%%time`, which returns the time required to run the content of a cell:
+Let's make sure the data has been loaded into memory before proceeding to time profile our raster calculation. Calling
+the `.load()` method of a DataArray object triggers data loading:
 
 ```python
-%%time
-scl = scl.load()
 visual = visual.load()
 ```
 
-```output
-CPU times: user 729 ms, sys: 852 ms, total: 1.58 s
-Wall time: 40.5 s
-```
+Note that by default data is loaded using Numpy arrays as underlying data structure. We can visualize the raster:
 
 ```python
 visual.plot.imshow(figsize=(10,10))
-scl.squeeze().plot.imshow(levels=range(13), figsize=(12,10))
 ```
 
-![Scene true color image](../fig/E11-01-true-color-image.png)
-![Scene classification](../fig/E11-02-scene-classification.png)
+![Scene true color image](fig/E11-01-true-color-image.png)
 
+Let's now apply a median filter to the image while keeping track of the execution time of this task. The filter is
+carried out in two steps: first, we define the size and centering of the region around each pixel that will be
+considered for the median calculation (the so-called "windows"), using the `.rolling()` method. We choose here windows
+that are 7 pixel wide in both x and y dimensions, and, for each window, consider the central pixel as the window target.
+We then call the `.median()` method, which initiates the construction of the windows and the actual calculation.
 
-After loading the raster files into memory, we run the following steps:
-
-- We create a mask of the grid cells that are labeled as "cloud" in the scene classification layer (values "8" and "9",
-  standing for medium- and high-cloud probability, respectively).
-- We use this mask to set the corresponding grid cells in the true-color image to null values.
-- We save the masked image to disk as in COG format.
-
-Again, we measure the cell execution time using `%%time`:
+For the time profiling, we make use of the Jupyter magic `%%time`, which returns the time required to run the content
+of a cell (note that commands starting with `%%` needs to be on the first line of the cell!):
 
 ```python
 %%time
-mask = scl.squeeze().isin([8, 9])
-visual_masked = visual.where(~mask, other=visual.rio.nodata)
-visual_masked.rio.to_raster("band_masked.tif")
+median = visual.rolling(x=7, y=7, center=True).median()
 ```
 
 ```output
-CPU times: user 270 ms, sys: 366 ms, total: 636 ms
-Wall time: 647 ms
+CPU times: user 15.6 s, sys: 3.2 s, total: 18.8 s
+Wall time: 19.6 s
 ```
 
-We can inspect the masked image as:
+Let's note down the calculation's "Wall time" (actual time to perform the task). We can inspect the image resulting
+after the application of median filtering:
+
 
 ```python
-visual_masked.plot.imshow(figsize=(10, 10))
+median.plot.imshow(robust=True, figsize=(10,10))
 ```
 
-![True color image masked](../fig/E11-03-true-color-image_masked.png)
+![True color image after median filtering](fig/E11-02-true-color-image_median-filter.png)
+
+:::callout
+
+## Handling edges
+
+By looking closely, you might notice a tiny white edge at the plot boundaries. These are the pixels that are less than
+3 pixels away from the border of the image. These pixels cannot be surrounded by a 7 pixel wide window. The default
+behaviour is to assign these with nodata values.
+:::
+
+Finally, let's write the data to disk:
+
+```python
+median.rio.to_raster("visual_median-filter.tif")
+```
 
 In the following section we will see how to parallelize these raster calculations, and we will compare timings to the
 serial calculations that we have just run.
@@ -185,13 +180,13 @@ open the blue band raster ("B02") using a chunk shape of `(1, 4000, 4000)` (bloc
 of `4000` in the second and third dimensions):
 
 ```python
-blue_band_href = assets["B02"].href
+blue_band_href = assets["blue"].href
 blue_band = rioxarray.open_rasterio(blue_band_href, chunks=(1, 4000, 4000))
 ```
 
 Xarray and Dask also provide a graphical representation of the raster data array and of its blocked structure.
 
-![Xarray Dask-backed DataArray](../fig/E11-04-xarray-with-dask.png)
+![Xarray Dask-backed DataArray](fig/E11-03-xarray-with-dask.png)
 
 :::challenge
 
@@ -210,7 +205,7 @@ with rasterio.open(visual_href) as r:
 ```
 
 In order to optimally access COGs it is best to align the blocksize of the file with the chunks ployed when loading
-the file. Open the blue-band asset ("B02") of a Sentinel-2 scene as a chunked `DataArray` object ing a suitable
+the file. Open the blue-band asset ("blue") of a Sentinel-2 scene as a chunked `DataArray` object ing a suitable
 chunk size. Which elements do you think should be considered when choosing the chunk size?
 
 ::::solution
@@ -228,11 +223,12 @@ with rasterio.open(blue_band_href) as r:
 Chunk size: [(1024, 1024)]
 ```
 
-Ideal chunk size values for this raster are thus multiples of 1024. An element to consider is e mber of
-resulting chunks and their size. Chunks should not be too big nor too small (i.e. too many).  a le of thumb,
-chunk sizes of 100 MB typically work well with Dask (see, e.g., this
-[blog post](https://blog.dask.org/2021/11/02/choosing-dask-chunk-sizes)). Also, the shape ght be levant,
-depending on the application! Here, we might select a chunks shape of `(1, 6144, 6144)`:
+Ideal chunk size values for this raster are thus multiples of 1024. An element to consider is number of
+resulting chunks and their size. While the optimal chunk size strongly depends on the specific application, chunks
+should in general not be too big nor too small (i.e. too many). As a rule of thumb, chunk sizes of 100 MB typically
+work well with Dask (see, e.g., this [blog post](https://blog.dask.org/2021/11/02/choosing-dask-chunk-sizes)). Also,
+the shape might be relevant, depending on the application! Here, we might select a chunks shape of
+`(1, 6144, 6144)`::
 
 ```python
 band = rioxarray.open_rasterio(blue_band_href, chunks=(1, 6144, 6144))
@@ -260,58 +256,36 @@ Let's now repeat the raster calculations that we have carried out in the previou
 parallel over a multi-core CPU. We first open the relevant rasters as chunked arrays:
 
 ```python
-scl = rioxarray.open_rasterio(scl_href, lock=False, chunks=(1, 2048, 2048))
-visual = rioxarray.open_rasterio(visual_href, overview_level=0, lock=False, chunks=(3, 2048, 2048))
+visual_dask = rioxarray.open_rasterio(visual_href, overview_level=2, lock=False, chunks=(3, 500, 500))
 ```
 
 Setting `lock=False` tells `rioxarray` that the individual data chunks can be loaded simultaneously from the source by
 the Dask workers.
 
-As the next step, we trigger the download of the data using the `.persist()` method, see below. This makes sure that the downloaded
-chunks are stored in the form of a chunked Dask array (calling `.load()` would instead merge the chunks in a single
-Numpy array).
+As the next step, we trigger the download of the data using the `.persist()` method, see below. This makes sure that
+the downloaded chunks are stored in the form of a chunked Dask array (calling `.load()` would instead merge the chunks
+in a single Numpy array).
 
-We explicitly tell Dask to parallelize the required workload over 4 threads. Don't forget to add the Jupyter magic to
-record the timing!
+We explicitly tell Dask to parallelize the required workload over 4 threads:
+
+```python
+visual_dask = visual_dask.persist(scheduler="threads", num_workers=4)
+```
+
+Let's now continue to the actual calculation. Note how the same syntax as for its serial version is employed for
+applying the median filter. Don't forget to add the Jupyter magic to record the timing!
 
 ```python
 %%time
-scl = scl.persist(scheduler="threads", num_workers=4)
-visual = visual.persist(scheduler="threads", num_workers=4)
+median_dask = visual_dask.rolling(x=7, y=7, center=True).median()
 ```
 
 ```output
-CPU times: user 1.18 s, sys: 806 ms, total: 1.99 s
-Wall time: 12.6 s
+CPU times: user 20.6 ms, sys: 3.71 ms, total: 24.3 ms
+Wall time: 25.2 ms
 ```
 
-So downloading chunks of data using 4 workers gave a speed-up of almost 4 times (40.5 s vs 12.6 s)!
-
-Let's now continue to the second step of the calculation. Note how the same syntax as for its serial version is employed
-for creating and applying the cloud mask. Only the raster saving includes additional arguments:
-
-- `tiled=True`: write raster as a chunked GeoTIFF.
-- `lock=threading.Lock()`: the threads which are splitting the workload must "synchronise" when writing to the same file
-  (they might otherwise overwrite each other's output).
-- `compute=False`: do not immediately run the calculation, more on this later.
-
-```python
-from threading import Lock
-```
-
-```python
-%%time
-mask = scl.squeeze().isin([8, 9])
-visual_masked = visual.where(~mask, other=0)
-visual_store = visual_masked.rio.to_raster("band_masked.tif", tiled=True, lock=Lock(), compute=False)
-```
-
-```output
-CPU times: user 13.3 ms, sys: 4.98 ms, total: 18.3 ms
-Wall time: 17.8 ms
-```
-
-Did we just observe a 36x speed-up when comparing to the serial calculation (647 ms vs 17.8 ms)? Actually, no
+Did we just observe a 700x speed-up when comparing to the serial calculation (19.6 s vs 25.2 ms)? Actually, no
 calculation has run yet. This is because operations performed on Dask arrays are executed "lazily", i.e. they are not
 immediately run.
 
@@ -323,35 +297,53 @@ The sequence of operations to carry out is stored in a task graph, which can be 
 
 ```python
 import dask
-dask.visualize(visual_store)
+dask.visualize(median_dask)
 ```
 
-![Dask graph](../fig/E11-05-dask-graph.png)
+![Dask graph](fig/E11-04-dask-graph.png)
 
 The task graph gives Dask the complete "overview" of the calculation, thus enabling a better nagement of tasks and
 resources when dispatching calculations to be run in parallel.
 :::
 
-While most methods of `DataArray`'s run operations lazily when Dask arrays are employed, some methods by default
-trigger immediate calculations, like the method `to_raster()` (we have changed this behaviour by specifying
-`compute=False`). In order to trigger calculations, we can use the `.compute()` method. Again, we explicitly tell Dask
-to run tasks on 4 threads. Let's time the cell execution:
+Most methods of `DataArray`'s run operations lazily when Dask arrays are employed. In order to trigger calculations, we
+can use either `.persist()` or `.compute()`. The former keeps data in the form of chunked Dask arrays, and it should
+thus be used to run intermediate steps that will be followed by additional calculations. The latter merges instead the
+chunks in a single Numpy array, and it should be used at the very end of a sequence of calculations. Both methods
+accept the same parameters (here, we again explicitly tell Dask to run tasks on 4 threads). Let's again time the cell
+execution:
 
 ```python
 %%time
-visual_store.compute(scheduler="threads", num_workers=4)
+median_dask = median_dask.persist(scheduler="threads", num_workers=4)
 ```
 
 ```output
-CPU times: user 532 ms, sys: 488 ms, total: 1.02 s
-Wall time: 791 ms
+CPU times: user 19.1 s, sys: 3.2 s, total: 22.3 s
+Wall time: 6.61 s
 ```
 
-The timing that we have recorded for this step is now closer to the one recorded for the serial calculation (the
-parallel calculation actually took slightly longer). The explanation for this behaviour lies in the overhead that Dask
-introduces to manage the tasks in the Dask graph. This overhead, which is typically of the order of milliseconds per
-task, can be larger than the parallelization gain, and this is typically the case for calculations with small chunks
-(note that here we have used chunks that are only 4 to 32 MB large).
+The timing that we have recorded makes much more sense now. When running the task on a 4-core CPU laptop, we observe a
+x3 speed-up when comparing to the analogous serial calculation (19.6 s vs 6.61 s).
+
+Once again, we stress that one does not always obtain similar performance gains by exploiting the Dask-based
+parallelization. Even if the algorithm employed is well suited for parallelization, Dask introduces some overhead time
+to manage the tasks in the Dask graph. This overhead, which is typically of the order of few milliseconds per task, can
+be larger than the parallelization gain. This is the typical situation with calculations with many small chunks.
+
+Finally, let's have a look at how Dask can be used to save raster files. When calling `.to_raster()`, we provide the
+following additional arguments:
+* `tiled=True`: write raster as a chunked GeoTIFF.
+* `lock=threading.Lock()`: the threads which are splitting the workload must "synchronise" when writing to the same file
+  (they might otherwise overwrite each other's output).
+
+```python
+from threading import Lock
+median_dask.rio.to_raster("visual_median-filter_dask.tif", tiled=True, lock=Lock())
+```
+
+Note that `.to_raster()` is among the methods that trigger immediate calculations (one can change this behaviour by
+specifying `compute=False`)
 
 :::keypoints
 - The `%%time` Jupyter magic command can be used to profile calculations.
