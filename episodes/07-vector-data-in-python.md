@@ -23,7 +23,7 @@ As discussed in [Episode 2: Introduction to Vector Data]({{site.baseurl}}/02-int
 
 In this episode, we will be moving from working with raster data to working with vector data. We will use Python to open and plot point, line, and polygon vector data. In particular, we will make use of the [`geopandas`](https://geopandas.org/en/stable/) package to open, manipulate and write vector datasets. 
 
-![](fig/E07-00-pandas_geopandas_relation.png){alt="Pandas and Geopandas"}
+![](fig/E07/pandas_geopandas_relation.png){alt="Pandas and Geopandas"}
 
 `geopandas` extends the popular `pandas` library for data analysis to geospatial applications. The main `pandas` objects (the `Series` and the `DataFrame`) are expanded to `geopandas` objects (`GeoSeries` and `GeoDataFrame`). This extension is implemented by including geometric types, represented in Python using the `shapely` library, and by providing dedicated methods for spatial operations (union, intersection, etc.). The relationship between `Series`, `DataFrame`, `GeoSeries` and `GeoDataFrame` can be briefly explained as follow:
 
@@ -90,7 +90,7 @@ And we can plot the overview by:
 fields.plot()
 ```
 
-![](fig/E07-02-fields.png){alt="Crop fields inside the AOI"}
+![](fig/E07/fields.png){alt="Crop fields inside the AOI"}
 
 ## Vector Metadata & Attributes
 When we read the vector dataset with Python (as our `fields` variable) it is loaded as a `GeoDataFrame` object. The `read_file()` function also automatically stores geospatial information about the data. We are particularly interested in describing the format, CRS, extent, and other components of the vector data, and the attributes which describe properties associated
@@ -212,7 +212,7 @@ And take a look at the wells:
 wells.plot(markersize=0.1)
 ```
 
-![](fig/E07-03-wells-nl.png){alt="all wells in the NL"}
+![](fig/E07/wells-nl.png){alt="all wells in the NL"}
 
 The points represents all the wells over the Netherlands. Since the wells are in the lat/lon coordinates. To make it comparable with fields, we need to first transfer the CRS to the "RD New" projection:
 
@@ -253,7 +253,7 @@ fields_buffer.plot()
 ```
 
 
-![](fig/E07-04-fields-buffer.png){alt="50m buffer around the fields"}
+![](fig/E07/fields-buffer.png){alt="50m buffer around the fields"}
 
 To further simplify them, we can use the `dissolve` function to dissolve the buffers into one:
 
@@ -271,7 +271,7 @@ wells_clip_buffer.plot()
 ```
 
 
-![](fig/E07-05-wells-in-buffer.png){alt="Wells within 50m buffer of fields"}
+![](fig/E07/wells-in-buffer.png){alt="Wells within 50m buffer of fields"}
 
 In this way, we selected all wells within the 50m range of the fields. It is also significantly faster than the previous `clip` operation, since the number of polygons is much smaller after `dissolve`.
 
@@ -302,7 +302,7 @@ wells_cx_500mbuffer['geometry'] = wells_cx.buffer(500)
 fields_clip_buffer = fields.clip(wells_cx_500mbuffer)
 fields_clip_buffer.plot()
 ```
-![](fig/E07-05-fields-in-buffer-clip.png){alt="fields within 50m buffer of the wells, truncated"}
+![](fig/E07/fields-in-buffer-clip.png){alt="fields within 50m buffer of the wells, truncated"}
 
 ::::
 :::
@@ -334,7 +334,7 @@ fiedls_in_buffer.plot()
 ```
 
 
-![](fig/E07-05-fields-in-buffer-sjoin.png){alt="Fields in 50m buffer of wells, not truncated"}
+![](fig/E07/fields-in-buffer-sjoin.png){alt="Fields in 50m buffer of wells, not truncated"}
 
 ## Modify the geometry of a GeoDataFrame
 
@@ -349,7 +349,7 @@ waterways_nl = gpd.read_file('data/status_vaarweg.zip')
 waterways_nl.plot()
 ```
 
-![](fig/E07-06-waterways-wrong.png){alt="waterways, rotated"}
+![](fig/E07/waterways-wrong.png){alt="waterways, rotated"}
 ::::
 :::
 
@@ -423,7 +423,7 @@ waterways_nl.plot()
 ```
 
 
-![](fig/E07-07-waterways-corrected.png){alt="waterways, corrected"}
+![](fig/E07/waterways-corrected.png){alt="waterways, corrected"}
 
 Now the waterways look good! We can save the vector data for later usage:
 ```python
