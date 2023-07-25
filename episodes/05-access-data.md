@@ -79,7 +79,7 @@ and the list of assets. What kind of data do the assets represent?
 
 ::::solution
 
-![Views of the Earth Search STAC endpoint](fig/E05-02-STAC-browser-exercise.jpg)
+![Views of the Earth Search STAC endpoint](fig/E05-02-STAC-browser-exercise.jpg){alt="earth-search stac catalog views"}
 
 1. 7 subcatalogs are available, including a catalog for Landsat Collection 2, Level-2 and Sentinel-2 Level 2A (see left screenshot in the figure above).
 2. When you select the Sentinel-2 Level 2A collection, and randomly choose one of the items from the list, you
