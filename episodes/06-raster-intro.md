@@ -27,7 +27,7 @@ We will also use the [`pystac`](https://github.com/stac-utils/pystac) package to
 :::callout
 ## Introduce the Raster Data
 We'll continue from the results of the satellite image search that we have carried out in an exercise from
-[a previous episode]({{site.baseurl}}/05-access-data). We will load data starting from the `search.json` file,
+[a previous episode](05-access-data.md). We will load data starting from the `search.json` file,
 using one scene from the search results as an example to demonstrate data loading and visualization.
 
 If you would like to work with the data for this lesson without downloading data on-the-fly, you can download the
