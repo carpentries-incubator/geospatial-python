@@ -130,7 +130,7 @@ This can give us a quick view of the values of our array, but only at the corner
 raster_ams_b9.plot()
 ```
 
-![Raster plot with rioxarray](fig/E06-01-overview-plot-B09.png)
+![Raster plot with rioxarray](fig/E06-01-overview-plot-B09.png){alt="raster plot with defualt setting"}
 
 Nice plot! Notice that `rioxarray` helpfully allows us to plot this raster with spatial coordinates on the x and y axis (this is not the default in many cases with other functions or libraries).
 
@@ -142,7 +142,7 @@ With a quick view of the image, we notice that half of the image is blank, no da
 raster_ams_b9.plot(robust=True)
 ```
 
-![Raster plot with rioxarray](fig/E06-02-overview-plot-B09-robust.png)
+![Raster plot using the "robust" setting](fig/E06-02-overview-plot-B09-robust.png){alt="raster plot with robust setting"}
 
 Now the color limit is set in a way fitting most of the values in the image. We have a better view of the ground pixels.
 
@@ -258,7 +258,7 @@ Datum: World Geodetic System 1984 ensemble
 Note that the zone is unique to the UTM projection. Not all CRSs will have a
 zone. Below is a simplified view of US UTM zones. Image source: Chrismurf at English Wikipedia, via [Wikimedia Commons](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system#/media/File:Utm-zones-USA.svg) (CC-BY).
 
-![UTM zones over US](fig/E06-03-Utm-zones-USA.svg)
+![The UTM zones across the continental United States](fig/E06-03-Utm-zones-USA.svg){alt="UTM zones across the CONUS"}
 
 ## Calculate Raster Statistics
 
@@ -371,14 +371,14 @@ Coordinates:
 
 And if we plot the image, the `nodata` pixels are not shown because they are not 0 anymore:
 
-![Raster plot with rioxarray using the robust setting no data](fig/E06-04-overview-plot-B09-robust-with-nan.png)
+![Raster plot after masking out missing values](fig/E06-04-overview-plot-B09-robust-with-nan.png){alt="raster plot masking missing values"}
 
 One should notice that there is a side effect of using `nan` instead of `0` to represent the missing data: the data type of the `DataArray` was changed from integers to float. This need to be taken into consideration when the data type matters in your application.
 
 ## Raster Bands
 So far we looked into a single band raster, i.e. the `nir09` band of a Sentinel-2 scene. However, to get a smaller, non georeferenced version of the scene, one may also want to visualize the true-color overview of the region. This is provided as a multi-band raster -- a raster dataset that contains more than one band.
 
-![Multi-band raster image](fig/E06-05-single_multi_raster.png)
+![Sketch of a multi-band raster image](fig/E06-05-single_multi_raster.png){alt="multi-band raster"}
 
 The `overview` asset in the Sentinel-2 scene is a multiband asset. Similar to `nir09`, we can load it by:
 ```python
@@ -403,13 +403,13 @@ Attributes:
 ```
 
 
-The band number comes first when GeoTiffs are read with the `.open_rasterio()` function. As we can see in the `xarray.DataArray` object, the shape is now `(band: 3, y: 343, x: 343)`, with three bands in the `band` dimension. It's always a good idea to examine the shape of the raster array you are working with and make sure it's what you expect. Many functions, especially the ones that plot images, expect a raster array to have a particular shape. One can also check the shape using the `.shape` attribute:
+The band number comes first when GeoTiffs are read with the `.open_rasterio()` function. As we can see in the `xarray.DataArray` object, the shape is now `(band: 3, y: 687, x: 687)`, with three bands in the `band` dimension. It's always a good idea to examine the shape of the raster array you are working with and make sure it's what you expect. Many functions, especially the ones that plot images, expect a raster array to have a particular shape. One can also check the shape using the `.shape` attribute:
 ```python
 raster_ams_overview.shape
 ```
 
 ```output
-(3, 343, 343)
+(3, 687, 687)
 ```
 
 One can visualize the multi-band data with the `DataArray.plot.imshow()` function:
@@ -417,7 +417,7 @@ One can visualize the multi-band data with the `DataArray.plot.imshow()` functio
 raster_ams_overview.plot.imshow()
 ```
 
-![Amsterdam true color overview](fig/E06-06-overview-plot-true-color.png)
+![Overview of the true-color image (multi-band raster)](fig/E06-06-overview-plot-true-color.png){alt="true-color image overview"}
 
 Note that the `DataArray.plot.imshow()` function makes assumptions about the shape of the input DataArray, that since it has three channels, the correct colormap for these channels is RGB. It does not work directly on image arrays with more than 3 channels. One can replace one of the RGB channels with another band, to make a false-color image.
 
@@ -432,7 +432,7 @@ Since we know the height/width ratio is 1:1 (check the `rio.height` and `rio.wid
 raster_ams_overview.plot.imshow(size=5, aspect=1)
 ```
 
-![Amsterdam true color overview equal aspect](fig/E06-07-overview-plot-true-color-aspect-equal.png)
+![Overview of the true-color image with the correct aspect ratio](fig/E06-07-overview-plot-true-color-aspect-equal.png){alt="raster plot with correct aspect ratio"}
 
 ::::
 :::
