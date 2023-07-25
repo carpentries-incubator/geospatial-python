@@ -52,7 +52,7 @@ The SpatioTemporal Asset Catalog (STAC) specification is an emerging standard fo
 organizing metadata in a form that adheres to the STAC specifications, data providers make it possible for users to
 access data from different missions, instruments and collections using the same set of tools.
 
-![Views of the STAC browser](fig/E05-01-STAC-browser.jpg){alt="STAC browser screenshots"}
+![Views of the STAC browser](fig/E05/STAC-browser.jpg){alt="STAC browser screenshots"}
 
 :::callout
 ## More Resources on STAC
@@ -79,7 +79,7 @@ and the list of assets. What kind of data do the assets represent?
 
 ::::solution
 
-![Views of the Earth Search STAC endpoint](fig/E05-02-STAC-browser-exercise.jpg){alt="earth-search stac catalog views"}
+![Views of the Earth Search STAC endpoint](fig/E05/STAC-browser-exercise.jpg){alt="earth-search stac catalog views"}
 
 1. 7 subcatalogs are available, including a catalog for Landsat Collection 2, Level-2 and Sentinel-2 Level 2A (see left screenshot in the figure above).
 2. When you select the Sentinel-2 Level 2A collection, and randomly choose one of the items from the list, you
@@ -319,7 +319,7 @@ https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/31/U/FU/20
 
 This can be used to download the corresponding file:
 
-![Overview of the true-color image ("thumbnail")](fig/E05-03-STAC-s2-preview.jpg){alt="thumbnail of the sentinel-2 scene"}
+![Overview of the true-color image ("thumbnail")](fig/E05/STAC-s2-preview.jpg){alt="thumbnail of the sentinel-2 scene"}
 
 Remote raster data can be directly opened via the `rioxarray` library. We will
 learn more about this library in the next episodes.
@@ -418,7 +418,7 @@ print(item.assets["browse"].href)
 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-public/HLSL30.020/HLS.L30.T18TWL.2021039T153324.v2.0/HLS.L30.T18TWL.039T153324.v2.0.jpg'
 ```
 
-![Thumbnail of the Landsat-8 scene](fig/E05-04-STAC-l8-preview.jpg){alt="thumbnail of the landsat-8 scene"}
+![Thumbnail of the Landsat-8 scene](fig/E05/STAC-l8-preview.jpg){alt="thumbnail of the landsat-8 scene"}
 ::::
 :::
 
