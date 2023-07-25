@@ -57,7 +57,7 @@ Some examples of continuous rasters include:
 2. Maps of tree height derived from LiDAR data.
 3. Elevation values for a region.
 
-A map of elevation for Harvard Forest derived from the [NEON AOP LiDAR sensor](http://www.neonscience.org/data-collection/airborne-remote-sensing)
+A map of elevation for Harvard Forest derived from the [NEON AOP LiDAR sensor](https://www.neonscience.org/data-collection/airborne-remote-sensing)
 is below. Elevation is represented as a continuous numeric variable in this map. The legend
 shows the continuous range of values in the data from around 300 to 420 meters.
 
