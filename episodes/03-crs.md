@@ -79,11 +79,11 @@ peel is similar to how projections get made.
 * A datum is the choice of fruit to use. Is the Earth an orange, a lemon, a
   lime, a grapefruit?
 
-![Datum Fruit Example ([Image source](https://github.com/MicheleTobias/R-Projections-Workshop))](fig/E03-01-citrus.jpg)
+![Datum Fruit Example ([Image source](https://github.com/MicheleTobias/R-Projections-Workshop))](fig/E03-01-citrus.jpg){alt="datum fruit example"}
 
 A projection is how you peel your orange and then flatten the peel.
 
-![Projection Citrus Peel Example ([Image source](https://blogs.lincoln.ac.nz/gis/2017/03/29/where-on-earth-are-we/))](fig/E03-02-orange-peel-earth.jpg)
+![Projection Citrus Peel Example ([Image source](https://blogs.lincoln.ac.nz/gis/2017/03/29/where-on-earth-are-we/))](fig/E03-02-orange-peel-earth.jpg){alt="projection citrus peel"}
 
 * An additional parameter could include a definition of the location of the
 stem of the fruit. What other parameters could be included in this analogy?
@@ -156,7 +156,7 @@ the data
 Note that the zone is unique to the UTM projection. Not all CRSs will have a
 zone.
 
-![Image source: Chrismurf at English Wikipedia, via [Wikimedia Commons](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system#/media/File:Utm-zones-USA.svg) (CC-BY).](fig/E03-03-Utm-zones-USA.svg)
+![Image source: Chrismurf at English Wikipedia, via [Wikimedia Commons](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system#/media/File:Utm-zones-USA.svg) (CC-BY).](fig/E03-03-Utm-zones-USA.svg){alt="UTM time zones CONUS"}
 
 :::challenge
 ## Reading a PROJ4 String
