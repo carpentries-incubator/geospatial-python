@@ -49,7 +49,7 @@ For this episode, we will use one of the Sentinel-2 scenes that we have already 
 ## Introduce the Data
 
 We'll continue from the results of the satellite image search that we have carried out in an exercise from
-[a previous episode](05-access-data.md). We will load data starting from the `search.json` file.
+[a previous episode]({{site.baseurl}}/05-access-data). We will load data starting from the `search.json` file.
 
 If you would like to work with the data for this lesson without downloading data on-the-fly, you can download the
 raster data using this [link](https://figshare.com/ndownloader/files/36028100). Save the `geospatial-python-raster-dataset.tar.gz`
