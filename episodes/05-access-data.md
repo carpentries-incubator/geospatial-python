@@ -118,7 +118,7 @@ collection = "sentinel-2-l2a"  # Sentinel-2, Level 2A, Cloud Optimized GeoTiffs 
 
 Cloud Optimized GeoTIFFs (COGs) are regular GeoTIFF files with some additional features that make them ideal to be
 employed in the context of cloud computing and other web-based services. This format builds on the widely-employed
-GeoTIFF format, already introduced in [Episode 1: Introduction to Raster Data]({{site.baseurl}}/01-intro-raster-data/).
+GeoTIFF format, already introduced in [Episode 1: Introduction to Raster Data](01-intro-raster-data.md).
 In essence, COGs are regular GeoTIFF files with a special internal structure. One of the features of COGs is that data
 is organized in "blocks" that can be accessed remotely via independent HTTP requests. Data users can thus access the
 only blocks of a GeoTIFF that are relevant for their analysis, without having to download the full file. In addition,
