@@ -120,7 +120,7 @@ Note that by default data is loaded using Numpy arrays as underlying data struct
 visual.plot.imshow(figsize=(10,10))
 ```
 
-![Scene true color image](fig/E11-01-true-color-image.png)
+![Scene's true-color image](fig/E11-01-true-color-image.png){alt="true color image scene"}
 
 Let's now apply a median filter to the image while keeping track of the execution time of this task. The filter is
 carried out in two steps: first, we define the size and centering of the region around each pixel that will be
@@ -149,7 +149,7 @@ after the application of median filtering:
 median.plot.imshow(robust=True, figsize=(10,10))
 ```
 
-![True color image after median filtering](fig/E11-02-true-color-image_median-filter.png)
+![True-color image after median filtering](fig/E11-02-true-color-image_median-filter.png){alt="median filter true color image"}
 
 :::callout
 
@@ -186,7 +186,7 @@ blue_band = rioxarray.open_rasterio(blue_band_href, chunks=(1, 4000, 4000))
 
 Xarray and Dask also provide a graphical representation of the raster data array and of its blocked structure.
 
-![Xarray Dask-backed DataArray](fig/E11-03-xarray-with-dask.png)
+![Xarray Dask-backed DataArray](fig/E11-03-xarray-with-dask.png){"DataArray with Dask"}
 
 :::challenge
 
@@ -300,7 +300,7 @@ import dask
 dask.visualize(median_dask)
 ```
 
-![Dask graph](fig/E11-04-dask-graph.png)
+![Dask graph](fig/E11-04-dask-graph.png){alt="dask graph"}
 
 The task graph gives Dask the complete "overview" of the calculation, thus enabling a better nagement of tasks and
 resources when dispatching calculations to be run in parallel.
