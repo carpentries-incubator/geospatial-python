@@ -50,10 +50,10 @@ items = pystac.ItemCollection.from_file("search.json")
 ```
 
 
-In the search results, we have 2 `Item` type objects, corresponding to 4 Sentinel-2 scenes from March 26th and 28th in 2020. We will focus on the first scene `S2A_31UFU_20200328_0_L2A`, and load band `B09` (central wavelength 945 nm). We can load this band using the function `rioxarray.open_rasterio()`, via the Hypertext Reference `href` (commonly referred to as a URL):
+In the search results, we have 2 `Item` type objects, corresponding to 4 Sentinel-2 scenes from March 26th and 28th in 2020. We will focus on the first scene `S2A_31UFU_20200328_0_L2A`, and load band `nir09` (central wavelength 945 nm). We can load this band using the function `rioxarray.open_rasterio()`, via the Hypertext Reference `href` (commonly referred to as a URL):
 ```python
 import rioxarray
-raster_ams_b9 = rioxarray.open_rasterio(items[0].assets["B09"].href)
+raster_ams_b9 = rioxarray.open_rasterio(items[0].assets["nir09"].href)
 ```
 
 By calling the variable name in the jupyter notebook we can get a quick look at the shape and attributes of the data.
@@ -130,11 +130,11 @@ This can give us a quick view of the values of our array, but only at the corner
 raster_ams_b9.plot()
 ```
 
-<img src="../fig/E06-01-overview-plot-B09.png" title="Raster plot with rioxarray" alt="Raster plot with defualt setting" width="612" style="display: block; margin: auto;" />
+![Raster plot with rioxarray](fig/E06-01-overview-plot-B09.png)
 
 Nice plot! Notice that `rioxarray` helpfully allows us to plot this raster with spatial coordinates on the x and y axis (this is not the default in many cases with other functions or libraries).
 
-This plot shows the satellite measurement of the spectral band `B09` for an area that covers part of the Netherlands. According to the [Sentinel-2 documentaion](https://sentinels.copernicus.eu/web/sentinel/technical-guides/sentinel-2-msi/msi-instrument), this is a band with the central wavelength of 945nm, which is sensitive to water vapor. It has a spatial resolution of 60m. Note that the `band=1` in the image title refers to the ordering of all the bands in the  `DataArray`, not the Sentinel-2 band number `B09` that we saw in the pystac search results.
+This plot shows the satellite measurement of the spectral band `nir09` for an area that covers part of the Netherlands. According to the [Sentinel-2 documentaion](https://sentinels.copernicus.eu/web/sentinel/technical-guides/sentinel-2-msi/msi-instrument), this is a band with the central wavelength of 945nm, which is sensitive to water vapor. It has a spatial resolution of 60m. Note that the `band=1` in the image title refers to the ordering of all the bands in the  `DataArray`, not the Sentinel-2 band number `09` that we saw in the pystac search results.
 
 With a quick view of the image, we notice that half of the image is blank, no data is captured. We also see that the cloudy pixels at the top have high reflectance values, while the contrast of everything else is quite low. This is expected because this band is sensitive to the water vapor. However if one would like to have a better color contrast, one can add the option `robust=True`, which displays values between the 2nd and 98th percentile:
 
@@ -142,7 +142,7 @@ With a quick view of the image, we notice that half of the image is blank, no da
 raster_ams_b9.plot(robust=True)
 ```
 
-<img src="../fig/E06-02-overview-plot-B09-robust.png" title="Raster plot with rioxarray using the robust setting" alt="Raster plot with robust setting" width="612" style="display: block; margin: auto;" />
+![Raster plot with rioxarray](fig/E06-02-overview-plot-B09-robust.png)
 
 Now the color limit is set in a way fitting most of the values in the image. We have a better view of the ground pixels.
 
@@ -221,7 +221,7 @@ AreaOfUse(west=0.0, south=0.0, east=6.0, north=84.0, name='Between 0°E and 6°E
 
 :::challenge
 ## Exercise: find the axes units of the CRS
-What units are our coordinates in? See if you can find a method to examine this information using `help(crs)` or `dir(crs)`
+What units are our data in? See if you can find a method to examine this information using `help(crs)` or `dir(crs)`
 
 ::::solution
 `crs.axis_info` tells us that the CRS for our raster has two axis and both are in meters.
@@ -258,9 +258,7 @@ Datum: World Geodetic System 1984 ensemble
 Note that the zone is unique to the UTM projection. Not all CRSs will have a
 zone. Below is a simplified view of US UTM zones. Image source: Chrismurf at English Wikipedia, via [Wikimedia Commons](https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system#/media/File:Utm-zones-USA.svg) (CC-BY).
 
-<img src="../fig/E06-06-Utm-zones-USA.svg" title="UTM zones over US" alt="The UTM zones across the continental United States." width="612" style="display: block; margin: auto;" />
-
-
+![UTM zones over US](fig/E06-03-Utm-zones-USA.svg)
 
 ## Calculate Raster Statistics
 
@@ -333,7 +331,7 @@ As we have seen above, the `nodata` value of this dataset (`raster_ams_b9.rio.no
 
 To distinguish missing data from real data, one possible way is to use `nan` to represent them. This can be done by specifying `masked=True` when loading the raster:
 ```python
-raster_ams_b9 = rioxarray.open_rasterio(items[0].assets["B09"].href, masked=True)
+raster_ams_b9 = rioxarray.open_rasterio(items[0].assets["nir09"].href, masked=True)
 ```
 
 
@@ -373,33 +371,35 @@ Coordinates:
 
 And if we plot the image, the `nodata` pixels are not shown because they are not 0 anymore:
 
-![Raster plot with rioxarray using the robust setting no data](../fig/E06-03-overview-plot-B09-robust-with-nan.png)
+![Raster plot with rioxarray using the robust setting no data](fig/E06-04-overview-plot-B09-robust-with-nan.png)
 
 One should notice that there is a side effect of using `nan` instead of `0` to represent the missing data: the data type of the `DataArray` was changed from integers to float. This need to be taken into consideration when the data type matters in your application.
 
 ## Raster Bands
-So far we looked into a single band raster, i.e. the `B09` band of a Sentinel-2 scene. However, to get an overview of the scene, one may also want to visualize the true-color thumbnail of the region. This is provided as a multi-band raster -- a raster dataset that contains more than one band.
+So far we looked into a single band raster, i.e. the `nir09` band of a Sentinel-2 scene. However, to get a smaller, non georeferenced version of the scene, one may also want to visualize the true-color overview of the region. This is provided as a multi-band raster -- a raster dataset that contains more than one band.
 
-![Multi-band raster image](../fig/E06-07-single_multi_raster.png)
+![Multi-band raster image](fig/E06-05-single_multi_raster.png)
 
-The `overview` asset in the Sentinel-2 scene is a multiband asset. Similar to `B09`, we can load it by:
+The `overview` asset in the Sentinel-2 scene is a multiband asset. Similar to `nir09`, we can load it by:
 ```python
-raster_ams_overview = rioxarray.open_rasterio(items[0].assets['overview'].href)
+raster_ams_overview = rioxarray.open_rasterio(items[0].assets['visual'].href, overview_level=3)
 raster_ams_overview
 ```
 
 ```output
-<xarray.DataArray (band: 3, y: 343, x: 343)>
-[352947 values with dtype=uint8]
+<xarray.DataArray (band: 3, y: 687, x: 687)>
+[1415907 values with dtype=uint8]
 Coordinates:
   * band         (band) int64 1 2 3
-  * x            (x) float64 6.002e+05 6.005e+05 ... 7.093e+05 7.096e+05
-  * y            (y) float64 5.9e+06 5.9e+06 5.899e+06 ... 5.791e+06 5.79e+06
+  * x            (x) float64 6.001e+05 6.002e+05 ... 7.096e+05 7.097e+05
+  * y            (y) float64 5.9e+06 5.9e+06 5.9e+06 ... 5.79e+06 5.79e+06
     spatial_ref  int64 0
 Attributes:
-    _FillValue:    0.0
-    scale_factor:  1.0
-    add_offset:    0.0
+    AREA_OR_POINT:       Area
+    OVR_RESAMPLING_ALG:  AVERAGE
+    _FillValue:          0
+    scale_factor:        1.0
+    add_offset:          0.0
 ```
 
 
@@ -417,7 +417,7 @@ One can visualize the multi-band data with the `DataArray.plot.imshow()` functio
 raster_ams_overview.plot.imshow()
 ```
 
-![Amsterdam true color overview](../fig/E06-04-overview-plot-true-color.png)
+![Amsterdam true color overview](fig/E06-06-overview-plot-true-color.png)
 
 Note that the `DataArray.plot.imshow()` function makes assumptions about the shape of the input DataArray, that since it has three channels, the correct colormap for these channels is RGB. It does not work directly on image arrays with more than 3 channels. One can replace one of the RGB channels with another band, to make a false-color image.
 
@@ -432,7 +432,7 @@ Since we know the height/width ratio is 1:1 (check the `rio.height` and `rio.wid
 raster_ams_overview.plot.imshow(size=5, aspect=1)
 ```
 
-![Amsterdam true color overview equal aspect](../fig/E06-05-overview-plot-true-color-aspect-equal.png)
+![Amsterdam true color overview equal aspect](fig/E06-07-overview-plot-true-color-aspect-equal.png)
 
 ::::
 :::
