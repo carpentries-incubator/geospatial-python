@@ -52,7 +52,7 @@ The SpatioTemporal Asset Catalog (STAC) specification is an emerging standard fo
 organizing metadata in a form that adheres to the STAC specifications, data providers make it possible for users to
 access data from different missions, instruments and collections using the same set of tools.
 
-![STAC-browser](fig/E05-01-STAC-browser.jpg)
+![Views of the STAC browser](fig/E05-01-STAC-browser.jpg){alt="STAC browser screenshots"}
 
 :::callout
 ## More Resources on STAC
@@ -79,7 +79,7 @@ and the list of assets. What kind of data do the assets represent?
 
 ::::solution
 
-![STAC-browser-exercise](fig/E05-02-STAC-browser-exercise.jpg)
+![Views of the Earth Search STAC endpoint](fig/E05-02-STAC-browser-exercise.jpg)
 
 1. 7 subcatalogs are available, including a catalog for Landsat Collection 2, Level-2 and Sentinel-2 Level 2A (see left screenshot in the figure above).
 2. When you select the Sentinel-2 Level 2A collection, and randomly choose one of the items from the list, you
@@ -135,7 +135,6 @@ from shapely.geometry import Point
 point = Point(4.89, 52.37)  # AMS coordinates
 ```
 
-
 Note: at this stage, we are only dealing with metadata, so no image is going to be downloaded yet. But even metadata can
 be quite bulky if a large number of scenes match our search! For this reason, we limit the search result to 10 items:
 
@@ -146,7 +145,6 @@ search = client.search(
     max_items=10,
 )
 ```
-
 
 We submit the query and find out how many scenes match our search criteria (please note that this output can be different as more data is added to the catalog):
 
@@ -170,11 +168,9 @@ The variable `items` is an `ItemCollection` object. We can check its size by:
 print(len(items))
 ```
 
-
 ```output
 10
 ```
-
 
 which is consistent with the maximum number of items that we have set in the search criteria. We can iterate over
 the returned items and print these to show their IDs:
@@ -323,7 +319,7 @@ https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/31/U/FU/20
 
 This can be used to download the corresponding file:
 
-![STAC-s2-preview](fig/E05-03-STAC-s2-preview.jpg)
+![Overview of the true-color image ("thumbnail")](fig/E05-03-STAC-s2-preview.jpg){alt="thumbnail of the sentinel-2 scene"}
 
 Remote raster data can be directly opened via the `rioxarray` library. We will
 learn more about this library in the next episodes.
@@ -422,7 +418,7 @@ print(item.assets["browse"].href)
 'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-public/HLSL30.020/HLS.L30.T18TWL.2021039T153324.v2.0/HLS.L30.T18TWL.039T153324.v2.0.jpg'
 ```
 
-![STAC-l8-preview](fig/E05-04-STAC-l8-preview.jpg)
+![Thumbnail of the Landsat-8 scene](fig/E05-04-STAC-l8-preview.jpg){alt="thumbnail of the landsat-8 scene"}
 ::::
 :::
 
