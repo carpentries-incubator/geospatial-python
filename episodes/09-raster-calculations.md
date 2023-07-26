@@ -197,7 +197,7 @@ It's often a good idea to explore the range of values in a raster dataset just l
 
 ::::solution
 
-1) Recall, if there were nodata values in our raster,
+1. Recall, if there were nodata values in our raster,
 we would need to filter them out with `.where()`. Since we have loaded the rasters with `masked=True`, missing
 values are already encoded as `np.nan`'s. The `ndvi` array actually includes a single missing value.
 ```python
@@ -212,14 +212,15 @@ print(ndvi.isnull().sum().values)
 1
 ```
 
-2) Increasing the number of bins gives us a much clearer view of the distribution. Also, there seem to be very few
+2. Increasing the number of bins gives us a much clearer view of the distribution. Also, there seem to be very few
 NDVI values larger than ~0.9.
 ```python
 ndvi.plot.hist(bins=50)
 ```
 
 ![](fig/E09/NDVI-hist-bins.png){alt="NDVI histogram with 50 bins"}
-3) We can discretize the color bar by specifying the intervals via the `levels` argument to `plot()`.
+
+3. We can discretize the color bar by specifying the intervals via the `levels` argument to `plot()`.
 Suppose we want to bin our data in the following intervals:
 * $-1 \le NDVI \lt 0$ for water;
 * $0 \le NDVI \lt 0.2$ for no vegetation;
