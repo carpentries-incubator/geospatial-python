@@ -23,7 +23,7 @@ In this episode, we will introduce how to crop raster data into the desired area
 ## Introduce the Data
 
 We will use the results of the satellite image search: `search.json`, which is generated in an exercise from
-[Episode 5: Access satellite imagery using Python](../05-access-data).
+[Episode 5: Access satellite imagery using Python](05-access-data.md).
 
 If you would like to work with the data for this lesson without downloading data on-the-fly, you can download the
 raster data using this [link](https://figshare.com/ndownloader/files/36028100). Save the `geospatial-python-raster-dataset.tar.gz`

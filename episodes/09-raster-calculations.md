@@ -34,7 +34,7 @@ where $NIR$ and $red$ label the reflectance values of the corresponding waveleng
 Values close to one indicate high density of green leaves. Poorly vegetated areas typically have NDVI values close to
 zero. Negative NDVI values often indicate cloud and water bodies.
 
-![PONE-NDVI. Source: Wu C-D, McNeely E, Cedeño-Laurent JG, Pan W-C, Adamkiewicz G, Dominici F, et al. (2014) Linking Student Performance in Massachusetts Elementary Schools with the “Greenness” of School Surroundings Using Remote Sensing. PLoS ONE 9(10): e108548. https://doi.org/10.1371/journal.pone.0108548](fig/E09/PONE-NDVI.jpg){alt="PONE-NDVI image"}
+![Source: Wu C-D, McNeely E, Cedeño-Laurent JG, Pan W-C, Adamkiewicz G, Dominici F, et al. (2014) Linking Student Performance in Massachusetts Elementary Schools with the “Greenness” of School Surroundings Using Remote Sensing. PLoS ONE 9(10): e108548. https://doi.org/10.1371/journal.pone.0108548](fig/E09/PONE-NDVI.jpg){alt="PONE-NDVI image"}
 
 :::callout
 ## More Resources
@@ -255,7 +255,7 @@ First, we define NDVI classes based on a list of values, as defined in the last 
 `[-1, 0., 0.2, 0.7, 1]`. When bins are ordered from
 low to high, as here, `numpy.digitize` assigns classes like so:
 
-![NDVI-classes. Source: Image created for this lesson ([license]({{ page.root }}{% link LICENSE.md %}))](fig/E09/NDVI-classes.jpg){alt="NDVI classes"}
+![Source: Image created for this lesson ([license](../LICENSE.md))](fig/E09/NDVI-classes.jpg){alt="NDVI classes"}
 
 
 Note that, by default, each class includes the left but not the right bound. This is not an issue here, since the

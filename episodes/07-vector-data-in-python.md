@@ -19,7 +19,7 @@ questions:
 
 ## Introduction
 
-As discussed in [Episode 2: Introduction to Vector Data](../02-intro-vector-data.md/), vector data represents specific features on the Earth's surface using points, lines, and polygons. These geographic elements can then have one or more attributes assigned to them, such as 'name' and 'population' for a city, or crop type for a field. Vector data can be much smaller in (file) size than raster data, while being very rich in terms of the information captured.
+As discussed in [Episode 2: Introduction to Vector Data](../02-intro-vector-data.md), vector data represents specific features on the Earth's surface using points, lines, and polygons. These geographic elements can then have one or more attributes assigned to them, such as 'name' and 'population' for a city, or crop type for a field. Vector data can be much smaller in (file) size than raster data, while being very rich in terms of the information captured.
 
 In this episode, we will be moving from working with raster data to working with vector data. We will use Python to open and plot point, line, and polygon vector data. In particular, we will make use of the [`geopandas`](https://geopandas.org/en/stable/) package to open, manipulate and write vector datasets. 
 
