@@ -19,9 +19,9 @@ questions:
 
 ## Introduction
 
-As discussed in [Episode 2: Introduction to Vector Data](../02-intro-vector-data.md), vector data represents specific features on the Earth's surface using points, lines, and polygons. These geographic elements can then have one or more attributes assigned to them, such as 'name' and 'population' for a city, or crop type for a field. Vector data can be much smaller in (file) size than raster data, while being very rich in terms of the information captured.
+As discussed in [Episode 2: Introduction to Vector Data](02-intro-vector-data.md), vector data represents specific features on the Earth's surface using points, lines, and polygons. These geographic elements can then have one or more attributes assigned to them, such as 'name' and 'population' for a city, or crop type for a field. Vector data can be much smaller in (file) size than raster data, while being very rich in terms of the information captured.
 
-In this episode, we will be moving from working with raster data to working with vector data. We will use Python to open and plot point, line, and polygon vector data. In particular, we will make use of the [`geopandas`](https://geopandas.org/en/stable/) package to open, manipulate and write vector datasets. 
+In this episode, we will be moving from working with raster data to working with vector data. We will use Python to open and plot point, line, and polygon vector data. In particular, we will make use of the [`geopandas`](https://geopandas.org/en/stable/) package to open, manipulate and write vector datasets.
 
 ![](fig/E07/pandas_geopandas_relation.png){alt="Pandas and Geopandas"}
 
@@ -37,7 +37,7 @@ In later episodes, we will learn how to work with raster and vector data togethe
 :::callout
 ## Introduce the Vector Data
 
-In this episode, we will use the downloaded vector data in the `data` directory. Please refer to the [setup page](../setup.md) on how to download the data.
+In this episode, we will use the downloaded vector data in the `data` directory. Please refer to the [setup page](../learners/setup.md) on how to download the data.
 :::
 
 ## Import Vector Datasets
@@ -47,7 +47,7 @@ import geopandas as gpd
 ```
 
 
-We will use the `geopandas` package to load the crop field vector data we downloaded at: `data/brpgewaspercelen_definitief_2020_small.gpkg`. 
+We will use the `geopandas` package to load the crop field vector data we downloaded at: `data/brpgewaspercelen_definitief_2020_small.gpkg`.
 
 ```python
 fields = gpd.read_file("data/brpgewaspercelen_definitief_2020_small.gpkg")
@@ -77,7 +77,7 @@ fields = gpd.read_file("data/brpgewaspercelen_definitief_2020_small.gpkg", bbox=
 
 :::callout
 ## How should I define my bounding box?
-For simplicity, here we assume the **Coordinate Reference System (CRS)** and **extent** of the vector file are known (for instance they are provided in the dataset documentation). 
+For simplicity, here we assume the **Coordinate Reference System (CRS)** and **extent** of the vector file are known (for instance they are provided in the dataset documentation).
 
 You can also define your bounding box with online coordinates visualization tools. For example, we can use the "Draw Rectangular Polygon" tool in [geojson.io](https://geojson.io/#map=8.62/52.45/4.96).
 
@@ -94,7 +94,7 @@ fields.plot()
 
 ## Vector Metadata & Attributes
 When we read the vector dataset with Python (as our `fields` variable) it is loaded as a `GeoDataFrame` object. The `read_file()` function also automatically stores geospatial information about the data. We are particularly interested in describing the format, CRS, extent, and other components of the vector data, and the attributes which describe properties associated
-with each vector object. 
+with each vector object.
 
 We will explore
 
@@ -164,14 +164,14 @@ fields.total_bounds
 array([109222.03325 , 469461.512625, 140295.122125, 510939.997875])
 ```
 
-This array contains, in order, the values for minx, miny, maxx and maxy, for the overall dataset. The spatial extent of a GeoDataFrame represents the geographic "edge" or location that is the furthest north, south, east, and west. Thus, it represents the overall geographic coverage of the spatial object. 
+This array contains, in order, the values for minx, miny, maxx and maxy, for the overall dataset. The spatial extent of a GeoDataFrame represents the geographic "edge" or location that is the furthest north, south, east, and west. Thus, it represents the overall geographic coverage of the spatial object.
 
 We can convert these coordinates to a bounding box or acquire the index of the Dataframe to access the geometry. Either of these polygons can be used to clip rasters (more on that later).
 
 
 ## Further crop the dataset
 
-We might realize that the loaded dataset is still too large. If we want to refine our area of interest to an even smaller extent, without reloading the data, we can use the [`cx`](https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoDataFrame.cx.html) indexer: 
+We might realize that the loaded dataset is still too large. If we want to refine our area of interest to an even smaller extent, without reloading the data, we can use the [`cx`](https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoDataFrame.cx.html) indexer:
 
  ```python
  # A smaller bounding box in RD
@@ -191,7 +191,7 @@ fields_cx.to_file('fields_cropped.shp')
 
 
 
-This will write it to disk (in this case, in 'shapefile' format), containing only the data from our cropped area. It can be read again at a later time using the `read_file()` method we have been using above. Note that this actually writes multiple files to disk (`fields_cropped.cpg`, `fields_cropped.dbf`, `fields_cropped.prj`, `fields_cropped.shp`, `fields_cropped.shx`). All these files should ideally be present in order to re-read the dataset later, although only the `.shp`, `.shx`, and `.dbf` files are mandatory (see the [Introduction to Vector Data](02-intro-to-vector-data.md) lesson for more information.)
+This will write it to disk (in this case, in 'shapefile' format), containing only the data from our cropped area. It can be read again at a later time using the `read_file()` method we have been using above. Note that this actually writes multiple files to disk (`fields_cropped.cpg`, `fields_cropped.dbf`, `fields_cropped.prj`, `fields_cropped.shp`, `fields_cropped.shx`). All these files should ideally be present in order to re-read the dataset later, although only the `.shp`, `.shx`, and `.dbf` files are mandatory (see the [Introduction to Vector Data](02-intro-vector-data.md) lesson for more information.)
 
 
 ## Selecting spatial features
@@ -324,7 +324,7 @@ print(fields_wells_buffer.shape)
 ```
 
 
-This will result in a `GeodataFrame` of all possible combinations of polygons and well buffers intersecting each other. Since a polygon can fall into multiple buffers, there will be duplicated field indexes in the results. To select the fields which intersects the well buffers, we can first get the unique indexes, and use the `iloc` indexer to select: 
+This will result in a `GeodataFrame` of all possible combinations of polygons and well buffers intersecting each other. Since a polygon can fall into multiple buffers, there will be duplicated field indexes in the results. To select the fields which intersects the well buffers, we can first get the unique indexes, and use the `iloc` indexer to select:
 
 ```python
 idx = fields_wells_buffer.index.unique()

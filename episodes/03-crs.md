@@ -32,7 +32,7 @@ where the raster is located in geographic space. It also tells the mapping
 software what method should be used to flatten or project the raster in
 geographic space.
 
-![Maps of the United States in different projections (Source: opennews.org)](https://media.opennews.org/cache/06/37/0637aa2541b31f526ad44f7cb2db7b6c.jpg)
+![Maps of the United States in different projections (Source: opennews.org)](https://media.opennews.org/cache/06/37/0637aa2541b31f526ad44f7cb2db7b6c.jpg){alt="US difference projections"}
 
 The above image shows maps of the United States in different projections. Notice
 the differences in shape associated with each projection. These differences are
