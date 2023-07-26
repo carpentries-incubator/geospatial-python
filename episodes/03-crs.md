@@ -83,7 +83,7 @@ peel is similar to how projections get made.
 
 A projection is how you peel your orange and then flatten the peel.
 
-![Projection Citrus Peel Example ([Image source](https://blogs.lincoln.ac.nz/gis/2017/03/29/where-on-earth-are-we/))](fig/E03-02-orange-peel-earth.jpg){alt="projection citrus peel"}
+![Projection Citrus Peel Example (Image from Prof Drika Geografia, Projeções Cartográficas)](fig/E03-02-orange-peel-earth.jpg){alt="projection citrus peel"}
 
 * An additional parameter could include a definition of the location of the
 stem of the fruit. What other parameters could be included in this analogy?
