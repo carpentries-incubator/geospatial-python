@@ -79,11 +79,11 @@ peel is similar to how projections get made.
 * A datum is the choice of fruit to use. Is the Earth an orange, a lemon, a
   lime, a grapefruit?
 
-![Datum Fruit Example ([Image source](https://github.com/MicheleTobias/R-Projections-Workshop))](fig/E03-01-citrus.jpg){alt="datum fruit example"}
+![Datum Fruit Example ([Image source](https://github.com/MicheleTobias/R-Projections-Workshop))](fig/E03/citrus.jpg){alt="datum fruit example"}
 
 A projection is how you peel your orange and then flatten the peel.
 
-![Projection Citrus Peel Example (Image from Prof Drika Geografia, Projeções Cartográficas)](fig/E03-02-orange-peel-earth.jpg){alt="projection citrus peel"}
+![Projection Citrus Peel Example (Image from Prof Drika Geografia, Projeções Cartográficas)](fig/E03/orange-peel-earth.jpg){alt="projection citrus peel"}
 
 * An additional parameter could include a definition of the location of the
 stem of the fruit. What other parameters could be included in this analogy?
