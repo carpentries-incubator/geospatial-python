@@ -62,16 +62,18 @@ a point. There are no line features shown.
 :::
 
 Vector data has some important advantages:
-  * The geometry itself contains information about what the dataset creator thought was important
-  * The geometry structures hold information in themselves - why choose point over polygon, for instance?
-  * Each geometry feature can carry multiple attributes instead of just one, e.g. a database of cities can have attributes for name, country, population, etc
-  * Data storage can be very efficient compared to rasters
+
+* The geometry itself contains information about what the dataset creator thought was important
+* The geometry structures hold information in themselves - why choose point over polygon, for instance?
+* Each geometry feature can carry multiple attributes instead of just one, e.g. a database of cities can have attributes for name, country, population, etc
+* Data storage can be very efficient compared to rasters
 
 The downsides of vector data include:
-  * Potential loss of detail compared to raster
-  * Potential bias in datasets - what didn't get recorded?
-  * Calculations involving multiple vector layers need to do math on the
-    geometry as well as the attributes, so can be slow compared to raster math.
+
+* Potential loss of detail compared to raster
+* Potential bias in datasets - what didn't get recorded?
+* Calculations involving multiple vector layers need to do math on the
+  geometry as well as the attributes, so can be slow compared to raster math.
 
 Vector datasets are in use in many industries besides geospatial fields. For
 instance, computer graphics are largely vector-based, although the data
