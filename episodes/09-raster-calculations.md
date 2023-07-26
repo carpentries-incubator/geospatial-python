@@ -34,7 +34,7 @@ where $NIR$ and $red$ label the reflectance values of the corresponding waveleng
 Values close to one indicate high density of green leaves. Poorly vegetated areas typically have NDVI values close to
 zero. Negative NDVI values often indicate cloud and water bodies.
 
-![PONE-NDVI Source: Wu C-D, McNeely E, Cedeño-Laurent JG, Pan W-C, Adamkiewicz G, Dominici F, et al. (2014) Linking Student Performance in Massachusetts Elementary Schools with the “Greenness” of School Surroundings Using Remote Sensing. PLoS ONE 9(10): e108548. https://doi.org/10.1371/journal.pone.0108548](../fig/E09-01-PONE-NDVI.jpg)
+![Source: Wu C-D, McNeely E, Cedeño-Laurent JG, Pan W-C, Adamkiewicz G, Dominici F, et al. (2014) Linking Student Performance in Massachusetts Elementary Schools with the “Greenness” of School Surroundings Using Remote Sensing. PLoS ONE 9(10): e108548. https://doi.org/10.1371/journal.pone.0108548](fig/E09/PONE-NDVI.jpg){alt="PONE-NDVI image"}
 
 :::callout
 ## More Resources
@@ -49,7 +49,7 @@ For this episode, we will use one of the Sentinel-2 scenes that we have already 
 ## Introduce the Data
 
 We'll continue from the results of the satellite image search that we have carried out in an exercise from
-[a previous episode]({{site.baseurl}}/05-access-data). We will load data starting from the `search.json` file.
+[a previous episode](05-access-data.md). We will load data starting from the `search.json` file.
 
 If you would like to work with the data for this lesson without downloading data on-the-fly, you can download the
 raster data using this [link](https://figshare.com/ndownloader/files/36028100). Save the `geospatial-python-raster-dataset.tar.gz`
@@ -66,11 +66,11 @@ items = pystac.ItemCollection.from_file("search.json")
 ```
 
 
-We then select the second item, and extract the URIs of the red and NIR bands ("B04" and "B8A", respectively):
+We then select the second item, and extract the URIs of the red and NIR bands ("red" and "nir08", respectively):
 
 ```python
-red_uri = items[1].assets["B04"].href
-nir_uri = items[1].assets["B8A"].href
+red_uri = items[1].assets["red"].href
+nir_uri = items[1].assets["nir08"].href
 ```
 
 Let's load the rasters with `open_rasterio` using the argument `masked=True`.
@@ -97,13 +97,13 @@ the data, which results in clearer distinctions between high and low reflectance
 red_clip.plot(robust=True)
 ```
 
-![red-band](../fig/E09-02-red-band.png)
+![](fig/E09/red-band.png){alt="red band image"}
 
 ```python
 nir_clip.plot(robust=True)
 ```
 
-![NIR-band](../fig/E09-03-NIR-band.png)
+![](fig/E09/NIR-band.png){alt="near infra-red band image"}
 
 It is immediately evident how crop fields (rectangular shapes in the central part of the two figures) appear as dark and
 bright spots in the red-visible and NIR wavelengths, respectively, suggesting the presence of leafy crop at the time of
@@ -173,7 +173,7 @@ We can now plot the output NDVI:
 ndvi.plot()
 ```
 
-![NDVI-map](../fig/E09-04-NDVI-map.png)
+![](fig/E09/NDVI-map.png){alt="NDVI map"}
 
 Notice that the range of values for the output NDVI is between -1 and 1.
 Does this make sense for the selected region?
@@ -184,7 +184,7 @@ Maps are great, but it can also be informative to plot histograms of values to b
 ndvi.plot.hist()
 ```
 
-![NDVI-hist](../fig/E09-05-NDVI-hist.png)
+![](fig/E09/NDVI-hist.png){alt="NDVI histogram"}
 
 :::challenge
 ## Exercise: Explore NDVI Raster Values
@@ -197,7 +197,7 @@ It's often a good idea to explore the range of values in a raster dataset just l
 
 ::::solution
 
-1) Recall, if there were nodata values in our raster,
+1. Recall, if there were nodata values in our raster,
 we would need to filter them out with `.where()`. Since we have loaded the rasters with `masked=True`, missing
 values are already encoded as `np.nan`'s. The `ndvi` array actually includes a single missing value.
 ```python
@@ -212,14 +212,15 @@ print(ndvi.isnull().sum().values)
 1
 ```
 
-2) Increasing the number of bins gives us a much clearer view of the distribution. Also, there seem to be very few
+2. Increasing the number of bins gives us a much clearer view of the distribution. Also, there seem to be very few
 NDVI values larger than ~0.9.
 ```python
 ndvi.plot.hist(bins=50)
 ```
 
-![NDVI-hist-bins](../fig/E09-06-NDVI-hist-bins.png)
-3) We can discretize the color bar by specifying the intervals via the `levels` argument to `plot()`.
+![](fig/E09/NDVI-hist-bins.png){alt="NDVI histogram with 50 bins"}
+
+3. We can discretize the color bar by specifying the intervals via the `levels` argument to `plot()`.
 Suppose we want to bin our data in the following intervals:
 * $-1 \le NDVI \lt 0$ for water;
 * $0 \le NDVI \lt 0.2$ for no vegetation;
@@ -231,7 +232,7 @@ class_bins = (-1, 0., 0.2, 0.7, 1)
 ndvi.plot(levels=class_bins)
 ```
 
-![NDVI-map-binned](../fig/E09-07-NDVI-map-binned.png)
+![](fig/E09/NDVI-map-binned.png){alt="binned NDVI map"}
 ::::
 :::
 
@@ -254,7 +255,7 @@ First, we define NDVI classes based on a list of values, as defined in the last 
 `[-1, 0., 0.2, 0.7, 1]`. When bins are ordered from
 low to high, as here, `numpy.digitize` assigns classes like so:
 
-![NDVI-classes Source: Image created for this lesson ([license]({{ page.root }}{% link LICENSE.md %}))](../fig/E09-08-NDVI-classes.jpg)
+![Source: Image created for this lesson ([license](../LICENSE.md))](fig/E09/NDVI-classes.jpg){alt="NDVI classes"}
 
 
 Note that, by default, each class includes the left but not the right bound. This is not an issue here, since the
@@ -313,7 +314,7 @@ ep.draw_legend(im_ax=im, classes=category_indices, titles=category_names)
 plt.savefig("NDVI_classified.png", bbox_inches="tight", dpi=300)
 ```
 
-![NDVI-classified](../fig/E09-09-NDVI-classified.png)
+![](fig/E09/NDVI-classified.png){alt="classified NDVI map"}
 
 We can finally export the classified NDVI raster object to a GeoTiff file. The `to_raster()` function
 by default writes the output file to your working directory unless you specify a
@@ -360,7 +361,7 @@ ndvi_texel.plot()
 ndvi_texel.rio.to_raster("NDVI_Texel.tif")
 ```
 
-![NDVI-map-Texel](../fig/E09-10-NDVI-map-Texel.png)
+![](fig/E09/NDVI-map-Texel.png){alt="NDVI map Texel"}
 
 4) Compute the NDVI histogram and compare it with the region that we have previously investigated. Many more grid
 cells have negative NDVI values, since the area of interest includes much more water. Also, NDVI values close to
@@ -369,7 +370,7 @@ zero are more abundant, indicating the presence of bare ground (sand) regions.
 ndvi_texel.plot.hist(bins=50)
 ```
 
-![NDVI-hist-Texel](../fig/E09-11-NDVI-hist-Texel.png)
+![](fig/E09/NDVI-hist-Texel.png){alt="NDVI histogram Texel"}
 
 ::::
 :::
