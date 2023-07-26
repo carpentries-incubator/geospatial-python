@@ -83,7 +83,7 @@ If you run into any difficulties, please request help before the workshop begins
   ```
   and press "Tab" to autocomplete the full file name. The name of file you just downloaded should appear.
 
-5. Press "Enter" (or "Return" depending on your keyboard). 
+5. Press "Enter" (or "Return" depending on your keyboard).
 
 6. Follow the text-only prompts.  When the license agreement appears (a colon will be present at the bottom of the screen) press "Spacebar" until you see the bottom of the text. Type `yes` and press "Enter" to approve the license. Press "Enter" again to approve the default location for the files. Type `yes` and press "Enter" to prepend Anaconda to your `PATH` (this makes the Anaconda distribution your user's default Python).
 
@@ -94,7 +94,7 @@ If you run into any difficulties, please request help before the workshop begins
 
 ### Setting up the workshop environment
 
-If Anaconda was properly installed, you should have access to the `conda` 
+If Anaconda was properly installed, you should have access to the `conda`
 command in your terminal (use the **Anaconda prompt** on **Windows**).
 
 1. Test that `conda` is correctly installed by typing:
@@ -131,8 +131,8 @@ command in your terminal (use the **Anaconda prompt** on **Windows**).
   ```shell
   conda activate geospatial
   ```
-  
-If successful, the text `(base)` in your terminal prompt will now read 
+
+If successful, the text `(base)` in your terminal prompt will now read
 `(geospatial)` indicating that you are now in the Anaconda virtual environment
 named `geospatial`. The command `which python` should confirm that we're using
 the Python installation in the `geospatial` virtual environment. For example:
@@ -144,17 +144,17 @@ the Python installation in the `geospatial` virtual environment. For example:
 ```
 IMPORTANT: If you close the terminal, you will need to reactivate this
 environment with `conda activate geospatial` to use the Python libraries
-required for the lesson and to start JupyterLab, which is also installed in the 
+required for the lesson and to start JupyterLab, which is also installed in the
 `geospatial` environment.
 
 ### Starting JupyterLab
 
 In order to follow the lesson, you should launch JupyterLab. After activating the
-geospatial conda environment, enter the following command in your terminal (use the **Anaconda prompt** on **Windows**): 
+geospatial conda environment, enter the following command in your terminal (use the **Anaconda prompt** on **Windows**):
 ```shell
 jupyter lab
 ```
-  
+
 Once you have launched JupyterLab, create a new Python 3 notebook, type the following code snippet in a cell and press the "Play" button:
 ```python
 import rioxarray
@@ -193,7 +193,7 @@ If all of the steps above completed successfully you are ready to follow along w
 [anaconda]: https://www.anaconda.com/
 [anaconda-mac]: https://www.anaconda.com/download/#macos
 [anaconda-linux]: https://www.anaconda.com/download/#linux
-[anaconda-windows]: hhttps://www.anaconda.com/download/#windows
+[anaconda-windows]: https://www.anaconda.com/download/#windows
 [python]: https://python.org
 [video-mac]: https://www.youtube.com/watch?v=TcSAln46u9U
 [video-windows]: https://www.youtube.com/watch?v=xxQ0mzZ8UvA
