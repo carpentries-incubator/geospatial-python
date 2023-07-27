@@ -78,10 +78,12 @@ If you run into any difficulties, please request help before the workshop begins
 3. Open a terminal window and navigate to the directory where the executable is downloaded (e.g., `cd ~/Downloads`).
 
 4. Type:
-  ```shell
-  bash Anaconda3-
-  ```
-  and press "Tab" to autocomplete the full file name. The name of file you just downloaded should appear.
+
+   ```bash
+   bash Anaconda3-
+   ```
+
+   and press "Tab" to autocomplete the full file name. The name of file you just downloaded should appear.
 
 5. Press "Enter" (or "Return" depending on your keyboard).
 
@@ -98,50 +100,62 @@ If Anaconda was properly installed, you should have access to the `conda`
 command in your terminal (use the **Anaconda prompt** on **Windows**).
 
 1. Test that `conda` is correctly installed by typing:
-  ```shell
-  conda --version
-  ```
-  which should print the version of conda that is currently installed, e.g. :
-  ```output
-  conda 22.9.0
-  ```
+
+   ```bash
+   conda --version
+   ```
+
+   which should print the version of conda that is currently installed, e.g. :
+
+   ```output
+   conda 22.9.0
+   ```
 
 2. Run the following command:
-  ```shell
-  conda install -c conda-forge mamba
-  ```
-  IMPORTANT: If your terminal responds to the above command with `conda: command not found` see the > <<troubleshooting>> section.
+
+   ```bash
+   conda install -c conda-forge mamba
+   ```
+
+   IMPORTANT: If your terminal responds to the above command with `conda: command not found` see the > <<troubleshooting>> section.
 
 3. Create the Python environment for the workshop by running:
-  ```shell
-  mamba env create -n geospatial -f https://carpentries-incubator.github.io/geospatial-python/files/environment.yaml
-  ```
-  Note that this step can take several minutes.
+
+   ```bash
+   mamba env create -n geospatial -f https://carpentries-incubator.github.io/geospatial-python/files/environment.yaml
+   ```
+
+   Note that this step can take several minutes.
 
 4. When installation has finished you should see the following message in the terminal:
-  ```output
-  # To activate this environment, use
-  #    $ conda activate geospatial
-  #
-  # To deactivate an active environment, use
-  #    $ conda deactivate
-  ```
+
+   ```output
+   # To activate this environment, use
+   #    $ conda activate geospatial
+   #
+   # To deactivate an active environment, use
+   #    $ conda deactivate
+   ```
 
 5. Activate the `geospatial` environment:
-  ```shell
-  conda activate geospatial
-  ```
+
+   ```bash
+   conda activate geospatial
+   ```
 
 If successful, the text `(base)` in your terminal prompt will now read
 `(geospatial)` indicating that you are now in the Anaconda virtual environment
 named `geospatial`. The command `which python` should confirm that we're using
 the Python installation in the `geospatial` virtual environment. For example:
 
-```output
-% which python
-> /Users/your-username/anaconda3/envs/geospatial/bin/python
-                                      ^^^^^^^^^^
+```bash
+which python
 ```
+
+```output
+/Users/your-username/anaconda3/envs/geospatial/bin/python
+```
+
 IMPORTANT: If you close the terminal, you will need to reactivate this
 environment with `conda activate geospatial` to use the Python libraries
 required for the lesson and to start JupyterLab, which is also installed in the
@@ -151,43 +165,49 @@ required for the lesson and to start JupyterLab, which is also installed in the
 
 In order to follow the lesson, you should launch JupyterLab. After activating the
 geospatial conda environment, enter the following command in your terminal (use the **Anaconda prompt** on **Windows**):
-```shell
+
+```bash
 jupyter lab
 ```
 
 Once you have launched JupyterLab, create a new Python 3 notebook, type the following code snippet in a cell and press the "Play" button:
+
 ```python
 import rioxarray
 ```
 
-If all of the steps above completed successfully you are ready to follow along with the lesson!
+If all the steps above completed successfully you are ready to follow along with the lesson!
 
 ### Troubleshooting `conda: command not found`
+
 * **Mac OS and Linux users:**
 
-1. First, find out where Anaconda is installed.
+  1. First, find out where Anaconda is installed.
 
-    The typical install location is in your `$HOME` directory (i.e., `/Users/your-username/`) so use `ls ~` to check whether an `anaconda3` directory is present in your home directory:
+     The typical install location is in your `$HOME` directory (i.e., `/Users/your-username/`) so use `ls ~` to check whether an `anaconda3` directory is present in your home directory:
 
-    ```shell
-    % ls ~
-    > Applications      Downloads       Pictures
-      anaconda3         Library         Public
-      Desktop           Movies
-      Documents         Music
-    ```
+     ```bash
+     ls ~
+     ```
 
-    If, like above, you see a directory called `anaconda3` in the output we're in good shape. If not, **contact the instructor for help**.
+     ```output
+     Applications      Downloads       Pictures
+     anaconda3         Library         Public
+     Desktop           Movies
+     Documents         Music
+     ```
 
-2. Activate the `conda` command-line program by entering the following command:
+     If, like above, you see a directory called `anaconda3` in the output we're in good shape. If not, **contact the instructor for help**.
 
-    ```bash
-    source ~/anaconda3/bin/activate
-    ```
-    If all goes well, nothing will print to the terminal and your prompt will now have `(base)` floating around somewhere
-    on the left. This is an indication that you are in the base Anaconda environment.
+  2. Activate the `conda` command-line program by entering the following command:
 
-    Continue from the beginning of step 3 to complete the creation of the `geospatial` virtual environment.
+     ```bash
+     source ~/anaconda3/bin/activate
+     ```
+     If all goes well, nothing will print to the terminal and your prompt will now have `(base)` floating around somewhere
+     on the left. This is an indication that you are in the base Anaconda environment.
+
+     Continue from the beginning of step 3 to complete the creation of the `geospatial` virtual environment.
 
 
 [anaconda]: https://www.anaconda.com/
