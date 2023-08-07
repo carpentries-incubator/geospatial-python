@@ -436,9 +436,9 @@ waterways_nl.to_file('waterways_nl_corrected.shp')
 - Load spatial objects into Python with `geopandas.read_file()` function.
 - Spatial objects can be plotted directly with `GeoDataFrame`'s `.plot()` method.
 - Crop spatial objects with `.cx[]` indexer.
-- Convert CRS of spatial objects with `.to_crs().`
+- Convert CRS of spatial objects with `.to_crs()`.
 - Select spatial features with `.clip()`.
 - Create a buffer of spatial objects with `.buffer()`.
 - Merge overlapping spatial objects with `.dissolve()`.
-- Join spatial features spatially with `.sjoin()`
+- Join spatial features spatially with `.sjoin()`.
 :::
