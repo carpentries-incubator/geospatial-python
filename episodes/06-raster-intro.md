@@ -41,7 +41,7 @@ to work with the data in a different GIS.
 :::
 
 ## Load a Raster and View Attributes
-In the previous episode, we searched for Sentinel-2 images, and then saved the search results to a file:`search.json`. This contains the information on where and how to access the target images from a remote repository. We can use the function `pystac.ItemCollection.from_file()` to load the search results as an `Item` list.
+In the previous episode, we searched for Sentinel-2 images, and then saved the search results to a file: `search.json`. This contains the information on where and how to access the target images from a remote repository. We can use the function `pystac.ItemCollection.from_file()` to load the search results as an `Item` list.
 
 
 ```python
