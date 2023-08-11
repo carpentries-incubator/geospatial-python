@@ -157,7 +157,7 @@ raster_ams_b9.plot(vmin=100, vmax=7000)
 
 ## View Raster Coordinate Reference System (CRS) in Python
 Another information that we're interested in is the CRS, and it can be accessed with `.rio.crs`. We introduced the concept of a CRS in [an earlier
-episode]({{ page.root }}{% link _episodes/03-crs.md %}).
+episode]({{ page.root }}{% link episodes/03-crs.md %}).
 Now we will see how features of the CRS appear in our data file and what
 meanings they have. We can view the CRS string associated with our DataArray's `rio` object using the `crs`
 attribute.
