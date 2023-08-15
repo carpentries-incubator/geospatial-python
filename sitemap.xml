@@ -43,6 +43,12 @@
     <loc>https://carpentries-incubator.github.io/geospatial-python/LICENSE.html</loc>
   </url>
   <url>
+    <loc>https://carpentries-incubator.github.io/geospatial-python/aio.html</loc>
+  </url>
+  <url>
+    <loc>https://carpentries-incubator.github.io/geospatial-python/images.html</loc>
+  </url>
+  <url>
     <loc>https://carpentries-incubator.github.io/geospatial-python/index.html</loc>
   </url>
   <url>
@@ -88,10 +94,28 @@
     <loc>https://carpentries-incubator.github.io/geospatial-python/instructor/LICENSE.html</loc>
   </url>
   <url>
+    <loc>https://carpentries-incubator.github.io/geospatial-python/instructor/aio.html</loc>
+  </url>
+  <url>
+    <loc>https://carpentries-incubator.github.io/geospatial-python/instructor/images.html</loc>
+  </url>
+  <url>
     <loc>https://carpentries-incubator.github.io/geospatial-python/instructor/index.html</loc>
   </url>
   <url>
+    <loc>https://carpentries-incubator.github.io/geospatial-python/instructor/instructor-notes.html</loc>
+  </url>
+  <url>
+    <loc>https://carpentries-incubator.github.io/geospatial-python/instructor/key-points.html</loc>
+  </url>
+  <url>
     <loc>https://carpentries-incubator.github.io/geospatial-python/instructor/profiles.html</loc>
+  </url>
+  <url>
+    <loc>https://carpentries-incubator.github.io/geospatial-python/instructor-notes.html</loc>
+  </url>
+  <url>
+    <loc>https://carpentries-incubator.github.io/geospatial-python/key-points.html</loc>
   </url>
   <url>
     <loc>https://carpentries-incubator.github.io/geospatial-python/profiles.html</loc>
