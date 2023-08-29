@@ -305,7 +305,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Access satellite imagery using Python</h1>
-        <p> Last updated on 2023-08-14 | 
+        <p> Last updated on 2023-08-29 | 
         
         <a href="https://github.com/carpentries-incubator/geospatial-python/edit/main/episodes/05-access-data.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -895,11 +895,12 @@ the linked assets are available only for registered users (the thumbnail
 is publicly accessible).</p>
 <p>The authentication procedure for dataset with restricted access might
 differ depending on the data provider. For the NASA CMR, follow these
-steps in order to access data using Python: * Create a NASA Earthdata
-login account <a href="https://urs.earthdata.nasa.gov" class="external-link">here</a>; * Set
-up a netrc file with your credentials, e.g. by using <a href="https://git.earthdata.nasa.gov/projects/LPDUR/repos/daac_data_download_python/browse/EarthdataLoginSetup.py" class="external-link">this
-script</a>; * Define the following environment variables:</p>
-<div class="codewrapper sourceCode" id="cb35">
+steps in order to access data using Python:</p>
+<ul><li>Create a NASA Earthdata login account <a href="https://urs.earthdata.nasa.gov" class="external-link">here</a>;</li>
+<li>Set up a netrc file with your credentials, e.g. by using <a href="https://git.earthdata.nasa.gov/projects/LPDUR/repos/daac_data_download_python/browse/EarthdataLoginSetup.py" class="external-link">this
+script</a>;</li>
+<li>Define the following environment variables:</li>
+</ul><div class="codewrapper sourceCode" id="cb35">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
@@ -909,11 +910,24 @@ script</a>; * Define the following environment variables:</p>
 </div>
 </div>
 </div>
-<p>:::keypoints - Accessing satellite images via the providers’ API
-enables a more reliable and scalable data retrieval. - STAC catalogs can
-be browsed and searched using the same tools and scripts. -
+<div id="keypoints1" class="callout keypoints">
+<div class="callout-square">
+<i class="callout-icon" data-feather="key"></i>
+</div>
+<div class="callout-inner">
+<h3 class="callout-title">Keypoints<a class="anchor" aria-label="anchor" href="#keypoints1"></a>
+</h3>
+<div class="callout-content">
+<ul><li>Accessing satellite images via the providers’ API enables a more
+reliable and scalable data retrieval.</li>
+<li>STAC catalogs can be browsed and searched using the same tools and
+scripts.</li>
+<li>
 <code>rioxarray</code> allows you to open and download remote raster
-files. :::</p>
+files.</li>
+</ul></div>
+</div>
+</div>
 <!--
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
@@ -970,8 +984,8 @@ any links that you are not going to use.
   "creativeWorkStatus": "active",
   "url": "https://carpentries-incubator.github.io/geospatial-python/instructor/05-access-data.html",
   "identifier": "https://carpentries-incubator.github.io/geospatial-python/instructor/05-access-data.html",
-  "dateCreated": "2023-08-23",
-  "dateModified": "2023-08-14",
+  "dateCreated": "2023-08-29",
+  "dateModified": "2023-08-29",
   "datePublished": "2023-08-29"
 }
 
