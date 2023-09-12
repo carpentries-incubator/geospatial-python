@@ -117,7 +117,7 @@ command in your terminal (use the **Anaconda prompt** on **Windows**).
    conda install -c conda-forge mamba
    ```
 
-   IMPORTANT: If your terminal responds to the above command with `conda: command not found` see the > <<troubleshooting>> section.
+   IMPORTANT: If your terminal responds to the above command with `conda: command not found` see the [Troubleshooting section](index.md#troubleshooting-conda-command-not-found).
 
 3. Create the Python environment for the workshop by running:
 
