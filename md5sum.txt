@@ -17,5 +17,5 @@
 "episodes/11-parallel-raster-computations.md" "abf3942aef90750228d659914a8fec70" "site/built/11-parallel-raster-computations.md" "2023-08-14"
 "files/environment.yaml" "aeed75d926b8bbe92172b2793786e6cf" "site/built/environment.yaml" "2023-08-14"
 "instructors/instructor-notes.md" "1b1cbfc8fff44565421842208ccdab4f" "site/built/instructor-notes.md" "2023-08-14"
-"learners/setup.md" "15017805856a8c25f1f16359aaf5523c" "site/built/setup.md" "2023-08-14"
+"learners/setup.md" "c745c17a4c788f96e73345d3b0f5079d" "site/built/setup.md" "2023-09-28"
 "profiles/learner-profiles.md" "ab92fe3511bf951857b47c0ecbf2ab79" "site/built/learner-profiles.md" "2023-08-14"
