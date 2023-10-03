@@ -122,7 +122,7 @@ command in your terminal (use the **Anaconda prompt** on **Windows**).
 3. Create the Python environment for the workshop by running:
 
    ```bash
-   mamba env create -n geospatial -f https://carpentries-incubator.github.io/geospatial-python/files/environment.yaml
+   mamba env create -n geospatial -f https://raw.githubusercontent.com/carpentries-incubator/geospatial-python/main/files/environment.yaml
    ```
 
    Note that this step can take several minutes.
