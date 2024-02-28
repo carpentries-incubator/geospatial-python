@@ -19,12 +19,11 @@ Note, that the analyses presented in this lesson are developed for educational p
 
 ## Python libraries used in this lesson
 The main python libraries that are used in this lesson are:
-
-    **geopandas**
-    **rioxarray**
-    **xarray-spatial**
-    **dask**
-    **pystac**
+- [geopandas](https://geopandas.org/en/stable/)
+- [rioxarray](https://github.com/corteva/rioxarray)
+- [xarray-spatial](https://xarray-spatial.org/)
+- [dask](https://www.dask.org/)
+- [pystac](https://pystac.readthedocs.io/en/stable/)
 
 [sentinel-2]: https://sentinel.esa.int/web/sentinel/missions/sentinel-2
 [osm]: https://www.openstreetmap.org/#map=14/45.2935/18.7986
