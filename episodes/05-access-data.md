@@ -39,7 +39,7 @@ new images.
 Current sensor resolutions and satellite revisit periods are such that terabytes of data products are added daily to the
 corresponding collections. Such datasets cannot be made accessible to users via full-catalog download. Space agencies
 and other data providers often offer access to their data catalogs through interactive Graphical User Interfaces (GUIs),
-see for instance the [Copernicus Open Access Hub portal](https://scihub.copernicus.eu/dhus/#/home) for the Sentinel
+see for instance the [Copernicus Browser](https://browser.dataspace.copernicus.eu) for the Sentinel
 missions. Accessing data via a GUI is a nice way to explore a catalog and get familiar with its content, but it
 represents a heavy and error-prone task that should be avoided if carried out systematically to retrieve data.
 
@@ -81,7 +81,10 @@ and the list of assets. What kind of data do the assets represent?
 
 ![Views of the Earth Search STAC endpoint](fig/E05/STAC-browser-exercise.jpg){alt="earth-search stac catalog views"}
 
-1. 7 subcatalogs are available, including a catalog for Landsat Collection 2, Level-2 and Sentinel-2 Level 2A (see left screenshot in the figure above).
+1. 7 sub-catalogs are available. In the STAC nomenclature, these are actually "collections", i.e. catalogs with
+additional information about the elements they list: spatial and temporal extents, license, providers, etc.
+Among the available collections, we have Landsat Collection 2, Level-2 and Sentinel-2 Level 2A (see left screenshot in
+the figure above).
 2. When you select the Sentinel-2 Level 2A collection, and randomly choose one of the items from the list, you
 should find yourself on a page similar to the right screenshot in the figure above. On the left side you will find
 a list of the available assets: overview images (thumbnail and true color images), metadata files and the "real"
@@ -128,35 +131,68 @@ by a high-resolution raster can directly access the lower-resolution versions of
 on the downloading time. More information on the COG format can be found [here](https://www.cogeo.org).
 :::
 
-We also ask for scenes intersecting a geometry defined using the `shapely` library (in this case, a point):
+We also ask for scenes intersecting a geometry (in this case, a point). In Python, geometrical objects are typically
+defined using the `shapely` library:
 
 ```python
 from shapely.geometry import Point
-point = Point(4.89, 52.37)  # AMS coordinates
+point = Point(27.95, 36.20)  # Coordinates of a point on Rhodes
 ```
 
-Note: at this stage, we are only dealing with metadata, so no image is going to be downloaded yet. But even metadata can
-be quite bulky if a large number of scenes match our search! For this reason, we limit the search result to 10 items:
+We now can set up our search of satellite images in the following way:
 
 ```python
 search = client.search(
     collections=[collection],
     intersects=point,
-    max_items=10,
 )
 ```
 
-We submit the query and find out how many scenes match our search criteria (please note that this output can be different as more data is added to the catalog):
+We submit the query and find out how many scenes match our search criteria (please note that this output can be
+different as more data is added to the catalog):
 
 ```python
 print(search.matched())
 ```
 
 ```output
-840
+513
 ```
 
-Finally, we retrieve the metadata of the search results:
+More than 500 scenes match our search criteria. Note that we are only dealing with metadata, so no image is going to be
+downloaded yet. But even metadata can be quite bulky. In the following exercise, we discover how to add a time filter to
+our search criteria to narrow down our search to a smaller number of scenes.
+
+:::challenge
+## Exercise: Search satellite scenes with a time filter
+
+Add a time filter to the search in order to select the only scenes recorded between 1 July and 31 August 2023, which is
+a time span of approximately 2 weeks around the dates in which wildfires raged on the island of Rhodes. You can
+find the input argument and the required syntax in the documentation of `client.search` (which you can access from
+Python or [online](https://pystac-client.readthedocs.io/en/stable/api.html#pystac_client.Client.search)). How many
+scenes do now match our search?
+
+::::solution
+
+```python
+search = client.search(
+    collections=[collection],
+    intersects=point,
+    datetime='2023-07-01/2023-08-31',
+)
+print(search.matched())
+```
+
+```output
+12
+```
+
+12 scenes should satisfy the search criteria.
+::::
+:::
+
+
+Once we have added a time filter, we retrieve the metadata of the search results:
 
 ```python
 items = search.item_collection()
@@ -169,11 +205,11 @@ print(len(items))
 ```
 
 ```output
-10
+12
 ```
 
-which is consistent with the maximum number of items that we have set in the search criteria. We can iterate over
-the returned items and print these to show their IDs:
+which is consistent with the number of scenes matching our search results as found with `search.matched()`. We can
+iterate over the returned items and print these to show their IDs:
 
 ```python
 for item in items:
@@ -181,16 +217,18 @@ for item in items:
 ```
 
 ```output
-<Item id=S2A_31UFU_20230701_0_L2A>
-<Item id=S2B_31UFU_20230629_0_L2A>
-<Item id=S2B_31UFU_20230626_0_L2A>
-<Item id=S2A_31UFU_20230624_0_L2A>
-<Item id=S2A_31UFU_20230621_0_L2A>
-<Item id=S2B_31UFU_20230616_0_L2A>
-<Item id=S2A_31UFU_20230614_0_L2A>
-<Item id=S2A_31UFU_20230611_0_L2A>
-<Item id=S2B_31UFU_20230609_0_L2A>
-<Item id=S2B_31UFU_20230606_0_L2A>
+<Item id=S2A_35SNA_20230827_0_L2A>
+<Item id=S2B_35SNA_20230822_0_L2A>
+<Item id=S2A_35SNA_20230817_0_L2A>
+<Item id=S2B_35SNA_20230812_0_L2A>
+<Item id=S2A_35SNA_20230807_0_L2A>
+<Item id=S2B_35SNA_20230802_0_L2A>
+<Item id=S2A_35SNA_20230728_0_L2A>
+<Item id=S2B_35SNA_20230723_0_L2A>
+<Item id=S2A_35SNA_20230718_0_L2A>
+<Item id=S2B_35SNA_20230713_0_L2A>
+<Item id=S2A_35SNA_20230708_0_L2A>
+<Item id=S2B_35SNA_20230703_0_L2A>
 ```
 
 Each of the items contains information about the scene geometry, its acquisition time, and other metadata that can be
@@ -205,54 +243,58 @@ print(item.properties)
 ```
 
 ```output
-2023-07-01 10:46:30.262000+00:00
-{'type': 'Polygon', 'coordinates': [[[5.233744523520149, 53.228684673408296], [6.141754296879459, 53.20819279121764], [6.071664488869862, 52.22257539160585], [4.80943323800081, 52.2486879358387], [5.233744523520149, 53.228684673408296]]]}
-{'created': '2023-07-02T01:49:17.191Z', 'platform': 'sentinel-2a', 'constellation': 'sentinel-2', 'instruments': ['msi'], 'eo:cloud_cover': 99.952936, 'proj:epsg': 32631, 'mgrs:utm_zone': 31, 'mgrs:latitude_band': 'U', 'mgrs:grid_square': 'FU', 'grid:code': 'MGRS-31UFU', 'view:sun_azimuth': 154.716674921261, 'view:sun_elevation': 58.4960054056685, 's2:degraded_msi_data_percentage': 0.0346, 's2:nodata_pixel_percentage': 33.00232, 's2:saturated_defective_pixel_percentage': 0, 's2:dark_features_percentage': 0, 's2:cloud_shadow_percentage': 0.030847, 's2:vegetation_percentage': 0, 's2:not_vegetated_percentage': 0.004947, 's2:water_percentage': 0.011271, 's2:unclassified_percentage': 0, 's2:medium_proba_clouds_percentage': 5.838514, 's2:high_proba_clouds_percentage': 94.035202, 's2:thin_cirrus_percentage': 0.07922, 's2:snow_ice_percentage': 0, 's2:product_type': 'S2MSI2A', 's2:processing_baseline': '05.09', 's2:product_uri': 'S2A_MSIL2A_20230701T103631_N0509_R008_T31UFU_20230701T200058.SAFE', 's2:generation_time': '2023-07-01T20:00:58.000000Z', 's2:datatake_id': 'GS2A_20230701T103631_041904_N05.09', 's2:datatake_type': 'INS-NOBS', 's2:datastrip_id': 'S2A_OPER_MSI_L2A_DS_2APS_20230701T200058_S20230701T104159_N05.09', 's2:granule_id': 'S2A_OPER_MSI_L2A_TL_2APS_20230701T200058_A041904_T31UFU_N05.09', 's2:reflectance_conversion_factor': 0.967641353116838, 'datetime': '2023-07-01T10:46:30.262000Z', 's2:sequence': '0', 'earthsearch:s3_path': 's3://sentinel-cogs/sentinel-s2-l2a-cogs/31/U/FU/2023/7/S2A_31UFU_20230701_0_L2A', 'earthsearch:payload_id': 'roda-sentinel2/workflow-sentinel2-to-stac/7b1a81ed3fb8d763a0cecf8d9edd4d4a', 'earthsearch:boa_offset_applied': True, 'processing:software': {'sentinel2-to-stac': '0.1.0'}, 'updated': '2023-07-02T01:49:17.191Z'}
+2023-07-03 09:00:20.838000+00:00
+{'type': 'Polygon', 'coordinates': [[[27.300972793493344, 37.046192287628024], [28.234426643135546, 37.04015200857309], [28.21878905911668, 36.05053734221328], [27.0215827618405, 36.056731037977386], [27.244605547808312, 36.843576366095995], [27.300972793493344, 37.046192287628024]]]}
+{'created': '2023-07-03T16:57:15.486Z', 'platform': 'sentinel-2b', 'constellation': 'sentinel-2', 'instruments': ['msi'], 'eo:cloud_cover': 1.351987, 'proj:epsg': 32635, 'mgrs:utm_zone': 35, 'mgrs:latitude_band': 'S', 'mgrs:grid_square': 'NA', 'grid:code': 'MGRS-35SNA', 'view:sun_azimuth': 125.524648568983, 'view:sun_elevation': 69.1288988657908, 's2:degraded_msi_data_percentage': 0.0167, 's2:nodata_pixel_percentage': 12.999658, 's2:saturated_defective_pixel_percentage': 0, 's2:dark_features_percentage': 0.094058, 's2:cloud_shadow_percentage': 0.088758, 's2:vegetation_percentage': 7.767729, 's2:not_vegetated_percentage': 16.054803, 's2:water_percentage': 74.22775, 's2:unclassified_percentage': 0.414911, 's2:medium_proba_clouds_percentage': 0.98449, 's2:high_proba_clouds_percentage': 0.367413, 's2:thin_cirrus_percentage': 8.4e-05, 's2:snow_ice_percentage': 0, 's2:product_type': 'S2MSI2A', 's2:processing_baseline': '05.09', 's2:product_uri': 'S2B_MSIL2A_20230703T084609_N0509_R107_T35SNA_20230703T102441.SAFE', 's2:generation_time': '2023-07-03T10:24:41.000000Z', 's2:datatake_id': 'GS2B_20230703T084609_033023_N05.09', 's2:datatake_type': 'INS-NOBS', 's2:datastrip_id': 'S2B_OPER_MSI_L2A_DS_2BPS_20230703T102441_S20230703T084950_N05.09', 's2:granule_id': 'S2B_OPER_MSI_L2A_TL_2BPS_20230703T102441_A033023_T35SNA_N05.09', 's2:reflectance_conversion_factor': 0.967519239159557, 'datetime': '2023-07-03T09:00:20.838000Z', 's2:sequence': '0', 'earthsearch:s3_path': 's3://sentinel-cogs/sentinel-s2-l2a-cogs/35/S/NA/2023/7/S2B_35SNA_20230703_0_L2A', 'earthsearch:payload_id': 'roda-sentinel2/workflow-sentinel2-to-stac/4dbbbb414545d092e8640951d027dff4', 'earthsearch:boa_offset_applied': True, 'processing:software': {'sentinel2-to-stac': '0.1.0'}, 'updated': '2023-07-03T16:57:15.486Z'}
 ```
 
 :::challenge
 ## Exercise: Search satellite scenes using metadata filters
-Search for all the available Sentinel-2 scenes in the `sentinel-2-l2a` collection that satisfy the following
-criteria:
-- intersect a provided bounding box (use ±0.01 deg in lat/lon from the previously defined point);
-- have been recorded between 20 March 2020 and 30 March 2020;
-- have a cloud coverage smaller than 10% (hint: use the `query` input argument of `client.search`).
 
-How many scenes are available? Save the search results in GeoJSON format.
+Let's add a filter on the cloud cover to select the only scenes with less than 1% cloud coverage. How many scenes do now
+match our search?
+
+Hint: generic metadata filters can be implemented via the `query` input argument of `client.search`, which requires the
+following syntax (see [docs](https://pystac-client.readthedocs.io/en/stable/usage.html#query-extension)):
+`query=['<property><operator><value>']`.
 
 ::::solution
-```python
-bbox = point.buffer(0.01).bounds
-```
 
 ```python
 search = client.search(
     collections=[collection],
-    bbox=bbox,
-    datetime="2020-03-20/2020-03-30",
-    query=["eo:cloud_cover<15"]
+    intersects=point,
+    datetime='2023-07-01/2023-08-31',
+    query=['eo:cloud_cover<1']
 )
 print(search.matched())
 ```
 
 ```output
-4
+11
 ```
+
+::::
+:::
+
+Once we are happy with our search, we save the search results in a file:
 
 ```python
 items = search.item_collection()
-items.save_object("search.json")
+items.save_object("rhodes_sentinel-2.json")
 ```
-::::
-:::
+
+This creates a file in GeoJSON format, which we will reuse here and in the next episodes.
 
 ## Access the assets
 
 So far we have only discussed metadata - but how can one get to the actual images of a satellite scene (the "assets" in
 the STAC nomenclature)? These can be reached via links that are made available through the item's attribute `assets`.
+Let's focus on the last item in the collection: this is the oldest in time, and it thus corresponds to an image taken
+before the wildfires.
 
 ```python
-assets = items[0].assets  # first item's asset dictionary
+assets = items[-1].assets  # last item's asset dictionary
 print(assets.keys())
 ```
 
@@ -307,22 +349,40 @@ wvp-jp2: Water vapour (WVP)
 
 Among the others, assets include multiple raster data files (one per optical band, as acquired by the multi-spectral
 instrument), a thumbnail, a true-color image ("visual"), instrument metadata and scene-classification information
-("SCL"). Let's get the URL links to the actual asset:
+("SCL"). Let's get the URL link to the thumbnail, which gives us a glimpse of the Sentinel-2 scene:
 
 ```python
 print(assets["thumbnail"].href)
 ```
 
 ```output
-https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/31/U/FU/2020/3/S2A_31UFU_20200328_0_L2A/thumbnail.jpg
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/35/S/NA/2023/7/S2A_35SNA_20230708_0_L2A/thumbnail.jpg
 ```
 
 This can be used to download the corresponding file:
 
-![Overview of the true-color image ("thumbnail")](fig/E05/STAC-s2-preview.jpg){alt="thumbnail of the sentinel-2 scene"}
+![Overview of the true-color image ("thumbnail") before the wildfires on Rhodes](fig/E05/STAC-s2-preview-before.jpg){alt="thumbnail of the sentinel-2 scene before the wildfires"}
 
-Remote raster data can be directly opened via the `rioxarray` library. We will
-learn more about this library in the next episodes.
+For comparison, we can check out the thumbnail of the most recent scene of the sequence considered (i.e. the first item
+in the item collection), which has been taken after the wildfires:
+
+```python
+print(items[0].assets["thumbnail"].href)
+```
+
+```output
+https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/35/S/NA/2023/8/S2A_35SNA_20230827_0_L2A/thumbnail.jpg
+```
+
+![Overview of the true-color image ("thumbnail") after the wildfires on Rhodes](fig/E05/STAC-s2-preview-after.jpg){alt="thumbnail of the sentinel-2 scene after the wildfires"}
+
+From the thumbnails we can observe some dark spots on the island of Rhodes (bottom right of the image)!
+
+In order to open the high-resolution satellite images and investigate the scenes in more detail, we can use the
+`rioxarray` library. Note that this library can both work with local and remote raster data. We will only take a sneak
+peek at the functionality of this library here, and learn more about it in the next episode. Let's open the raster file
+corresponding to the near infrared (NIR) band:
+
 ```python
 import rioxarray
 nir_href = assets["nir"].href
@@ -335,8 +395,8 @@ print(nir)
 [120560400 values with dtype=uint16]
 Coordinates:
   * band         (band) int64 1
-  * x            (x) float64 6e+05 6e+05 6e+05 ... 7.098e+05 7.098e+05 7.098e+05
-  * y            (y) float64 5.9e+06 5.9e+06 5.9e+06 ... 5.79e+06 5.79e+06
+  * x            (x) float64 5e+05 5e+05 5e+05 ... 6.098e+05 6.098e+05 6.098e+05
+  * y            (y) float64 4.1e+06 4.1e+06 4.1e+06 ... 3.99e+06 3.99e+06
     spatial_ref  int64 0
 Attributes:
     AREA_OR_POINT:       Area
@@ -353,16 +413,18 @@ We can then save the data to disk:
 nir.rio.to_raster("nir.tif")
 ```
 
-Since that might take a while, given there are over 10000 x 10000 = a hundred million pixels in the 10 meter NIR band, you can take a smaller subset before downloading it. Becuase the raster is a COG, we can download just what we need!
+That might take a while, given there are over 10000 x 10000 = a hundred million pixels in the 10-meter NIR band.
+But we can take a smaller subset before downloading it. Because the raster is a COG, we can download just what we need!
 
-Here, we specify that we want to download the first (and only) band in the tif file, and a slice of the width and height dimensions.
+Here, we specify that we want to download the first (and only) band in the tif file, and a slice of the width and height
+dimensions.
 
 ```python
 # save portion of an image to disk
-nir[0,1500:2200,1500:2200].rio.to_raster("nir_subset.tif")
+nir[0,9_000:10_980,9_000:10_980].rio.to_raster("nir_subset.tif")
 ```
 
-The difference is 155 Megabytes for the large image vs about 1 Megabyte for the subset.
+The difference is 176 Megabytes for the full image vs less than 10 Megabytes for the subset.
 
 :::challenge
 ## Exercise: Downloading Landsat 8 Assets
