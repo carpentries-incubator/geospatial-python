@@ -15,7 +15,7 @@ The analysis that you are going to work on is to estimate which built-up areas w
 
 The data used in this lesson includes optical satellite images from [the Copernicus Sentinel-2 mission][sentinel-2] and topgraphical data from [OpenStreetmap][osm]. These datasets are real-world open data sets that entail sufficient complexity to teach many aspects of data analysis and management. The datasets have been selected to allow participants to focus on the core ideas and skills being taught while offering the chance to encounter common challenges with geospatial data. Furthermore, we have selected datasets which are available anywhere on earth.
 
-Note, that the analyses presented in this lesson are developed for educational purposes. Therefore in some occasions the analysis steps have been simplified and assumptions have been made. 
+*Note, that the analyses presented in this lesson are developed for educational purposes. Therefore in some occasions the analysis steps have been simplified and assumptions have been made.* 
 
 ## Python libraries used in this lesson
 The main python libraries that are used in this lesson are:
