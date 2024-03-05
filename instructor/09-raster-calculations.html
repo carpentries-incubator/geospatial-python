@@ -374,16 +374,17 @@ corresponding wavelengths. NDVI values range from -1 to +1. Values close
 to one indicate high density of green leaves. Poorly vegetated areas
 typically have NDVI values close to zero. Negative NDVI values often
 indicate cloud and water bodies.</p>
-<figure><img src="../fig/E09/PONE-NDVI.jpg" alt="PONE-NDVI image" class="figure mx-auto d-block"><figcaption>Source: Wu C-D, McNeely E, Cedeño-Laurent JG, Pan
-W-C, Adamkiewicz G, Dominici F, et al. (2014) Linking Student
+<figure><img src="../fig/E09/PONE-NDVI.jpg" alt="PONE-NDVI image" class="figure mx-auto d-block"><div class="figcaption">Source: Wu C-D, McNeely E, Cedeño-Laurent JG,
+Pan W-C, Adamkiewicz G, Dominici F, et al. (2014) Linking Student
 Performance in Massachusetts Elementary Schools with the “Greenness” of
-School Surroundings Using Remote Sensing. PLoS ONE 9(10): e108548. <a href="https://doi.org/10.1371/journal.pone.0108548" class="external-link uri">https://doi.org/10.1371/journal.pone.0108548</a></figcaption></figure><div id="more-resources" class="callout callout">
+School Surroundings Using Remote Sensing. PLoS ONE 9(10): e108548. <a href="https://doi.org/10.1371/journal.pone.0108548" class="external-link uri">https://doi.org/10.1371/journal.pone.0108548</a>
+</div>
+</figure><div id="callout1" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="more-resources" class="callout-inner">
-<h3 class="callout-title">More Resources<a class="anchor" aria-label="anchor" href="#more-resources"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="more-resources">More Resources<a class="anchor" aria-label="anchor" href="#more-resources"></a></h3>
 <div class="callout-content">
 <p>Check out more on NDVI in the NASA Earth Observatory portal: <a href="https://earthobservatory.nasa.gov/features/MeasuringVegetation/measuring_vegetation_2.php" class="external-link">Measuring
 Vegetation</a>.</p>
@@ -395,13 +396,12 @@ Vegetation</a>.</p>
 <h3 id="load-and-crop-the-data">Load and crop the Data<a class="anchor" aria-label="anchor" href="#load-and-crop-the-data"></a></h3>
 <p>For this episode, we will use one of the Sentinel-2 scenes that we
 have already employed in the previous episodes.</p>
-<div id="introduce-the-data" class="callout callout">
+<div id="callout2" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="introduce-the-data" class="callout-inner">
-<h3 class="callout-title">Introduce the Data<a class="anchor" aria-label="anchor" href="#introduce-the-data"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="introduce-the-data">Introduce the Data<a class="anchor" aria-label="anchor" href="#introduce-the-data"></a></h3>
 <div class="callout-content">
 <p>We’ll continue from the results of the satellite image search that we
 have carried out in an exercise from <a href="05-access-data.html">a
@@ -425,25 +425,25 @@ lesson.</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pystac</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>items <span class="op">=</span> pystac.ItemCollection.from_file(<span class="st">"search.json"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="im">import</span> pystac</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>items <span class="op">=</span> pystac.ItemCollection.from_file(<span class="st">"search.json"</span>)</span></code></pre>
 </div>
 <p>We then select the second item, and extract the URIs of the red and
 NIR bands (“red” and “nir08”, respectively):</p>
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>red_uri <span class="op">=</span> items[<span class="dv">1</span>].assets[<span class="st">"red"</span>].href</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>nir_uri <span class="op">=</span> items[<span class="dv">1</span>].assets[<span class="st">"nir08"</span>].href</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>red_uri <span class="op">=</span> items[<span class="dv">1</span>].assets[<span class="st">"red"</span>].href</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>nir_uri <span class="op">=</span> items[<span class="dv">1</span>].assets[<span class="st">"nir08"</span>].href</span></code></pre>
 </div>
 <p>Let’s load the rasters with <code>open_rasterio</code> using the
 argument <code>masked=True</code>.</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>red <span class="op">=</span> rioxarray.open_rasterio(red_uri, masked<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>nir <span class="op">=</span> rioxarray.open_rasterio(nir_uri, masked<span class="op">=</span><span class="va">True</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="im">import</span> rioxarray</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>red <span class="op">=</span> rioxarray.open_rasterio(red_uri, masked<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>nir <span class="op">=</span> rioxarray.open_rasterio(nir_uri, masked<span class="op">=</span><span class="va">True</span>)</span></code></pre>
 </div>
 <p>Let’s also restrict our analysis to the same crop field area defined
 in the previous episode by clipping the rasters using a bounding
@@ -451,9 +451,9 @@ box:</p>
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>bbox <span class="op">=</span> (<span class="dv">629_000</span>, <span class="dv">5_804_000</span>, <span class="dv">639_000</span>, <span class="dv">5_814_000</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>red_clip <span class="op">=</span> red.rio.clip_box(<span class="op">*</span>bbox)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>nir_clip <span class="op">=</span> nir.rio.clip_box(<span class="op">*</span>bbox)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>bbox <span class="op">=</span> (<span class="dv">629_000</span>, <span class="dv">5_804_000</span>, <span class="dv">639_000</span>, <span class="dv">5_814_000</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>red_clip <span class="op">=</span> red.rio.clip_box(<span class="op">*</span>bbox)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>nir_clip <span class="op">=</span> nir.rio.clip_box(<span class="op">*</span>bbox)</span></code></pre>
 </div>
 <p>We can now plot the two rasters. Using <code>robust=True</code> color
 values are stretched between the 2nd and 98th percentiles of the data,
@@ -462,12 +462,12 @@ reflectances:</p>
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>red_clip.plot(robust<span class="op">=</span><span class="va">True</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>red_clip.plot(robust<span class="op">=</span><span class="va">True</span>)</span></code></pre>
 </div>
 <figure><img src="../fig/E09/red-band.png" alt="red band image" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>nir_clip.plot(robust<span class="op">=</span><span class="va">True</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>nir_clip.plot(robust<span class="op">=</span><span class="va">True</span>)</span></code></pre>
 </div>
 <figure><img src="../fig/E09/NIR-band.png" alt="near infra-red band image" class="figure mx-auto d-block"></figure><p>It is immediately evident how crop fields (rectangular shapes in the
 central part of the two figures) appear as dark and bright spots in the
@@ -485,7 +485,7 @@ We can check the shapes of the two rasters in the following way:</p>
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(red_clip.shape, nir_clip.shape)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="bu">print</span>(red_clip.shape, nir_clip.shape)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -499,8 +499,8 @@ raster.</p>
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>red_clip_matched <span class="op">=</span> red_clip.rio.reproject_match(nir_clip)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(red_clip_matched.shape)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>red_clip_matched <span class="op">=</span> red_clip.rio.reproject_match(nir_clip)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="bu">print</span>(red_clip_matched.shape)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -513,8 +513,8 @@ easily plot our result and keep track of the metadata.</p>
 <div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ndvi <span class="op">=</span> (nir_clip <span class="op">-</span> red_clip_matched)<span class="op">/</span> (nir_clip <span class="op">+</span> red_clip_matched)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(ndvi)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>ndvi <span class="op">=</span> (nir_clip <span class="op">-</span> red_clip_matched)<span class="op">/</span> (nir_clip <span class="op">+</span> red_clip_matched)</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="bu">print</span>(ndvi)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -543,7 +543,7 @@ Coordinates:
 <div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>ndvi.plot()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>ndvi.plot()</span></code></pre>
 </div>
 <figure><img src="../fig/E09/NDVI-map.png" alt="NDVI map" class="figure mx-auto d-block"></figure><p>Notice that the range of values for the output NDVI is between -1 and
 1. Does this make sense for the selected region?</p>
@@ -554,7 +554,7 @@ using a built-in xarray method we have already been using:
 <div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>ndvi.plot.hist()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>ndvi.plot.hist()</span></code></pre>
 </div>
 <figure><img src="../fig/E09/NDVI-hist.png" alt="NDVI histogram" class="figure mx-auto d-block"></figure><div id="exercise-explore-ndvi-raster-values" class="callout challenge">
 <div class="callout-square">
@@ -582,7 +582,7 @@ the data.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <ol style="list-style-type: decimal"><li>Recall, if there were nodata values in our raster, we would need to
 filter them out with <code>.where()</code>. Since we have loaded the
@@ -592,9 +592,9 @@ includes a single missing value.</li>
 </ol><div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(ndvi.<span class="bu">min</span>().values)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(ndvi.<span class="bu">max</span>().values)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(ndvi.isnull().<span class="bu">sum</span>().values)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="bu">print</span>(ndvi.<span class="bu">min</span>().values)</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="bu">print</span>(ndvi.<span class="bu">max</span>().values)</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="bu">print</span>(ndvi.isnull().<span class="bu">sum</span>().values)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -609,7 +609,7 @@ distribution. Also, there seem to be very few NDVI values larger than
 </ol><div class="codewrapper sourceCode" id="cb17">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>ndvi.plot.hist(bins<span class="op">=</span><span class="dv">50</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>ndvi.plot.hist(bins<span class="op">=</span><span class="dv">50</span>)</span></code></pre>
 </div>
 <figure><img src="../fig/E09/NDVI-hist-bins.png" alt="NDVI histogram with 50 bins" class="figure mx-auto d-block"></figure><ol start="3" style="list-style-type: decimal"><li>We can discretize the color bar by specifying the intervals via the
 <code>levels</code> argument to <code>plot()</code>. Suppose we want to
@@ -629,8 +629,8 @@ vegetation.</li>
 </ul><div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>class_bins <span class="op">=</span> (<span class="op">-</span><span class="dv">1</span>, <span class="fl">0.</span>, <span class="fl">0.2</span>, <span class="fl">0.7</span>, <span class="dv">1</span>)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>ndvi.plot(levels<span class="op">=</span>class_bins)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>class_bins <span class="op">=</span> (<span class="op">-</span><span class="dv">1</span>, <span class="fl">0.</span>, <span class="fl">0.2</span>, <span class="fl">0.7</span>, <span class="dv">1</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>ndvi.plot(levels<span class="op">=</span>class_bins)</span></code></pre>
 </div>
 <figure><img src="../fig/E09/NDVI-map-binned.png" alt="binned NDVI map" class="figure mx-auto d-block"></figure></div>
 </div>
@@ -642,8 +642,8 @@ grid cells using the <code>.interpolate_na</code> method. We then save
 <div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>ndvi_nonan <span class="op">=</span> ndvi.interpolate_na(dim<span class="op">=</span><span class="st">"x"</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>ndvi_nonan.rio.to_raster(<span class="st">"NDVI.tif"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>ndvi_nonan <span class="op">=</span> ndvi.interpolate_na(dim<span class="op">=</span><span class="st">"x"</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>ndvi_nonan.rio.to_raster(<span class="st">"NDVI.tif"</span>)</span></code></pre>
 </div>
 </section><section id="classifying-continuous-rasters-in-python"><h2 class="section-heading">Classifying Continuous Rasters in Python<a class="anchor" aria-label="anchor" href="#classifying-continuous-rasters-in-python"></a>
 </h2>
@@ -656,63 +656,64 @@ value. In Python, we can accomplish this using the
 in the last exercise: <code>[-1, 0., 0.2, 0.7, 1]</code>. When bins are
 ordered from low to high, as here, <code>numpy.digitize</code> assigns
 classes like so:</p>
-<figure><img src="../fig/E09/NDVI-classes.jpg" alt="NDVI classes" class="figure mx-auto d-block"><figcaption>Source: Image created for this lesson (<a href="LICENSE.html">license</a>)</figcaption></figure><p>Note that, by default, each class includes the left but not the right
+<figure><img src="../fig/E09/NDVI-classes.jpg" alt="NDVI classes" class="figure mx-auto d-block"><div class="figcaption">Source: Image created for this lesson (<a href="LICENSE.html">license</a>)</div>
+</figure><p>Note that, by default, each class includes the left but not the right
 bound. This is not an issue here, since the computed range of NDVI
 values is fully contained in the open interval (-1; 1) (see exercise
 above).</p>
 <div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xarray</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Defines the bins for pixel values</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>class_bins <span class="op">=</span> (<span class="op">-</span><span class="dv">1</span>, <span class="fl">0.</span>, <span class="fl">0.2</span>, <span class="fl">0.7</span>, <span class="dv">1</span>)</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co"># The numpy.digitize function returns an unlabeled array, in this case, a</span></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co"># classified array without any metadata. That doesn't work--we need the</span></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="co"># coordinates and other spatial metadata. We can get around this using</span></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co"># xarray.apply_ufunc, which can run the function across the data array while</span></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="co"># preserving metadata.</span></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>ndvi_classified <span class="op">=</span> xarray.apply_ufunc(</span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>    np.digitize,</span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>    ndvi_nonan,</span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>    class_bins</span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a><span class="im">import</span> xarray</span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a><span class="co"># Defines the bins for pixel values</span></span>
+<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a>class_bins <span class="op">=</span> (<span class="op">-</span><span class="dv">1</span>, <span class="fl">0.</span>, <span class="fl">0.2</span>, <span class="fl">0.7</span>, <span class="dv">1</span>)</span>
+<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a><span class="co"># The numpy.digitize function returns an unlabeled array, in this case, a</span></span>
+<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a><span class="co"># classified array without any metadata. That doesn't work--we need the</span></span>
+<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a><span class="co"># coordinates and other spatial metadata. We can get around this using</span></span>
+<span id="cb20-10"><a href="#cb20-10" tabindex="-1"></a><span class="co"># xarray.apply_ufunc, which can run the function across the data array while</span></span>
+<span id="cb20-11"><a href="#cb20-11" tabindex="-1"></a><span class="co"># preserving metadata.</span></span>
+<span id="cb20-12"><a href="#cb20-12" tabindex="-1"></a>ndvi_classified <span class="op">=</span> xarray.apply_ufunc(</span>
+<span id="cb20-13"><a href="#cb20-13" tabindex="-1"></a>    np.digitize,</span>
+<span id="cb20-14"><a href="#cb20-14" tabindex="-1"></a>    ndvi_nonan,</span>
+<span id="cb20-15"><a href="#cb20-15" tabindex="-1"></a>    class_bins</span>
+<span id="cb20-16"><a href="#cb20-16" tabindex="-1"></a>)</span></code></pre>
 </div>
 <p>Let’s now visualize the classified NDVI, customizing the plot with
 proper title and legend. We then export the figure in PNG format:</p>
 <div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> earthpy.plot <span class="im">as</span> ep</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.colors <span class="im">import</span> ListedColormap</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Define color map of the map legend</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>ndvi_colors <span class="op">=</span> [<span class="st">"blue"</span>, <span class="st">"gray"</span>, <span class="st">"green"</span>, <span class="st">"darkgreen"</span>]</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>ndvi_cmap <span class="op">=</span> ListedColormap(ndvi_colors)</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Define class names for the legend</span></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>category_names <span class="op">=</span> [</span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Water"</span>,</span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"No Vegetation"</span>,</span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Sparse Vegetation"</span>,</span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Dense Vegetation"</span></span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a><span class="co"># We need to know in what order the legend items should be arranged</span></span>
-<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>category_indices <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="bu">len</span>(category_names)))</span>
-<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Make the plot</span></span>
-<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>im <span class="op">=</span> ndvi_classified.plot(cmap<span class="op">=</span>ndvi_cmap, add_colorbar<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Classified NDVI"</span>)</span>
-<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a><span class="co"># earthpy helps us by drawing a legend given an existing image plot and legend items, plus indices</span></span>
-<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>ep.draw_legend(im_ax<span class="op">=</span>im, classes<span class="op">=</span>category_indices, titles<span class="op">=</span>category_names)</span>
-<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the figure</span></span>
-<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>plt.savefig(<span class="st">"NDVI_classified.png"</span>, bbox_inches<span class="op">=</span><span class="st">"tight"</span>, dpi<span class="op">=</span><span class="dv">300</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="im">import</span> earthpy.plot <span class="im">as</span> ep</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a><span class="im">from</span> matplotlib.colors <span class="im">import</span> ListedColormap</span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a><span class="co"># Define color map of the map legend</span></span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a>ndvi_colors <span class="op">=</span> [<span class="st">"blue"</span>, <span class="st">"gray"</span>, <span class="st">"green"</span>, <span class="st">"darkgreen"</span>]</span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a>ndvi_cmap <span class="op">=</span> ListedColormap(ndvi_colors)</span>
+<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a><span class="co"># Define class names for the legend</span></span>
+<span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a>category_names <span class="op">=</span> [</span>
+<span id="cb21-12"><a href="#cb21-12" tabindex="-1"></a>    <span class="st">"Water"</span>,</span>
+<span id="cb21-13"><a href="#cb21-13" tabindex="-1"></a>    <span class="st">"No Vegetation"</span>,</span>
+<span id="cb21-14"><a href="#cb21-14" tabindex="-1"></a>    <span class="st">"Sparse Vegetation"</span>,</span>
+<span id="cb21-15"><a href="#cb21-15" tabindex="-1"></a>    <span class="st">"Dense Vegetation"</span></span>
+<span id="cb21-16"><a href="#cb21-16" tabindex="-1"></a>]</span>
+<span id="cb21-17"><a href="#cb21-17" tabindex="-1"></a></span>
+<span id="cb21-18"><a href="#cb21-18" tabindex="-1"></a><span class="co"># We need to know in what order the legend items should be arranged</span></span>
+<span id="cb21-19"><a href="#cb21-19" tabindex="-1"></a>category_indices <span class="op">=</span> <span class="bu">list</span>(<span class="bu">range</span>(<span class="bu">len</span>(category_names)))</span>
+<span id="cb21-20"><a href="#cb21-20" tabindex="-1"></a></span>
+<span id="cb21-21"><a href="#cb21-21" tabindex="-1"></a><span class="co"># Make the plot</span></span>
+<span id="cb21-22"><a href="#cb21-22" tabindex="-1"></a>im <span class="op">=</span> ndvi_classified.plot(cmap<span class="op">=</span>ndvi_cmap, add_colorbar<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb21-23"><a href="#cb21-23" tabindex="-1"></a>plt.title(<span class="st">"Classified NDVI"</span>)</span>
+<span id="cb21-24"><a href="#cb21-24" tabindex="-1"></a><span class="co"># earthpy helps us by drawing a legend given an existing image plot and legend items, plus indices</span></span>
+<span id="cb21-25"><a href="#cb21-25" tabindex="-1"></a>ep.draw_legend(im_ax<span class="op">=</span>im, classes<span class="op">=</span>category_indices, titles<span class="op">=</span>category_names)</span>
+<span id="cb21-26"><a href="#cb21-26" tabindex="-1"></a></span>
+<span id="cb21-27"><a href="#cb21-27" tabindex="-1"></a><span class="co"># Save the figure</span></span>
+<span id="cb21-28"><a href="#cb21-28" tabindex="-1"></a>plt.savefig(<span class="st">"NDVI_classified.png"</span>, bbox_inches<span class="op">=</span><span class="st">"tight"</span>, dpi<span class="op">=</span><span class="dv">300</span>)</span></code></pre>
 </div>
 <figure><img src="../fig/E09/NDVI-classified.png" alt="classified NDVI map" class="figure mx-auto d-block"></figure><p>We can finally export the classified NDVI raster object to a GeoTiff
 file. The <code>to_raster()</code> function by default writes the output
@@ -720,7 +721,7 @@ file to your working directory unless you specify a full file path.</p>
 <div class="codewrapper sourceCode" id="cb22">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>ndvi_classified.rio.to_raster(<span class="st">"NDVI_classified.tif"</span>, dtype<span class="op">=</span><span class="st">"int32"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>ndvi_classified.rio.to_raster(<span class="st">"NDVI_classified.tif"</span>, dtype<span class="op">=</span><span class="st">"int32"</span>)</span></code></pre>
 </div>
 <div id="exercise-compute-the-ndvi-for-the-texel-island" class="callout challenge">
 <div class="callout-square">
@@ -754,15 +755,15 @@ investigated.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <ol style="list-style-type: decimal"><li>We crop the area of interest using <code>clip_box</code>:</li>
 </ol><div class="codewrapper sourceCode" id="cb23">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>bbox_texel <span class="op">=</span> (<span class="dv">610000</span>, <span class="dv">5870000</span>, <span class="dv">630000</span>, <span class="dv">5900000</span>)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>nir_texel <span class="op">=</span> nir.rio.clip_box(<span class="op">*</span>bbox_texel)</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>red_texel <span class="op">=</span> red.rio.clip_box(<span class="op">*</span>bbox_texel)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>bbox_texel <span class="op">=</span> (<span class="dv">610000</span>, <span class="dv">5870000</span>, <span class="dv">630000</span>, <span class="dv">5900000</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>nir_texel <span class="op">=</span> nir.rio.clip_box(<span class="op">*</span>bbox_texel)</span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>red_texel <span class="op">=</span> red.rio.clip_box(<span class="op">*</span>bbox_texel)</span></code></pre>
 </div>
 <ol start="2" style="list-style-type: decimal"><li>Reproject and clip one raster to the extent of the smaller raster
 using <code>reproject_match</code>. The lines of code below assign a
@@ -770,15 +771,15 @@ variable to the reprojected raster and calculate the NDVI.</li>
 </ol><div class="codewrapper sourceCode" id="cb24">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>red_texel_matched <span class="op">=</span> red_texel.rio.reproject_match(nir_texel)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>ndvi_texel <span class="op">=</span> (nir_texel <span class="op">-</span> red_texel_matched)<span class="op">/</span> (nir_texel <span class="op">+</span> red_texel_matched)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a>red_texel_matched <span class="op">=</span> red_texel.rio.reproject_match(nir_texel)</span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>ndvi_texel <span class="op">=</span> (nir_texel <span class="op">-</span> red_texel_matched)<span class="op">/</span> (nir_texel <span class="op">+</span> red_texel_matched)</span></code></pre>
 </div>
 <ol start="3" style="list-style-type: decimal"><li>Plot the NDVI and save the raster data as a GeoTIFF file.</li>
 </ol><div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>ndvi_texel.plot()</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>ndvi_texel.rio.to_raster(<span class="st">"NDVI_Texel.tif"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>ndvi_texel.plot()</span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>ndvi_texel.rio.to_raster(<span class="st">"NDVI_Texel.tif"</span>)</span></code></pre>
 </div>
 <figure><img src="../fig/E09/NDVI-map-Texel.png" alt="NDVI map Texel" class="figure mx-auto d-block"></figure><ol start="4" style="list-style-type: decimal"><li>Compute the NDVI histogram and compare it with the region that we
 have previously investigated. Many more grid cells have negative NDVI
@@ -788,7 +789,7 @@ ground (sand) regions.</li>
 </ol><div class="codewrapper sourceCode" id="cb26">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>ndvi_texel.plot.hist(bins<span class="op">=</span><span class="dv">50</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>ndvi_texel.plot.hist(bins<span class="op">=</span><span class="dv">50</span>)</span></code></pre>
 </div>
 <figure><img src="../fig/E09/NDVI-hist-Texel.png" alt="NDVI histogram Texel" class="figure mx-auto d-block"></figure></div>
 </div>
@@ -872,7 +873,7 @@ any links that you are not going to use.
   "identifier": "https://carpentries-incubator.github.io/geospatial-python/instructor/09-raster-calculations.html",
   "dateCreated": "2023-11-09",
   "dateModified": "2023-08-14",
-  "datePublished": "2024-02-27"
+  "datePublished": "2024-03-05"
 }
 
   </script><script>

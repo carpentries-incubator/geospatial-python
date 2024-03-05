@@ -368,16 +368,16 @@ the <code>rasterize</code> and <code>zonal_stats</code> functions:</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>ndvi <span class="op">=</span> rioxarray.open_rasterio(<span class="st">"NDVI.tif"</span>).squeeze()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="im">import</span> rioxarray</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>ndvi <span class="op">=</span> rioxarray.open_rasterio(<span class="st">"NDVI.tif"</span>).squeeze()</span></code></pre>
 </div>
 <p>Let’s also read the crop fields vector data from our saved
 <code>fields_cropped.shp</code> file.</p>
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>fields <span class="op">=</span> gpd.read_file(<span class="st">'fields_cropped.shp'</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>fields <span class="op">=</span> gpd.read_file(<span class="st">'fields_cropped.shp'</span>)</span></code></pre>
 </div>
 <p>In order to use the vector data as a classifier for our raster, we
 need to convert the vector data to the appropriate CRS. We can perform
@@ -386,8 +386,8 @@ the CRS conversion from the vector CRS (EPSG:28992) to our raster
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Uniform CRS</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>fields_utm <span class="op">=</span> fields.to_crs(ndvi.rio.crs)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Uniform CRS</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>fields_utm <span class="op">=</span> fields.to_crs(ndvi.rio.crs)</span></code></pre>
 </div>
 </div>
 <div class="section level1">
@@ -410,8 +410,8 @@ vector feature to be used as the first argument to
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>geom <span class="op">=</span> fields_utm[[<span class="st">'geometry'</span>, <span class="st">'gewascode'</span>]].values.tolist()</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>geom</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>geom <span class="op">=</span> fields_utm[[<span class="st">'geometry'</span>, <span class="st">'gewascode'</span>]].values.tolist()</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>geom</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -438,8 +438,8 @@ geodataframe.</p>
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> rasterio <span class="im">import</span> features</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>fields_rasterized <span class="op">=</span> features.rasterize(geom, out_shape<span class="op">=</span>ndvi.shape, transform<span class="op">=</span>ndvi.rio.transform())</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="im">from</span> rasterio <span class="im">import</span> features</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>fields_rasterized <span class="op">=</span> features.rasterize(geom, out_shape<span class="op">=</span>ndvi.shape, transform<span class="op">=</span>ndvi.rio.transform())</span></code></pre>
 </div>
 <p>The argument <code>out_shape</code> specifies the shape of the output
 grid in pixel units, while <code>transform</code> represents the
@@ -453,9 +453,9 @@ and the background.</p>
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(fields_rasterized.shape)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(np.unique(fields_rasterized))</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="bu">print</span>(fields_rasterized.shape)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="bu">print</span>(np.unique(fields_rasterized))</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -470,9 +470,9 @@ outside the fields. Let’s visualize it:</p>
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>plt.imshow(fields_rasterized)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>plt.colorbar()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>plt.imshow(fields_rasterized)</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>plt.colorbar()</span></code></pre>
 </div>
 <figure><img src="../fig/E10/rasterization-results.png" alt="rasterization results" class="figure mx-auto d-block"></figure><p>We will convert the output to <code>xarray.DataArray</code> which
 will be used further. To do this, we will “borrow” the coordinates from
@@ -480,12 +480,12 @@ will be used further. To do this, we will “borrow” the coordinates from
 <div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> xarray <span class="im">as</span> xr</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>fields_rasterized_xarr <span class="op">=</span> ndvi.copy()</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>fields_rasterized_xarr.data <span class="op">=</span> fields_rasterized</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># visualize</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>fields_rasterized_xarr.plot(robust<span class="op">=</span><span class="va">True</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="im">import</span> xarray <span class="im">as</span> xr</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>fields_rasterized_xarr <span class="op">=</span> ndvi.copy()</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>fields_rasterized_xarr.data <span class="op">=</span> fields_rasterized</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co"># visualize</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>fields_rasterized_xarr.plot(robust<span class="op">=</span><span class="va">True</span>)</span></code></pre>
 </div>
 <figure><img src="../fig/E10/rasterization-results-xr.png" alt="Rasterization results Xarray" class="figure mx-auto d-block"></figure></div>
 <div class="section level1">
@@ -504,8 +504,8 @@ statistics for each crop type:</p>
 <div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> xrspatial <span class="im">import</span> zonal_stats</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>zonal_stats(fields_rasterized_xarr, ndvi)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="im">from</span> xrspatial <span class="im">import</span> zonal_stats</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>zonal_stats(fields_rasterized_xarr, ndvi)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -557,21 +557,21 @@ each <code>class_bins</code>. Inspect the output of the
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <ol style="list-style-type: decimal"><li>Load and convert raster data into suitable inputs for
 <code>zonal_stats</code>:</li>
 </ol><div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>ndvi <span class="op">=</span> rioxarray.open_rasterio(<span class="st">"NDVI.tif"</span>).squeeze()</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>ndvi_classified <span class="op">=</span> rioxarray.open_rasterio(<span class="st">"NDVI_classified.tif"</span>).squeeze()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>ndvi <span class="op">=</span> rioxarray.open_rasterio(<span class="st">"NDVI.tif"</span>).squeeze()</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>ndvi_classified <span class="op">=</span> rioxarray.open_rasterio(<span class="st">"NDVI_classified.tif"</span>).squeeze()</span></code></pre>
 </div>
 <ol start="2" style="list-style-type: decimal"><li>Create and display the zonal statistics table.</li>
 </ol><div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>zonal_stats(ndvi_classified, ndvi)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>zonal_stats(ndvi_classified, ndvi)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -670,7 +670,7 @@ any links that you are not going to use.
   "identifier": "https://carpentries-incubator.github.io/geospatial-python/instructor/10-zonal-statistics.html",
   "dateCreated": "2023-11-09",
   "dateModified": "2023-08-14",
-  "datePublished": "2024-02-27"
+  "datePublished": "2024-03-05"
 }
 
   </script><script>

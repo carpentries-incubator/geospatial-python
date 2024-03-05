@@ -393,13 +393,12 @@ store shapely geometry objects.</li>
 and this column is a <code>GeoSeries</code>.</li>
 </ul><p>In later episodes, we will learn how to work with raster and vector
 data together and combine them into a single plot.</p>
-<div id="introduce-the-vector-data" class="callout callout">
+<div id="callout1" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="introduce-the-vector-data" class="callout-inner">
-<h3 class="callout-title">Introduce the Vector Data<a class="anchor" aria-label="anchor" href="#introduce-the-vector-data"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="introduce-the-vector-data">Introduce the Vector Data<a class="anchor" aria-label="anchor" href="#introduce-the-vector-data"></a></h3>
 <div class="callout-content">
 <p>In this episode, we will use the downloaded vector data in the
 <code>data</code> directory. Please refer to the <a href="index.html#setup">setup page</a> on how to download the data.</p>
@@ -411,7 +410,7 @@ data together and combine them into a single plot.</p>
 <hr class="half-width"><div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span></code></pre>
 </div>
 <p>We will use the <code>geopandas</code> package to load the crop field
 vector data we downloaded at:
@@ -419,8 +418,8 @@ vector data we downloaded at:
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fields <span class="op">=</span> gpd.read_file(<span class="st">"data/brpgewaspercelen_definitief_2020_small.gpkg"</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>fields</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>fields <span class="op">=</span> gpd.read_file(<span class="st">"data/brpgewaspercelen_definitief_2020_small.gpkg"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>fields</span></code></pre>
 </div>
 <p>The data are read into the variable <code>fields</code> as a
 <code>GeoDataFrame</code>. This is an extened data format of
@@ -433,26 +432,25 @@ only read the data within the extent of the bounding box.</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define bounding box</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>xmin, xmax <span class="op">=</span> (<span class="dv">110_000</span>, <span class="dv">140_000</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>ymin, ymax <span class="op">=</span> (<span class="dv">470_000</span>, <span class="dv">510_000</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>bbox <span class="op">=</span> (xmin, ymin, xmax, ymax)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Define bounding box</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>xmin, xmax <span class="op">=</span> (<span class="dv">110_000</span>, <span class="dv">140_000</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>ymin, ymax <span class="op">=</span> (<span class="dv">470_000</span>, <span class="dv">510_000</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>bbox <span class="op">=</span> (xmin, ymin, xmax, ymax)</span></code></pre>
 </div>
 <p>Using the <code>bbox</code> input argument, we can load only the
 spatial features intersecting the provided bounding box.</p>
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Partially load data within the bounding box</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>fields <span class="op">=</span> gpd.read_file(<span class="st">"data/brpgewaspercelen_definitief_2020_small.gpkg"</span>, bbox<span class="op">=</span>bbox)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Partially load data within the bounding box</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>fields <span class="op">=</span> gpd.read_file(<span class="st">"data/brpgewaspercelen_definitief_2020_small.gpkg"</span>, bbox<span class="op">=</span>bbox)</span></code></pre>
 </div>
-<div id="how-should-i-define-my-bounding-box" class="callout callout">
+<div id="callout2" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="how-should-i-define-my-bounding-box" class="callout-inner">
-<h3 class="callout-title">How should I define my bounding box?<a class="anchor" aria-label="anchor" href="#how-should-i-define-my-bounding-box"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="how-should-i-define-my-bounding-box">How should I define my bounding box?<a class="anchor" aria-label="anchor" href="#how-should-i-define-my-bounding-box"></a></h3>
 <div class="callout-content">
 <p>For simplicity, here we assume the <strong>Coordinate Reference
 System (CRS)</strong> and <strong>extent</strong> of the vector file are
@@ -472,7 +470,7 @@ documentation of fiona</a>.</p>
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fields.plot()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>fields.plot()</span></code></pre>
 </div>
 <figure><img src="../fig/E07/fields.png" alt="Crop fields inside the AOI" class="figure mx-auto d-block"></figure></section><section id="vector-metadata-attributes"><h2 class="section-heading">Vector Metadata &amp; Attributes<a class="anchor" aria-label="anchor" href="#vector-metadata-attributes"></a>
 </h2>
@@ -508,7 +506,7 @@ type, we use the <code>pandas</code> method <code>.type</code> on the
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fields.<span class="bu">type</span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>fields.<span class="bu">type</span></span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -530,7 +528,7 @@ Length: 22031, dtype: object</code></pre>
 <div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fields.crs</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>fields.crs</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -557,7 +555,7 @@ the <code>.total_bounds</code> attribute:</p>
 <div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>fields.total_bounds</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>fields.total_bounds</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -581,11 +579,11 @@ indexer:</p>
 <div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A smaller bounding box in RD</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>xmin, xmax <span class="op">=</span> (<span class="dv">120_000</span>, <span class="dv">135_000</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>ymin, ymax <span class="op">=</span> (<span class="dv">485_000</span>, <span class="dv">500_000</span>)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>fields_cx <span class="op">=</span> fields.cx[xmin:xmax, ymin:ymax]</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># A smaller bounding box in RD</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>xmin, xmax <span class="op">=</span> (<span class="dv">120_000</span>, <span class="dv">135_000</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>ymin, ymax <span class="op">=</span> (<span class="dv">485_000</span>, <span class="dv">500_000</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>fields_cx <span class="op">=</span> fields.cx[xmin:xmax, ymin:ymax]</span></code></pre>
 </div>
 </section><section id="export-data-to-file"><h2 class="section-heading">Export data to file<a class="anchor" aria-label="anchor" href="#export-data-to-file"></a>
 </h2>
@@ -595,7 +593,7 @@ exportation:</p>
 <div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>fields_cx.to_file(<span class="st">'fields_cropped.shp'</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>fields_cx.to_file(<span class="st">'fields_cropped.shp'</span>)</span></code></pre>
 </div>
 <p>This will write it to disk (in this case, in ‘shapefile’ format),
 containing only the data from our cropped area. It can be read again at
@@ -619,14 +617,14 @@ together with the cropped field polygons
 <div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>fields <span class="op">=</span> gpd.read_file(<span class="st">"fields_cropped.shp"</span>)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>wells <span class="op">=</span> gpd.read_file(<span class="st">"data/brogmwvolledigeset.zip"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>fields <span class="op">=</span> gpd.read_file(<span class="st">"fields_cropped.shp"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>wells <span class="op">=</span> gpd.read_file(<span class="st">"data/brogmwvolledigeset.zip"</span>)</span></code></pre>
 </div>
 <p>And take a look at the wells:</p>
 <div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>wells.plot(markersize<span class="op">=</span><span class="fl">0.1</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>wells.plot(markersize<span class="op">=</span><span class="fl">0.1</span>)</span></code></pre>
 </div>
 <figure><img src="../fig/E07/wells-nl.png" alt="all wells in the NL" class="figure mx-auto d-block"></figure><p>The points represents all the wells over the Netherlands. Since the
 wells are in the lat/lon coordinates. To make it comparable with fields,
@@ -634,7 +632,7 @@ we need to first transfer the CRS to the “RD New” projection:</p>
 <div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>wells <span class="op">=</span> wells.to_crs(epsg<span class="op">=</span><span class="dv">28992</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>wells <span class="op">=</span> wells.to_crs(epsg<span class="op">=</span><span class="dv">28992</span>)</span></code></pre>
 </div>
 <p>Now we would like to compare the wells with the cropped fields. We
 can select the wells within the fields using the <code>.clip</code>
@@ -642,8 +640,8 @@ function:</p>
 <div class="codewrapper sourceCode" id="cb17">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>wells_clip <span class="op">=</span> wells.clip(fields)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>wells_clip</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>wells_clip <span class="op">=</span> wells.clip(fields)</span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>wells_clip</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -673,26 +671,26 @@ assign it to the <code>GeoDataFrame</code> as a geometry column.</p>
 <div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="bu">buffer</span> <span class="op">=</span> fields.<span class="bu">buffer</span>(<span class="dv">50</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>fields_buffer <span class="op">=</span> fields.copy()</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>fields_buffer[<span class="st">'geometry'</span>] <span class="op">=</span> <span class="bu">buffer</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>fields_buffer.plot()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="bu">buffer</span> <span class="op">=</span> fields.<span class="bu">buffer</span>(<span class="dv">50</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>fields_buffer <span class="op">=</span> fields.copy()</span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>fields_buffer[<span class="st">'geometry'</span>] <span class="op">=</span> <span class="bu">buffer</span></span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>fields_buffer.plot()</span></code></pre>
 </div>
 <figure><img src="../fig/E07/fields-buffer.png" alt="50m buffer around the fields" class="figure mx-auto d-block"></figure><p>To further simplify them, we can use the <code>dissolve</code>
 function to dissolve the buffers into one:</p>
 <div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>fields_buffer_dissolve <span class="op">=</span> fields_buffer.dissolve()</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>fields_buffer_dissolve</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>fields_buffer_dissolve <span class="op">=</span> fields_buffer.dissolve()</span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>fields_buffer_dissolve</span></code></pre>
 </div>
 <p>All the fields will be dissolved into one multi-polygon, which can be
 used to <code>clip</code> the wells.</p>
 <div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>wells_clip_buffer <span class="op">=</span> wells.clip(fields_buffer_dissolve)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>wells_clip_buffer.plot()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>wells_clip_buffer <span class="op">=</span> wells.clip(fields_buffer_dissolve)</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>wells_clip_buffer.plot()</span></code></pre>
 </div>
 <figure><img src="../fig/E07/wells-in-buffer.png" alt="Wells within 50m buffer of fields" class="figure mx-auto d-block"></figure><p>In this way, we selected all wells within the 50m range of the
 fields. It is also significantly faster than the previous
@@ -730,22 +728,22 @@ it with the bounding box of the fields.</p></li>
 <div class="codewrapper sourceCode" id="cb22">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read in data</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>fields <span class="op">=</span>  gpd.read_file(<span class="st">"fields_cropped.shp"</span>)</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>wells <span class="op">=</span> gpd.read_file(<span class="st">"data/brogmwvolledigeset.zip"</span>)</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Crop points with bounding box</span></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>xmin, ymin, xmax, ymax <span class="op">=</span> fields.total_bounds</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>wells <span class="op">=</span> wells.to_crs(<span class="dv">28992</span>)</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>wells_cx <span class="op">=</span> wells.cx[xmin<span class="op">-</span><span class="dv">500</span>:xmax<span class="op">+</span><span class="dv">500</span>, ymin<span class="op">-</span><span class="dv">500</span>:ymax<span class="op">+</span><span class="dv">500</span>]</span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Create buffer</span></span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>wells_cx_500mbuffer <span class="op">=</span> wells_cx.copy()</span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>wells_cx_500mbuffer[<span class="st">'geometry'</span>] <span class="op">=</span> wells_cx.<span class="bu">buffer</span>(<span class="dv">500</span>)</span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Clip</span></span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>fields_clip_buffer <span class="op">=</span> fields.clip(wells_cx_500mbuffer)</span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>fields_clip_buffer.plot()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="co"># Read in data</span></span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>fields <span class="op">=</span>  gpd.read_file(<span class="st">"fields_cropped.shp"</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a>wells <span class="op">=</span> gpd.read_file(<span class="st">"data/brogmwvolledigeset.zip"</span>)</span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a><span class="co"># Crop points with bounding box</span></span>
+<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a>xmin, ymin, xmax, ymax <span class="op">=</span> fields.total_bounds</span>
+<span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a>wells <span class="op">=</span> wells.to_crs(<span class="dv">28992</span>)</span>
+<span id="cb22-8"><a href="#cb22-8" tabindex="-1"></a>wells_cx <span class="op">=</span> wells.cx[xmin<span class="op">-</span><span class="dv">500</span>:xmax<span class="op">+</span><span class="dv">500</span>, ymin<span class="op">-</span><span class="dv">500</span>:ymax<span class="op">+</span><span class="dv">500</span>]</span>
+<span id="cb22-9"><a href="#cb22-9" tabindex="-1"></a></span>
+<span id="cb22-10"><a href="#cb22-10" tabindex="-1"></a><span class="co"># Create buffer</span></span>
+<span id="cb22-11"><a href="#cb22-11" tabindex="-1"></a>wells_cx_500mbuffer <span class="op">=</span> wells_cx.copy()</span>
+<span id="cb22-12"><a href="#cb22-12" tabindex="-1"></a>wells_cx_500mbuffer[<span class="st">'geometry'</span>] <span class="op">=</span> wells_cx.<span class="bu">buffer</span>(<span class="dv">500</span>)</span>
+<span id="cb22-13"><a href="#cb22-13" tabindex="-1"></a></span>
+<span id="cb22-14"><a href="#cb22-14" tabindex="-1"></a><span class="co"># Clip</span></span>
+<span id="cb22-15"><a href="#cb22-15" tabindex="-1"></a>fields_clip_buffer <span class="op">=</span> fields.clip(wells_cx_500mbuffer)</span>
+<span id="cb22-16"><a href="#cb22-16" tabindex="-1"></a>fields_clip_buffer.plot()</span></code></pre>
 </div>
 <figure><img src="../fig/E07/fields-in-buffer-clip.png" alt="fields within 50m buffer of the wells, truncated" class="figure mx-auto d-block"></figure></div>
 </div>
@@ -762,9 +760,9 @@ relationship:</p>
 <div class="codewrapper sourceCode" id="cb23">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Join fields and wells_cx_500mbuffer</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>fields_wells_buffer <span class="op">=</span> fields.sjoin(wells_cx_500mbuffer)</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(fields_wells_buffer.shape)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="co"># Join fields and wells_cx_500mbuffer</span></span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>fields_wells_buffer <span class="op">=</span> fields.sjoin(wells_cx_500mbuffer)</span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a><span class="bu">print</span>(fields_wells_buffer.shape)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -780,10 +778,10 @@ buffers, we can first get the unique indexes, and use the
 <div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>idx <span class="op">=</span> fields_wells_buffer.index.unique()</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>fiedls_in_buffer <span class="op">=</span> fields.iloc[idx]</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>fiedls_in_buffer.plot()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>idx <span class="op">=</span> fields_wells_buffer.index.unique()</span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>fiedls_in_buffer <span class="op">=</span> fields.iloc[idx]</span>
+<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a>fiedls_in_buffer.plot()</span></code></pre>
 </div>
 <figure><img src="../fig/E07/fields-in-buffer-sjoin.png" alt="Fields in 50m buffer of wells, not truncated" class="figure mx-auto d-block"></figure></section><section id="modify-the-geometry-of-a-geodataframe"><h2 class="section-heading">Modify the geometry of a GeoDataFrame<a class="anchor" aria-label="anchor" href="#modify-the-geometry-of-a-geodataframe"></a>
 </h2>
@@ -815,20 +813,19 @@ longitude of the file are flipped.</p>
 <div class="codewrapper sourceCode" id="cb26">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>waterways_nl <span class="op">=</span> gpd.read_file(<span class="st">'data/status_vaarweg.zip'</span>)</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>waterways_nl.plot()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>waterways_nl <span class="op">=</span> gpd.read_file(<span class="st">'data/status_vaarweg.zip'</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>waterways_nl.plot()</span></code></pre>
 </div>
 <figure><img src="../fig/E07/waterways-wrong.png" alt="waterways, rotated" class="figure mx-auto d-block"></figure></div>
 </div>
 </div>
 </div>
-<div id="axis-ordering" class="callout callout">
+<div id="callout3" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="axis-ordering" class="callout-inner">
-<h3 class="callout-title">Axis ordering<a class="anchor" aria-label="anchor" href="#axis-ordering"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="axis-ordering">Axis ordering<a class="anchor" aria-label="anchor" href="#axis-ordering"></a></h3>
 <div class="callout-content">
 <p>According to the standards, the axis ordering for a CRS should follow
 the definition provided by the competent authority. For the commonly
@@ -853,7 +850,7 @@ column of <code>waterways_nl</code>:</p>
 <div class="codewrapper sourceCode" id="cb27">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>waterways_nl[<span class="st">'geometry'</span>]</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a>waterways_nl[<span class="st">'geometry'</span>]</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -876,8 +873,8 @@ into one of the rows, for example, the third row:</p>
 <div class="codewrapper sourceCode" id="cb29">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(waterways_nl[<span class="st">'geometry'</span>][<span class="dv">2</span>])</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(waterways_nl[<span class="st">'geometry'</span>][<span class="dv">2</span>]))</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="bu">print</span>(waterways_nl[<span class="st">'geometry'</span>][<span class="dv">2</span>])</span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(waterways_nl[<span class="st">'geometry'</span>][<span class="dv">2</span>]))</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -896,14 +893,14 @@ geometry.</p>
 <div class="codewrapper sourceCode" id="cb31">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> shapely</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a function flipping the x and y coordinate values</span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> flip(geometry):</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> shapely.ops.transform(<span class="kw">lambda</span> x, y: (y, x), geometry)</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply this function to all coordinates and all lines</span></span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>geom_corrected <span class="op">=</span> waterways_nl[<span class="st">'geometry'</span>].<span class="bu">apply</span>(flip)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="im">import</span> shapely</span>
+<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a><span class="co"># Define a function flipping the x and y coordinate values</span></span>
+<span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a><span class="kw">def</span> flip(geometry):</span>
+<span id="cb31-5"><a href="#cb31-5" tabindex="-1"></a>    <span class="cf">return</span> shapely.ops.transform(<span class="kw">lambda</span> x, y: (y, x), geometry)</span>
+<span id="cb31-6"><a href="#cb31-6" tabindex="-1"></a></span>
+<span id="cb31-7"><a href="#cb31-7" tabindex="-1"></a><span class="co"># Apply this function to all coordinates and all lines</span></span>
+<span id="cb31-8"><a href="#cb31-8" tabindex="-1"></a>geom_corrected <span class="op">=</span> waterways_nl[<span class="st">'geometry'</span>].<span class="bu">apply</span>(flip)</span></code></pre>
 </div>
 <p>Then we can update the <code>geometry</code> column with the
 corrected geometry <code>geom_corrected</code>, and visualize it to
@@ -911,19 +908,19 @@ check:</p>
 <div class="codewrapper sourceCode" id="cb32">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Update geometry</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>waterways_nl[<span class="st">'geometry'</span>] <span class="op">=</span> geom_corrected</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualization</span></span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>waterways_nl.plot()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="co"># Update geometry</span></span>
+<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a>waterways_nl[<span class="st">'geometry'</span>] <span class="op">=</span> geom_corrected</span>
+<span id="cb32-3"><a href="#cb32-3" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" tabindex="-1"></a><span class="co"># Visualization</span></span>
+<span id="cb32-5"><a href="#cb32-5" tabindex="-1"></a>waterways_nl.plot()</span></code></pre>
 </div>
 <figure><img src="../fig/E07/waterways-corrected.png" alt="waterways, corrected" class="figure mx-auto d-block"></figure><p>Now the waterways look good! We can save the vector data for later
 usage:</p>
 <div class="codewrapper sourceCode" id="cb33">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Update geometry</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>waterways_nl.to_file(<span class="st">'waterways_nl_corrected.shp'</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="co"># Update geometry</span></span>
+<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a>waterways_nl.to_file(<span class="st">'waterways_nl_corrected.shp'</span>)</span></code></pre>
 </div>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
@@ -1010,7 +1007,7 @@ any links that you are not going to use.
   "identifier": "https://carpentries-incubator.github.io/geospatial-python/instructor/07-vector-data-in-python.html",
   "dateCreated": "2023-11-09",
   "dateModified": "2023-08-14",
-  "datePublished": "2024-02-27"
+  "datePublished": "2024-03-05"
 }
 
   </script><script>

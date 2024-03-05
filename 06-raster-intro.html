@@ -374,13 +374,12 @@ and become available from <code>xarray</code> objects after importing
 <p>We will also use the <a href="https://github.com/stac-utils/pystac" class="external-link"><code>pystac</code></a>
 package to load rasters from the search results we created in the
 previous episode.</p>
-<div id="introduce-the-raster-data" class="callout callout">
+<div id="callout1" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="introduce-the-raster-data" class="callout-inner">
-<h3 class="callout-title">Introduce the Raster Data<a class="anchor" aria-label="anchor" href="#introduce-the-raster-data"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="introduce-the-raster-data">Introduce the Raster Data<a class="anchor" aria-label="anchor" href="#introduce-the-raster-data"></a></h3>
 <div class="callout-content">
 <p>We’ll continue from the results of the satellite image search that we
 have carried out in an exercise from <a href="05-access-data.html">a
@@ -414,8 +413,8 @@ results as an <code>Item</code> list.</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pystac</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>items <span class="op">=</span> pystac.ItemCollection.from_file(<span class="st">"search.json"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="im">import</span> pystac</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>items <span class="op">=</span> pystac.ItemCollection.from_file(<span class="st">"search.json"</span>)</span></code></pre>
 </div>
 <p>In the search results, we have 2 <code>Item</code> type objects,
 corresponding to 4 Sentinel-2 scenes from March 26th and 28th in 2020.
@@ -427,15 +426,15 @@ load this band using the function
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>raster_ams_b9 <span class="op">=</span> rioxarray.open_rasterio(items[<span class="dv">0</span>].assets[<span class="st">"nir09"</span>].href)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="im">import</span> rioxarray</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>raster_ams_b9 <span class="op">=</span> rioxarray.open_rasterio(items[<span class="dv">0</span>].assets[<span class="st">"nir09"</span>].href)</span></code></pre>
 </div>
 <p>By calling the variable name in the jupyter notebook we can get a
 quick look at the shape and attributes of the data.</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>raster_ams_b9</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>raster_ams_b9</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -484,11 +483,11 @@ function in an object) and needs parentheses.</p>
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(raster_ams_b9.rio.crs)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(raster_ams_b9.rio.nodata)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(raster_ams_b9.rio.bounds())</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(raster_ams_b9.rio.width)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(raster_ams_b9.rio.height)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="bu">print</span>(raster_ams_b9.rio.crs)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="bu">print</span>(raster_ams_b9.rio.nodata)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="bu">print</span>(raster_ams_b9.rio.bounds())</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="bu">print</span>(raster_ams_b9.rio.width)</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="bu">print</span>(raster_ams_b9.rio.height)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -511,13 +510,12 @@ calculations.</p>
 <p>We will be exploring this data throughout this episode. By the end of
 this episode, you will be able to understand and explain the metadata
 output.</p>
-<div id="tip---variable-names" class="callout callout">
+<div id="callout2" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="tip---variable-names" class="callout-inner">
-<h3 class="callout-title">Tip - Variable names<a class="anchor" aria-label="anchor" href="#tip---variable-names"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="tip---variable-names">Tip - Variable names<a class="anchor" aria-label="anchor" href="#tip---variable-names"></a></h3>
 <div class="callout-content">
 <p>To improve code readability, file and object names should be used
 that make it clear what is in the file. The data for this episode covers
@@ -533,7 +531,7 @@ values of the array with <code>.values</code>:</p>
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>raster_ams_b9.values</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>raster_ams_b9.values</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -553,9 +551,10 @@ pandas <code>DataFrame</code> with <code>DataArray.plot()</code>.</p>
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>raster_ams_b9.plot()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>raster_ams_b9.plot()</span></code></pre>
 </div>
-<figure><img src="fig/E06/overview-plot-B09.png" alt="raster plot with defualt setting" class="figure mx-auto d-block"><figcaption>Raster plot with rioxarray</figcaption></figure><p>Nice plot! Notice that <code>rioxarray</code> helpfully allows us to
+<figure><img src="fig/E06/overview-plot-B09.png" alt="raster plot with defualt setting" class="figure mx-auto d-block"><div class="figcaption">Raster plot with rioxarray</div>
+</figure><p>Nice plot! Notice that <code>rioxarray</code> helpfully allows us to
 plot this raster with spatial coordinates on the x and y axis (this is
 not the default in many cases with other functions or libraries).</p>
 <p>This plot shows the satellite measurement of the spectral band
@@ -577,17 +576,17 @@ between the 2nd and 98th percentile:</p>
 <div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>raster_ams_b9.plot(robust<span class="op">=</span><span class="va">True</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>raster_ams_b9.plot(robust<span class="op">=</span><span class="va">True</span>)</span></code></pre>
 </div>
-<figure><img src="fig/E06/overview-plot-B09-robust.png" alt="raster plot with robust setting" class="figure mx-auto d-block"><figcaption>Raster plot using the “robust” setting</figcaption></figure><p>Now the color limit is set in a way fitting most of the values in the
+<figure><img src="fig/E06/overview-plot-B09-robust.png" alt="raster plot with robust setting" class="figure mx-auto d-block"><div class="figcaption">Raster plot using the “robust” setting</div>
+</figure><p>Now the color limit is set in a way fitting most of the values in the
 image. We have a better view of the ground pixels.</p>
-<div id="tool-tip" class="callout callout">
+<div id="callout3" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="tool-tip" class="callout-inner">
-<h3 class="callout-title">Tool Tip<a class="anchor" aria-label="anchor" href="#tool-tip"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="tool-tip">Tool Tip<a class="anchor" aria-label="anchor" href="#tool-tip"></a></h3>
 <div class="callout-content">
 <p>The option <code>robust=True</code> always forces displaying values
 between the 2nd and 98th percentile. Of course, this will not work for
@@ -597,7 +596,7 @@ example ploting between <code>100</code> and <code>7000</code>:</p>
 <div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>raster_ams_b9.plot(vmin<span class="op">=</span><span class="dv">100</span>, vmax<span class="op">=</span><span class="dv">7000</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>raster_ams_b9.plot(vmin<span class="op">=</span><span class="dv">100</span>, vmax<span class="op">=</span><span class="dv">7000</span>)</span></code></pre>
 </div>
 </div>
 </div>
@@ -613,7 +612,7 @@ We can view the CRS string associated with our DataArray’s
 <div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(raster_ams_b9.rio.crs)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="bu">print</span>(raster_ams_b9.rio.crs)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -625,7 +624,7 @@ We can view the CRS string associated with our DataArray’s
 <div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>raster_ams_b9.rio.crs.to_epsg()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>raster_ams_b9.rio.crs.to_epsg()</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -640,10 +639,10 @@ systems.</p>
 <div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyproj <span class="im">import</span> CRS</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>epsg <span class="op">=</span> raster_ams_b9.rio.crs.to_epsg()</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>crs <span class="op">=</span> CRS(epsg)</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>crs</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="im">from</span> pyproj <span class="im">import</span> CRS</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>epsg <span class="op">=</span> raster_ams_b9.rio.crs.to_epsg()</span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>crs <span class="op">=</span> CRS(epsg)</span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>crs</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -672,7 +671,7 @@ shows the geographic bounds that the CRS is intended to be used.</p>
 <div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>crs.area_of_use</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>crs.area_of_use</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -698,7 +697,7 @@ this information using <code>help(crs)</code> or
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p><code>crs.axis_info</code> tells us that the CRS for our raster has
 two axis and both are in meters. We could also get this information from
@@ -753,9 +752,10 @@ common datums. <code>NAD 1983</code> is <a href="https://en.wikipedia.org/wiki/D
 2022</a>.</li>
 </ul><p>Note that the zone is unique to the UTM projection. Not all CRSs will
 have a zone. Below is a simplified view of US UTM zones.</p>
-<figure><img src="fig/E03/Utm-zones-USA.svg" alt="UTM zones across the CONUS" class="figure mx-auto d-block"><figcaption>The UTM zones across the continental United States
-(Chrismurf at English Wikipedia, via <a href="https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system#/media/File:Utm-zones-USA.svg" class="external-link">Wikimedia
-Commons</a> (CC-BY))</figcaption></figure></div>
+<figure><img src="fig/E03/Utm-zones-USA.svg" alt="UTM zones across the CONUS" class="figure mx-auto d-block"><div class="figcaption">The UTM zones across the continental United
+States (Chrismurf at English Wikipedia, via <a href="https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system#/media/File:Utm-zones-USA.svg" class="external-link">Wikimedia
+Commons</a> (CC-BY))</div>
+</figure></div>
 </section><section id="calculate-raster-statistics"><h2 class="section-heading">Calculate Raster Statistics<a class="anchor" aria-label="anchor" href="#calculate-raster-statistics"></a>
 </h2>
 <hr class="half-width"><p>It is useful to know the minimum or maximum values of a raster
@@ -765,10 +765,10 @@ dataset. We can compute these and other descriptive statistics with
 <div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(raster_ams_b9.<span class="bu">min</span>())</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(raster_ams_b9.<span class="bu">max</span>())</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(raster_ams_b9.mean())</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(raster_ams_b9.std())</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="bu">print</span>(raster_ams_b9.<span class="bu">min</span>())</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="bu">print</span>(raster_ams_b9.<span class="bu">max</span>())</span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a><span class="bu">print</span>(raster_ams_b9.mean())</span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a><span class="bu">print</span>(raster_ams_b9.std())</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -797,7 +797,7 @@ For example for the 25% and 75% quantiles:</p>
 <div class="codewrapper sourceCode" id="cb23">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(raster_ams_b9.quantile([<span class="fl">0.25</span>, <span class="fl">0.75</span>]))</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="bu">print</span>(raster_ams_b9.quantile([<span class="fl">0.25</span>, <span class="fl">0.75</span>]))</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -807,22 +807,21 @@ array([   0., 2911.])
 Coordinates:
   * quantile  (quantile) float64 0.25 0.75</code></pre>
 </div>
-<div id="data-tip---numpy-methods" class="callout callout">
+<div id="callout4" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="data-tip---numpy-methods" class="callout-inner">
-<h3 class="callout-title">Data Tip - NumPy methods<a class="anchor" aria-label="anchor" href="#data-tip---numpy-methods"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="data-tip---numpy-methods">Data Tip - NumPy methods<a class="anchor" aria-label="anchor" href="#data-tip---numpy-methods"></a></h3>
 <div class="callout-content">
 <p>You could also get each of these values one by one using
 <code>numpy</code>.</p>
 <div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(numpy.percentile(raster_ams_b9, <span class="dv">25</span>))</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(numpy.percentile(raster_ams_b9, <span class="dv">75</span>))</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="im">import</span> numpy</span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a><span class="bu">print</span>(numpy.percentile(raster_ams_b9, <span class="dv">25</span>))</span>
+<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a><span class="bu">print</span>(numpy.percentile(raster_ams_b9, <span class="dv">75</span>))</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -873,7 +872,7 @@ use <code>nan</code> to represent them. This can be done by specifying
 <div class="codewrapper sourceCode" id="cb27">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>raster_ams_b9 <span class="op">=</span> rioxarray.open_rasterio(items[<span class="dv">0</span>].assets[<span class="st">"nir09"</span>].href, masked<span class="op">=</span><span class="va">True</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a>raster_ams_b9 <span class="op">=</span> rioxarray.open_rasterio(items[<span class="dv">0</span>].assets[<span class="st">"nir09"</span>].href, masked<span class="op">=</span><span class="va">True</span>)</span></code></pre>
 </div>
 <p>One can also use the <code>where</code> function to select all the
 pixels which are different from the <code>nodata</code> value of the
@@ -881,7 +880,7 @@ raster:</p>
 <div class="codewrapper sourceCode" id="cb28">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>raster_ams_b9.where(raster_ams_b9<span class="op">!=</span>raster_ams_b9.rio.nodata)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>raster_ams_b9.where(raster_ams_b9<span class="op">!=</span>raster_ams_b9.rio.nodata)</span></code></pre>
 </div>
 <p>Either way will change the <code>nodata</code> value from 0 to
 <code>nan</code>. Now if we compute the statistics again, the missing
@@ -911,7 +910,9 @@ Coordinates:
     spatial_ref  int64 0</code></pre>
 <p>And if we plot the image, the <code>nodata</code> pixels are not
 shown because they are not 0 anymore:</p>
-<figure><img src="fig/E06/overview-plot-B09-robust-with-nan.png" alt="raster plot masking missing values" class="figure mx-auto d-block"><figcaption>Raster plot after masking out missing values</figcaption></figure><p>One should notice that there is a side effect of using
+<figure><img src="fig/E06/overview-plot-B09-robust-with-nan.png" alt="raster plot masking missing values" class="figure mx-auto d-block"><div class="figcaption">Raster plot after masking out missing
+values</div>
+</figure><p>One should notice that there is a side effect of using
 <code>nan</code> instead of <code>0</code> to represent the missing
 data: the data type of the <code>DataArray</code> was changed from
 integers to float. This need to be taken into consideration when the
@@ -924,13 +925,14 @@ smaller, non georeferenced version of the scene, one may also want to
 visualize the true-color overview of the region. This is provided as a
 multi-band raster – a raster dataset that contains more than one
 band.</p>
-<figure><img src="fig/E06/single_multi_raster.png" alt="multi-band raster" class="figure mx-auto d-block"><figcaption>Sketch of a multi-band raster image</figcaption></figure><p>The <code>overview</code> asset in the Sentinel-2 scene is a
+<figure><img src="fig/E06/single_multi_raster.png" alt="multi-band raster" class="figure mx-auto d-block"><div class="figcaption">Sketch of a multi-band raster image</div>
+</figure><p>The <code>overview</code> asset in the Sentinel-2 scene is a
 multiband asset. Similar to <code>nir09</code>, we can load it by:</p>
 <div class="codewrapper sourceCode" id="cb30">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>raster_ams_overview <span class="op">=</span> rioxarray.open_rasterio(items[<span class="dv">0</span>].assets[<span class="st">'visual'</span>].href, overview_level<span class="op">=</span><span class="dv">3</span>)</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>raster_ams_overview</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a>raster_ams_overview <span class="op">=</span> rioxarray.open_rasterio(items[<span class="dv">0</span>].assets[<span class="st">'visual'</span>].href, overview_level<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a>raster_ams_overview</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -961,7 +963,7 @@ using the <code>.shape</code> attribute:</p>
 <div class="codewrapper sourceCode" id="cb32">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>raster_ams_overview.shape</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a>raster_ams_overview.shape</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -973,10 +975,11 @@ using the <code>.shape</code> attribute:</p>
 <div class="codewrapper sourceCode" id="cb34">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>raster_ams_overview.plot.imshow()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a>raster_ams_overview.plot.imshow()</span></code></pre>
 </div>
-<figure><img src="fig/E06/overview-plot-true-color.png" alt="true-color image overview" class="figure mx-auto d-block"><figcaption>Overview of the true-color image (multi-band
-raster)</figcaption></figure><p>Note that the <code>DataArray.plot.imshow()</code> function makes
+<figure><img src="fig/E06/overview-plot-true-color.png" alt="true-color image overview" class="figure mx-auto d-block"><div class="figcaption">Overview of the true-color image (multi-band
+raster)</div>
+</figure><p>Note that the <code>DataArray.plot.imshow()</code> function makes
 assumptions about the shape of the input DataArray, that since it has
 three channels, the correct colormap for these channels is RGB. It does
 not work directly on image arrays with more than 3 channels. One can
@@ -1001,7 +1004,7 @@ of <code>DataArray.plot.imshow()</code>.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>Since we know the height/width ratio is 1:1 (check the
 <code>rio.height</code> and <code>rio.width</code> attributes), we can
@@ -1013,10 +1016,11 @@ provided.</p>
 <div class="codewrapper sourceCode" id="cb35">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>raster_ams_overview.plot.imshow(size<span class="op">=</span><span class="dv">5</span>, aspect<span class="op">=</span><span class="dv">1</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a>raster_ams_overview.plot.imshow(size<span class="op">=</span><span class="dv">5</span>, aspect<span class="op">=</span><span class="dv">1</span>)</span></code></pre>
 </div>
-<figure><img src="fig/E06/overview-plot-true-color-aspect-equal.png" alt="raster plot with correct aspect ratio" class="figure mx-auto d-block"><figcaption>Overview of the true-color image with the correct
-aspect ratio</figcaption></figure></div>
+<figure><img src="fig/E06/overview-plot-true-color-aspect-equal.png" alt="raster plot with correct aspect ratio" class="figure mx-auto d-block"><div class="figcaption">Overview of the true-color image with the
+correct aspect ratio</div>
+</figure></div>
 </div>
 </div>
 </div>
@@ -1103,7 +1107,7 @@ any links that you are not going to use.
   "identifier": "https://carpentries-incubator.github.io/geospatial-python/06-raster-intro.html",
   "dateCreated": "2023-11-09",
   "dateModified": "2023-08-23",
-  "datePublished": "2024-02-27"
+  "datePublished": "2024-03-05"
 }
 
   </script><script>

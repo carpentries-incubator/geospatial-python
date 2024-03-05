@@ -382,8 +382,9 @@ different from a digital photo in that it is accompanied by spatial
 information that connects the data to a particular location. This
 includes the raster’s extent and cell size, the number of rows and
 columns, and its coordinate reference system (or CRS).</p>
-<figure><img src="../fig/E01/raster_concept.png" alt="raster concept" class="figure mx-auto d-block"><figcaption>Raster Concept (Source: National Ecological
-Observatory Network (NEON))</figcaption></figure><p>Some examples of continuous rasters include:</p>
+<figure><img src="../fig/E01/raster_concept.png" alt="raster concept" class="figure mx-auto d-block"><div class="figcaption">Raster Concept (Source: National Ecological
+Observatory Network (NEON))</div>
+</figure><p>Some examples of continuous rasters include:</p>
 <ol style="list-style-type: decimal"><li>Precipitation maps.</li>
 <li>Maps of tree height derived from LiDAR data.</li>
 <li>Elevation values for a region.</li>
@@ -391,14 +392,16 @@ Observatory Network (NEON))</figcaption></figure><p>Some examples of continuous 
 AOP LiDAR sensor</a> is below. Elevation is represented as a continuous
 numeric variable in this map. The legend shows the continuous range of
 values in the data from around 300 to 420 meters.</p>
-<figure><img src="../fig/E01/continuous-elevation-HARV-plot-01.png" alt="elevation Harvard forest" class="figure mx-auto d-block"><figcaption>Continuous Elevation Map: HARV Field Site</figcaption></figure><p>Some rasters contain categorical data where each pixel represents a
+<figure><img src="../fig/E01/continuous-elevation-HARV-plot-01.png" alt="elevation Harvard forest" class="figure mx-auto d-block"><div class="figcaption">Continuous Elevation Map: HARV Field Site</div>
+</figure><p>Some rasters contain categorical data where each pixel represents a
 discrete class such as a landcover type (e.g., “forest” or “grassland”)
 rather than a continuous value such as elevation or temperature. Some
 examples of classified maps include:</p>
 <ol style="list-style-type: decimal"><li>Landcover / land-use maps.</li>
 <li>Tree height maps classified as short, medium, and tall trees.</li>
 <li>Elevation maps classified as low, medium, and high elevation.</li>
-</ol><figure><img src="../fig/E01/USA_landcover_classification.png" alt="USA landcover classification" class="figure mx-auto d-block"><figcaption>USA landcover classification</figcaption></figure><p>The map above shows the contiguous United States with landcover as
+</ol><figure><img src="../fig/E01/USA_landcover_classification.png" alt="USA landcover classification" class="figure mx-auto d-block"><div class="figcaption">USA landcover classification</div>
+</figure><p>The map above shows the contiguous United States with landcover as
 categorical data. Each color is a different landcover category. (Source:
 Homer, C.G., et al., 2015, Completion of the 2011 National Land Cover
 Database for the conterminous United States-Representing a decade of
@@ -424,7 +427,7 @@ the small group discussions.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>Raster data has some important advantages:</p>
 <ul><li>representation of continuous surfaces</li>
@@ -451,8 +454,9 @@ covers. The spatial extent of an object represents the geographic edge
 or location that is the furthest north, south, east and west. In other
 words, extent represents the overall geographic coverage of the spatial
 object.</p>
-<figure><img src="../fig/E01/spatial_extent.png" alt="spatial extent objects" class="figure mx-auto d-block"><figcaption>Spatial extent image (Image Source: National
-Ecological Observatory Network (NEON))</figcaption></figure><div id="extent-challenge" class="callout challenge">
+<figure><img src="../fig/E01/spatial_extent.png" alt="spatial extent objects" class="figure mx-auto d-block"><div class="figcaption">Spatial extent image (Image Source: National
+Ecological Observatory Network (NEON))</div>
+</figure><div id="extent-challenge" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
@@ -471,7 +475,7 @@ If not, which object(s) have a different extent?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>The lines and polygon objects have the same extent. The extent for
 the points object is smaller in the vertical direction than the other
@@ -486,8 +490,9 @@ two because there are no points on the line at y = 8.</p>
 <p>A resolution of a raster represents the area on the ground that each
 pixel of the raster covers. The image below illustrates the effect of
 changes in resolution.</p>
-<figure><img src="../fig/E01/raster_resolution.png" alt="resolution image" class="figure mx-auto d-block"><figcaption>Resolution image (Source: National Ecological
-Observatory Network (NEON))</figcaption></figure></div>
+<figure><img src="../fig/E01/raster_resolution.png" alt="resolution image" class="figure mx-auto d-block"><div class="figcaption">Resolution image (Source: National Ecological
+Observatory Network (NEON))</div>
+</figure></div>
 </div>
 <div class="section level3">
 <h3 id="raster-data-format-for-this-workshop">Raster Data Format for this Workshop<a class="anchor" aria-label="anchor" href="#raster-data-format-for-this-workshop"></a></h3>
@@ -511,13 +516,13 @@ episode</a>.</li>
 </ol><p>We will discuss these attributes in more detail in <a href="06-raster-intro.html">a later episode</a>. In that episode, we
 will also learn how to use Python to extract raster attributes from a
 GeoTIFF file.</p>
-<div id="more-resources-on-the-.tif-format" class="callout callout">
+<div id="callout1" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="more-resources-on-the-.tif-format" class="callout-inner">
-<h3 class="callout-title">More Resources on the<code>.tif</code>format<a class="anchor" aria-label="anchor" href="#more-resources-on-the-.tif-format"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="more-resources-on-the--tif-format">More Resources on the <code>.tif</code>
+format<a class="anchor" aria-label="anchor" href="#more-resources-on-the--tif-format"></a></h3>
 <div class="callout-content">
 <ul><li><a href="https://en.wikipedia.org/wiki/GeoTIFF" class="external-link">GeoTIFF on
 Wikipedia</a></li>
@@ -535,19 +540,19 @@ image consists of three bands: red, green, and blue. Each band
 represents light reflected from the red, green or blue portions of the
 electromagnetic spectrum. The pixel brightness for each band, when
 composited creates the colors that we see in an image.</p>
-<figure><img src="../fig/E01/RGBSTack_1.jpg" alt="multi-band raster" class="figure mx-auto d-block"><figcaption>RGB multi-band raster image (Source: National
-Ecological Observatory Network (NEON).)</figcaption></figure><p>We can plot each band of a multi-band image individually.</p>
+<figure><img src="../fig/E01/RGBSTack_1.jpg" alt="multi-band raster" class="figure mx-auto d-block"><div class="figcaption">RGB multi-band raster image (Source: National
+Ecological Observatory Network (NEON).)</div>
+</figure><p>We can plot each band of a multi-band image individually.</p>
 <p>Or we can composite all three bands together to make a color
 image.</p>
 <p>In a multi-band dataset, the rasters will always have the same
 extent, resolution, and CRS.</p>
-<div id="other-types-of-multi-band-raster-data" class="callout callout">
+<div id="callout2" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="other-types-of-multi-band-raster-data" class="callout-inner">
-<h3 class="callout-title">Other Types of Multi-band Raster Data<a class="anchor" aria-label="anchor" href="#other-types-of-multi-band-raster-data"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="other-types-of-multi-band-raster-data">Other Types of Multi-band Raster Data<a class="anchor" aria-label="anchor" href="#other-types-of-multi-band-raster-data"></a></h3>
 <div class="callout-content">
 <p>Multi-band raster data might also contain: 1. <strong>Time
 series:</strong> the same variable, over the same area, over time. 2.
@@ -640,7 +645,7 @@ any links that you are not going to use.
   "identifier": "https://carpentries-incubator.github.io/geospatial-python/instructor/01-intro-raster-data.html",
   "dateCreated": "2023-11-09",
   "dateModified": "2023-08-14",
-  "datePublished": "2024-02-27"
+  "datePublished": "2024-03-05"
 }
 
   </script><script>

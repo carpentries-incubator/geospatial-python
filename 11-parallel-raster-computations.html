@@ -372,13 +372,12 @@ distributed computing. It provides a framework to work with different
 data structures, including chunked arrays (Dask Arrays). Dask is well
 integrated with (<code>rio</code>)<code>xarray</code>, which can use
 Dask arrays as underlying data structures.</p>
-<div id="dask" class="callout callout">
+<div id="callout1" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="dask" class="callout-inner">
-<h3 class="callout-title">Dask<a class="anchor" aria-label="anchor" href="#dask"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="dask">Dask<a class="anchor" aria-label="anchor" href="#dask"></a></h3>
 <div class="callout-content">
 <p>This episode shows how Dask can be used to parallelize operations on
 local CPUs. However, the same library can be configured to run tasks on
@@ -403,13 +402,12 @@ is a common noise removal technique which replaces a pixel’s value with
 the median value computed from its surrounding pixels.</p>
 </section><section id="time-profiling-in-jupyter"><h2 class="section-heading">Time profiling in Jupyter<a class="anchor" aria-label="anchor" href="#time-profiling-in-jupyter"></a>
 </h2>
-<hr class="half-width"><div id="introduce-the-data" class="callout callout">
+<hr class="half-width"><div id="callout2" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="introduce-the-data" class="callout-inner">
-<h3 class="callout-title">Introduce the Data<a class="anchor" aria-label="anchor" href="#introduce-the-data"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="introduce-the-data">Introduce the Data<a class="anchor" aria-label="anchor" href="#introduce-the-data"></a></h3>
 <div class="callout-content">
 <p>We’ll continue from the results of the satellite image search that we
 have carried out in an exercise from <a href="./05-access-data.html">a
@@ -434,16 +432,16 @@ search of satellite scenes. We first load the item collection using the
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pystac</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>items <span class="op">=</span> pystac.ItemCollection.from_file(<span class="st">"search.json"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="im">import</span> pystac</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>items <span class="op">=</span> pystac.ItemCollection.from_file(<span class="st">"search.json"</span>)</span></code></pre>
 </div>
 <p>We select the last scene, and extract the URL of the true-color image
 (“visual”):</p>
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>assets <span class="op">=</span> items[<span class="op">-</span><span class="dv">1</span>].assets  <span class="co"># last item's assets</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>visual_href <span class="op">=</span> assets[<span class="st">"visual"</span>].href  <span class="co"># true color image</span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>assets <span class="op">=</span> items[<span class="op">-</span><span class="dv">1</span>].assets  <span class="co"># last item's assets</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>visual_href <span class="op">=</span> assets[<span class="st">"visual"</span>].href  <span class="co"># true color image</span></span></code></pre>
 </div>
 <p>The true-color image is available as a raster file with 10 m
 resolution and 3 bands (you can verify this by opening the file with
@@ -464,9 +462,9 @@ m:</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>visual <span class="op">=</span> rioxarray.open_rasterio(visual_href, overview_level<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(visual.rio.resolution())</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="im">import</span> rioxarray</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>visual <span class="op">=</span> rioxarray.open_rasterio(visual_href, overview_level<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="bu">print</span>(visual.rio.resolution())</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -480,16 +478,17 @@ loading:</p>
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>visual <span class="op">=</span> visual.load()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>visual <span class="op">=</span> visual.load()</span></code></pre>
 </div>
 <p>Note that by default data is loaded using Numpy arrays as underlying
 data structure. We can visualize the raster:</p>
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>visual.plot.imshow(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">10</span>))</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>visual.plot.imshow(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">10</span>))</span></code></pre>
 </div>
-<figure><img src="fig/E11/true-color-image.png" alt="true color image scene" class="figure mx-auto d-block"><figcaption>Scene’s true-color image</figcaption></figure><p>Let’s now apply a median filter to the image while keeping track of
+<figure><img src="fig/E11/true-color-image.png" alt="true color image scene" class="figure mx-auto d-block"><div class="figcaption">Scene’s true-color image</div>
+</figure><p>Let’s now apply a median filter to the image while keeping track of
 the execution time of this task. The filter is carried out in two steps:
 first, we define the size and centering of the region around each pixel
 that will be considered for the median calculation (the so-called
@@ -505,8 +504,8 @@ on the first line of the cell!):</p>
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>time</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>median <span class="op">=</span> visual.rolling(x<span class="op">=</span><span class="dv">7</span>, y<span class="op">=</span><span class="dv">7</span>, center<span class="op">=</span><span class="va">True</span>).median()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="op">%%</span>time</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>median <span class="op">=</span> visual.rolling(x<span class="op">=</span><span class="dv">7</span>, y<span class="op">=</span><span class="dv">7</span>, center<span class="op">=</span><span class="va">True</span>).median()</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -520,15 +519,15 @@ median filtering:</p>
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>median.plot.imshow(robust<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">10</span>))</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>median.plot.imshow(robust<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">10</span>))</span></code></pre>
 </div>
-<figure><img src="fig/E11/true-color-image_median-filter.png" alt="median filter true color image" class="figure mx-auto d-block"><figcaption>True-color image after median filtering</figcaption></figure><div id="handling-edges" class="callout callout">
+<figure><img src="fig/E11/true-color-image_median-filter.png" alt="median filter true color image" class="figure mx-auto d-block"><div class="figcaption">True-color image after median filtering</div>
+</figure><div id="callout3" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="handling-edges" class="callout-inner">
-<h3 class="callout-title">Handling edges<a class="anchor" aria-label="anchor" href="#handling-edges"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="handling-edges">Handling edges<a class="anchor" aria-label="anchor" href="#handling-edges"></a></h3>
 <div class="callout-content">
 <p>By looking closely, you might notice a tiny white edge at the plot
 boundaries. These are the pixels that are less than 3 pixels away from
@@ -542,7 +541,7 @@ values.</p>
 <div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>median.rio.to_raster(<span class="st">"visual_median-filter.tif"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>median.rio.to_raster(<span class="st">"visual_median-filter.tif"</span>)</span></code></pre>
 </div>
 <p>In the following section we will see how to parallelize these raster
 calculations, and we will compare timings to the serial calculations
@@ -563,12 +562,13 @@ in the second and third dimensions):</p>
 <div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>blue_band_href <span class="op">=</span> assets[<span class="st">"blue"</span>].href</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>blue_band <span class="op">=</span> rioxarray.open_rasterio(blue_band_href, chunks<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">4000</span>, <span class="dv">4000</span>))</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>blue_band_href <span class="op">=</span> assets[<span class="st">"blue"</span>].href</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>blue_band <span class="op">=</span> rioxarray.open_rasterio(blue_band_href, chunks<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">4000</span>, <span class="dv">4000</span>))</span></code></pre>
 </div>
 <p>Xarray and Dask also provide a graphical representation of the raster
 data array and of its blocked structure.</p>
-<figure><img src="fig/E11/xarray-with-dask.png" alt="DataArray with Dask" class="figure mx-auto d-block"><figcaption>Xarray Dask-backed DataArray</figcaption></figure><div id="exercise-chunk-sizes-matter" class="callout challenge">
+<figure><img src="fig/E11/xarray-with-dask.png" alt="DataArray with Dask" class="figure mx-auto d-block"><div class="figcaption">Xarray Dask-backed DataArray</div>
+</figure><div id="exercise-chunk-sizes-matter" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
@@ -586,10 +586,10 @@ COG file with the following code ippet:</p>
 <div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rasterio</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rasterio.<span class="bu">open</span>(visual_href) <span class="im">as</span> r:</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> r.is_tiled:</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Chunk size: </span><span class="sc">{</span>r<span class="sc">.</span>block_shapes<span class="sc">}</span><span class="ss">"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="im">import</span> rasterio</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="cf">with</span> rasterio.<span class="bu">open</span>(visual_href) <span class="im">as</span> r:</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>    <span class="cf">if</span> r.is_tiled:</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Chunk size: </span><span class="sc">{</span>r<span class="sc">.</span>block_shapes<span class="sc">}</span><span class="ss">"</span>)</span></code></pre>
 </div>
 <p>In order to optimally access COGs it is best to align the blocksize
 of the file with the chunks ployed when loading the file. Open the
@@ -605,15 +605,15 @@ size?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rasterio</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> rasterio.<span class="bu">open</span>(blue_band_href) <span class="im">as</span> r:</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> r.is_tiled:</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Chunk size: </span><span class="sc">{</span>r<span class="sc">.</span>block_shapes<span class="sc">}</span><span class="ss">"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="im">import</span> rasterio</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="cf">with</span> rasterio.<span class="bu">open</span>(blue_band_href) <span class="im">as</span> r:</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>    <span class="cf">if</span> r.is_tiled:</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Chunk size: </span><span class="sc">{</span>r<span class="sc">.</span>block_shapes<span class="sc">}</span><span class="ss">"</span>)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -632,7 +632,7 @@ application! Here, we might select a chunks shape of
 <div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>band <span class="op">=</span> rioxarray.open_rasterio(blue_band_href, chunks<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">6144</span>, <span class="dv">6144</span>))</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>band <span class="op">=</span> rioxarray.open_rasterio(blue_band_href, chunks<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">6144</span>, <span class="dv">6144</span>))</span></code></pre>
 </div>
 <p>which leads to chunks 72 MB large: ((1 x 6144 x 6144) x 2 bytes /
 2^20 = 72 MB). Also, we can t
@@ -640,7 +640,7 @@ ioxarray<code>and Dask figure out appropriate chunk shapes by setting</code>chun
 <div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>band <span class="op">=</span> rioxarray.open_rasterio(blue_band_href, chunks<span class="op">=</span><span class="st">"auto"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>band <span class="op">=</span> rioxarray.open_rasterio(blue_band_href, chunks<span class="op">=</span><span class="st">"auto"</span>)</span></code></pre>
 </div>
 <p>which leads to <code>(1, 8192, 8192)</code> chunks (128 MB).</p>
 </div>
@@ -661,7 +661,7 @@ arrays:</p>
 <div class="codewrapper sourceCode" id="cb17">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>visual_dask <span class="op">=</span> rioxarray.open_rasterio(visual_href, overview_level<span class="op">=</span><span class="dv">2</span>, lock<span class="op">=</span><span class="va">False</span>, chunks<span class="op">=</span>(<span class="dv">3</span>, <span class="dv">500</span>, <span class="dv">500</span>))</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>visual_dask <span class="op">=</span> rioxarray.open_rasterio(visual_href, overview_level<span class="op">=</span><span class="dv">2</span>, lock<span class="op">=</span><span class="va">False</span>, chunks<span class="op">=</span>(<span class="dv">3</span>, <span class="dv">500</span>, <span class="dv">500</span>))</span></code></pre>
 </div>
 <p>Setting <code>lock=False</code> tells <code>rioxarray</code> that the
 individual data chunks can be loaded simultaneously from the source by
@@ -676,7 +676,7 @@ threads:</p>
 <div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>visual_dask <span class="op">=</span> visual_dask.persist(scheduler<span class="op">=</span><span class="st">"threads"</span>, num_workers<span class="op">=</span><span class="dv">4</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>visual_dask <span class="op">=</span> visual_dask.persist(scheduler<span class="op">=</span><span class="st">"threads"</span>, num_workers<span class="op">=</span><span class="dv">4</span>)</span></code></pre>
 </div>
 <p>Let’s now continue to the actual calculation. Note how the same
 syntax as for its serial version is employed for applying the median
@@ -684,8 +684,8 @@ filter. Don’t forget to add the Jupyter magic to record the timing!</p>
 <div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>time</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>median_dask <span class="op">=</span> visual_dask.rolling(x<span class="op">=</span><span class="dv">7</span>, y<span class="op">=</span><span class="dv">7</span>, center<span class="op">=</span><span class="va">True</span>).median()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="op">%%</span>time</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>median_dask <span class="op">=</span> visual_dask.rolling(x<span class="op">=</span><span class="dv">7</span>, y<span class="op">=</span><span class="dv">7</span>, center<span class="op">=</span><span class="va">True</span>).median()</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -697,23 +697,23 @@ Wall time: 25.2 ms</code></pre>
 calculation (19.6 s vs 25.2 ms)? Actually, no calculation has run yet.
 This is because operations performed on Dask arrays are executed
 “lazily”, i.e. they are not immediately run.</p>
-<div id="dask-graph" class="callout callout">
+<div id="callout4" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="dask-graph" class="callout-inner">
-<h3 class="callout-title">Dask graph<a class="anchor" aria-label="anchor" href="#dask-graph"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="dask-graph">Dask graph<a class="anchor" aria-label="anchor" href="#dask-graph"></a></h3>
 <div class="callout-content">
 <p>The sequence of operations to carry out is stored in a task graph,
 which can be visualized with:</p>
 <div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> dask</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>dask.visualize(median_dask)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="im">import</span> dask</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>dask.visualize(median_dask)</span></code></pre>
 </div>
-<figure><img src="fig/E11/dask-graph.png" alt="dask graph" class="figure mx-auto d-block"><figcaption>Dask graph</figcaption></figure><p>The task graph gives Dask the complete “overview” of the calculation,
+<figure><img src="fig/E11/dask-graph.png" alt="dask graph" class="figure mx-auto d-block"><div class="figcaption">Dask graph</div>
+</figure><p>The task graph gives Dask the complete “overview” of the calculation,
 thus enabling a better nagement of tasks and resources when dispatching
 calculations to be run in parallel.</p>
 </div>
@@ -732,8 +732,8 @@ cell execution:</p>
 <div class="codewrapper sourceCode" id="cb22">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>time</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>median_dask <span class="op">=</span> median_dask.persist(scheduler<span class="op">=</span><span class="st">"threads"</span>, num_workers<span class="op">=</span><span class="dv">4</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="op">%%</span>time</span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>median_dask <span class="op">=</span> median_dask.persist(scheduler<span class="op">=</span><span class="st">"threads"</span>, num_workers<span class="op">=</span><span class="dv">4</span>)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -760,8 +760,8 @@ file (they might otherwise overwrite each other’s output).</p>
 <div class="codewrapper sourceCode" id="cb24">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> threading <span class="im">import</span> Lock</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>median_dask.rio.to_raster(<span class="st">"visual_median-filter_dask.tif"</span>, tiled<span class="op">=</span><span class="va">True</span>, lock<span class="op">=</span>Lock())</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="im">from</span> threading <span class="im">import</span> Lock</span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>median_dask.rio.to_raster(<span class="st">"visual_median-filter_dask.tif"</span>, tiled<span class="op">=</span><span class="va">True</span>, lock<span class="op">=</span>Lock())</span></code></pre>
 </div>
 <p>Note that <code>.to_raster()</code> is among the methods that trigger
 immediate calculations (one can change this behaviour by specifying
@@ -851,7 +851,7 @@ any links that you are not going to use.
   "identifier": "https://carpentries-incubator.github.io/geospatial-python/11-parallel-raster-computations.html",
   "dateCreated": "2023-11-09",
   "dateModified": "2023-08-14",
-  "datePublished": "2024-02-27"
+  "datePublished": "2024-03-05"
 }
 
   </script><script>

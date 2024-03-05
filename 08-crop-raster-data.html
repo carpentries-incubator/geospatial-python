@@ -357,13 +357,12 @@ before performing data analysis.</p>
 desired area. We will use one Sentinel-2 image over Amsterdam as the
 example raster data, and introduce how to crop your data to different
 types of AoIs.</p>
-<div id="introduce-the-data" class="callout callout">
+<div id="callout1" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="introduce-the-data" class="callout-inner">
-<h3 class="callout-title">Introduce the Data<a class="anchor" aria-label="anchor" href="#introduce-the-data"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="introduce-the-data">Introduce the Data<a class="anchor" aria-label="anchor" href="#introduce-the-data"></a></h3>
 <div class="callout-content">
 <p>We will use the results of the satellite image search:
 <code>search.json</code>, which is generated in an exercise from <a href="05-access-data.html">Episode 5: Access satellite imagery using
@@ -392,13 +391,13 @@ python</a>.</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pystac</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Load image and inspect the shape</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>items <span class="op">=</span> pystac.ItemCollection.from_file(<span class="st">"search.json"</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>raster <span class="op">=</span> rioxarray.open_rasterio(items[<span class="dv">1</span>].assets[<span class="st">"visual"</span>].href) <span class="co"># Select a true color image</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(raster.shape)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="im">import</span> pystac</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="im">import</span> rioxarray</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co"># Load image and inspect the shape</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>items <span class="op">=</span> pystac.ItemCollection.from_file(<span class="st">"search.json"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>raster <span class="op">=</span> rioxarray.open_rasterio(items[<span class="dv">1</span>].assets[<span class="st">"visual"</span>].href) <span class="co"># Select a true color image</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="bu">print</span>(raster.shape)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -416,12 +415,12 @@ original raster.</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the overview asset</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>raster_overview <span class="op">=</span> rioxarray.open_rasterio(items[<span class="dv">1</span>].assets[<span class="st">"visual"</span>].href, overview_level<span class="op">=</span><span class="dv">3</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(raster_overview.shape)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize it</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>raster_overview.plot.imshow(figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">8</span>))</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Get the overview asset</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>raster_overview <span class="op">=</span> rioxarray.open_rasterio(items[<span class="dv">1</span>].assets[<span class="st">"visual"</span>].href, overview_level<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="bu">print</span>(raster_overview.shape)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co"># Visualize it</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>raster_overview.plot.imshow(figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">8</span>))</span></code></pre>
 </div>
 <figure><img src="fig/E08/crop-raster-overview-raster-00.png" alt="Overview of the raster" class="figure mx-auto d-block"></figure><p>As we can see, the overview image is much smaller compared to the
 original true color image.</p>
@@ -430,10 +429,10 @@ system. For raster data, we use <code>pyproj.CRS</code>:</p>
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyproj <span class="im">import</span> CRS</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the coordinate system</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>CRS(raster.rio.crs)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="im">from</span> pyproj <span class="im">import</span> CRS</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co"># Check the coordinate system</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>CRS(raster.rio.crs)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -457,13 +456,13 @@ Datum: World Geodetic System 1984
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the polygons of the crop fields</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>fields <span class="op">=</span> gpd.read_file(<span class="st">"fields_cropped.shp"</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the coordinate system</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>fields.crs</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co"># Load the polygons of the crop fields</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>fields <span class="op">=</span> gpd.read_file(<span class="st">"fields_cropped.shp"</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co"># Check the coordinate system</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>fields.crs</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -491,7 +490,7 @@ the entire image:</p>
 <div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fields <span class="op">=</span> fields.to_crs(raster.rio.crs)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>fields <span class="op">=</span> fields.to_crs(raster.rio.crs)</span></code></pre>
 </div>
 </section><section id="crop-raster-data-with-a-bounding-box"><h2 class="section-heading">Crop raster data with a bounding box<a class="anchor" aria-label="anchor" href="#crop-raster-data-with-a-bounding-box"></a>
 </h2>
@@ -502,9 +501,9 @@ original image <code>raster</code> now, and not the overview image
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Crop the raster with the bounding box</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>raster_clip_box <span class="op">=</span> raster.rio.clip_box(<span class="op">*</span>fields.total_bounds)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(raster_clip_box.shape)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># Crop the raster with the bounding box</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>raster_clip_box <span class="op">=</span> raster.rio.clip_box(<span class="op">*</span>fields.total_bounds)</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="bu">print</span>(raster_clip_box.shape)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -516,13 +515,13 @@ visualize it now:</p>
 <div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>raster_clip_box.plot.imshow(figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">8</span>))</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>raster_clip_box.plot.imshow(figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">8</span>))</span></code></pre>
 </div>
 <figure><img src="fig/E08/crop-raster-crop-by-bb-02.png" alt="Raster cropped by a bounding box" class="figure mx-auto d-block"></figure><p>This cropped image can be saved for later usage:</p>
 <div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>raster_clip_box.rio.to_raster(<span class="st">"raster_clip.tif"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>raster_clip_box.rio.to_raster(<span class="st">"raster_clip.tif"</span>)</span></code></pre>
 </div>
 </section><section id="crop-raster-data-with-polygons"><h2 class="section-heading">Crop raster data with polygons<a class="anchor" aria-label="anchor" href="#crop-raster-data-with-polygons"></a>
 </h2>
@@ -532,13 +531,13 @@ This can be done with the <code>clip</code> function:</p>
 <div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>raster_clip_fields <span class="op">=</span> raster_clip_box.rio.clip(fields[<span class="st">'geometry'</span>])</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>raster_clip_fields <span class="op">=</span> raster_clip_box.rio.clip(fields[<span class="st">'geometry'</span>])</span></code></pre>
 </div>
 <p>And we can visualize the results:</p>
 <div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>raster_clip_fields.plot.imshow(figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">8</span>))</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>raster_clip_fields.plot.imshow(figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">8</span>))</span></code></pre>
 </div>
 <figure><img src="fig/E08/crop-raster-crop-fields.png" alt="Ratser cropped by field polygons" class="figure mx-auto d-block"></figure><div id="exercise-crop-raster-data-with-a-specific-code" class="callout challenge">
 <div class="callout-square">
@@ -564,16 +563,16 @@ fields;</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>mask <span class="op">=</span> fields[<span class="st">'gewascode'</span>]<span class="op">==</span><span class="dv">257</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>fields_gwascode <span class="op">=</span> fields.where(mask)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>fields_gwascode <span class="op">=</span> fields_gwascode.dropna()</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>raster_clip_fields_gwascode <span class="op">=</span> raster_clip_box.rio.clip(fields_gwascode[<span class="st">'geometry'</span>])</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>raster_clip_fields_gwascode.plot.imshow(figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">8</span>))</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>mask <span class="op">=</span> fields[<span class="st">'gewascode'</span>]<span class="op">==</span><span class="dv">257</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>fields_gwascode <span class="op">=</span> fields.where(mask)</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>fields_gwascode <span class="op">=</span> fields_gwascode.dropna()</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>raster_clip_fields_gwascode <span class="op">=</span> raster_clip_box.rio.clip(fields_gwascode[<span class="st">'geometry'</span>])</span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>raster_clip_fields_gwascode.plot.imshow(figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">8</span>))</span></code></pre>
 </div>
 <figure><img src="fig/E08/crop-raster-fields-gewascode.png" alt="Raster croped by fields with gewascode 257" class="figure mx-auto d-block"></figure></div>
 </div>
@@ -593,9 +592,9 @@ will be in a different CRS from <code>raster_clip_box</code>:</p>
 <div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reproject to RD to make the CRS different from the "raster"</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>raster_clip_fields_gwascode <span class="op">=</span> raster_clip_fields_gwascode.rio.reproject(<span class="st">"EPSG:28992"</span>)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>CRS(raster_clip_fields_gwascode.rio.crs)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="co"># Reproject to RD to make the CRS different from the "raster"</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>raster_clip_fields_gwascode <span class="op">=</span> raster_clip_fields_gwascode.rio.reproject(<span class="st">"EPSG:28992"</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>CRS(raster_clip_fields_gwascode.rio.crs)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -618,7 +617,7 @@ Datum: Amersfoort
 <div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>CRS(raster_clip_box.rio.crs)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>CRS(raster_clip_box.rio.crs)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -643,16 +642,16 @@ Datum: World Geodetic System 1984
 <div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>raster_reproject_match <span class="op">=</span> raster_clip_box.rio.reproject_match(raster_clip_fields_gwascode)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>raster_reproject_match.plot.imshow(figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">8</span>))</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>raster_reproject_match <span class="op">=</span> raster_clip_box.rio.reproject_match(raster_clip_fields_gwascode)</span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>raster_reproject_match.plot.imshow(figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">8</span>))</span></code></pre>
 </div>
 <figure><img src="fig/E08/reprojectmatch-big-to-small.png" alt="Reproject match big to small" class="figure mx-auto d-block"></figure><p>We can also use it to expand <code>raster_clip_fields_gwascode</code>
 to the extent of <code>raster_clip_box</code>:</p>
 <div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>raster_reproject_match <span class="op">=</span> raster_clip_fields_gwascode.rio.reproject_match(raster_clip_box)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>raster_reproject_match.plot.imshow(figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">8</span>))</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>raster_reproject_match <span class="op">=</span> raster_clip_fields_gwascode.rio.reproject_match(raster_clip_box)</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>raster_reproject_match.plot.imshow(figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">8</span>))</span></code></pre>
 </div>
 <figure><img src="fig/E08/reprojectmatch-small-to-big.png" alt="Reproject match small to big" class="figure mx-auto d-block"></figure><p>In one line <code>reproject_match</code> does a lot of helpful
 things:</p>
@@ -661,13 +660,12 @@ things:</p>
 clipping the data.</li>
 <li>It sets <code>nodata</code> values. This means we can run
 calculations on those two images.</li>
-</ol><div id="code-tip" class="callout callout">
+</ol><div id="callout2" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="code-tip" class="callout-inner">
-<h3 class="callout-title">Code Tip<a class="anchor" aria-label="anchor" href="#code-tip"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="code-tip">Code Tip<a class="anchor" aria-label="anchor" href="#code-tip"></a></h3>
 <div class="callout-content">
 <p>As we saw before, there also exists a method called
 <code>reproject()</code>, which only reprojects one raster to another
@@ -754,7 +752,7 @@ any links that you are not going to use.
   "identifier": "https://carpentries-incubator.github.io/geospatial-python/08-crop-raster-data.html",
   "dateCreated": "2023-11-09",
   "dateModified": "2023-08-14",
-  "datePublished": "2024-02-27"
+  "datePublished": "2024-03-05"
 }
 
   </script><script>

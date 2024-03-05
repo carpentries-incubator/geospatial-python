@@ -395,13 +395,13 @@ standard for describing geospatial data. By organizing metadata in a
 form that adheres to the STAC specifications, data providers make it
 possible for users to access data from different missions, instruments
 and collections using the same set of tools.</p>
-<figure><img src="fig/E05/STAC-browser.jpg" alt="STAC browser screenshots" class="figure mx-auto d-block"><figcaption>Views of the STAC browser</figcaption></figure><div id="more-resources-on-stac" class="callout callout">
+<figure><img src="fig/E05/STAC-browser.jpg" alt="STAC browser screenshots" class="figure mx-auto d-block"><div class="figcaption">Views of the STAC browser</div>
+</figure><div id="callout1" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="more-resources-on-stac" class="callout-inner">
-<h3 class="callout-title">More Resources on STAC<a class="anchor" aria-label="anchor" href="#more-resources-on-stac"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="more-resources-on-stac">More Resources on STAC<a class="anchor" aria-label="anchor" href="#more-resources-on-stac"></a></h3>
 <div class="callout-content">
 <ul><li><a href="https://github.com/radiantearth/stac-spec#readme" class="external-link">STAC
 specification</a></li>
@@ -448,7 +448,8 @@ assets represent?</li>
 </button>
 <div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
-<figure><img src="fig/E05/STAC-browser-exercise.jpg" alt="earth-search stac catalog views" class="figure mx-auto d-block"><figcaption>Views of the Earth Search STAC endpoint</figcaption></figure><ol style="list-style-type: decimal"><li>7 subcatalogs are available, including a catalog for Landsat
+<figure><img src="fig/E05/STAC-browser-exercise.jpg" alt="earth-search stac catalog views" class="figure mx-auto d-block"><div class="figcaption">Views of the Earth Search STAC endpoint</div>
+</figure><ol style="list-style-type: decimal"><li>7 subcatalogs are available, including a catalog for Landsat
 Collection 2, Level-2 and Sentinel-2 Level 2A (see left screenshot in
 the figure above).</li>
 <li>When you select the Sentinel-2 Level 2A collection, and randomly
@@ -470,16 +471,16 @@ Earth Search STAC catalog the API URL is:</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>api_url <span class="op">=</span> <span class="st">"https://earth-search.aws.element84.com/v1"</span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>api_url <span class="op">=</span> <span class="st">"https://earth-search.aws.element84.com/v1"</span></span></code></pre>
 </div>
 <p>You can query a STAC API endpoint from Python using the
 <code>pystac_client</code> library:</p>
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pystac_client <span class="im">import</span> Client</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>client <span class="op">=</span> Client.<span class="bu">open</span>(api_url)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="im">from</span> pystac_client <span class="im">import</span> Client</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>client <span class="op">=</span> Client.<span class="bu">open</span>(api_url)</span></code></pre>
 </div>
 <p>In the following, we ask for scenes belonging to the
 <code>sentinel-2-l2a</code> collection. This dataset includes Sentinel-2
@@ -488,15 +489,14 @@ reflectance) and saved in Cloud Optimized GeoTIFF (COG) format:</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>collection <span class="op">=</span> <span class="st">"sentinel-2-l2a"</span>  <span class="co"># Sentinel-2, Level 2A, Cloud Optimized GeoTiffs (COGs)</span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>collection <span class="op">=</span> <span class="st">"sentinel-2-l2a"</span>  <span class="co"># Sentinel-2, Level 2A, Cloud Optimized GeoTiffs (COGs)</span></span></code></pre>
 </div>
-<div id="cloud-optimized-geotiffs" class="callout callout">
+<div id="callout2" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="cloud-optimized-geotiffs" class="callout-inner">
-<h3 class="callout-title">Cloud Optimized GeoTIFFs<a class="anchor" aria-label="anchor" href="#cloud-optimized-geotiffs"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="cloud-optimized-geotiffs">Cloud Optimized GeoTIFFs<a class="anchor" aria-label="anchor" href="#cloud-optimized-geotiffs"></a></h3>
 <div class="callout-content">
 <p>Cloud Optimized GeoTIFFs (COGs) are regular GeoTIFF files with some
 additional features that make them ideal to be employed in the context
@@ -522,8 +522,8 @@ the COG format can be found <a href="https://www.cogeo.org" class="external-link
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shapely.geometry <span class="im">import</span> Point</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>point <span class="op">=</span> Point(<span class="fl">4.89</span>, <span class="fl">52.37</span>)  <span class="co"># AMS coordinates</span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="im">from</span> shapely.geometry <span class="im">import</span> Point</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>point <span class="op">=</span> Point(<span class="fl">4.89</span>, <span class="fl">52.37</span>)  <span class="co"># AMS coordinates</span></span></code></pre>
 </div>
 <p>Note: at this stage, we are only dealing with metadata, so no image
 is going to be downloaded yet. But even metadata can be quite bulky if a
@@ -532,11 +532,11 @@ search result to 10 items:</p>
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>search <span class="op">=</span> client.search(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    collections<span class="op">=</span>[collection],</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    intersects<span class="op">=</span>point,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    max_items<span class="op">=</span><span class="dv">10</span>,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>search <span class="op">=</span> client.search(</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>    collections<span class="op">=</span>[collection],</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>    intersects<span class="op">=</span>point,</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>    max_items<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>)</span></code></pre>
 </div>
 <p>We submit the query and find out how many scenes match our search
 criteria (please note that this output can be different as more data is
@@ -544,7 +544,7 @@ added to the catalog):</p>
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(search.matched())</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="bu">print</span>(search.matched())</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -555,14 +555,14 @@ added to the catalog):</p>
 <div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>items <span class="op">=</span> search.item_collection()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>items <span class="op">=</span> search.item_collection()</span></code></pre>
 </div>
 <p>The variable <code>items</code> is an <code>ItemCollection</code>
 object. We can check its size by:</p>
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(items))</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(items))</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -575,8 +575,8 @@ these to show their IDs:</p>
 <div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> item <span class="kw">in</span> items:</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(item)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="cf">for</span> item <span class="kw">in</span> items:</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>    <span class="bu">print</span>(item)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -600,10 +600,10 @@ search results:</p>
 <div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>item <span class="op">=</span> items[<span class="dv">0</span>]</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(item.datetime)</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(item.geometry)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(item.properties)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>item <span class="op">=</span> items[<span class="dv">0</span>]</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="bu">print</span>(item.datetime)</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="bu">print</span>(item.geometry)</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="bu">print</span>(item.properties)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -643,18 +643,18 @@ format.</p>
 <div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>bbox <span class="op">=</span> point.<span class="bu">buffer</span>(<span class="fl">0.01</span>).bounds</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>bbox <span class="op">=</span> point.<span class="bu">buffer</span>(<span class="fl">0.01</span>).bounds</span></code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>search <span class="op">=</span> client.search(</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    collections<span class="op">=</span>[collection],</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    bbox<span class="op">=</span>bbox,</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    datetime<span class="op">=</span><span class="st">"2020-03-20/2020-03-30"</span>,</span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    query<span class="op">=</span>[<span class="st">"eo:cloud_cover&lt;15"</span>]</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(search.matched())</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>search <span class="op">=</span> client.search(</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>    collections<span class="op">=</span>[collection],</span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>    bbox<span class="op">=</span>bbox,</span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>    datetime<span class="op">=</span><span class="st">"2020-03-20/2020-03-30"</span>,</span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>    query<span class="op">=</span>[<span class="st">"eo:cloud_cover&lt;15"</span>]</span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>)</span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a><span class="bu">print</span>(search.matched())</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -664,8 +664,8 @@ format.</p>
 <div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>items <span class="op">=</span> search.item_collection()</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>items.save_object(<span class="st">"search.json"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>items <span class="op">=</span> search.item_collection()</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>items.save_object(<span class="st">"search.json"</span>)</span></code></pre>
 </div>
 </div>
 </div>
@@ -680,8 +680,8 @@ through the item’s attribute <code>assets</code>.</p>
 <div class="codewrapper sourceCode" id="cb19">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>assets <span class="op">=</span> items[<span class="dv">0</span>].assets  <span class="co"># first item's asset dictionary</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(assets.keys())</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>assets <span class="op">=</span> items[<span class="dv">0</span>].assets  <span class="co"># first item's asset dictionary</span></span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="bu">print</span>(assets.keys())</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -692,8 +692,8 @@ through the item’s attribute <code>assets</code>.</p>
 <div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> key, asset <span class="kw">in</span> assets.items():</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>key<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>asset<span class="sc">.</span>title<span class="sc">}</span><span class="ss">"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="cf">for</span> key, asset <span class="kw">in</span> assets.items():</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>key<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>asset<span class="sc">.</span>title<span class="sc">}</span><span class="ss">"</span>)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -742,7 +742,7 @@ actual asset:</p>
 <div class="codewrapper sourceCode" id="cb23">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(assets[<span class="st">"thumbnail"</span>].href)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="bu">print</span>(assets[<span class="st">"thumbnail"</span>].href)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -750,16 +750,18 @@ actual asset:</p>
 <pre class="output" tabindex="0"><code>https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/31/U/FU/2020/3/S2A_31UFU_20200328_0_L2A/thumbnail.jpg</code></pre>
 </div>
 <p>This can be used to download the corresponding file:</p>
-<figure><img src="fig/E05/STAC-s2-preview.jpg" alt="thumbnail of the sentinel-2 scene" class="figure mx-auto d-block"><figcaption>Overview of the true-color image (“thumbnail”)</figcaption></figure><p>Remote raster data can be directly opened via the
+<figure><img src="fig/E05/STAC-s2-preview.jpg" alt="thumbnail of the sentinel-2 scene" class="figure mx-auto d-block"><div class="figcaption">Overview of the true-color image
+(“thumbnail”)</div>
+</figure><p>Remote raster data can be directly opened via the
 <code>rioxarray</code> library. We will learn more about this library in
 the next episodes.</p>
 <div class="codewrapper sourceCode" id="cb25">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> rioxarray</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>nir_href <span class="op">=</span> assets[<span class="st">"nir"</span>].href</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>nir <span class="op">=</span> rioxarray.open_rasterio(nir_href)</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(nir)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="im">import</span> rioxarray</span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>nir_href <span class="op">=</span> assets[<span class="st">"nir"</span>].href</span>
+<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>nir <span class="op">=</span> rioxarray.open_rasterio(nir_href)</span>
+<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a><span class="bu">print</span>(nir)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -782,8 +784,8 @@ Attributes:
 <div class="codewrapper sourceCode" id="cb27">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save whole image to disk</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>nir.rio.to_raster(<span class="st">"nir.tif"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="co"># save whole image to disk</span></span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a>nir.rio.to_raster(<span class="st">"nir.tif"</span>)</span></code></pre>
 </div>
 <p>Since that might take a while, given there are over 10000 x 10000 = a
 hundred million pixels in the 10 meter NIR band, you can take a smaller
@@ -794,8 +796,8 @@ in the tif file, and a slice of the width and height dimensions.</p>
 <div class="codewrapper sourceCode" id="cb28">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save portion of an image to disk</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>nir[<span class="dv">0</span>,<span class="dv">1500</span>:<span class="dv">2200</span>,<span class="dv">1500</span>:<span class="dv">2200</span>].rio.to_raster(<span class="st">"nir_subset.tif"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="co"># save portion of an image to disk</span></span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a>nir[<span class="dv">0</span>,<span class="dv">1500</span>:<span class="dv">2200</span>,<span class="dv">1500</span>:<span class="dv">2200</span>].rio.to_raster(<span class="st">"nir_subset.tif"</span>)</span></code></pre>
 </div>
 <p>The difference is 155 Megabytes for the large image vs about 1
 Megabyte for the subset.</p>
@@ -833,20 +835,20 @@ Landsat 8 collection (<code>HLSL30.v2.0</code>) from February to March
 <div class="codewrapper sourceCode" id="cb29">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># connect to the STAC endpoint</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>cmr_api_url <span class="op">=</span> <span class="st">"https://cmr.earthdata.nasa.gov/stac/LPCLOUD"</span></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>client <span class="op">=</span> Client.<span class="bu">open</span>(cmr_api_url)</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="co"># setup search</span></span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>search <span class="op">=</span> client.search(</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    collections<span class="op">=</span>[<span class="st">"HLSL30.v2.0"</span>],</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    intersects<span class="op">=</span>Point(<span class="op">-</span><span class="fl">73.97</span>, <span class="fl">40.78</span>),</span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    datetime<span class="op">=</span><span class="st">"2021-02-01/2021-03-30"</span>,</span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>) <span class="co"># nasa cmr cloud cover filtering is currently broken: https://github.com/nasa/cmr-stac/issues/239</span></span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a><span class="co"># retrieve search results</span></span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>items <span class="op">=</span> search.item_collection()</span>
-<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(items))</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="co"># connect to the STAC endpoint</span></span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a>cmr_api_url <span class="op">=</span> <span class="st">"https://cmr.earthdata.nasa.gov/stac/LPCLOUD"</span></span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a>client <span class="op">=</span> Client.<span class="bu">open</span>(cmr_api_url)</span>
+<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a><span class="co"># setup search</span></span>
+<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a>search <span class="op">=</span> client.search(</span>
+<span id="cb29-7"><a href="#cb29-7" tabindex="-1"></a>    collections<span class="op">=</span>[<span class="st">"HLSL30.v2.0"</span>],</span>
+<span id="cb29-8"><a href="#cb29-8" tabindex="-1"></a>    intersects<span class="op">=</span>Point(<span class="op">-</span><span class="fl">73.97</span>, <span class="fl">40.78</span>),</span>
+<span id="cb29-9"><a href="#cb29-9" tabindex="-1"></a>    datetime<span class="op">=</span><span class="st">"2021-02-01/2021-03-30"</span>,</span>
+<span id="cb29-10"><a href="#cb29-10" tabindex="-1"></a>) <span class="co"># nasa cmr cloud cover filtering is currently broken: https://github.com/nasa/cmr-stac/issues/239</span></span>
+<span id="cb29-11"><a href="#cb29-11" tabindex="-1"></a></span>
+<span id="cb29-12"><a href="#cb29-12" tabindex="-1"></a><span class="co"># retrieve search results</span></span>
+<span id="cb29-13"><a href="#cb29-13" tabindex="-1"></a>items <span class="op">=</span> search.item_collection()</span>
+<span id="cb29-14"><a href="#cb29-14" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(items))</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -856,9 +858,9 @@ Landsat 8 collection (<code>HLSL30.v2.0</code>) from February to March
 <div class="codewrapper sourceCode" id="cb31">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>items_sorted <span class="op">=</span> <span class="bu">sorted</span>(items, key<span class="op">=</span><span class="kw">lambda</span> x: x.properties[<span class="st">"eo:cloud_cover"</span>]) <span class="co"># sorting and then selecting by cloud cover</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>item <span class="op">=</span> items_sorted[<span class="dv">0</span>]</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(item)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a>items_sorted <span class="op">=</span> <span class="bu">sorted</span>(items, key<span class="op">=</span><span class="kw">lambda</span> x: x.properties[<span class="st">"eo:cloud_cover"</span>]) <span class="co"># sorting and then selecting by cloud cover</span></span>
+<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a>item <span class="op">=</span> items_sorted[<span class="dv">0</span>]</span>
+<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a><span class="bu">print</span>(item)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -868,24 +870,24 @@ Landsat 8 collection (<code>HLSL30.v2.0</code>) from February to March
 <div class="codewrapper sourceCode" id="cb33">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(item.assets[<span class="st">"browse"</span>].href)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="bu">print</span>(item.assets[<span class="st">"browse"</span>].href)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code><span><span class="st">'https://data.lpdaac.earthdatacloud.nasa.gov/lp-prod-public/HLSL30.020/HLS.L30.T18TWL.2021039T153324.v2.0/HLS.L30.T18TWL.039T153324.v2.0.jpg'</span></span></code></pre>
 </div>
-<figure><img src="fig/E05/STAC-l8-preview.jpg" alt="thumbnail of the landsat-8 scene" class="figure mx-auto d-block"><figcaption>Thumbnail of the Landsat-8 scene</figcaption></figure></div>
+<figure><img src="fig/E05/STAC-l8-preview.jpg" alt="thumbnail of the landsat-8 scene" class="figure mx-auto d-block"><div class="figcaption">Thumbnail of the Landsat-8 scene</div>
+</figure></div>
 </div>
 </div>
 </div>
-<div id="public-catalogs-protected-data" class="callout callout">
+<div id="callout3" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="public-catalogs-protected-data" class="callout-inner">
-<h3 class="callout-title">Public catalogs, protected data<a class="anchor" aria-label="anchor" href="#public-catalogs-protected-data"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="public-catalogs-protected-data">Public catalogs, protected data<a class="anchor" aria-label="anchor" href="#public-catalogs-protected-data"></a></h3>
 <div class="callout-content">
 <p>Publicly accessible catalogs and STAC endpoints do not necessarily
 imply publicly accessible data. Data providers, in fact, may limit data
@@ -904,9 +906,9 @@ script</a>;</li>
 </ul><div class="codewrapper sourceCode" id="cb35">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>os.environ[<span class="st">"GDAL_HTTP_COOKIEFILE"</span>] <span class="op">=</span> <span class="st">"./cookies.txt"</span></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>os.environ[<span class="st">"GDAL_HTTP_COOKIEJAR"</span>] <span class="op">=</span> <span class="st">"./cookies.txt"</span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a>os.environ[<span class="st">"GDAL_HTTP_COOKIEFILE"</span>] <span class="op">=</span> <span class="st">"./cookies.txt"</span></span>
+<span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a>os.environ[<span class="st">"GDAL_HTTP_COOKIEJAR"</span>] <span class="op">=</span> <span class="st">"./cookies.txt"</span></span></code></pre>
 </div>
 </div>
 </div>
@@ -992,7 +994,7 @@ any links that you are not going to use.
   "identifier": "https://carpentries-incubator.github.io/geospatial-python/05-access-data.html",
   "dateCreated": "2023-11-09",
   "dateModified": "2023-08-29",
-  "datePublished": "2024-02-27"
+  "datePublished": "2024-03-05"
 }
 
   </script><script>

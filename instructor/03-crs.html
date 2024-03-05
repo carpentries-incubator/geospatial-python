@@ -360,13 +360,12 @@ accompanied by coordinate reference system (CRS) information, in a
 format that geospatial applications can use to display and manipulate
 the data correctly. CRS information connects data to the Earth’s surface
 using a mathematical model.</p>
-<div id="crs-vs-srs" class="callout callout">
+<div id="callout1" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="crs-vs-srs" class="callout-inner">
-<h3 class="callout-title">CRS vs SRS<a class="anchor" aria-label="anchor" href="#crs-vs-srs"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="crs-vs-srs">CRS vs SRS<a class="anchor" aria-label="anchor" href="#crs-vs-srs"></a></h3>
 <div class="callout-content">
 <p>CRS (coordinate reference system) and SRS (spatial reference system)
 are synonyms and are commonly interchanged. We will use only CRS
@@ -378,8 +377,9 @@ throughout this workshop.</p>
 example Python) where the raster is located in geographic space. It also
 tells the mapping software what method should be used to flatten or
 project the raster in geographic space.</p>
-<figure><img src="https://media.opennews.org/cache/06/37/0637aa2541b31f526ad44f7cb2db7b6c.jpg" alt="US difference projections" class="figure mx-auto d-block"><figcaption>Maps of the United States in different projections
-(Source: opennews.org)</figcaption></figure><p>The above image shows maps of the United States in different
+<figure><img src="https://media.opennews.org/cache/06/37/0637aa2541b31f526ad44f7cb2db7b6c.jpg" alt="US difference projections" class="figure mx-auto d-block"><div class="figcaption">Maps of the United States in different
+projections (Source: opennews.org)</div>
+</figure><p>The above image shows maps of the United States in different
 projections. Notice the differences in shape associated with each
 projection. These differences are a direct result of the calculations
 used to flatten the data onto a 2-dimensional map.</p>
@@ -423,11 +423,13 @@ analogy. If you imagine that the Earth is an orange, how you peel it and
 then flatten the peel is similar to how projections get made.</p>
 <ul><li>A datum is the choice of fruit to use. Is the Earth an orange, a
 lemon, a lime, a grapefruit?</li>
-</ul><figure><img src="../fig/E03/citrus.jpg" alt="datum fruit example" class="figure mx-auto d-block"><figcaption>Datum Fruit Example (<a href="https://github.com/MicheleTobias/R-Projections-Workshop" class="external-link">Image
-source</a>)</figcaption></figure><p>A projection is how you peel your orange and then flatten the
+</ul><figure><img src="../fig/E03/citrus.jpg" alt="datum fruit example" class="figure mx-auto d-block"><div class="figcaption">Datum Fruit Example (<a href="https://github.com/MicheleTobias/R-Projections-Workshop" class="external-link">Image
+source</a>)</div>
+</figure><p>A projection is how you peel your orange and then flatten the
 peel.</p>
-<figure><img src="../fig/E03/orange-peel-earth.jpg" alt="projection citrus peel" class="figure mx-auto d-block"><figcaption>Projection Citrus Peel Example (Image from Prof Drika
-Geografia, Projeções Cartográficas)</figcaption></figure><ul><li>An additional parameter could include a definition of the location
+<figure><img src="../fig/E03/orange-peel-earth.jpg" alt="projection citrus peel" class="figure mx-auto d-block"><div class="figcaption">Projection Citrus Peel Example (Image from Prof
+Drika Geografia, Projeções Cartográficas)</div>
+</figure><ul><li>An additional parameter could include a definition of the location
 of the stem of the fruit. What other parameters could be included in
 this analogy?</li>
 </ul></div>
@@ -444,13 +446,12 @@ Dana from the University of Colorado at Boulder</a> and the <a href="https://kar
 of Geo-Information Processing</a> have a good discussion of these
 aspects of projections. Online tools like <a href="https://projectionwizard.org/" class="external-link">Projection Wizard</a> can also help
 you discover projections that might be a good fit for your data.</p>
-<div id="data-tip" class="callout callout">
+<div id="callout2" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="data-tip" class="callout-inner">
-<h3 class="callout-title">Data Tip<a class="anchor" aria-label="anchor" href="#data-tip"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="data-tip">Data Tip<a class="anchor" aria-label="anchor" href="#data-tip"></a></h3>
 <div class="callout-content">
 <p>Take the time to identify a projection that is suited for your
 project. You don’t have to stick to the ones that are popular.</p>
@@ -519,9 +520,10 @@ data</li>
 calculated) for the data</li>
 </ul><p>Note that the zone is unique to the UTM projection. Not all CRSs will
 have a zone.</p>
-<figure><img src="../fig/E03/Utm-zones-USA.svg" alt="UTM zones across the CONUS" class="figure mx-auto d-block"><figcaption>The UTM zones across the continental United States
-(Chrismurf at English Wikipedia, via <a href="https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system#/media/File:Utm-zones-USA.svg" class="external-link">Wikimedia
-Commons</a> (CC-BY))</figcaption></figure><div id="reading-a-proj4-string" class="callout challenge">
+<figure><img src="../fig/E03/Utm-zones-USA.svg" alt="UTM zones across the CONUS" class="figure mx-auto d-block"><div class="figcaption">The UTM zones across the continental United
+States (Chrismurf at English Wikipedia, via <a href="https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system#/media/File:Utm-zones-USA.svg" class="external-link">Wikimedia
+Commons</a> (CC-BY))</div>
+</figure><div id="reading-a-proj4-string" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
@@ -580,13 +582,12 @@ a spatial dataset wherever it goes. In practice this can be difficult,
 as many spatial data formats don’t have a built-in place to hold this
 kind of information. Metadata often has to be stored in a companion
 file, and generated and maintained manually.</p>
-<div id="more-resources-on-crs" class="callout callout">
+<div id="callout3" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="more-resources-on-crs" class="callout-inner">
-<h3 class="callout-title">More Resources on CRS<a class="anchor" aria-label="anchor" href="#more-resources-on-crs"></a>
-</h3>
+<div class="section level3 callout-title callout-inner">
+<h3 class="callout-title" id="more-resources-on-crs">More Resources on CRS<a class="anchor" aria-label="anchor" href="#more-resources-on-crs"></a></h3>
 <div class="callout-content">
 <ul><li>
 <a href="https://spatialreference.org/ref/epsg/" class="external-link">spatialreference.org</a> -
@@ -680,7 +681,7 @@ any links that you are not going to use.
   "identifier": "https://carpentries-incubator.github.io/geospatial-python/instructor/03-crs.html",
   "dateCreated": "2023-11-09",
   "dateModified": "2023-08-14",
-  "datePublished": "2024-02-27"
+  "datePublished": "2024-03-05"
 }
 
   </script><script>
