@@ -90,14 +90,14 @@ satellite images, one for each band captured by the Multispectral Instrument on 
 :::
 
 When opening a catalog with the STAC browser, you can access the API URL by clicking on the "Source" button on the top
-right of the page. By using this URL, we have access to the catalog content and, if supported by the catalog, to the
+right of the page. By using this URL, you have access to the catalog content and, if supported by the catalog, to the
 functionality of searching its items. For the Earth Search STAC catalog the API URL is:
 
 ```python
 api_url = "https://earth-search.aws.element84.com/v1"
 ```
 
-You can query a STAC API endpoint from Python using the `pystac_client` library:
+You can query a STAC API endpoint from Python using the `pystac_client` library. To do so we will import `Client` from `pystac_client`:
 
 ```python
 from pystac_client import Client
@@ -105,8 +105,8 @@ from pystac_client import Client
 client = Client.open(api_url)
 ```
 
-In the following, we ask for scenes belonging to the `sentinel-2-l2a` collection. This dataset includes Sentinel-2
-data products pre-processed at level 2A (bottom-of-atmosphere reflectance) and saved in Cloud Optimized GeoTIFF (COG)
+Next, we ask for scenes belonging to the `sentinel-2-l2a` collection. This dataset includes Sentinel-2
+data products pre-processed at level 2A (bottom-of-atmosphere reflectance). This data is stored as Cloud Optimized GeoTIFF (COG)
 format:
 
 ```python
@@ -128,7 +128,8 @@ by a high-resolution raster can directly access the lower-resolution versions of
 on the downloading time. More information on the COG format can be found [here](https://www.cogeo.org).
 :::
 
-We also ask for scenes intersecting a geometry defined using the `shapely` library (in this case, a point):
+In order to get data for a specific location you can add longitude latitude coordinates (World Geodetic System 1984 EPSG:4326) in your request. In order to do so we are using the `shapely` library to define a geometrical point.
+Below we have included a center point for the City of Amsterdam in the Netherlands (i.e. Longitude: 4.89 | Latitude 52.37) . You can change that to the region of your preference. 
 
 ```python
 from shapely.geometry import Point
@@ -136,7 +137,7 @@ point = Point(4.89, 52.37)  # AMS coordinates
 ```
 
 Note: at this stage, we are only dealing with metadata, so no image is going to be downloaded yet. But even metadata can
-be quite bulky if a large number of scenes match our search! For this reason, we limit the search result to 10 items:
+be quite bulky if a large number of scenes match our search! For this reason, we limit the search result to 10 items using `max_items`:
 
 ```python
 search = client.search(
@@ -146,7 +147,7 @@ search = client.search(
 )
 ```
 
-We submit the query and find out how many scenes match our search criteria (please note that this output can be different as more data is added to the catalog):
+Now we submit the query in order te find out how many scenes match our search criteria (please note that this output can be different as more data is added to the catalog):
 
 ```python
 print(search.matched())
