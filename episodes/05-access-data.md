@@ -129,7 +129,7 @@ on the downloading time. More information on the COG format can be found [here](
 :::
 
 In order to get data for a specific location you can add longitude latitude coordinates (World Geodetic System 1984 EPSG:4326) in your request. In order to do so we are using the `shapely` library to define a geometrical point.
-Below we have included a center point for the City of Amsterdam in the Netherlands (i.e. Longitude: 4.89 | Latitude 52.37) . You can change that to the region of your preference. 
+Below we have included a center point for the City of Amsterdam in the Netherlands (i.e. Longitude: 4.89 | Latitude 52.37) . You can change that to the region of your preference.
 
 ```python
 from shapely.geometry import Point
@@ -174,7 +174,7 @@ print(len(items))
 ```
 
 which is consistent with the maximum number of items that we have set in the search criteria. We can iterate over
-the returned items and print these to show their IDs:
+the returned items and print these to show their unique IDs:
 
 ```python
 for item in items:
@@ -197,7 +197,8 @@ for item in items:
 Each of the items contains information about the scene geometry, its acquisition time, and other metadata that can be
 accessed as a dictionary from the `properties` attribute.
 
-Let's inspect the metadata associated with the first item of the search results:
+Now let us inspect the metadata associated with the first item of the search results:
+
 ```python
 item = items[0]
 print(item.datetime)
