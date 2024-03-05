@@ -129,15 +129,15 @@ on the downloading time. More information on the COG format can be found [here](
 :::
 
 In order to get data for a specific location you can add longitude latitude coordinates (World Geodetic System 1984 EPSG:4326) in your request. In order to do so we are using the `shapely` library to define a geometrical point.
-Below we have included a center point for the City of Amsterdam in the Netherlands (i.e. Longitude: 4.89 | Latitude 52.37) . You can change that to the region of your preference.
+Below we have included a center point for the island of Rhodos, which is the location of interest for our case study (i.e. Longitude: 27.95 | Latitude 36.20) . You can change that to the region of your preference.
 
 ```python
 from shapely.geometry import Point
-point = Point(4.89, 52.37)  # AMS coordinates
+point = Point(27.95, 36.20)  # coordinates of Rhodos
 ```
 
 Note: at this stage, we are only dealing with metadata, so no image is going to be downloaded yet. But even metadata can
-be quite bulky if a large number of scenes match our search! For this reason, we limit the search result to 10 items using `max_items`:
+be quite bulky if a large number of scenes match our search! For this reason, we limit the search by the intersect of the point (by setting the parameter `intersects`), assign the collection (by setting the parameter `collections`) and provide a maximum to the input of 10 (by setting the parameter `max_items_`).  Information about the possible parameters to be set can be found at the  [stac search method](https://pystac-client.readthedocs.io/en/stable/api.html#pystac_client.Client.search) documentation.
 
 ```python
 search = client.search(
@@ -147,7 +147,7 @@ search = client.search(
 )
 ```
 
-Now we submit the query in order te find out how many scenes match our search criteria (please note that this output can be different as more data is added to the catalog):
+Now we submit the query in order te find out how many scenes match our search criteria with the parameters assigned above (please note that this output can be different as more data is added to the catalog to when this episode was created):
 
 ```python
 print(search.matched())
@@ -157,13 +157,15 @@ print(search.matched())
 840
 ```
 
-Finally, we retrieve the metadata of the search results:
+Finally, we retrieve the metadata of the search results by calling the method `item_collection`:
 
 ```python
 items = search.item_collection()
 ```
 
-The variable `items` is an `ItemCollection` object. We can check its size by:
+The variable `items` is an `ItemCollection` object. More information can be found at the [pystac documentation](https://pystac-client.readthedocs.io/en/stable/api.html#pystac_client.Client.search)
+
+Now let us check the size using `len`:
 
 ```python
 print(len(items))
@@ -173,7 +175,7 @@ print(len(items))
 10
 ```
 
-which is consistent with the maximum number of items that we have set in the search criteria. We can iterate over
+This is consistent with the maximum number of items that we have set in the search criteria. We can iterate over
 the returned items and print these to show their unique IDs:
 
 ```python
@@ -194,14 +196,22 @@ for item in items:
 <Item id=S2B_31UFU_20230606_0_L2A>
 ```
 
-Each of the items contains information about the scene geometry, its acquisition time, and other metadata that can be
-accessed as a dictionary from the `properties` attribute.
+Each of the items contains information about the scene geometry, its acquisition time, and other metadata. To see which information each item contains you can have a look at the [item documentation of pystac](https://pystac.readthedocs.io/en/latest/api/item.html).
 
-Now let us inspect the metadata associated with the first item of the search results:
+Now let us inspect the metadata associated with the first item of the search results. Let us have a look at collection date of the first item:
 
 ```python
 item = items[0]
 print(item.datetime)
+```
+
+```output
+2023-07-01 10:46:30.262000+00:00
+```
+Let us now add the geometry and properties as well.
+
+```python
+item = items[0]
 print(item.geometry)
 print(item.properties)
 ```
@@ -212,13 +222,20 @@ print(item.properties)
 {'created': '2023-07-02T01:49:17.191Z', 'platform': 'sentinel-2a', 'constellation': 'sentinel-2', 'instruments': ['msi'], 'eo:cloud_cover': 99.952936, 'proj:epsg': 32631, 'mgrs:utm_zone': 31, 'mgrs:latitude_band': 'U', 'mgrs:grid_square': 'FU', 'grid:code': 'MGRS-31UFU', 'view:sun_azimuth': 154.716674921261, 'view:sun_elevation': 58.4960054056685, 's2:degraded_msi_data_percentage': 0.0346, 's2:nodata_pixel_percentage': 33.00232, 's2:saturated_defective_pixel_percentage': 0, 's2:dark_features_percentage': 0, 's2:cloud_shadow_percentage': 0.030847, 's2:vegetation_percentage': 0, 's2:not_vegetated_percentage': 0.004947, 's2:water_percentage': 0.011271, 's2:unclassified_percentage': 0, 's2:medium_proba_clouds_percentage': 5.838514, 's2:high_proba_clouds_percentage': 94.035202, 's2:thin_cirrus_percentage': 0.07922, 's2:snow_ice_percentage': 0, 's2:product_type': 'S2MSI2A', 's2:processing_baseline': '05.09', 's2:product_uri': 'S2A_MSIL2A_20230701T103631_N0509_R008_T31UFU_20230701T200058.SAFE', 's2:generation_time': '2023-07-01T20:00:58.000000Z', 's2:datatake_id': 'GS2A_20230701T103631_041904_N05.09', 's2:datatake_type': 'INS-NOBS', 's2:datastrip_id': 'S2A_OPER_MSI_L2A_DS_2APS_20230701T200058_S20230701T104159_N05.09', 's2:granule_id': 'S2A_OPER_MSI_L2A_TL_2APS_20230701T200058_A041904_T31UFU_N05.09', 's2:reflectance_conversion_factor': 0.967641353116838, 'datetime': '2023-07-01T10:46:30.262000Z', 's2:sequence': '0', 'earthsearch:s3_path': 's3://sentinel-cogs/sentinel-s2-l2a-cogs/31/U/FU/2023/7/S2A_31UFU_20230701_0_L2A', 'earthsearch:payload_id': 'roda-sentinel2/workflow-sentinel2-to-stac/7b1a81ed3fb8d763a0cecf8d9edd4d4a', 'earthsearch:boa_offset_applied': True, 'processing:software': {'sentinel2-to-stac': '0.1.0'}, 'updated': '2023-07-02T01:49:17.191Z'}
 ```
 
+Now if we want to access one item in the dictionary, for instance the EPSG code of the projected coordinate system, you need to access the item in the dictionary as usual. For instance:
+
+```python
+item = items[0]
+print(item.properties['proj:epsg'])
+```
+
 :::challenge
 ## Exercise: Search satellite scenes using metadata filters
 Search for all the available Sentinel-2 scenes in the `sentinel-2-l2a` collection that satisfy the following
 criteria:
 - intersect a provided bounding box (use ±0.01 deg in lat/lon from the previously defined point);
-- have been recorded between 20 March 2020 and 30 March 2020;
-- have a cloud coverage smaller than 10% (hint: use the `query` input argument of `client.search`).
+- have been recorded between 1st of July 2023 and 31st of August 2023 (the timespan in which the wildfire took place);
+- have a cloud coverage smaller than 1% (Hint: generic metadata filters can be implemented via the `query` input argument of `client.search`, which requires the following syntax (see [docs](https://pystac-client.readthedocs.io/en/stable/usage.html#query-extension)): `query=['<property><operator><value>']`).
 
 How many scenes are available? Save the search results in GeoJSON format.
 
@@ -231,8 +248,8 @@ bbox = point.buffer(0.01).bounds
 search = client.search(
     collections=[collection],
     bbox=bbox,
-    datetime="2020-03-20/2020-03-30",
-    query=["eo:cloud_cover<15"]
+    datetime="2023-07-01/2023-08-31",
+    query=["eo:cloud_cover<1"]
 )
 print(search.matched())
 ```
@@ -307,7 +324,7 @@ visual-jp2: True color image
 wvp-jp2: Water vapour (WVP)
 ```
 
-Among the others, assets include multiple raster data files (one per optical band, as acquired by the multi-spectral
+Among the other data files, assets include multiple raster data files (one per optical band, as acquired by the multi-spectral
 instrument), a thumbnail, a true-color image ("visual"), instrument metadata and scene-classification information
 ("SCL"). Let's get the URL links to the actual asset:
 
@@ -323,8 +340,10 @@ This can be used to download the corresponding file:
 
 ![Overview of the true-color image ("thumbnail")](fig/E05/STAC-s2-preview.jpg){alt="thumbnail of the sentinel-2 scene"}
 
-Remote raster data can be directly opened via the `rioxarray` library. We will
-learn more about this library in the next episodes.
+Remote raster data can be directly opened via the `rioxarray` library. We will learn more about this library in the next episodes.
+
+For now we are using [rioxarray to open the raster file](https://corteva.github.io/rioxarray/stable/rioxarray.html#rioxarray.raster_array.RasterArray.to_raster).
+
 ```python
 import rioxarray
 nir_href = assets["nir"].href
@@ -348,14 +367,14 @@ Attributes:
     add_offset:          0.0
 ```
 
-We can then save the data to disk:
+Now we want to save the data to our local machine using the [to_raster](https://corteva.github.io/rioxarray/stable/rioxarray.html#rioxarray.raster_array.RasterArray.to_raster) function  :
 
 ```python
-# save whole image to disk
+# save the image to disk
 nir.rio.to_raster("nir.tif")
 ```
 
-Since that might take a while, given there are over 10000 x 10000 = a hundred million pixels in the 10 meter NIR band, you can take a smaller subset before downloading it. Becuase the raster is a COG, we can download just what we need!
+Since that might take a while, given there are over 10000 x 10000 = a hundred million pixels in the 10 meter NIR band, you can take a smaller subset before downloading it. However, since the raster is a COG, we can download just what we need!
 
 Here, we specify that we want to download the first (and only) band in the tif file, and a slice of the width and height dimensions.
 
