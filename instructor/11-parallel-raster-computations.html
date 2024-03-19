@@ -373,12 +373,13 @@ distributed computing. It provides a framework to work with different
 data structures, including chunked arrays (Dask Arrays). Dask is well
 integrated with (<code>rio</code>)<code>xarray</code>, which can use
 Dask arrays as underlying data structures.</p>
-<div id="callout1" class="callout">
+<div id="dask" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="dask">Dask<a class="anchor" aria-label="anchor" href="#dask"></a></h3>
+<div id="dask" class="callout-inner">
+<h3 class="callout-title">Dask<a class="anchor" aria-label="anchor" href="#dask"></a>
+</h3>
 <div class="callout-content">
 <p>This episode shows how Dask can be used to parallelize operations on
 local CPUs. However, the same library can be configured to run tasks on
@@ -403,12 +404,13 @@ is a common noise removal technique which replaces a pixel’s value with
 the median value computed from its surrounding pixels.</p>
 </section><section id="time-profiling-in-jupyter"><h2 class="section-heading">Time profiling in Jupyter<a class="anchor" aria-label="anchor" href="#time-profiling-in-jupyter"></a>
 </h2>
-<hr class="half-width"><div id="callout2" class="callout">
+<hr class="half-width"><div id="introduce-the-data" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="introduce-the-data">Introduce the Data<a class="anchor" aria-label="anchor" href="#introduce-the-data"></a></h3>
+<div id="introduce-the-data" class="callout-inner">
+<h3 class="callout-title">Introduce the Data<a class="anchor" aria-label="anchor" href="#introduce-the-data"></a>
+</h3>
 <div class="callout-content">
 <p>We’ll continue from the results of the satellite image search that we
 have carried out in an exercise from <a href="./05-access-data.html">a
@@ -523,12 +525,13 @@ median filtering:</p>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>median.plot.imshow(robust<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">10</span>))</span></code></pre>
 </div>
 <figure><img src="../fig/E11/true-color-image_median-filter.png" alt="median filter true color image" class="figure mx-auto d-block"><div class="figcaption">True-color image after median filtering</div>
-</figure><div id="callout3" class="callout">
+</figure><div id="handling-edges" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="handling-edges">Handling edges<a class="anchor" aria-label="anchor" href="#handling-edges"></a></h3>
+<div id="handling-edges" class="callout-inner">
+<h3 class="callout-title">Handling edges<a class="anchor" aria-label="anchor" href="#handling-edges"></a>
+</h3>
 <div class="callout-content">
 <p>By looking closely, you might notice a tiny white edge at the plot
 boundaries. These are the pixels that are less than 3 pixels away from
@@ -698,12 +701,13 @@ Wall time: 25.2 ms</code></pre>
 calculation (19.6 s vs 25.2 ms)? Actually, no calculation has run yet.
 This is because operations performed on Dask arrays are executed
 “lazily”, i.e. they are not immediately run.</p>
-<div id="callout4" class="callout">
+<div id="dask-graph" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="dask-graph">Dask graph<a class="anchor" aria-label="anchor" href="#dask-graph"></a></h3>
+<div id="dask-graph" class="callout-inner">
+<h3 class="callout-title">Dask graph<a class="anchor" aria-label="anchor" href="#dask-graph"></a>
+</h3>
 <div class="callout-content">
 <p>The sequence of operations to carry out is stored in a task graph,
 which can be visualized with:</p>
@@ -829,7 +833,7 @@ any links that you are not going to use.
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
         
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.2" class="external-link">sandpaper (0.16.2)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.4" class="external-link">pegboard (0.7.4)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.1" class="external-link">varnish (1.0.1)</a></p>
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.3" class="external-link">sandpaper (0.16.3)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.4" class="external-link">pegboard (0.7.4)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.1" class="external-link">varnish (1.0.1)</a></p>
 			</div>
 		</footer></div> <!-- / div.container -->
 	<div id="to-top">
@@ -852,7 +856,7 @@ any links that you are not going to use.
   "identifier": "https://carpentries-incubator.github.io/geospatial-python/instructor/11-parallel-raster-computations.html",
   "dateCreated": "2024-03-05",
   "dateModified": "2023-08-14",
-  "datePublished": "2024-03-12"
+  "datePublished": "2024-03-19"
 }
 
   </script><script>

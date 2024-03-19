@@ -484,7 +484,7 @@ the small group discussions.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>Raster data has some important advantages:</p>
 <ul>
@@ -538,7 +538,7 @@ If not, which object(s) have a different extent?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>The lines and polygon objects have the same extent. The extent for
 the points object is smaller in the vertical direction than the other
@@ -584,13 +584,12 @@ episode</a>.</li>
 <p>We will discuss these attributes in more detail in <a href="06-raster-intro.html">a later episode</a>. In that episode, we
 will also learn how to use Python to extract raster attributes from a
 GeoTIFF file.</p>
-<div id="callout1" class="callout">
+<div id="more-resources-on-the-.tif-format" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="more-resources-on-the--tif-format">More Resources on the <code>.tif</code>
-format<a class="anchor" aria-label="anchor" href="#more-resources-on-the--tif-format"></a>
+<div id="more-resources-on-the-.tif-format" class="callout-inner">
+<h3 class="callout-title">More Resources on the<code>.tif</code>format<a class="anchor" aria-label="anchor" href="#more-resources-on-the-.tif-format"></a>
 </h3>
 <div class="callout-content">
 <ul>
@@ -619,12 +618,12 @@ Ecological Observatory Network (NEON).)</div>
 image.</p>
 <p>In a multi-band dataset, the rasters will always have the same
 extent, resolution, and CRS.</p>
-<div id="callout2" class="callout">
+<div id="other-types-of-multi-band-raster-data" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="other-types-of-multi-band-raster-data">Other Types of Multi-band Raster Data<a class="anchor" aria-label="anchor" href="#other-types-of-multi-band-raster-data"></a>
+<div id="other-types-of-multi-band-raster-data" class="callout-inner">
+<h3 class="callout-title">Other Types of Multi-band Raster Data<a class="anchor" aria-label="anchor" href="#other-types-of-multi-band-raster-data"></a>
 </h3>
 <div class="callout-content">
 <p>Multi-band raster data might also contain: 1. <strong>Time
@@ -724,12 +723,12 @@ vertices that are connected and closed. The outlines of survey plot
 boundaries, lakes, oceans, and states or countries are often represented
 by polygons.</p></li>
 </ul>
-<div id="callout1" class="callout">
+<div id="data-tip" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="data-tip">Data Tip<a class="anchor" aria-label="anchor" href="#data-tip"></a>
+<div id="data-tip" class="callout-inner">
+<h3 class="callout-title">Data Tip<a class="anchor" aria-label="anchor" href="#data-tip"></a>
 </h3>
 <div class="callout-content">
 <p>Sometimes, boundary layers such as states and countries, are stored
@@ -760,7 +759,7 @@ represented by which vector type.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>State boundaries are polygons. The Fisher Tower location is a point.
 There are no line features shown.</p>
@@ -838,12 +837,12 @@ stream.</li>
 each individual shapefile can only contain one vector type (all points,
 all lines or all polygons). You will not find a mixture of point, line
 and polygon objects in a single shapefile.</p>
-<div id="callout2" class="callout">
+<div id="more-resources-on-shapefiles" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="more-resources-on-shapefiles">More Resources on Shapefiles<a class="anchor" aria-label="anchor" href="#more-resources-on-shapefiles"></a>
+<div id="more-resources-on-shapefiles" class="callout-inner">
+<h3 class="callout-title">More Resources on Shapefiles<a class="anchor" aria-label="anchor" href="#more-resources-on-shapefiles"></a>
 </h3>
 <div class="callout-content">
 <p>More about shapefiles can be found on <a href="https://en.wikipedia.org/wiki/Shapefile" class="external-link">Wikipedia.</a> Shapefiles
@@ -853,12 +852,12 @@ Australia’s Data.gov.au website</a>.</p>
 </div>
 </div>
 </div>
-<div id="callout3" class="callout">
+<div id="why-not-both" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="why-not-both">Why not both?<a class="anchor" aria-label="anchor" href="#why-not-both"></a>
+<div id="why-not-both" class="callout-inner">
+<h3 class="callout-title">Why not both?<a class="anchor" aria-label="anchor" href="#why-not-both"></a>
 </h3>
 <div class="callout-content">
 <p>Very few formats can contain both raster and vector data - in fact,
@@ -938,12 +937,12 @@ accompanied by coordinate reference system (CRS) information, in a
 format that geospatial applications can use to display and manipulate
 the data correctly. CRS information connects data to the Earth’s surface
 using a mathematical model.</p>
-<div id="callout1" class="callout">
+<div id="crs-vs-srs" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="crs-vs-srs">CRS vs SRS<a class="anchor" aria-label="anchor" href="#crs-vs-srs"></a>
+<div id="crs-vs-srs" class="callout-inner">
+<h3 class="callout-title">CRS vs SRS<a class="anchor" aria-label="anchor" href="#crs-vs-srs"></a>
 </h3>
 <div class="callout-content">
 <p>CRS (coordinate reference system) and SRS (spatial reference system)
@@ -1035,12 +1034,12 @@ Dana from the University of Colorado at Boulder</a> and the <a href="https://kar
 of Geo-Information Processing</a> have a good discussion of these
 aspects of projections. Online tools like <a href="https://projectionwizard.org/" class="external-link">Projection Wizard</a> can also help
 you discover projections that might be a good fit for your data.</p>
-<div id="callout2" class="callout">
+<div id="data-tip" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="data-tip">Data Tip<a class="anchor" aria-label="anchor" href="#data-tip"></a>
+<div id="data-tip" class="callout-inner">
+<h3 class="callout-title">Data Tip<a class="anchor" aria-label="anchor" href="#data-tip"></a>
 </h3>
 <div class="callout-content">
 <p>Take the time to identify a projection that is suited for your
@@ -1145,7 +1144,7 @@ collected from?</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <ul>
 <li>Projection is UTM, zone 18, datum is WGS84, ellipsoid is WGS84.</li>
@@ -1184,12 +1183,12 @@ a spatial dataset wherever it goes. In practice this can be difficult,
 as many spatial data formats don’t have a built-in place to hold this
 kind of information. Metadata often has to be stored in a companion
 file, and generated and maintained manually.</p>
-<div id="callout3" class="callout">
+<div id="more-resources-on-crs" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="more-resources-on-crs">More Resources on CRS<a class="anchor" aria-label="anchor" href="#more-resources-on-crs"></a>
+<div id="more-resources-on-crs" class="callout-inner">
+<h3 class="callout-title">More Resources on CRS<a class="anchor" aria-label="anchor" href="#more-resources-on-crs"></a>
 </h3>
 <div class="callout-content">
 <ul>
@@ -1676,12 +1675,12 @@ form that adheres to the STAC specifications, data providers make it
 possible for users to access data from different missions, instruments
 and collections using the same set of tools.</p>
 <figure><img src="../fig/E05/STAC-browser.jpg" alt="STAC browser screenshots" class="figure mx-auto d-block"><div class="figcaption">Views of the STAC browser</div>
-</figure><div id="callout1" class="callout">
+</figure><div id="more-resources-on-stac" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="more-resources-on-stac">More Resources on STAC<a class="anchor" aria-label="anchor" href="#more-resources-on-stac"></a>
+<div id="more-resources-on-stac" class="callout-inner">
+<h3 class="callout-title">More Resources on STAC<a class="anchor" aria-label="anchor" href="#more-resources-on-stac"></a>
 </h3>
 <div class="callout-content">
 <ul>
@@ -1779,12 +1778,12 @@ reflectance) and saved in Cloud Optimized GeoTIFF (COG) format:</p>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>collection <span class="op">=</span> <span class="st">"sentinel-2-l2a"</span>  <span class="co"># Sentinel-2, Level 2A, Cloud Optimized GeoTiffs (COGs)</span></span></code></pre>
 </div>
-<div id="callout2" class="callout">
+<div id="cloud-optimized-geotiffs" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="cloud-optimized-geotiffs">Cloud Optimized GeoTIFFs<a class="anchor" aria-label="anchor" href="#cloud-optimized-geotiffs"></a>
+<div id="cloud-optimized-geotiffs" class="callout-inner">
+<h3 class="callout-title">Cloud Optimized GeoTIFFs<a class="anchor" aria-label="anchor" href="#cloud-optimized-geotiffs"></a>
 </h3>
 <div class="callout-content">
 <p>Cloud Optimized GeoTIFFs (COGs) are regular GeoTIFF files with some
@@ -2175,12 +2174,12 @@ Landsat 8 collection (<code>HLSL30.v2.0</code>) from February to March
 </div>
 </div>
 </div>
-<div id="callout3" class="callout">
+<div id="public-catalogs-protected-data" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="public-catalogs-protected-data">Public catalogs, protected data<a class="anchor" aria-label="anchor" href="#public-catalogs-protected-data"></a>
+<div id="public-catalogs-protected-data" class="callout-inner">
+<h3 class="callout-title">Public catalogs, protected data<a class="anchor" aria-label="anchor" href="#public-catalogs-protected-data"></a>
 </h3>
 <div class="callout-content">
 <p>Publicly accessible catalogs and STAC endpoints do not necessarily
@@ -2292,12 +2291,12 @@ and become available from <code>xarray</code> objects after importing
 <p>We will also use the <a href="https://github.com/stac-utils/pystac" class="external-link"><code>pystac</code></a>
 package to load rasters from the search results we created in the
 previous episode.</p>
-<div id="callout1" class="callout">
+<div id="introduce-the-raster-data" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="introduce-the-raster-data">Introduce the Raster Data<a class="anchor" aria-label="anchor" href="#introduce-the-raster-data"></a>
+<div id="introduce-the-raster-data" class="callout-inner">
+<h3 class="callout-title">Introduce the Raster Data<a class="anchor" aria-label="anchor" href="#introduce-the-raster-data"></a>
 </h3>
 <div class="callout-content">
 <p>We’ll continue from the results of the satellite image search that we
@@ -2430,12 +2429,12 @@ calculations.</p>
 <p>We will be exploring this data throughout this episode. By the end of
 this episode, you will be able to understand and explain the metadata
 output.</p>
-<div id="callout2" class="callout">
+<div id="tip---variable-names" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="tip---variable-names">Tip - Variable names<a class="anchor" aria-label="anchor" href="#tip---variable-names"></a>
+<div id="tip---variable-names" class="callout-inner">
+<h3 class="callout-title">Tip - Variable names<a class="anchor" aria-label="anchor" href="#tip---variable-names"></a>
 </h3>
 <div class="callout-content">
 <p>To improve code readability, file and object names should be used
@@ -2503,12 +2502,12 @@ between the 2nd and 98th percentile:</p>
 <figure><img src="../fig/E06/overview-plot-B09-robust.png" alt="raster plot with robust setting" class="figure mx-auto d-block"><div class="figcaption">Raster plot using the “robust” setting</div>
 </figure><p>Now the color limit is set in a way fitting most of the values in the
 image. We have a better view of the ground pixels.</p>
-<div id="callout3" class="callout">
+<div id="tool-tip" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="tool-tip">Tool Tip<a class="anchor" aria-label="anchor" href="#tool-tip"></a>
+<div id="tool-tip" class="callout-inner">
+<h3 class="callout-title">Tool Tip<a class="anchor" aria-label="anchor" href="#tool-tip"></a>
 </h3>
 <div class="callout-content">
 <p>The option <code>robust=True</code> always forces displaying values
@@ -2621,7 +2620,7 @@ this information using <code>help(crs)</code> or
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p><code>crs.axis_info</code> tells us that the CRS for our raster has
 two axis and both are in meters. We could also get this information from
@@ -2736,12 +2735,12 @@ array([   0., 2911.])
 Coordinates:
   * quantile  (quantile) float64 0.25 0.75</code></pre>
 </div>
-<div id="callout4" class="callout">
+<div id="data-tip---numpy-methods" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="data-tip---numpy-methods">Data Tip - NumPy methods<a class="anchor" aria-label="anchor" href="#data-tip---numpy-methods"></a>
+<div id="data-tip---numpy-methods" class="callout-inner">
+<h3 class="callout-title">Data Tip - NumPy methods<a class="anchor" aria-label="anchor" href="#data-tip---numpy-methods"></a>
 </h3>
 <div class="callout-content">
 <p>You could also get each of these values one by one using
@@ -2936,7 +2935,7 @@ of <code>DataArray.plot.imshow()</code>.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>Since we know the height/width ratio is 1:1 (check the
 <code>rio.height</code> and <code>rio.width</code> attributes), we can
@@ -3061,12 +3060,12 @@ and this column is a <code>GeoSeries</code>.</li>
 </ul>
 <p>In later episodes, we will learn how to work with raster and vector
 data together and combine them into a single plot.</p>
-<div id="callout1" class="callout">
+<div id="introduce-the-vector-data" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="introduce-the-vector-data">Introduce the Vector Data<a class="anchor" aria-label="anchor" href="#introduce-the-vector-data"></a>
+<div id="introduce-the-vector-data" class="callout-inner">
+<h3 class="callout-title">Introduce the Vector Data<a class="anchor" aria-label="anchor" href="#introduce-the-vector-data"></a>
 </h3>
 <div class="callout-content">
 <p>In this episode, we will use the downloaded vector data in the
@@ -3115,12 +3114,12 @@ spatial features intersecting the provided bounding box.</p>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Partially load data within the bounding box</span></span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>fields <span class="op">=</span> gpd.read_file(<span class="st">"data/brpgewaspercelen_definitief_2020_small.gpkg"</span>, bbox<span class="op">=</span>bbox)</span></code></pre>
 </div>
-<div id="callout2" class="callout">
+<div id="how-should-i-define-my-bounding-box" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="how-should-i-define-my-bounding-box">How should I define my bounding box?<a class="anchor" aria-label="anchor" href="#how-should-i-define-my-bounding-box"></a>
+<div id="how-should-i-define-my-bounding-box" class="callout-inner">
+<h3 class="callout-title">How should I define my bounding box?<a class="anchor" aria-label="anchor" href="#how-should-i-define-my-bounding-box"></a>
 </h3>
 <div class="callout-content">
 <p>For simplicity, here we assume the <strong>Coordinate Reference
@@ -3503,12 +3502,12 @@ longitude of the file are flipped.</p>
 </div>
 </div>
 </div>
-<div id="callout3" class="callout">
+<div id="axis-ordering" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="axis-ordering">Axis ordering<a class="anchor" aria-label="anchor" href="#axis-ordering"></a>
+<div id="axis-ordering" class="callout-inner">
+<h3 class="callout-title">Axis ordering<a class="anchor" aria-label="anchor" href="#axis-ordering"></a>
 </h3>
 <div class="callout-content">
 <p>According to the standards, the axis ordering for a CRS should follow
@@ -3678,12 +3677,12 @@ before performing data analysis.</p>
 desired area. We will use one Sentinel-2 image over Amsterdam as the
 example raster data, and introduce how to crop your data to different
 types of AoIs.</p>
-<div id="callout1" class="callout">
+<div id="introduce-the-data" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="introduce-the-data">Introduce the Data<a class="anchor" aria-label="anchor" href="#introduce-the-data"></a>
+<div id="introduce-the-data" class="callout-inner">
+<h3 class="callout-title">Introduce the Data<a class="anchor" aria-label="anchor" href="#introduce-the-data"></a>
 </h3>
 <div class="callout-content">
 <p>We will use the results of the satellite image search:
@@ -3991,12 +3990,12 @@ clipping the data.</li>
 <li>It sets <code>nodata</code> values. This means we can run
 calculations on those two images.</li>
 </ol>
-<div id="callout2" class="callout">
+<div id="code-tip" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="code-tip">Code Tip<a class="anchor" aria-label="anchor" href="#code-tip"></a>
+<div id="code-tip" class="callout-inner">
+<h3 class="callout-title">Code Tip<a class="anchor" aria-label="anchor" href="#code-tip"></a>
 </h3>
 <div class="callout-content">
 <p>As we saw before, there also exists a method called
@@ -4095,12 +4094,12 @@ Pan W-C, Adamkiewicz G, Dominici F, et al. (2014) Linking Student
 Performance in Massachusetts Elementary Schools with the “Greenness” of
 School Surroundings Using Remote Sensing. PLoS ONE 9(10): e108548. <a href="https://doi.org/10.1371/journal.pone.0108548" class="external-link uri">https://doi.org/10.1371/journal.pone.0108548</a>
 </div>
-</figure><div id="callout1" class="callout">
+</figure><div id="more-resources" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="more-resources">More Resources<a class="anchor" aria-label="anchor" href="#more-resources"></a>
+<div id="more-resources" class="callout-inner">
+<h3 class="callout-title">More Resources<a class="anchor" aria-label="anchor" href="#more-resources"></a>
 </h3>
 <div class="callout-content">
 <p>Check out more on NDVI in the NASA Earth Observatory portal: <a href="https://earthobservatory.nasa.gov/features/MeasuringVegetation/measuring_vegetation_2.php" class="external-link">Measuring
@@ -4114,12 +4113,12 @@ Vegetation</a>.</p>
 </h3>
 <p>For this episode, we will use one of the Sentinel-2 scenes that we
 have already employed in the previous episodes.</p>
-<div id="callout2" class="callout">
+<div id="introduce-the-data" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="introduce-the-data">Introduce the Data<a class="anchor" aria-label="anchor" href="#introduce-the-data"></a>
+<div id="introduce-the-data" class="callout-inner">
+<h3 class="callout-title">Introduce the Data<a class="anchor" aria-label="anchor" href="#introduce-the-data"></a>
 </h3>
 <div class="callout-content">
 <p>We’ll continue from the results of the satellite image search that we
@@ -4304,7 +4303,7 @@ the data.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <ol style="list-style-type: decimal">
 <li>Recall, if there were nodata values in our raster, we would need to
@@ -4489,7 +4488,7 @@ investigated.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <ol style="list-style-type: decimal">
 <li>We crop the area of interest using <code>clip_box</code>:</li>
@@ -4817,7 +4816,7 @@ each <code>class_bins</code>. Inspect the output of the
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <ol style="list-style-type: decimal">
 <li>Load and convert raster data into suitable inputs for
@@ -4934,12 +4933,12 @@ distributed computing. It provides a framework to work with different
 data structures, including chunked arrays (Dask Arrays). Dask is well
 integrated with (<code>rio</code>)<code>xarray</code>, which can use
 Dask arrays as underlying data structures.</p>
-<div id="callout1" class="callout">
+<div id="dask" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="dask">Dask<a class="anchor" aria-label="anchor" href="#dask"></a>
+<div id="dask" class="callout-inner">
+<h3 class="callout-title">Dask<a class="anchor" aria-label="anchor" href="#dask"></a>
 </h3>
 <div class="callout-content">
 <p>This episode shows how Dask can be used to parallelize operations on
@@ -4966,12 +4965,12 @@ the median value computed from its surrounding pixels.</p>
 </section><section id="time-profiling-in-jupyter"><h2 class="section-heading">Time profiling in Jupyter<a class="anchor" aria-label="anchor" href="#time-profiling-in-jupyter"></a>
 </h2>
 <hr class="half-width">
-<div id="callout2" class="callout">
+<div id="introduce-the-data" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="introduce-the-data">Introduce the Data<a class="anchor" aria-label="anchor" href="#introduce-the-data"></a>
+<div id="introduce-the-data" class="callout-inner">
+<h3 class="callout-title">Introduce the Data<a class="anchor" aria-label="anchor" href="#introduce-the-data"></a>
 </h3>
 <div class="callout-content">
 <p>We’ll continue from the results of the satellite image search that we
@@ -5087,12 +5086,12 @@ median filtering:</p>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>median.plot.imshow(robust<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">10</span>))</span></code></pre>
 </div>
 <figure><img src="../fig/E11/true-color-image_median-filter.png" alt="median filter true color image" class="figure mx-auto d-block"><div class="figcaption">True-color image after median filtering</div>
-</figure><div id="callout3" class="callout">
+</figure><div id="handling-edges" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="handling-edges">Handling edges<a class="anchor" aria-label="anchor" href="#handling-edges"></a>
+<div id="handling-edges" class="callout-inner">
+<h3 class="callout-title">Handling edges<a class="anchor" aria-label="anchor" href="#handling-edges"></a>
 </h3>
 <div class="callout-content">
 <p>By looking closely, you might notice a tiny white edge at the plot
@@ -5266,12 +5265,12 @@ Wall time: 25.2 ms</code></pre>
 calculation (19.6 s vs 25.2 ms)? Actually, no calculation has run yet.
 This is because operations performed on Dask arrays are executed
 “lazily”, i.e. they are not immediately run.</p>
-<div id="callout4" class="callout">
+<div id="dask-graph" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3 callout-title callout-inner">
-<h3 class="callout-title" id="dask-graph">Dask graph<a class="anchor" aria-label="anchor" href="#dask-graph"></a>
+<div id="dask-graph" class="callout-inner">
+<h3 class="callout-title">Dask graph<a class="anchor" aria-label="anchor" href="#dask-graph"></a>
 </h3>
 <div class="callout-content">
 <p>The sequence of operations to carry out is stored in a task graph,
@@ -5389,7 +5388,7 @@ any links that you are not going to use.
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
         
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.2" class="external-link">sandpaper (0.16.2)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.4" class="external-link">pegboard (0.7.4)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.1" class="external-link">varnish (1.0.1)</a></p>
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.3" class="external-link">sandpaper (0.16.3)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.4" class="external-link">pegboard (0.7.4)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.1" class="external-link">varnish (1.0.1)</a></p>
 			</div>
 		</footer>
 </div> <!-- / div.container -->
@@ -5412,8 +5411,8 @@ any links that you are not going to use.
   "url": "https://carpentries-incubator.github.io/geospatial-python/instructor/aio.html",
   "identifier": "https://carpentries-incubator.github.io/geospatial-python/instructor/aio.html",
   "dateCreated": "2024-03-05",
-  "dateModified": "2024-03-12",
-  "datePublished": "2024-03-12"
+  "dateModified": "2024-03-19",
+  "datePublished": "2024-03-19"
 }
 
   </script><script>
