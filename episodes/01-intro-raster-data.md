@@ -18,19 +18,16 @@ exercises: 5
 
 ## Introduction
 
-This episode introduces the two primary types of geospatial
-data: rasters and vectors. After briefly introducing these
-data types, this episode focuses on raster data, describing
-some major features and types of raster data.
+This episode introduces the two primary type of data models, raster and vector, that are used to represent the earth surface digitally.
+After briefly introducing these data models, this episode focuses on the raster representation, describing some major features and types of raster data.
 
 ## Data Structures: Raster and Vector
 
-The two primary types of geospatial data are raster
-and vector data. Raster data is stored as a grid of values which are rendered on a
-map as pixels. Each pixel value represents an area on the Earth's surface. Vector data structures represent specific features on the
-Earth's surface, and
-assign attributes to those features. Vector data structures
-will be discussed in more detail in [the next episode](02-intro-vector-data.md).
+The two primary data models that are using to represent the earth surface digitally are raster and vector. Raster data is stored as a grid of values which are rendered on a
+map as pixels. Each pixel value represents an area on the Earth's surface. A typical example for raster data is a sattelite image or aerial photograph.
+Vector data is stored as point, lines or polygons and are often used to represent specific features on the Earth's surface. This can for example be a house or a road. Representing
+phenomena as vector data allows you to  with specific attributes attached to it. , and
+assign attributes to those features. Vector data structures will be discussed in more detail in [the next episode](02-intro-vector-data.md).
 
 This workshop will focus on how to work with both raster and vector
 data sets, therefore it is essential that we understand the
