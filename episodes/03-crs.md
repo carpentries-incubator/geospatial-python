@@ -5,7 +5,7 @@ exercises: 10
 ---
 
 :::questions
-- What is a coordinate reference system and how do I interpret one?
+- What is a coordinate reference system and how do you interpret one?
 :::
 
 :::objectives
@@ -27,22 +27,22 @@ CRS (coordinate reference system) and SRS (spatial reference system) are synonym
 will use only CRS throughout this workshop.
 :::
 
-The CRS associated with a dataset tells your mapping software (for example Python)
+The CRS associated with a dataset tells your mapping software
 where the raster is located in geographic space. It also tells the mapping
 software what method should be used to flatten or project the raster in
 geographic space.
 
-![Maps of the United States in different projections (Source: opennews.org)](https://media.opennews.org/cache/06/37/0637aa2541b31f526ad44f7cb2db7b6c.jpg){alt="US difference projections"}
-
-The above image shows maps of the United States in different projections. Notice
+The image below (figure 3.1) shows maps of the United States in different projections. Notice
 the differences in shape associated with each projection. These differences are
 a direct result of the calculations used to flatten the data onto a
 2-dimensional map.
 
+![Figure 3.1: Maps of the United States in different projections (Source: opennews.org)](https://media.opennews.org/cache/06/37/0637aa2541b31f526ad44f7cb2db7b6c.jpg){alt="US difference projections"}
+
 There are lots of great resources that describe coordinate reference systems and
 projections in greater detail. For the purposes of this workshop, what is
 important to understand is that data from the same location but saved in
-different projections will not line up in any GIS or other program. Thus, it's
+different projections will not line up. Thus, it is
 important when working with spatial data to identify the coordinate reference
 system applied to the data and retain it throughout data processing and
 analysis.
@@ -55,14 +55,14 @@ CRS information has three components:
 degrees) and defines the starting point (i.e. where is [0,0]?) so the angles
 reference a meaningful spot on the earth. Common global datums are WGS84 and
 NAD83. Datums can also be local - fit to a particular area of the globe, but
-ill-fitting outside the area of intended use. In this workshop, we will use the
-[WGS84
-datum](https://www.linz.govt.nz/data/geodetic-system/datums-projections-and-heights/geodetic-datums/world-geodetic-system-1984-wgs84).
+ill-fitting outside the area of intended use For instance local Cadastre, Land Registry and Mapping Agencies require a high quality of their datasets, which can be obtained using a local system. In this workshop, we will use the
+[WGS84 datum](https://www.linz.govt.nz/data/geodetic-system/datums-projections-and-heights/geodetic-datums/world-geodetic-system-1984-wgs84). The datum is often also refered to as the Geographical Coordinate System. 
 
 * **Projection:** A mathematical transformation of the angular measurements on a
 round earth to a flat surface (i.e. paper or a computer screen). The units
 associated with a given projection are usually linear (feet, meters, etc.). In
-this workshop, we will see data in two different projections.
+this workshop, we will see data in two different projections. 
+Note that the projection is also often refered to as Projected Coordinate System. 
 
 * **Additional Parameters:** Additional parameters are often necessary to create
 the full coordinate reference system. One common additional parameter is a
@@ -90,6 +90,8 @@ stem of the fruit. What other parameters could be included in this analogy?
 :::
 
 ## Which projection should I use?
+
+A well know projection is the [Mercator projection](https://en.wikipedia.org/wiki/Mercator_projection) introduced by the Flamisch Cartographer Gerardus Mercator in the 16th Century. This so-called cilindrical projection, meaning that a virtual cilinder is place on the globe to flatten it, it relatively accurate near to the equator, but towards the poles blows things up see:[Cylindrical projection](https://gisgeography.com/cylindrical-projection/). The main advantage of the Mercator projection is that it is very suitable for navigation purpuses since it always north as *up* and south and as *down*, in the 17th century this projection was essential for sailors to navigate the oceans.
 
 To decide if a projection is right for your data, answer these questions:
 
@@ -212,9 +214,11 @@ generated and maintained manually.
 * [Choosing the Right Map Projection.](https://source.opennews.org/en-US/learning/choosing-right-map-projection/)
 * [Video](https://www.youtube.com/embed/KUF_Ckv8HbE) highlighting how map projections can make continents
 seems proportionally larger or smaller than they actually are.
+* [The True size](https://www.thetruesize.com/) An intuitive webmap that allows you to drag countries to another place in the webmercator projection. 
 :::
 
 :::keypoints
 - All geospatial datasets (raster and vector) are associated with a specific coordinate reference system.
 - A coordinate reference system includes datum, projection, and additional parameters specific to the dataset.
+- All maps are distored because of the projection.
 :::
