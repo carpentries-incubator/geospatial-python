@@ -19,33 +19,32 @@ questions:
 
 ## Introduction
 
-In the preceding episodes, we have prepared raster datasets to analyze the wildfire in Rhodes Island. To evaluate its impact, we also need to establish our Area of Interest (AoI), which includes vital infrastructure and built-up areas. In this episode, we are going to extract the AoI from open datasets for our study area and save them for subsequent analysis.
+In the preceding episodes, we have prepared, selected and downloaded raster data from before and after the wildfire event in the summer of 2023 on the Greek island of Rhodes. To evaluate the impact of this wildfire on the vital infrastructure and built-up areas we are going to create a subset of vector data representing these assets. In this episode you will learn how to extract vector data with specific characteristics like the type of attributes or their locations. The dataset that we will generate in this episode can lateron be confronted with scorched areas which we determine by analyzing the satellite images [Episode 9: Raster Calculations in Python](09-raster-calculations.md).
 
-We'll be examining vector datasets that represent the AoI. As mentioned in [Episode 2: Introduction to Vector Data](02-intro-vector-data.md), vector data uses points, lines, and polygons to depict specific features on the Earth's surface. These geographic elements can have one or more attributes, like 'name' and 'population' for a city. We'll be using two open data sources in this section: the Database of Global Administrative Areas (GADM) dataset for a polygon of our study area and Open Street Map data for the vital infrastructure.
+We'll be examining vector datasets that represent the valuable assests of Rhodes. As mentioned in [Episode 2: Introduction to Vector Data](02-intro-vector-data.md), vector data uses points, lines, and polygons to depict specific features on the Earth's surface. These geographic elements can have one or more attributes, like 'name' and 'population' for a city. In this epidoe we'll be using two open data sources: the Database of Global Administrative Areas (GADM) dataset to generate a polygon for the island of Rhodes and and Open Street Map data for the vital infrastructure and valuable assets.
 
-We'll be using the Python package [`geopandas`](https://geopandas.org/en/stable/) to handle vector data. This package allows us to open, manipulate, and write vector datasets.
+To handle the vector data in python we use the package [`geopandas`](https://geopandas.org/en/stable/). This package allows us to open, manipulate, and write vector dataset through python.
 
 ![](fig/E07/pandas_geopandas_relation.png){alt="Pandas and Geopandas"}
 
-`geopandas` enhances the widely-used `pandas` library for data analysis by extending its functionality to geospatial applications. The primary `pandas` objects (`Series` and `DataFrame`) are extended to `geopandas` objects (`GeoSeries` and `GeoDataFrame`). This extension is achieved by incorporating geometric types, represented in Python using the `shapely` library, and by offering dedicated methods for spatial operations like `union` and `intersection`. Here's a brief explanation of the relationship between `Series`, `DataFrame`, `GeoSeries`, and `GeoDataFrame`:
+`geopandas` enhances the widely-used `pandas` library for data analysis by extending its functionality to geospatial applications. The primary `pandas` objects (`Series` and `DataFrame`) are extended to `geopandas` objects (`GeoSeries` and `GeoDataFrame`). This extension is achieved by incorporating geometric types, represented in Python using the `shapely` library, and by offering dedicated methods for spatial operations like `union`, `spatial joins` and `intersect`. In order to understand how geopandas works, it is good to provide a brief explanation of the relationship between `Series`, a `DataFrame`, `GeoSeries`, and a `GeoDataFrame`:
 
 - A `Series` is a one-dimensional array with an axis that can hold any data type (integers, strings, floating-point numbers, Python objects, etc.)
 - A `DataFrame` is a two-dimensional labeled data structure with columns that can potentially hold different types of data.
 - A `GeoSeries` is a `Series` object designed to store shapely geometry objects.
 - A `GeoDataFrame` is an extended `pandas.DataFrame` that includes a column with geometry objects, which is a `GeoSeries`.
 
-In the upcoming sections, we'll explore how to work with raster and vector data simultaneously.
-
 
 :::callout
 ## Introduce the Vector Data
 
-In this episode, we will use the downloaded vector data in the `data` directory. Please refer to the [setup page](../learners/setup.md) on how to download the data.
-:::
+In this episode, we will use the downloaded vector data from the `data` directory. Please refer to the [setup page](../learners/setup.md) on where to download the data. Note that we manipulated that data a little for the purposes of
+this workshop. The link to the original source can be found on the [setup page](../learners/setup.md).
 
 ## Get the administration boundary of study area
 
-We will use the `geopandas` package to load the administrative areas of Greece, which we downloaded at: `data/data/gadm/greece.gpkg`. This file contains all administrative areas from Greece. 
+The first thing that we want to do it to extract a polygon containing the boundary of the island of Rhodes from Greece. For this we will use the GADM dataset `greece.gpkg` which we downloaded at: `data/data/gadm/greece.gpkg`
+We will use the `geopandas` package to load the file and use the `read_file` function. 
 
 ```python
 import geopandas as gpd
