@@ -43,8 +43,9 @@ this workshop. The link to the original source can be found on the [setup page](
 
 ## Get the administration boundary of study area
 
-The first thing that we want to do it to extract a polygon containing the boundary of the island of Rhodes from Greece. For this we will use the GADM dataset `greece.gpkg` which we downloaded at: `data/data/gadm/greece.gpkg`
-We will use the `geopandas` package to load the file and use the `read_file` function. 
+The first thing we want to do is to extract a polygon containing the boundary of the island of Rhodes from Greece. For this we will use the [GADM dataset](https://gadm.org/download_country.html) layer `ADM_ADM_3.gpkg` for Greece. For your convenience we saved a copy at: `data/data/gadm/ADM_ADM_3.gpkg`
+We will use the `geopandas` package to load the file and use the `read_file` function [see](https://geopandas.org/en/stable/docs/user_guide/io.html). Note that geopandas is often abbreviated as gpd.
+
 
 ```python
 import geopandas as gpd
@@ -59,28 +60,28 @@ gdf_greece
 
 ```output
 GID_3 GID_0 COUNTRY    GID_1                       NAME_1  \
-0     GRC.1.1.1_1   GRC  Greece  GRC.1_1                       Aegean   
-1     GRC.1.1.2_1   GRC  Greece  GRC.1_1                       Aegean   
-2     GRC.1.1.3_1   GRC  Greece  GRC.1_1                       Aegean     
-..            ...   ...     ...      ...                          ...    
-324  GRC.8.2.24_1   GRC  Greece  GRC.8_1  Thessaly and Central Greece   
-325  GRC.8.2.25_1   GRC  Greece  GRC.8_1  Thessaly and Central Greece   
+0     GRC.1.1.1_1   GRC  Greece  GRC.1_1                       Aegean
+1     GRC.1.1.2_1   GRC  Greece  GRC.1_1                       Aegean
+2     GRC.1.1.3_1   GRC  Greece  GRC.1_1                       Aegean
+..            ...   ...     ...      ...                          ...
+324  GRC.8.2.24_1   GRC  Greece  GRC.8_1  Thessaly and Central Greece
+325  GRC.8.2.25_1   GRC  Greece  GRC.8_1  Thessaly and Central Greece
 
                       NL_NAME_1      GID_2        NAME_2      NL_NAME_2  \
-0                        Αιγαίο  GRC.1.1_1  North Aegean  Βόρειο Αιγαίο   
-1                        Αιγαίο  GRC.1.1_1  North Aegean  Βόρειο Αιγαίο   
-2                        Αιγαίο  GRC.1.1_1  North Aegean  Βόρειο Αιγαίο     
-..                          ...        ...           ...            ...     
-324  Θεσσαλία και Στερεά Ελλάδα  GRC.8.2_1      Thessaly       Θεσσαλία   
-325  Θεσσαλία και Στερεά Ελλάδα  GRC.8.2_1      Thessaly       Θεσσαλία   
-... 
-324  POLYGON ((22.81903 39.27344, 22.81884 39.27332...  
-325  POLYGON ((23.21375 39.36514, 23.21272 39.36469...  
+0                        Αιγαίο  GRC.1.1_1  North Aegean  Βόρειο Αιγαίο
+1                        Αιγαίο  GRC.1.1_1  North Aegean  Βόρειο Αιγαίο
+2                        Αιγαίο  GRC.1.1_1  North Aegean  Βόρειο Αιγαίο
+..                          ...        ...           ...            ...
+324  Θεσσαλία και Στερεά Ελλάδα  GRC.8.2_1      Thessaly       Θεσσαλία
+325  Θεσσαλία και Στερεά Ελλάδα  GRC.8.2_1      Thessaly       Θεσσαλία
+...
+324  POLYGON ((22.81903 39.27344, 22.81884 39.27332...
+325  POLYGON ((23.21375 39.36514, 23.21272 39.36469...
 
 [326 rows x 17 columns]
 ```
 
-The data are read into the variable fields as a `GeoDataFrame`. This is an extened data format of `pandas.DataFrame`, with an extra column `geometry`. We can use the `plot()` function to visualize `gdf_greece`:
+The data are read into the variable fields as a `GeoDataFrame`. This is an extened data format of `pandas.DataFrame`, with an extra column `geometry`. To visualize the polygons we can use the [`plot()`](https://geopandas.org/en/stable/docs/user_guide/mapping.html) function to the `GeoDataFrame` we have loaded `gdf_greece`:
 
 ```python
 gdf_greece.plot()
@@ -208,7 +209,7 @@ infra_highways_meters_buffer
 ```output
 45       POLYGON ((835416.042 4003863.922, 835427.364 4...
 58       POLYGON ((834402.929 4003012.515, 834401.865 4...
-                               ...                        
+                               ...
 18879    POLYGON ((879188.948 4038486.610, 879196.752 4...
 18880    POLYGON ((879190.669 4038322.167, 879181.177 4...
 Length: 1369, dtype: geometry
@@ -235,7 +236,7 @@ infra_highways_buffer
 ```output
 45       POLYGON ((835416.042 4003863.922, 835427.364 4...
 58       POLYGON ((834402.929 4003012.515, 834401.865 4...
-                               ...                        
+                               ...
 18879    POLYGON ((879188.948 4038486.610, 879196.752 4...
 18880    POLYGON ((879190.669 4038322.167, 879181.177 4...
 Length: 1369, dtype: geometry
@@ -243,7 +244,7 @@ Length: 1369, dtype: geometry
 
 We can confirm that the buffer is created by the `Polygon` geometry type in `infra_highways_buffer`.
 
-Reprojecting and buffering our data is something that we are going to do multiple times during this episode. To avoid have to call the same functions multiple times it would make sense to create a function. Let us create a function in which we can add the buffer as a variable. 
+Reprojecting and buffering our data is something that we are going to do multiple times during this episode. To avoid have to call the same functions multiple times it would make sense to create a function. Let us create a function in which we can add the buffer as a variable.
 
 ```python
 def buffer_crs(gdf, size, meter_crs=2100, target_crs=4326):
@@ -281,7 +282,7 @@ After completing the exercise, answer the following questions:
 
 Hints:
 
-- `data/landuse.gpkg` contains the land use data for the entire Greece. Use the administrative boundary of Rhodes Island (`gdf_rhodes`) to select the land use data for Rhodes Island. 
+- `data/landuse.gpkg` contains the land use data for the entire Greece. Use the administrative boundary of Rhodes Island (`gdf_rhodes`) to select the land use data for Rhodes Island.
 - The land use attribute is stored in the `fclass` column.
 - Reuse `buffer_crs` function to create the buffer.
 
