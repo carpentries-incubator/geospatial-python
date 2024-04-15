@@ -383,7 +383,7 @@ import pandas as pd
 gdf_assets = pd.concat([gdf_infra, gdf_builtup]).reset_index(drop=True)
 ```
 
-In `gdf_assets`, we can distinguish the infrastructure regions and built-up regions by the `type` and `code` columns. We can plot the `gdf_assets` to visualize the merged regions:
+In `gdf_assets`, we can distinguish the infrastructure regions and built-up regions by the `type` and `code` columns. We can plot the `gdf_assets` to visualize the merged regions. See the [geopandas documentation](https://geopandas.org/en/stable/docs/user_guide/mapping.html) on how to do this: 
 
 ```python
 gdf_assets.plot(column='type', legend=True)
@@ -391,11 +391,13 @@ gdf_assets.plot(column='type', legend=True)
 
 ![](fig/E07/rhodes_assets.png){alt="rhodes_assets"}
 
+
 Finally, we can save the `gdf_assets` to a file for future use:
 
 ```python
 gdf_assets.to_file('assets.gpkg')
 ```
+
 
 :::keypoints
 - Load spatial objects into Python with `geopandas.read_file()` function.
