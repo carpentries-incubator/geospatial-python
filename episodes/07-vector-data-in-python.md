@@ -81,7 +81,7 @@ GID_3 GID_0 COUNTRY    GID_1                       NAME_1  \
 [326 rows x 17 columns]
 ```
 
-The data are read into the variable fields as a `GeoDataFrame`. This is an extened data format of `pandas.DataFrame`, with an extra column `geometry`. To explore the dataframe you can call this variable just like a `pandas dataframe` by using functions like `.shape`, `.head` and `.tail` etc. 
+The data are read into the variable fields as a `GeoDataFrame`. This is an extened data format of `pandas.DataFrame`, with an extra column `geometry`. To explore the dataframe you can call this variable just like a `pandas dataframe` by using functions like `.shape`, `.head` and `.tail` etc.
 
 To visualize the polygons we can use the [`plot()`](https://geopandas.org/en/stable/docs/user_guide/mapping.html) function to the `GeoDataFrame` we have loaded `gdf_greece`:
 
@@ -97,11 +97,11 @@ If you want to interactively explore your data you can use the [`.explore`](http
 ```python
 gdf_greece.explore()
 ```
-In this interactive map you can easily zoom in and out and hover over the polygons to see which attributes, stored in the rows of your GeoDataFrame, are related to each polygon. 
+In this interactive map you can easily zoom in and out and hover over the polygons to see which attributes, stored in the rows of your GeoDataFrame, are related to each polygon.
 
 Next, we'll focus on isolating the administrative area of Rhodes Island. Once you hover over the polygon of Rhodos (the relatively big island to the east) you will find out that the label `Rhodos` is stored in the `NAME_3` column of `gdf_greece`, where Rhodes Island is listed as `Rhodos`. Since our goal is to have a boundary of Rhodes, we'll now create a new variable that exclusively represents Rhodes Island.
 
-To select an item in our GeoDataFrame with a specific value is done the same way in which this is done in a pandas `DataFrame` using [`.loc`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.loc.html). 
+To select an item in our GeoDataFrame with a specific value is done the same way in which this is done in a pandas `DataFrame` using [`.loc`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.loc.html).
 
 ```python
 gdf_rhodes = gdf_greece.loc[gdf_greece['NAME_3']=='Rhodos']
@@ -127,13 +127,13 @@ gdf_rhodes.to_file('rhodes.gpkg')
 
 Now that we have the boundary of our study area, we will make use this to select the main roads in our study area. We will make the following processing steps:
 
-1. Select highways of study area
-2. Select key infrastruture highways: 'primary', 'secondary', 'tertiary'
+1. Select roads of study area
+2. Select key infrastruture: 'primary', 'secondary', 'tertiary'
 3. Create a 100m buffer around the rounds. This buffer will be regarded as the infrastructure region. (note that this buffer is arbitrary and can be changed afterwards if you want!)
 
 #### Step 1: Select roads of study area
 
-For this workshop, in particular to not have everyone downloading too much data, we created a subset of the [Openstreetmap](https://www.openstreetmap.org/) data we downloaded for Greece from [the Geofabrik](https://download.geofabrik.de/europe.html). This data comes in the form of a shapefile (see [episode 2](02-intro-vector-data.md)) from which we extracted all the roads for `Rhodes` and some surrounding islands. The data is stored in the osm folder as `osm_roads.gpkg`, but contains *all* the roads on the island (so also hiking paths, private roads etc.), whereas we in particular are interested in the key infrastructure which we consider to be roads classified as primary, secondary or tertiary roads. 
+For this workshop, in particular to not have everyone downloading too much data, we created a subset of the [Openstreetmap](https://www.openstreetmap.org/) data we downloaded for Greece from [the Geofabrik](https://download.geofabrik.de/europe.html). This data comes in the form of a shapefile (see [episode 2](02-intro-vector-data.md)) from which we extracted all the roads for `Rhodes` and some surrounding islands. The data is stored in the osm folder as `osm_roads.gpkg`, but contains *all* the roads on the island (so also hiking paths, private roads etc.), whereas we in particular are interested in the key infrastructure which we consider to be roads classified as primary, secondary or tertiary roads.
 
 Let's load the file and plot it:
 
@@ -151,7 +151,7 @@ gdf_roads.plot()
 
 As you may have noticed, loading and plotting `osm_roads.gpkg` takes a bit long. This is because the file contains all the roads of Rhodos and some surrounding islands as well. Since we are only interested in the roads on Rhodes Island. We will use the [`mask`](https://geopandas.org/en/stable/docs/user_guide/io.html) parameter of the `read_file()` function to load only the roads on Rhodes Island.
 
-Now let us overwrite the GeoDataframe `gdf_roads` using the mask with the GeoDataFrame `gdf_rhodes` we created above.  
+Now let us overwrite the GeoDataframe `gdf_roads` using the mask with the GeoDataFrame `gdf_rhodes` we created above.
 
 ```python
 gdf_roads = gpd.read_file('../data/osm/osm_roads.gpkg', mask=gdf_rhodes)
@@ -165,7 +165,7 @@ gdf_roads.explore()
 
 ![](fig/E07/rhodes_highways.png){alt="rhodes_highways"}
 
-#### Step 2: Select key infrastruture 
+#### Step 2: Select key infrastruture
 
 As you will find out while exploring the roads dataset, information about the type of roads is stored in the `fclass` column. To get an overview of the different values that are present in the collumn `fclass` , we can use the [`unique()`](https://pandas.pydata.org/docs/reference/api/pandas.unique.html) function from pandas:
 
@@ -183,7 +183,7 @@ array(['residential', 'service', 'unclassified', 'footway',
 
 It seems the variable `gdf_roads` contains all kind of hiking paths and footpaths as well. Since we are only interested in vital infrastructure, classified as "primary", "secondary" and "tertiary" roads, we need to make a subselection.
 
-Let us first create a list with the labels we want to select. 
+Let us first create a list with the labels we want to select.
 
 ```python
 key_infra_labels = ['primary', 'secondary', 'tertiary']
@@ -205,12 +205,12 @@ key_infra.plot()
 
 #### Step 3: Create a 100m buffer around the key infrastructure
 
-Now that we selected the key infrastructure, we want to create a 100m buffer around them. This buffer will be regarded as the infrastructure region. 
+Now that we selected the key infrastructure, we want to create a 100m buffer around them. This buffer will be regarded as the infrastructure region.
 
-As you might have notice, the numbers on the x and y axis of our plots represent Lon Lat coordinates, meaning that the data is not yet projected. The current data has a geographic coordinate system with measures in degrees but not meter. Creating a buffer of 100 meters is not possible. Therfore, in order to create a 100m buffer, we first need to project our data. In our case we decided to project the data as 
-WGS 84 / UTM zone 31N, with EPSG code 32631 ([see chapter 03 for more information about the CRS and EPSG codes](/episodes/03-crs.md). 
+As you might have notice, the numbers on the x and y axis of our plots represent Lon Lat coordinates, meaning that the data is not yet projected. The current data has a geographic coordinate system with measures in degrees but not meter. Creating a buffer of 100 meters is not possible. Therfore, in order to create a 100m buffer, we first need to project our data. In our case we decided to project the data as
+WGS 84 / UTM zone 31N, with EPSG code 32631 ([see chapter 03 for more information about the CRS and EPSG codes](/episodes/03-crs.md).
 
-To project our data we use [.to_crs](https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoDataFrame.to_crs.html). We first define a variable with the EPSG value (in our case 32631), which we then us in the to_crs function. 
+To project our data we use [.to_crs](https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoDataFrame.to_crs.html). We first define a variable with the EPSG value (in our case 32631), which we then us in the to_crs function.
 
 ```python
 epsg_code = 32631
@@ -229,7 +229,7 @@ key_infra_meters_buffer
 55       POLYGON ((2779172.341 4319578.062, 2779165.312...
 84       POLYGON ((2779615.109 4319862.058, 2779665.519...
 140      POLYGON ((2781330.698 4320046.538, 2781330.749...
-                               ...                        
+                               ...
 19020    POLYGON ((2780193.230 4337691.133, 2780184.279...
 19021    POLYGON ((2780330.823 4337772.262, 2780324.966...
 19022    POLYGON ((2780179.850 4337917.135, 2780188.871...
@@ -238,7 +238,7 @@ key_infra_meters_buffer
 Length: 1386, dtype: geometry
 ```
 
-Note that the type of the `infra_highways_meters_buffer` is a `GeoSeries` and not a `GeoDataFrame`. This is because the `buffer()` function returns a `GeoSeries` object. You can check that by calling the type of the variable. 
+Note that the type of the `key_infra_meters_buffer` is a `GeoSeries` and not a `GeoDataFrame`. This is because the `buffer()` function returns a `GeoSeries` object. You can check that by calling the type of the variable.
 
 ```python
 type(key_infra_meters_buffer)
@@ -262,7 +262,7 @@ key_infra_buffer
 99       POLYGON ((27.75485 35.95242, 27.75493 35.95248...
 100      POLYGON ((27.76737 35.95086, 27.76733 35.95086...
 108      POLYGON ((27.76706 35.95199, 27.76702 35.95201...
-                               ...                        
+                               ...
 18876    POLYGON ((28.22855 36.41890, 28.22861 36.41899...
 18877    POLYGON ((28.22819 36.41838, 28.22825 36.41845...
 18878    POLYGON ((28.22865 36.41904, 28.22871 36.41912...
@@ -299,9 +299,9 @@ key_infra_buffer_200 = buffer_crs(key_infra, 200)
 
 ### Get built-up regions from Open Street Map (OSM)
 
-Now that we have a buffered dataset for the key infrastructure of Rhodes, our next step is to create a dataset with all the built-up areas. To do so we will use the land use data from OSM, which we prepared for you in the file `data/osm_landuse.gpkg`. This file includes the land use data for the entire Greece. We assume the built-up regions to be the union of three types of land use: "commercial", "industrial", and "residential". 
+Now that we have a buffered dataset for the key infrastructure of Rhodes, our next step is to create a dataset with all the built-up areas. To do so we will use the land use data from OSM, which we prepared for you in the file `data/osm_landuse.gpkg`. This file includes the land use data for the entire Greece. We assume the built-up regions to be the union of three types of land use: "commercial", "industrial", and "residential".
 
-Note that for the simplicity of this course, we limit the built-up regions to these three types of land use. In reality, the built-up regions can be more complex also there is definately more high quality (e.g. local government). 
+Note that for the simplicity of this course, we limit the built-up regions to these three types of land use. In reality, the built-up regions can be more complex also there is definately more high quality (e.g. local government).
 
 Now it will be up to you to create a dataset with valueable assets. You should be able to complete this task by yourself with the knowledge you have gained from the previous steps and links to the documentation we provided.
 
@@ -362,7 +362,7 @@ builtup_buffer.plot()
 
 Now that we have the infrastructure regions and built-up regions, we can merge them into a single region. We would like to keep track of the type after merging, so we will add two new columns: `type` and `code` by converting the `GeoSeries` to `GeoDataFrame`.
 
-First we convert the highways buffer:
+First we convert the buffer around key infrastructure:
 
 ```python
 data = {'geometry': key_infra_buffer, 'type': 'infrastructure', 'code': 1}
@@ -383,7 +383,7 @@ import pandas as pd
 gdf_assets = pd.concat([gdf_infra, gdf_builtup]).reset_index(drop=True)
 ```
 
-In `gdf_assets`, we can distinguish the infrastructure regions and built-up regions by the `type` and `code` columns. We can plot the `gdf_assets` to visualize the merged regions. See the [geopandas documentation](https://geopandas.org/en/stable/docs/user_guide/mapping.html) on how to do this: 
+In `gdf_assets`, we can distinguish the infrastructure regions and built-up regions by the `type` and `code` columns. We can plot the `gdf_assets` to visualize the merged regions. See the [geopandas documentation](https://geopandas.org/en/stable/docs/user_guide/mapping.html) on how to do this:
 
 ```python
 gdf_assets.plot(column='type', legend=True)
