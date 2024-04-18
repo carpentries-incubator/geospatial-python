@@ -4,13 +4,13 @@ teaching: 30
 exercises: 15
 ---
 
-:::questions
+::: questions
 - Where can I find open-access satellite data?
 - How do I search for satellite imagery with the STAC API?
 - How do I fetch remote raster datasets using Python?
 :::
 
-:::objectives
+::: objectives
 - Search public STAC repositories of satellite imagery using Python.
 - Inspect search result's metadata.
 - Download (a subset of) the assets available for a satellite scene.
@@ -52,7 +52,7 @@ access data from different missions, instruments and collections using the same 
 
 ![Views of the STAC browser](fig/E05/STAC-browser.jpg){alt="STAC browser screenshots"}
 
-:::callout
+::: callout
 ## More Resources on STAC
 - [STAC specification](https://github.com/radiantearth/stac-spec#readme)
 - [Tools based on STAC](https://stacindex.org/ecosystem)
@@ -65,7 +65,7 @@ The [STAC browser](https://radiantearth.github.io/stac-browser/#/) is a good sta
 datasets, as it provides an up-to-date list of existing STAC catalogs. From the list, let's click on the
 "Earth Search" catalog, i.e. the access point to search the archive of Sentinel-2 images hosted on AWS.
 
-:::challenge
+::: challenge
 ## Exercise: Discover a STAC catalog
 Let's take a moment to explore the Earth Search STAC catalog, which is the catalog indexing the Sentinel-2 collection
 that is hosted on AWS. We can interactively browse this catalog using the STAC browser at [this link](https://radiantearth.github.io/stac-browser/#/external/earth-search.aws.element84.com/v1).
@@ -75,7 +75,7 @@ that is hosted on AWS. We can interactively browse this catalog using the STAC b
 "scene", i.e. a portion of the footage recorded by the satellite at a given time. Have a look at the metadata fields
 and the list of assets. What kind of data do the assets represent?
 
-::::solution
+:::: solution
 
 ![Views of the Earth Search STAC endpoint](fig/E05/STAC-browser-exercise.jpg){alt="earth-search stac catalog views"}
 
@@ -114,7 +114,7 @@ format:
 collection = "sentinel-2-c1-l2a"  # Sentinel-2, Level 2A, Cloud Optimized GeoTiffs (COGs)
 ```
 
-:::callout
+::: callout
 ## Cloud Optimized GeoTIFFs
 
 Cloud Optimized GeoTIFFs (COGs) are regular GeoTIFF files with some additional features that make them ideal to be
@@ -162,7 +162,7 @@ print(search.matched())
 You will notice that more than 500 scenes match our search criteria. We are however interested in the period right before and after the wildfire of Rhodes. In the following exercise you will therefore have to add a time filter to
 our search criteria to narrow down our search for images of that period.
 
-:::challenge
+::: challenge
 ## Exercise: Search satellite scenes with a time filter
 
 Search for all the available Sentinel-2 scenes in the `sentinel-2-c1-l2a` collection that have been recorded between
@@ -260,7 +260,7 @@ If we want to access one item in the dictionary, for instance the EPSG code of t
 print(item.properties['proj:epsg'])
 ```
 
-:::challenge
+::: challenge
 ## Exercise: Search satellite scenes using metadata filters
 
 Let's add a filter on the cloud cover to select the only scenes with less than 1% cloud coverage. How many scenes do now
@@ -270,7 +270,7 @@ Hint: generic metadata filters can be implemented via the `query` input argument
 following syntax (see [docs](https://pystac-client.readthedocs.io/en/stable/usage.html#query-extension)):
 `query=['<property><operator><value>']`.
 
-::::solution
+:::: solution
 
 ```python
 search = client.search(
@@ -445,7 +445,7 @@ nir_subset.rio.to_raster("nir_subset.tif")
 
 The difference is 241 Megabytes for the full image vs less than 10 Megabytes for the subset.
 
-:::challenge
+::: challenge
 ## Exercise: Downloading Landsat 8 Assets
 In this exercise we put in practice all the skills we have learned in this episode to retrieve images from a different
 mission: [Landsat 8](https://www.usgs.gov/landsat-missions/landsat-8). In particular, we browse images from the
@@ -458,7 +458,7 @@ in the NASA Common Metadata Repository (CMR) and it can be accessed from the STA
   2021, intersecting the point with longitude/latitute coordinates (-73.97, 40.78) deg.
 - Visualize an item's thumbnail (asset key `browse`).
 
-::::solution
+:::: solution
 ```python
 # connect to the STAC endpoint
 cmr_api_url = "https://cmr.earthdata.nasa.gov/stac/LPCLOUD"
@@ -503,7 +503,7 @@ print(item.assets["browse"].href)
 ::::
 :::
 
-:::callout
+::: callout
 ## Public catalogs, protected data
 
 Publicly accessible catalogs and STAC endpoints do not necessarily imply publicly accessible data. Data providers, in
@@ -525,7 +525,7 @@ os.environ["GDAL_HTTP_COOKIEJAR"] = "./cookies.txt"
 ```
 :::
 
-:::keypoints
+::: keypoints
  - Accessing satellite images via the providers' API enables a more reliable and scalable data retrieval.
  - STAC catalogs can be browsed and searched using the same tools and scripts.
  - `rioxarray` allows you to open and download remote raster files.
