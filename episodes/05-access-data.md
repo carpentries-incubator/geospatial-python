@@ -27,8 +27,8 @@ typically provided in the form of geospatial raster data, with the measurements 
 associated to accurate geographic coordinate information.
 
 In this episode we will explore how to access open satellite data using Python. In particular,  we will
-consider [the Sentinel-2 data collection that is hosted on AWS](https://registry.opendata.aws/sentinel-2-l2a-cogs).
-This dataset consists of multi-band optical images acquired by the two satellites of
+consider [the Sentinel-2 data collection that is hosted on Amazon Web Services (AWS)](https://registry.opendata.aws/sentinel-2-l2a-cogs).
+This dataset consists of multi-band optical images acquired by the two satellite constellations of
 [the Sentinel-2 mission](https://sentinel.esa.int/web/sentinel/missions/sentinel-2) and it is continuously updated with
 new images.
 
@@ -37,9 +37,7 @@ new images.
 ### The SpatioTemporal Asset Catalog (STAC) specification
 
 Current sensor resolutions and satellite revisit periods are such that terabytes of data products are added daily to the
-corresponding collections. Such datasets cannot be made accessible to users via full-catalog download. Space agencies
-and other data providers often offer access to their data catalogs through interactive Graphical User Interfaces (GUIs),
-see for instance the [Copernicus Browser](https://browser.dataspace.copernicus.eu) for the Sentinel
+corresponding collections. Such datasets cannot be made accessible to users via full-catalog download. Therefore, space agencies and other data providers often offer access to their data catalogs through interactive Graphical User Interfaces (GUIs), see for instance the [Copernicus Browser](https://browser.dataspace.copernicus.eu) for the Sentinel
 missions. Accessing data via a GUI is a nice way to explore a catalog and get familiar with its content, but it
 represents a heavy and error-prone task that should be avoided if carried out systematically to retrieve data.
 
@@ -81,7 +79,7 @@ and the list of assets. What kind of data do the assets represent?
 
 ![Views of the Earth Search STAC endpoint](fig/E05/STAC-browser-exercise.jpg){alt="earth-search stac catalog views"}
 
-1. 7 sub-catalogs are available. In the STAC nomenclature, these are actually "collections", i.e. catalogs with
+1. 8 sub-catalogs are available. In the STAC nomenclature, these are actually "collections", i.e. catalogs with
 additional information about the elements they list: spatial and temporal extents, license, providers, etc.
 Among the available collections, we have Landsat Collection 2, Level-2 and Sentinel-2 Level 2A (see left screenshot in
 the figure above).
@@ -100,7 +98,7 @@ functionality of searching its items. For the Earth Search STAC catalog the API 
 api_url = "https://earth-search.aws.element84.com/v1"
 ```
 
-You can query a STAC API endpoint from Python using the `pystac_client` library. To do so we will import `Client` from `pystac_client`:
+You can query a STAC API endpoint from Python using the [`pystac_client` library](https://pystac-client.readthedocs.io/en/stable/api.html#pystac_client). To do so we will first import `Client` from `pystac_client` and use the [method open from the Client class](https://pystac-client.readthedocs.io/en/stable/quickstart.html):
 
 ```python
 from pystac_client import Client
@@ -108,13 +106,38 @@ from pystac_client import Client
 client = Client.open(api_url)
 ```
 
-Next, we ask for scenes belonging to the `sentinel-2-l2a` collection. This dataset includes Sentinel-2
-data products pre-processed at level 2A (bottom-of-atmosphere reflectance). This data is stored as Cloud Optimized GeoTIFF (COG)
-format:
+For this episode we will focus at scenes belonging to the `sentinel-2-l2a` collection. This dataset is useful for our case and includes Sentinel-2 data products pre-processed at level 2A (bottom-of-atmosphere reflectance). 
+
+In order to see which collections are available in the provided `api_url` the [`get_collections`](https://pystac-client.readthedocs.io/en/stable/api.html#pystac_client.Client.get_collections) method can be used on the Client class. 
 
 ```python
-collection = "sentinel-2-l2a"  # Sentinel-2, Level 2A, Cloud Optimized GeoTiffs (COGs)
+collections = client.get_collections()
 ```
+To print the collections we can make a for loop doing:
+
+```python
+for collection in collections:
+    print(collection)
+```
+```output
+<CollectionClient id=cop-dem-glo-30>
+<CollectionClient id=naip>
+<CollectionClient id=sentinel-2-l2a>
+<CollectionClient id=sentinel-2-l1c>
+<CollectionClient id=cop-dem-glo-90>
+<CollectionClient id=landsat-c2-l2>
+<CollectionClient id=sentinel-1-grd>
+<CollectionClient id=sentinel-2-c1-l2a>
+```
+
+As said, we want to focus to the `sentinel-2-l2a` collection. To do so, we set this collection into a variable:
+
+```python
+collection_sentinel_2_l2a = "sentinel-2-l2a"  
+```
+
+The data in this collection is stored in the Cloud Optimized GeoTIFF (COG) format and as JPEG2000 images. In this episode we will focus at COGs, as these offer useful functionalities for our purpose. 
+
 
 :::callout
 ## Cloud Optimized GeoTIFFs
@@ -146,7 +169,7 @@ We now set up our search of satellite images in the following way:
 
 ```python
 search = client.search(
-    collections=[collection],
+    collections=[collection_sentinel_2_l2a],
     intersects=point,
 )
 ```
@@ -181,7 +204,7 @@ bbox = point.buffer(0.01).bounds
 
 ```python
 search = client.search(
-    collections=[collection],
+    collections=[collection_sentinel_2_l2a],
     intersects=point,
     datetime='2023-07-01/2023-08-31'  
 )
@@ -406,11 +429,11 @@ From the thumbnails alone we can already observe some dark spots on the island o
 
 In order to open the high-resolution satellite images and investigate the scenes in more detail, we will be using the `rioxarray` library. Note that this library can both work with local and remote raster data. At this moment we will only take a sneak peek at the [to_raster function](https://corteva.github.io/rioxarray/stable/rioxarray.html#rioxarray.raster_array.RasterArray.to_raster) of this library. We will learn more about it in the next episode. 
 
-Now let us focus on the near Infrared (NIR) band by accessing the item `nir` from the assets dictionary and get the Hypertext Reference (also known as URL) attribute using `.href` after the item selection.
+Now let us focus on the near ´red´ band by accessing the item `red` from the assets dictionary and get the Hypertext Reference (also known as URL) attribute using `.href` after the item selection.
 
 ```python
 import rioxarray
-nir_href = assets["nir"].href
+nir_href = assets["red"].href
 nir = rioxarray.open_rasterio(nir_href)
 print(nir)
 ```
@@ -435,7 +458,7 @@ Now we want to save the data to our local machine using the [to_raster](https://
 
 ```python
 # save whole image to disk
-nir.rio.to_raster("nir.tif")
+nir.rio.to_raster("red.tif")
 ```
 
 That might take a while, given there are over 10000 x 10000 = a hundred million pixels in the 10-meter NIR band.
@@ -454,10 +477,13 @@ nir_subset = nir.rio.clip_box(
 Next, we save the subset using `to_raster` again. 
 
 ```python
-nir_subset.rio.to_raster("nir_subset.tif")
+nir_subset.rio.to_raster("red_subset.tif")
 ```
 
 The difference is 241 Megabytes for the full image vs less than 10 Megabytes for the subset.
+
+
+
 
 :::challenge
 ## Exercise: Downloading Landsat 8 Assets
