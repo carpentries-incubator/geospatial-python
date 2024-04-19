@@ -17,8 +17,6 @@ exercises: 15
 - Open satellite imagery as raster data and save it to disk.
 :::
 
-
-
 ## Introduction
 
 A number of satellites take snapshots of the Earth's surface from space. The images recorded by these remote sensors
@@ -155,7 +153,7 @@ on the downloading time. More information on the COG format can be found [here](
 :::
 
 In order to get data for a specific location you can add longitude latitude coordinates (World Geodetic System 1984 EPSG:4326) in your request. In order to do so we are using the `shapely` library to define a geometrical point.
-Below we have included a center point for the island of Rhods, which is the location of interest for our case study (i.e. Longitude: 27.95 | Latitude 36.20) . You can change that to the region of your preference.
+Below we have included a center point for the island of Rhodes, which is the location of interest for our case study (i.e. Longitude: 27.95 | Latitude 36.20).
 
 ```python
 from shapely.geometry import Point
@@ -163,7 +161,7 @@ point = Point(27.95, 36.20)  # Coordinates of a point on Rhodes
 ```
 
 Note: at this stage, we are only dealing with metadata, so no image is going to be downloaded yet. But even metadata can
-be quite bulky if a large number of scenes match our search! For this reason, we limit the search by the intersect of the point (by setting the parameter `intersects`) and assign the collection (by setting the parameter `collections`).  More information about the possible parameters to be set can be found at the  [stac search method](https://pystac-client.readthedocs.io/en/stable/api.html#pystac_client.Client.search) documentation.
+be quite bulky if a large number of scenes match our search! For this reason, we limit the search by the intersection of the point (by setting the parameter `intersects`) and assign the collection (by setting the parameter `collections`).  More information about the possible parameters to be set can be found in the `pystac_client` documentation for the [Client's search method](https://pystac-client.readthedocs.io/en/stable/api.html#pystac_client.Client.search).
 
 We now set up our search of satellite images in the following way:
 
@@ -188,25 +186,21 @@ You will notice that more than 500 scenes match our search criteria. We are howe
 our search criteria to narrow down our search for images of that period.
 
 :::challenge
-## Exercise: Search satellite scenes using metadata filters
+## Exercise: Search satellite scenes with a time filter
 
-Search for all the available Sentinel-2 scenes in the `sentinel-2-l2a` collection that satisfy the following
-criteria:
-- intersect a provided bounding box (use ±0.01 deg in lat/lon from the previously defined point);
-- have been recorded between 1st of July 2023 and 31st of August 2023 (the timespan in which the wildfire took place).**Hint:** generic metadata filters can be implemented via the `query` input argument of `client.search`, which requires the following syntax (see [docs](https://pystac-client.readthedocs.io/en/stable/usage.html#query-extension)): `query=['<property><operator><value>']`).
+Search for all the available Sentinel-2 scenes in the `sentinel-2-c1-l2a` collection that have been recorded between
+1st of July 2023 and 31st of August 2023 (few weeks before and after the time in which the wildfire took place).
 
-How many scenes are available? Save the search results in GeoJSON format.
+Hint: You can find the input argument and the required syntax in the documentation of `client.search` (which you can access from
+ Python or [online](https://pystac-client.readthedocs.io/en/stable/api.html#pystac_client.Client.search))
 
-::::solution
-```python
-bbox = point.buffer(0.01).bounds
-```
+How many scenes are available?
 
 ```python
 search = client.search(
     collections=[collection_sentinel_2_l2a],
     intersects=point,
-    datetime='2023-07-01/2023-08-31'  
+    datetime='2023-07-01/2023-08-31'
 )
 print(search.matched())
 ```
@@ -218,7 +212,6 @@ print(search.matched())
 This means that 12 scenes satisfy the search criteria.
 ::::
 :::
-
 
 Now that we have added a time filter, we retrieve the metadata of the search results:
 
@@ -262,7 +255,6 @@ for item in items:
 Each of the items contains information about the scene geometry, its acquisition time, and other metadata that can be
 accessed as a dictionary from the `properties` attribute. To see which information each item contains you can have a look at the [item documentation of pystac](https://pystac.readthedocs.io/en/latest/api/item.html).
 
-
 Let us inspect the metadata associated with the first item of the search results. Let us first look at collection date of the first item::
 ```python
 item = items[0]
@@ -273,17 +265,14 @@ print(item.datetime)
 2023-08-27 09:00:21.327000+00:00
 ```
 
-Let us now add the geometry and other properties as well.
+Let us now look at the geometry and other properties as well.
 
 ```python
-item = items[0]
-print(item.datetime)
 print(item.geometry)
 print(item.properties)
 ```
 
 ```output
-2023-08-27 09:00:21.327000+00:00
 {'type': 'Polygon', 'coordinates': [[[27.290401625602243, 37.04621863329741], [27.23303872472207, 36.83882218126937], [27.011145718480538, 36.05673246264742], [28.21878905911668, 36.05053734221328], [28.234426643135546, 37.04015200857309], [27.290401625602243, 37.04621863329741]]]}
 {'created': '2023-08-27T18:15:43.106Z', 'platform': 'sentinel-2a', 'constellation': 'sentinel-2', 'instruments': ['msi'], 'eo:cloud_cover': 0.955362, 'proj:epsg': 32635, 'mgrs:utm_zone': 35, 'mgrs:latitude_band': 'S', 'mgrs:grid_square': 'NA', 'grid:code': 'MGRS-35SNA', 'view:sun_azimuth': 144.36354987218, 'view:sun_elevation': 59.06665363921, 's2:degraded_msi_data_percentage': 0.0126, 's2:nodata_pixel_percentage': 12.146327, 's2:saturated_defective_pixel_percentage': 0, 's2:dark_features_percentage': 0.249403, 's2:cloud_shadow_percentage': 0.237454, 's2:vegetation_percentage': 6.073786, 's2:not_vegetated_percentage': 18.026696, 's2:water_percentage': 74.259061, 's2:unclassified_percentage': 0.198216, 's2:medium_proba_clouds_percentage': 0.613614, 's2:high_proba_clouds_percentage': 0.341423, 's2:thin_cirrus_percentage': 0.000325, 's2:snow_ice_percentage': 2.3e-05, 's2:product_type': 'S2MSI2A', 's2:processing_baseline': '05.09', 's2:product_uri': 'S2A_MSIL2A_20230827T084601_N0509_R107_T35SNA_20230827T115803.SAFE', 's2:generation_time': '2023-08-27T11:58:03.000000Z', 's2:datatake_id': 'GS2A_20230827T084601_042718_N05.09', 's2:datatake_type': 'INS-NOBS', 's2:datastrip_id': 'S2A_OPER_MSI_L2A_DS_2APS_20230827T115803_S20230827T085947_N05.09', 's2:granule_id': 'S2A_OPER_MSI_L2A_TL_2APS_20230827T115803_A042718_T35SNA_N05.09', 's2:reflectance_conversion_factor': 0.978189079756816, 'datetime': '2023-08-27T09:00:21.327000Z', 's2:sequence': '0', 'earthsearch:s3_path': 's3://sentinel-cogs/sentinel-s2-l2a-cogs/35/S/NA/2023/8/S2A_35SNA_20230827_0_L2A', 'earthsearch:payload_id': 'roda-sentinel2/workflow-sentinel2-to-stac/af0287974aaa3fbb037c6a7632f72742', 'earthsearch:boa_offset_applied': True, 'processing:software': {'sentinel2-to-stac': '0.1.1'}, 'updated': '2023-08-27T18:15:43.106Z'}
 ```
@@ -291,11 +280,8 @@ print(item.properties)
 If we want to access one item in the dictionary, for instance the EPSG code of the projected coordinate system, you need to access the item in the dictionary as usual. For instance:
 
 ```python
-item = items[0]
 print(item.properties['proj:epsg'])
 ```
-
-
 
 :::challenge
 ## Exercise: Search satellite scenes using metadata filters
@@ -333,7 +319,7 @@ items = search.item_collection()
 items.save_object("rhodes_sentinel-2.json")
 ```
 
-This creates a file in GeoJSON format, which we will reuse here and in the next episodes. Note that this does not contain the actual data. Note that this file contains the metadata of the files that meet out criteria. It does not include the data itself only their metadata.
+This creates a file in GeoJSON format, which we will reuse here and in the next episodes. Note that this file contains the metadata of the files that meet out criteria. It does not include the data itself, only their metadata.
 
 ## Access the assets
 
@@ -427,7 +413,7 @@ https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/35/S/NA/20
 
 From the thumbnails alone we can already observe some dark spots on the island of Rhodes at the bottom right of the image!
 
-In order to open the high-resolution satellite images and investigate the scenes in more detail, we will be using the `rioxarray` library. Note that this library can both work with local and remote raster data. At this moment we will only take a sneak peek at the [to_raster function](https://corteva.github.io/rioxarray/stable/rioxarray.html#rioxarray.raster_array.RasterArray.to_raster) of this library. We will learn more about it in the next episode. 
+In order to open the high-resolution satellite images and investigate the scenes in more detail, we will be using the `rioxarray` library. Note that this library can both work with local and remote raster data. At this moment we will only take a sneak peek at the [to_raster function](https://corteva.github.io/rioxarray/stable/rioxarray.html#rioxarray.raster_array.RasterArray.to_raster) of this library. We will learn more about it in the next episode.
 
 Now let us focus on the near ´red´ band by accessing the item `red` from the assets dictionary and get the Hypertext Reference (also known as URL) attribute using `.href` after the item selection.
 
@@ -454,7 +440,7 @@ Attributes:
     add_offset:          0.0
 ```
 
-Now we want to save the data to our local machine using the [to_raster](https://corteva.github.io/rioxarray/stable/rioxarray.html#rioxarray.raster_array.RasterArray.to_raster) function  :
+Now we want to save the data to our local machine using the [to_raster](https://corteva.github.io/rioxarray/stable/rioxarray.html#rioxarray.raster_array.RasterArray.to_raster) function:
 
 ```python
 # save whole image to disk
@@ -464,7 +450,7 @@ nir.rio.to_raster("red.tif")
 That might take a while, given there are over 10000 x 10000 = a hundred million pixels in the 10-meter NIR band.
 But we can take a smaller subset before downloading it. Because the raster is a COG, we can download just what we need!
 
-In order to do that, we are using rioxarray´s [clip_box](https://corteva.github.io/rioxarray/stable/examples/clip_box.html) with which you can set a bounding box defining the area we want. 
+In order to do that, we are using rioxarray´s [clip_box](https://corteva.github.io/rioxarray/stable/examples/clip_box.html) with which you can set a bounding box defining the area you want.
 
 ```python
 nir_subset = nir.rio.clip_box(
@@ -474,7 +460,7 @@ nir_subset = nir.rio.clip_box(
     maxy=4015000
 )
 ```
-Next, we save the subset using `to_raster` again. 
+Next, we save the subset using `to_raster` again.
 
 ```python
 nir_subset.rio.to_raster("red_subset.tif")
