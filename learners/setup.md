@@ -6,10 +6,12 @@ title: Setup
 
 1. Create a new directory on your Desktop called `geospatial-python`.
 2. Within `geospatial-python`, create a directory called `data`.
-3. Download the following files and save them to the just created `data` directory:
-  * [rhodos_GADM.gpkg](www.addlinktofigshare.com) - This data is downloaded from [GADM](https://gadm.org/) and modified for this course.
-  * [openstreetmap_rhodos.zip](www.addlinktofigshare.com) - This data is downloaded from [Openstreetmaps](www.openstreetmaps.org) and downloaded from [Geofabrik](http://www.geofabrik.de/data/download.html) and modified for this course.
-  * [Is_there_any_other_data?.zip](www.addlinktofigshare.com)
+3. Download the data required for this lesson via [this link](https://figshare.com/ndownloader/articles/25721754).
+4. Unzip downloaded files and save them to the just created `data` directory.
+
+In total three files were downloaded
+  - In `gadm` folder: `ADM_ADM_3.gpkg` - This data is downloaded from [GADM](https://gadm.org/) and modified for this course.
+  - In `osm` folder: [osm_landuse.gpkg] and [osm_roads.gpkg] - This data is downloaded from [Openstreetmaps](www.openstreetmaps.org) via [Geofabrik](http://www.geofabrik.de/data/download.html) and modified for this course.
 
 ## Software Setup
 
