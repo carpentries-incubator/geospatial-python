@@ -5,7 +5,7 @@ exercises: 10
 ---
 
 :::questions
-- What is a coordinate reference system and how do you interpret one?
+- What is a coordinate reference system and how do I interpret one?
 :::
 
 :::objectives
@@ -56,13 +56,13 @@ degrees) and defines the starting point (i.e. where is [0,0]?) so the angles
 reference a meaningful spot on the earth. Common global datums are WGS84 and
 NAD83. Datums can also be local - fit to a particular area of the globe, but
 ill-fitting outside the area of intended use For instance local Cadastre, Land Registry and Mapping Agencies require a high quality of their datasets, which can be obtained using a local system. In this workshop, we will use the
-[WGS84 datum](https://www.linz.govt.nz/data/geodetic-system/datums-projections-and-heights/geodetic-datums/world-geodetic-system-1984-wgs84). The datum is often also refered to as the Geographical Coordinate System. 
+[WGS84 datum](https://www.linz.govt.nz/data/geodetic-system/datums-projections-and-heights/geodetic-datums/world-geodetic-system-1984-wgs84). The datum is often also refered to as the Geographical Coordinate System.
 
 * **Projection:** A mathematical transformation of the angular measurements on a
 round earth to a flat surface (i.e. paper or a computer screen). The units
 associated with a given projection are usually linear (feet, meters, etc.). In
-this workshop, we will see data in two different projections. 
-Note that the projection is also often refered to as Projected Coordinate System. 
+this workshop, we will see data in two different projections.
+Note that the projection is also often refered to as Projected Coordinate System.
 
 * **Additional Parameters:** Additional parameters are often necessary to create
 the full coordinate reference system. One common additional parameter is a
@@ -214,7 +214,7 @@ generated and maintained manually.
 * [Choosing the Right Map Projection.](https://source.opennews.org/en-US/learning/choosing-right-map-projection/)
 * [Video](https://www.youtube.com/embed/KUF_Ckv8HbE) highlighting how map projections can make continents
 seems proportionally larger or smaller than they actually are.
-* [The True size](https://www.thetruesize.com/) An intuitive webmap that allows you to drag countries to another place in the webmercator projection. 
+* [The True size](https://www.thetruesize.com/) An intuitive webmap that allows you to drag countries to another place in the webmercator projection.
 :::
 
 :::keypoints

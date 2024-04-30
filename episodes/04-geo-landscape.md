@@ -51,7 +51,7 @@ The [Open Source Geospatial Foundation (OSGEO)](https://www.osgeo.org/) supports
   GRASS GIS, it can also be installed and made accessible in QGIS3.
   * [PostGIS](https://postgis.net/) is a geospatial extension to the PostGreSQL
   relational database and is especially suited to work with large vector datasets.
-  * [GeoDMS](https://geodms.nl/) is a powerful Open sources GIS which allows for 
+  * [GeoDMS](https://geodms.nl/) is a powerful Open sources GIS which allows for
   fast calculations and calculations with large datasets. Furthermore it allows for complex scenario analyses.
 
 ### Commercial software
@@ -65,7 +65,7 @@ The [Open Source Geospatial Foundation (OSGEO)](https://www.osgeo.org/) supports
   ArGIS Online which you host locally. ESRI welcomes development on their platforms
   through their [DevLabs](https://developers.arcgis.com/). ArcGIS software can be
   installed using
-  [Chef Cookbooks from Github](https://github.com/Esri/arcgis-cookbook). In addition, ESRI offers the [arcpy python library](https://pro.arcgis.com/en/pro-app/3.1/arcpy/get-started/what-is-arcpy-.htm) as part of an ArcGIS pro licence allowing bring all operations from the ArcGIS pro GUI to the python ecosystem.  
+  [Chef Cookbooks from Github](https://github.com/Esri/arcgis-cookbook). In addition, ESRI offers the [arcpy python library](https://pro.arcgis.com/en/pro-app/3.1/arcpy/get-started/what-is-arcpy-.htm) as part of an ArcGIS pro licence allowing bring all operations from the ArcGIS pro GUI to the python ecosystem.
   * Pitney Bowes produce [MapInfo Professional](https://www.pitneybowes.com/us/location-intelligence/geographic-information-systems/mapinfo-pro.html),
   which was one of the earliest desktop GIS programs on the market.
   * [Hexagon Geospatial Power Portfolio](https://www.hexagongeospatial.com/products/products)
@@ -114,8 +114,8 @@ Benefits of using a GUI include:
 
 Downsides of using a GUI include:
 
-  - Low reproducibility - you can record your actions and replay, but this requires some knowledge of the software
-  - Batch-processing is possible, but requires knowledge of the software 
+  - Low reproducibility - you can record your actions and replay, but this is limited to the functionalities of the software
+  - Batch-processing is possible, but limited to the funstionalities of the software and hard to be integrated with other workflows
   - Limited ability to customise functions or write your own
   - Intimidating interface for new users - so many buttons!
 
@@ -163,7 +163,7 @@ are other popular options for data science.
 
 Traditional GIS apps are also moving back towards providing a scripting environment for
 users, further blurring the CLI/GUI divide. ESRI have adopted Python into their
-software by introducing [arcpy](), and QGIS is both Python and R-friendly.
+software by introducing [arcpy](https://developers.arcgis.com/documentation/arcgis-add-ins-and-automation/arcpy/), and QGIS is both Python and R-friendly.
 
 ## GIS File Types
 
