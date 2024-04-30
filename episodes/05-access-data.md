@@ -89,14 +89,15 @@ satellite images, one for each band captured by the Multispectral Instrument on 
 :::
 
 When opening a catalog with the STAC browser, you can access the API URL by clicking on the "Source" button on the top
-right of the page. By using this URL, we have access to the catalog content and, if supported by the catalog, to the
+right of the page. By using this URL, you have access to the catalog content and, if supported by the catalog, to the
 functionality of searching its items. For the Earth Search STAC catalog the API URL is:
 
 ```python
 api_url = "https://earth-search.aws.element84.com/v1"
 ```
 
-You can query a STAC API endpoint from Python using the [`pystac_client` library](https://pystac-client.readthedocs.io/en/stable/api.html#pystac_client). To do so we will first import `Client` from `pystac_client` and use the [method open from the Client class](https://pystac-client.readthedocs.io/en/stable/quickstart.html):
+You can query a STAC API endpoint from Python using the [`pystac_client` library](https://pystac-client.readthedocs.io/en/stable/api.html#pystac_client). 
+To do so we will first import `Client` from `pystac_client` and use the [method open from the Client object](https://pystac-client.readthedocs.io/en/stable/quickstart.html):
 
 ```python
 from pystac_client import Client
@@ -104,19 +105,23 @@ from pystac_client import Client
 client = Client.open(api_url)
 ```
 
-For this episode we will focus at scenes belonging to the `sentinel-2-l2a` collection. This dataset is useful for our case and includes Sentinel-2 data products pre-processed at level 2A (bottom-of-atmosphere reflectance). 
+For this episode we will focus at scenes belonging to the `sentinel-2-l2a` collection. 
+This dataset is useful for our case and includes Sentinel-2 data products pre-processed at level 2A (bottom-of-atmosphere reflectance). 
 
-In order to see which collections are available in the provided `api_url` the [`get_collections`](https://pystac-client.readthedocs.io/en/stable/api.html#pystac_client.Client.get_collections) method can be used on the Client class. 
+In order to see which collections are available in the provided `api_url` the 
+[`get_collections`](https://pystac-client.readthedocs.io/en/stable/api.html#pystac_client.Client.get_collections) method can be used on the Client object. 
 
 ```python
 collections = client.get_collections()
 ```
+
 To print the collections we can make a for loop doing:
 
 ```python
 for collection in collections:
     print(collection)
 ```
+
 ```output
 <CollectionClient id=cop-dem-glo-30>
 <CollectionClient id=naip>
@@ -134,8 +139,7 @@ As said, we want to focus to the `sentinel-2-l2a` collection. To do so, we set t
 collection_sentinel_2_l2a = "sentinel-2-l2a"  
 ```
 
-The data in this collection is stored in the Cloud Optimized GeoTIFF (COG) format and as JPEG2000 images. In this episode we will focus at COGs, as these offer useful functionalities for our purpose. 
-
+The data in this collection is stored in the Cloud Optimized GeoTIFF (COG) format and as JPEG2000 images. In this episode we will focus at COGs, as these offer useful functionalities for our purpose.
 
 ::: callout
 ## Cloud Optimized GeoTIFFs
@@ -152,7 +156,8 @@ by a high-resolution raster can directly access the lower-resolution versions of
 on the downloading time. More information on the COG format can be found [here](https://www.cogeo.org).
 :::
 
-In order to get data for a specific location you can add longitude latitude coordinates (World Geodetic System 1984 EPSG:4326) in your request. In order to do so we are using the `shapely` library to define a geometrical point.
+In order to get data for a specific location you can add longitude latitude coordinates (World Geodetic System 1984 EPSG:4326) in your request. 
+In order to do so we are using the `shapely` library to define a geometrical point.
 Below we have included a center point for the island of Rhodes, which is the location of interest for our case study (i.e. Longitude: 27.95 | Latitude 36.20).
 
 ```python
@@ -196,6 +201,8 @@ Hint: You can find the input argument and the required syntax in the documentati
 
 How many scenes are available?
 
+:::: solution
+
 ```python
 search = client.search(
     collections=[collection_sentinel_2_l2a],
@@ -213,13 +220,15 @@ This means that 12 scenes satisfy the search criteria.
 ::::
 :::
 
-Now that we have added a time filter, we retrieve the metadata of the search results:
+Now that we have added a time filter, we retrieve the metadata of the search results by calling the method `item_collection`:
 
 ```python
 items = search.item_collection()
 ```
 
-The variable `items` is an `ItemCollection` object. We can check its size by:
+The variable `items` is an `ItemCollection` object. More information can be found at the [pystac documentation](https://pystac.readthedocs.io/en/latest/api/pystac.html#pystac.ItemCollection)
+
+Now let us check the size using `len`:
 
 ```python
 print(len(items))
@@ -253,9 +262,10 @@ for item in items:
 ```
 
 Each of the items contains information about the scene geometry, its acquisition time, and other metadata that can be
-accessed as a dictionary from the `properties` attribute. To see which information each item contains you can have a look at the [item documentation of pystac](https://pystac.readthedocs.io/en/latest/api/item.html).
+accessed as a dictionary from the `properties` attribute. To see which information Item objects can contain you can have a look at the [pystac documentation](https://pystac.readthedocs.io/en/latest/api/pystac.html#pystac.Item).
 
-Let us inspect the metadata associated with the first item of the search results. Let us first look at collection date of the first item::
+Let us inspect the metadata associated with the first item of the search results. Let us first look at the collection date of the first item::
+
 ```python
 item = items[0]
 print(item.datetime)
@@ -277,7 +287,7 @@ print(item.properties)
 {'created': '2023-08-27T18:15:43.106Z', 'platform': 'sentinel-2a', 'constellation': 'sentinel-2', 'instruments': ['msi'], 'eo:cloud_cover': 0.955362, 'proj:epsg': 32635, 'mgrs:utm_zone': 35, 'mgrs:latitude_band': 'S', 'mgrs:grid_square': 'NA', 'grid:code': 'MGRS-35SNA', 'view:sun_azimuth': 144.36354987218, 'view:sun_elevation': 59.06665363921, 's2:degraded_msi_data_percentage': 0.0126, 's2:nodata_pixel_percentage': 12.146327, 's2:saturated_defective_pixel_percentage': 0, 's2:dark_features_percentage': 0.249403, 's2:cloud_shadow_percentage': 0.237454, 's2:vegetation_percentage': 6.073786, 's2:not_vegetated_percentage': 18.026696, 's2:water_percentage': 74.259061, 's2:unclassified_percentage': 0.198216, 's2:medium_proba_clouds_percentage': 0.613614, 's2:high_proba_clouds_percentage': 0.341423, 's2:thin_cirrus_percentage': 0.000325, 's2:snow_ice_percentage': 2.3e-05, 's2:product_type': 'S2MSI2A', 's2:processing_baseline': '05.09', 's2:product_uri': 'S2A_MSIL2A_20230827T084601_N0509_R107_T35SNA_20230827T115803.SAFE', 's2:generation_time': '2023-08-27T11:58:03.000000Z', 's2:datatake_id': 'GS2A_20230827T084601_042718_N05.09', 's2:datatake_type': 'INS-NOBS', 's2:datastrip_id': 'S2A_OPER_MSI_L2A_DS_2APS_20230827T115803_S20230827T085947_N05.09', 's2:granule_id': 'S2A_OPER_MSI_L2A_TL_2APS_20230827T115803_A042718_T35SNA_N05.09', 's2:reflectance_conversion_factor': 0.978189079756816, 'datetime': '2023-08-27T09:00:21.327000Z', 's2:sequence': '0', 'earthsearch:s3_path': 's3://sentinel-cogs/sentinel-s2-l2a-cogs/35/S/NA/2023/8/S2A_35SNA_20230827_0_L2A', 'earthsearch:payload_id': 'roda-sentinel2/workflow-sentinel2-to-stac/af0287974aaa3fbb037c6a7632f72742', 'earthsearch:boa_offset_applied': True, 'processing:software': {'sentinel2-to-stac': '0.1.1'}, 'updated': '2023-08-27T18:15:43.106Z'}
 ```
 
-If we want to access one item in the dictionary, for instance the EPSG code of the projected coordinate system, you need to access the item in the dictionary as usual. For instance:
+Now if we want to access one item in the dictionary, for instance the EPSG code of the projected coordinate system, you need to access the item in the dictionary as usual. For instance:
 
 ```python
 print(item.properties['proj:epsg'])
@@ -382,7 +392,7 @@ visual-jp2: True color image
 wvp-jp2: Water vapour (WVP)
 ```
 
-Among the others, assets include multiple raster data files (one per optical band, as acquired by the multi-spectral
+Among the other data files, assets include multiple raster data files (one per optical band, as acquired by the multi-spectral
 instrument), a thumbnail, a true-color image ("visual"), instrument metadata and scene-classification information
 ("SCL"). Let's get the URL link to the thumbnail, which gives us a glimpse of the Sentinel-2 scene:
 
@@ -417,11 +427,15 @@ In order to open the high-resolution satellite images and investigate the scenes
 
 Now let us focus on the near ´red´ band by accessing the item `red` from the assets dictionary and get the Hypertext Reference (also known as URL) attribute using `.href` after the item selection.
 
+Remote raster data can be directly opened via the `rioxarray` library. We will learn more about this library in the next episodes.
+
+For now we are using [rioxarray to open the raster file](https://corteva.github.io/rioxarray/stable/rioxarray.html#rioxarray-open-rasterio).
+
 ```python
 import rioxarray
-nir_href = assets["red"].href
-nir = rioxarray.open_rasterio(nir_href)
-print(nir)
+red_href = assets["red"].href
+red = rioxarray.open_rasterio(red_href)
+print(red)
 ```
 
 ```output
@@ -444,7 +458,7 @@ Now we want to save the data to our local machine using the [to_raster](https://
 
 ```python
 # save whole image to disk
-nir.rio.to_raster("red.tif")
+red.rio.to_raster("red.tif")
 ```
 
 That might take a while, given there are over 10000 x 10000 = a hundred million pixels in the 10-meter NIR band.
@@ -453,7 +467,7 @@ But we can take a smaller subset before downloading it. Because the raster is a 
 In order to do that, we are using rioxarray´s [clip_box](https://corteva.github.io/rioxarray/stable/examples/clip_box.html) with which you can set a bounding box defining the area you want.
 
 ```python
-nir_subset = nir.rio.clip_box(
+red_subset = red.rio.clip_box(
     minx=560900,
     miny=3995000,
     maxx=570900,
@@ -463,12 +477,10 @@ nir_subset = nir.rio.clip_box(
 Next, we save the subset using `to_raster` again.
 
 ```python
-nir_subset.rio.to_raster("red_subset.tif")
+red_subset.rio.to_raster("red_subset.tif")
 ```
 
 The difference is 241 Megabytes for the full image vs less than 10 Megabytes for the subset.
-
-
 
 
 :::challenge
