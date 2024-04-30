@@ -34,11 +34,12 @@ To handle the vector data in python we use the package [`geopandas`](https://geo
 - A `GeoSeries` is a `Series` object designed to store shapely geometry objects.
 - A `GeoDataFrame` is an extended `pandas.DataFrame` that includes a column with geometry objects, which is a `GeoSeries`.
 
-
+:::callout
 ## Introduce the Vector Data
 
 In this episode, we will use the downloaded vector data from the `data` directory. Please refer to the [setup page](../learners/setup.md) on where to download the data. Note that we manipulated that data a little for the purposes of
 this workshop. The link to the original source can be found on the [setup page](../learners/setup.md).
+:::
 
 ## Get the administration boundary of study area
 
