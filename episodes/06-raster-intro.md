@@ -17,48 +17,107 @@ exercises: 30
 -  Visualize single/multi-band raster data.
 :::
 
-Raster datasets have been introduced in [Episode 1: Introduction to Raster Data](01-intro-raster-data.md). Here, we introduce the fundamental principles, packages and metadata/raster attributes for working with raster data in Python. We will also explore how Python handles missing and bad data values.
-
-[`rioxarray`](https://corteva.github.io/rioxarray/stable/) is the Python package we will use throughout this lesson to work with raster data. It is based on the popular [`rasterio`](https://rasterio.readthedocs.io/en/latest/) package for working with rasters and [`xarray`](https://xarray.pydata.org/en/stable/) for working with multi-dimensional arrays.
-`rioxarray` extends `xarray` by providing top-level functions (e.g. the `open_rasterio` function to open raster datasets) and by adding a set of methods to the main objects of the `xarray` package (the `Dataset` and the `DataArray`). These additional methods are made available via the `rio` accessor and become available from `xarray` objects after importing `rioxarray`.
-
-We will also use the [`pystac`](https://github.com/stac-utils/pystac) package to load rasters from the search results we created in the previous episode.
 
 :::callout
-## Introduce the Raster Data
-We'll continue from the results of the satellite image search that we have carried out in an exercise from
-[a previous episode](05-access-data.md). We will load data starting from the `search.json` file,
-using one scene from the search results as an example to demonstrate data loading and visualization.
+## Raster Data 
 
-If you would like to work with the data for this lesson without downloading data on-the-fly, you can download the
-raster data ahead of time using this [link](https://figshare.com/ndownloader/files/36028100). Save the `geospatial-python-raster-dataset.tar.gz`
-file in your current working directory, and extract the archive file by double-clicking on it or by running the
-following command in your terminal `tar -zxvf geospatial-python-raster-dataset.tar.gz`. Use the file `geospatial-python-raster-dataset/search.json`
-(instead of `search.json`) to get started with this lesson.
+In the [first episode](01-intro-raster-data.md) of this course we provided an introduction on what Raster datasets are and how these divert from vector data. In this episode we will dive more into raster data and focus on how to work with them. We introduce fundamental principles, python packages, metadata and raster attributes for working with this type of data. In addition, we will explore how Python handles missing and bad data values.
+ 
+The Python package we will use throughout this episode to handle raster data is [`rioxarray`](https://corteva.github.io/rioxarray/stable/). This package is based on the popular [`rasterio`](https://rasterio.readthedocs.io/en/latest/) package for working with raster data and [`xarray`](https://xarray.pydata.org/en/stable/) for working with multi-dimensional arrays.
 
-This can be useful if you need to download the data ahead of time to work through the lesson offline, or if you want
-to work with the data in a different GIS.
+`Rioxarray` extends `xarray` by providing top-level functions like the [`open_rasterio`](https://corteva.github.io/rioxarray/html/rioxarray.html#rioxarray-open-rasterio) function to open raster datasets. Furthermore, it adds a set of methods to the main objects of the `xarray` package like the [`Dataset`](https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html) and the [`DataArray`](https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray). These methods are made available via the `rio` accessor and become available from `xarray` objects after importing `rioxarray`. 
+
+*[comment_mdk]: what do we mean with the "rio accessor"? Furthermore, it is unclear in this text what the advantages are of dataset and dataarray, why are these interesting for us? We should explain that.*
+
+In addition, we will use the [`pystac`](https://github.com/stac-utils/pystac) package to load rasters from the search results that were created in [episode 5](05-access-data.md).
+
 :::
 
-## Load a Raster and View Attributes
-In the previous episode, we searched for Sentinel-2 images, and then saved the search results to a file: `search.json`. This contains the information on where and how to access the target images from a remote repository. We can use the function `pystac.ItemCollection.from_file()` to load the search results as an `Item` list.
+## Getting the data
 
+We will continue from the results of the satellite image search that we have carried out in an exercise from
+[the previous episode](05-access-data.md). We will load data using the created metadata file and use one scene from the search results as an example to demonstrate data loading and visualization. To do so you can use the `rhodes_sentinel-2.json` you created or download and use the created JSON file [here](../data/stac_json/rhodes_sentinel-2.json).
+
+In case you would like to work with raster data for this lesson without downloading data on-the-fly, you can download the raster data using this [link](https://figshare.com/ndownloader/files/36028100). Save the `geospatial-python-raster-dataset.tar.gz` file in your current working directory, and extract the archive file by double-clicking on it or by running the
+following command in your terminal `tar -zxvf geospatial-python-raster-dataset.tar.gz`. 
+
+*[comment mdk]: update zip file [link](https://figshare.com/ndownloader/files/36028100)*
+If you use choose to download the data you can skip the following part and continue at chapter XXXX. 
+
+When you use the `rhodes_sentinel-2.json` you will remember that this file contains information on where and how to access the target images from a remote repository. To load the saved search results as an `Item` list we will use [`pystac.ItemCollection.from_file()`](https://pystac.readthedocs.io/en/stable/api/item_collection.html). Through this, we are instructing Python to use the `from_file` method of the `ItemCollection` class in the `pystac` module to load data from a specified JSON file.
 
 ```python
 import pystac
-items = pystac.ItemCollection.from_file("search.json")
+file_items = pystac.ItemCollection.from_file("../data/stac_json/rhodes_sentinel-2.json")
+```
+In the search results, we have eleven `Item` type objects, corresponding to the Sentinel-2 scenes parameters we set in episode 5 (which were all images from July 8th till the 27th of August 2023 that have less than 1% cloud coverage). In this episode we will focus on the oldest item in our collection, since that would show the situation before the wildfire.
+
+Like when reading the data from the api we can perform the same actions on the collection since it is stored to the class ItemColleciton. For instance, you can check the number of items in the item collection, you can use `len` or to check the items themselved include a for loop. 
+
+```python
+print(len(file_items))
+```
+To check the items themselves you can make a for loop on the items (as we did in episode 5). To look at specific parameters of the item you can have a look [here](https://pystac.readthedocs.io/en/latest/api/item.html). Since we are interested in the most recent image let us print the `datetime` and `id`:
+
+```python
+for item in file_items:
+    print(item.id)
+    print(item.datetime)
 ```
 
+You will notice that the item collection `S2A_35SNA_20230708_0_L2A` would be the oldest since it is printed as last. 
 
-In the search results, we have 2 `Item` type objects, corresponding to 4 Sentinel-2 scenes from March 26th and 28th in 2020. We will focus on the first scene `S2A_31UFU_20200328_0_L2A`, and load band `nir09` (central wavelength 945 nm). We can load this band using the function `rioxarray.open_rasterio()`, via the Hypertext Reference `href` (commonly referred to as a URL):
+```python
+print(file_items[-1])
+```
+
+```output
+<Item id=S2A_35SNA_20230708_0_L2A>
+```
+
+To access an actual raster image from that date we look at the item´s attribute `assets` which is accessible through a dictionary. This contains all the various datasets that have been collected at that specific date.
+
+```python
+assets = file_items[-1].assets  
+print(assets.keys())
+```
+
+```output
+dict_keys(['aot', 'blue', 'coastal', 'granule_metadata', 'green', 'nir', 'nir08', 'nir09', 'red', 'rededge1', 'rededge2', 'rededge3', 'scl', 'swir16', 'swir22', 'thumbnail', 'tileinfo_metadata', 'visual', 'wvp', 'aot-jp2', 'blue-jp2', 'coastal-jp2', 'green-jp2', 'nir-jp2', 'nir08-jp2', 'nir09-jp2', 'red-jp2', 'rededge1-jp2', 'rededge2-jp2', 'rededge3-jp2', 'scl-jp2', 'swir16-jp2', 'swir22-jp2', 'visual-jp2', 'wvp-jp2']
+```
+
+To analyse the burned areas, we are interested in the `red` band of the satellite scene. In [episode 9](/episodes/09-raster-calculations.md) we will further explain why the characteristics of that band are interesting in relation to wildfires. 
+
+To select the red band we need to get the URL / `href` (Hypertext Referenc) and put it into a variable.
+
+```python
+red_href = assets["red"].href
+```
+
+```python
+print(red_href)
+```
+
+## Load a Raster and View Attributes
+
+Now we can load `red` band using the function [`rioxarray.open_rasterio()`](), via the variable we created.
+
 ```python
 import rioxarray
-raster_ams_b9 = rioxarray.open_rasterio(items[0].assets["nir09"].href)
+red = rioxarray.open_rasterio(red_href)
 ```
 
-By calling the variable name in the jupyter notebook we can get a quick look at the shape and attributes of the data.
+In case you used the downloaded data you can do. 
+
 ```python
-raster_ams_b9
+import rioxarray
+red = rioxarray.open_rasterio("../data/stac_json/red.tif")
+```
+
+
+By calling the variable name we can get a quick look at the shape and attributes of the data.
+```python
+red
 ```
 
 ```output
@@ -82,11 +141,11 @@ The output tells us that we are looking at an `xarray.DataArray`, with `1` band,
 This `DataArray` object also has a couple of attributes that are accessed like `.rio.crs`, `.rio.nodata`, and `.rio.bounds()`, which contain the metadata for the file we opened. Note that many of the metadata are accessed as attributes without `()`, but `bounds()` is a method (i.e. a function in an object) and needs parentheses.
 
 ```python
-print(raster_ams_b9.rio.crs)
-print(raster_ams_b9.rio.nodata)
-print(raster_ams_b9.rio.bounds())
-print(raster_ams_b9.rio.width)
-print(raster_ams_b9.rio.height)
+print(red.rio.crs)
+print(red.rio.nodata)
+print(red.rio.bounds())
+print(red.rio.width)
+print(red.rio.height)
 ```
 
 ```output
