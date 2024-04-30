@@ -19,13 +19,13 @@ exercises: 30
 
 
 :::callout
-## Raster Data 
+## Raster Data
 
 In the [first episode](01-intro-raster-data.md) of this course we provided an introduction on what Raster datasets are and how these divert from vector data. In this episode we will dive more into raster data and focus on how to work with them. We introduce fundamental principles, python packages, metadata and raster attributes for working with this type of data. In addition, we will explore how Python handles missing and bad data values.
- 
+
 The Python package we will use throughout this episode to handle raster data is [`rioxarray`](https://corteva.github.io/rioxarray/stable/). This package is based on the popular [`rasterio`](https://rasterio.readthedocs.io/en/latest/) package for working with raster data and [`xarray`](https://xarray.pydata.org/en/stable/) for working with multi-dimensional arrays.
 
-`Rioxarray` extends `xarray` by providing top-level functions like the [`open_rasterio`](https://corteva.github.io/rioxarray/html/rioxarray.html#rioxarray-open-rasterio) function to open raster datasets. Furthermore, it adds a set of methods to the main objects of the `xarray` package like the [`Dataset`](https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html) and the [`DataArray`](https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray). These methods are made available via the `rio` accessor and become available from `xarray` objects after importing `rioxarray`. 
+`Rioxarray` extends `xarray` by providing top-level functions like the [`open_rasterio`](https://corteva.github.io/rioxarray/html/rioxarray.html#rioxarray-open-rasterio) function to open raster datasets. Furthermore, it adds a set of methods to the main objects of the `xarray` package like the [`Dataset`](https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html) and the [`DataArray`](https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray). These methods are made available via the `rio` accessor and become available from `xarray` objects after importing `rioxarray`.
 
 *[comment_mdk]: what do we mean with the "rio accessor"? Furthermore, it is unclear in this text what the advantages are of dataset and dataarray, why are these interesting for us? We should explain that.*
 
@@ -39,10 +39,10 @@ We will continue from the results of the satellite image search that we have car
 [the previous episode](05-access-data.md). We will load data using the created metadata file and use one scene from the search results as an example to demonstrate data loading and visualization. To do so you can use the `rhodes_sentinel-2.json` you created or download and use the created JSON file [here](../data/stac_json/rhodes_sentinel-2.json).
 
 In case you would like to work with raster data for this lesson without downloading data on-the-fly, you can download the raster data using this [link](https://figshare.com/ndownloader/files/36028100). Save the `geospatial-python-raster-dataset.tar.gz` file in your current working directory, and extract the archive file by double-clicking on it or by running the
-following command in your terminal `tar -zxvf geospatial-python-raster-dataset.tar.gz`. 
+following command in your terminal `tar -zxvf geospatial-python-raster-dataset.tar.gz`.
 
 *[comment mdk]: update zip file [link](https://figshare.com/ndownloader/files/36028100)*
-If you use choose to download the data you can skip the following part and continue at chapter XXXX. 
+If you use choose to download the data you can skip the following part and continue at chapter XXXX.
 
 When you use the `rhodes_sentinel-2.json` you will remember that this file contains information on where and how to access the target images from a remote repository. To load the saved search results as an `Item` list we will use [`pystac.ItemCollection.from_file()`](https://pystac.readthedocs.io/en/stable/api/item_collection.html). Through this, we are instructing Python to use the `from_file` method of the `ItemCollection` class in the `pystac` module to load data from a specified JSON file.
 
@@ -52,7 +52,7 @@ file_items = pystac.ItemCollection.from_file("../data/stac_json/rhodes_sentinel-
 ```
 In the search results, we have eleven `Item` type objects, corresponding to the Sentinel-2 scenes parameters we set in episode 5 (which were all images from July 8th till the 27th of August 2023 that have less than 1% cloud coverage). In this episode we will focus on the oldest item in our collection, since that would show the situation before the wildfire.
 
-Like when reading the data from the api we can perform the same actions on the collection since it is stored to the class ItemColleciton. For instance, you can check the number of items in the item collection, you can use `len` or to check the items themselved include a for loop. 
+Like when reading the data from the api we can perform the same actions on the collection since it is stored to the class ItemColleciton. For instance, you can check the number of items in the item collection, you can use `len` or to check the items themselved include a for loop.
 
 ```python
 print(len(file_items))
@@ -65,7 +65,7 @@ for item in file_items:
     print(item.datetime)
 ```
 
-You will notice that the item collection `S2A_35SNA_20230708_0_L2A` would be the oldest since it is printed as last. 
+You will notice that the item collection `S2A_35SNA_20230708_0_L2A` would be the oldest since it is printed as last.
 
 ```python
 print(file_items[-1])
@@ -78,7 +78,7 @@ print(file_items[-1])
 To access an actual raster image from that date we look at the item´s attribute `assets` which is accessible through a dictionary. This contains all the various datasets that have been collected at that specific date.
 
 ```python
-assets = file_items[-1].assets  
+assets = file_items[-1].assets
 print(assets.keys())
 ```
 
@@ -86,16 +86,16 @@ print(assets.keys())
 dict_keys(['aot', 'blue', 'coastal', 'granule_metadata', 'green', 'nir', 'nir08', 'nir09', 'red', 'rededge1', 'rededge2', 'rededge3', 'scl', 'swir16', 'swir22', 'thumbnail', 'tileinfo_metadata', 'visual', 'wvp', 'aot-jp2', 'blue-jp2', 'coastal-jp2', 'green-jp2', 'nir-jp2', 'nir08-jp2', 'nir09-jp2', 'red-jp2', 'rededge1-jp2', 'rededge2-jp2', 'rededge3-jp2', 'scl-jp2', 'swir16-jp2', 'swir22-jp2', 'visual-jp2', 'wvp-jp2']
 ```
 
-To analyse the burned areas, we are interested in the `red` band of the satellite scene. In [episode 9](/episodes/09-raster-calculations.md) we will further explain why the characteristics of that band are interesting in relation to wildfires. 
+To analyse the burned areas, we are interested in the `red` band of the satellite scene. In [episode 9](/episodes/09-raster-calculations.md) we will further explain why the characteristics of that band are interesting in relation to wildfires.
 
 To select the red band we need to get the URL / `href` (Hypertext Referenc) and put it into a variable.
 
 ```python
-red_href = assets["red"].href
+rhodes_red_href = assets["red"].href
 ```
 
 ```python
-print(red_href)
+print(rhodes_red_href)
 ```
 
 ## Load a Raster and View Attributes
@@ -104,73 +104,69 @@ Now we can load `red` band using the function [`rioxarray.open_rasterio()`](), v
 
 ```python
 import rioxarray
-red = rioxarray.open_rasterio(red_href)
+rhodes_red = rioxarray.open_rasterio(rhodes_red_href)
 ```
 
-In case you used the downloaded data you can do. 
+In case you used the downloaded data you can do.
 
 ```python
 import rioxarray
-red = rioxarray.open_rasterio("../data/stac_json/red.tif")
+rhodes_red = rioxarray.open_rasterio("../data/stac_json/rhodes_red.tif")
 ```
 
+The first call to `rioxarray.open_rasterio()` opens the file from remote or local storage, and then returns a `xarray.DataArray` object. The object is stored in a variable, i.e. `rhodes_red`. Reading in the data with `xarray` instead of `rioxarray` also returns a `xarray.DataArray`, but the output will not contain the geospatial metadata (such as projection information). You can use numpy functions or built-in Python math operators on a `xarray.DataArray` just like a numpy array. Calling the variable name of the `DataArray` also prints out all of its metadata information.
 
 By calling the variable name we can get a quick look at the shape and attributes of the data.
 ```python
-red
+print(rhodes_red)
 ```
 
 ```output
-<xarray.DataArray (band: 1, y: 1830, x: 1830)>
-[3348900 values with dtype=uint16]
+<xarray.DataArray (band: 1, y: 10980, x: 10980)> Size: 241MB
+[120560400 values with dtype=uint16]
 Coordinates:
-  * band         (band) int64 1
-  * x            (x) float64 6e+05 6.001e+05 6.002e+05 ... 7.097e+05 7.098e+05
-  * y            (y) float64 5.9e+06 5.9e+06 5.9e+06 ... 5.79e+06 5.79e+06
-    spatial_ref  int64 0
+  * band         (band) int32 4B 1
+  * x            (x) float64 88kB 5e+05 5e+05 5e+05 ... 6.098e+05 6.098e+05
+  * y            (y) float64 88kB 4.1e+06 4.1e+06 4.1e+06 ... 3.99e+06 3.99e+06
+    spatial_ref  int32 4B 0
 Attributes:
-    _FillValue:    0.0
-    scale_factor:  1.0
-    add_offset:    0.0
+    AREA_OR_POINT:       Area
+    OVR_RESAMPLING_ALG:  AVERAGE
+    _FillValue:          0
+    scale_factor:        1.0
+    add_offset:          0.0
 ```
 
-The first call to `rioxarray.open_rasterio()` opens the file from remote or local storage, and then returns a `xarray.DataArray` object. The object is stored in a variable, i.e. `raster_ams_b9`. Reading in the data with `xarray` instead of `rioxarray` also returns a `xarray.DataArray`, but the output will not contain the geospatial metadata (such as projection information). You can use numpy functions or built-in Python math operators on a `xarray.DataArray` just like a numpy array. Calling the variable name of the `DataArray` also prints out all of its metadata information.
+The output tells us that we are looking at an `xarray.DataArray`, with `1` band, `10980` rows, and `10980` columns. We can also see the number of pixel values in the `DataArray`, and the type of those pixel values, which is unsigned integer (or `uint16`). The `DataArray` also stores different values for the coordinates of the `DataArray`. When using `rioxarray`, the term coordinates refers to spatial coordinates like `x` and `y` but also the `band` coordinate. Each of these sequences of values has its own data type, like `float64` for the spatial coordinates and `int64` for the `band` coordinate.
 
-The output tells us that we are looking at an `xarray.DataArray`, with `1` band, `1830` rows, and `1830` columns. We can also see the number of pixel values in the `DataArray`, and the type of those pixel values, which is unsigned integer (or `uint16`). The `DataArray` also stores different values for the coordinates of the `DataArray`. When using `rioxarray`, the term coordinates refers to spatial coordinates like `x` and `y` but also the `band` coordinate. Each of these sequences of values has its own data type, like `float64` for the spatial coordinates and `int64` for the `band` coordinate.
-
-This `DataArray` object also has a couple of attributes that are accessed like `.rio.crs`, `.rio.nodata`, and `.rio.bounds()`, which contain the metadata for the file we opened. Note that many of the metadata are accessed as attributes without `()`, but `bounds()` is a method (i.e. a function in an object) and needs parentheses.
+This `DataArray` object also has a couple of attributes that are accessed like `.rio.crs`, `.rio.nodata`, and `.rio.bounds()` (in jupyter you can browse through these attributes by using `tab` for auto completion or have a look at the documentation [here](https://corteva.github.io/rioxarray/stable/rioxarray.html#rioxarray-rio-accessors)), which contains the metadata for the file we opened. Note that many of the metadata are accessed as attributes without `()`, however since `bounds()` is a method (i.e. a function in an object) it requires these parentheses this is also the case for `.rio.resolution()`.
 
 ```python
-print(red.rio.crs)
-print(red.rio.nodata)
-print(red.rio.bounds())
-print(red.rio.width)
-print(red.rio.height)
+print(rhodes_red.rio.crs)
+print(rhodes_red.rio.nodata)
+print(rhodes_red.rio.bounds())
+print(rhodes_red.rio.width)
+print(rhodes_red.rio.height)
+print(rhodes_red.rio.resolution())
 ```
 
 ```output
-EPSG:32631
+EPSG:9122
 0
-(600000.0, 5790240.0, 709800.0, 5900040.0)
-1830
-1830
+(499980.0, 3990240.0, 609780.0, 4100040.0)
+10980
+10980
+(10.0, -10.0)
 ```
 
-The Coordinate Reference System, or `raster_ams_b9.rio.crs`, is reported as the string `EPSG:32631`. The `nodata` value is encoded as 0 and the bounding box corners of our raster are represented by the output of `.bounds()` as a `tuple` (like a list but you can't edit it). The height and width match what we saw when we printed the `DataArray`, but by using `.rio.width` and `.rio.height` we can access these values if we need them in calculations.
-
-We will be exploring this data throughout this episode. By the end of this episode, you will be able to understand and explain the metadata output.
-
-:::callout
-## Tip - Variable names
-To improve code readability, file and object names should be used that make it clear what is in the file. The data for this episode covers Amsterdam, and is from Band 9, so we'll use a naming convention of `raster_ams_b9`.
-:::
+The Coordinate Reference System, or `rhodes_red.rio.crs`, is reported as the string `EPSG:9122`. The `nodata` value is encoded as 0 and the bounding box corners of our raster are represented by the output of `.bounds()` as a `tuple` (like a list but you can't edit it). The height and width match what we saw when we printed the `DataArray`, but by using `.rio.width` and `.rio.height` we can access these values if we need them in calculations.
 
 ## Visualize a Raster
 
 After viewing the attributes of our raster, we can examine the raw values of the array with `.values`:
 
 ```python
-raster_ams_b9.values
+rhodes_red.values
 ```
 
 ```output
@@ -186,20 +182,41 @@ array([[[    0,     0,     0, ...,  8888,  9075,  8139],
 This can give us a quick view of the values of our array, but only at the corners. Since our raster is loaded in python as a `DataArray` type, we can plot this in one line similar to a pandas `DataFrame` with `DataArray.plot()`.
 
 ```python
-raster_ams_b9.plot()
+rhodes_red.plot()
 ```
 
 ![Raster plot with rioxarray](fig/E06/overview-plot-B09.png){alt="raster plot with defualt setting"}
 
-Nice plot! Notice that `rioxarray` helpfully allows us to plot this raster with spatial coordinates on the x and y axis (this is not the default in many cases with other functions or libraries).
+Notice that `rioxarray` helpfully allows us to plot this raster with spatial coordinates on the x and y axis (this is not the default in many cases with other functions or libraries). Nice plot! However, it probably took a while for it to load therefore it would make sense to resample it.
 
-This plot shows the satellite measurement of the spectral band `nir09` for an area that covers part of the Netherlands. According to the [Sentinel-2 documentaion](https://sentinels.copernicus.eu/web/sentinel/technical-guides/sentinel-2-msi/msi-instrument), this is a band with the central wavelength of 945nm, which is sensitive to water vapor. It has a spatial resolution of 60m. Note that the `band=1` in the image title refers to the ordering of all the bands in the  `DataArray`, not the Sentinel-2 band number `09` that we saw in the pystac search results.
+# Resampling the raster image
 
-With a quick view of the image, we notice that half of the image is blank, no data is captured. We also see that the cloudy pixels at the top have high reflectance values, while the contrast of everything else is quite low. This is expected because this band is sensitive to the water vapor. However if one would like to have a better color contrast, one can add the option `robust=True`, which displays values between the 2nd and 98th percentile:
+The red band image is available as a raster file with 10 m resolution, which makes it a relatively large file (few hundreds MBs).
+In order to keep calculations "manageable" (reasonable execution time and memory usage) we select here a lower resolution version of the image, taking
+advantage of the so-called "pyramidal" structure of cloud-optimized GeoTIFFs (COGs). COGs, in fact, typically include
+multiple lower-resolution versions of the original image, called "overviews", in the same file. This allows us to avoid
+downloading high-resolution images when only quick previews are required.
+
+Overviews are often computed using powers of 2 as down-sampling (or zoom) factors. So, typically, the first level
+overview (index 0) corresponds to a zoom factor of 2, the second level overview (index 1) corresponds to a zoom factor
+of 4, and so on. Here, we open the third level overview (index 2, zoom factor 8) and check that the resolution is about 80 m:
 
 ```python
-raster_ams_b9.plot(robust=True)
+import rioxarray
+rhodes_red_80 = rioxarray.open_rasterio(red_href, overview_level=2)
+print(rhodes_red_80.rio.resolution())
 ```
+
+```output
+(79.97086671522214, -79.97086671522214)
+```
+Lets plot this one.
+
+```python
+rhodes_red_80.plot()
+```
+
+This plot shows the satellite measurement of the band `red` for Rhodes before the wildfire. According to the [Sentinel-2 documentaion](https://sentinels.copernicus.eu/web/sentinel/technical-guides/sentinel-2-msi/msi-instrument), this is a band with the central wavelength of 665nm. It has a spatial resolution of 10m. Note that the `band=1` in the image title refers to the ordering of all the bands in the  `DataArray`, not the Sentinel-2 band number `04` that we saw in the pystac search results.
 
 ![Raster plot using the "robust" setting](fig/E06/overview-plot-B09-robust.png){alt="raster plot with robust setting"}
 
@@ -207,11 +224,19 @@ Now the color limit is set in a way fitting most of the values in the image. We 
 
 :::callout
 ## Tool Tip
-The option `robust=True` always forces displaying values between the 2nd and 98th percentile. Of course, this will not work for every case. For a customized displaying range, you can also manually specifying the keywords `vmin` and `vmax`. For example ploting between `100` and `7000`:
+The option `robust=True` always forces displaying values between the 2nd and 98th percentile. Of course, this will not work for every case.
 
 ```python
-raster_ams_b9.plot(vmin=100, vmax=7000)
+rhodes_red_80.plot(robust=True)
 ```
+
+For a customized displaying range, you can also manually specifying the keywords `vmin` and `vmax`. For example ploting between `100` and `7000`:
+
+```python
+rhodes_red.plot(vmin=100, vmax=7000)
+```
+More options can be consulted [here](https://docs.xarray.dev/en/v2024.02.0/generated/xarray.plot.imshow.html). You will notice that these parameters are part of the `imshow` method from the plot function. Since plot originates from matplotlib and is so widely used, your python environment helps you to interpret the parameters without having to specify the method. It is a service to help you, but can be confusing when teaching it. We will explain more about this below.
+
 :::
 
 ## View Raster Coordinate Reference System (CRS) in Python
