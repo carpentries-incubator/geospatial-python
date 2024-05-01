@@ -11,7 +11,7 @@ title: Setup
 
 Now you should have the following files in the `data` directory:
 
-- `dem/rhodes.tif` - This is the Digital Elevation Model (DEM) of the island of Rhodes, retrieved from [Copernicus Digital Elevation Model (GLO-30 instance)](https://spacedata.copernicus.eu/collections/copernicus-digital-elevation-model) and modified for this course.
+- `dem/rhodes_dem.tif` - This is the Digital Elevation Model (DEM) of the island of Rhodes, retrieved from [Copernicus Digital Elevation Model (GLO-30 instance)](https://spacedata.copernicus.eu/collections/copernicus-digital-elevation-model) and modified for this course.
 - `gadm/ADM_ADM_3.gpkg` - This is the administration boundaries of Rhodes, downloaded from [GADM](https://gadm.org/) and modified for this course.
 - `osm/osm_landuse.gpkg` and `osm/osm_roads.gpkg` - They are landuse poylgons and roads polylines of Rhodes, downloaded from [Openstreetmaps](www.openstreetmaps.org) via [Geofabrik](http://www.geofabrik.de/data/download.html) and modified for this course.
 
