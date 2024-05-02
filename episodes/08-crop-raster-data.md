@@ -1,7 +1,7 @@
 ---
 title: "Crop raster data with rioxarray and geopandas"
-teaching: 70
-exercises: 30
+teaching: 40
+exercises: 0
 ---
 
 :::questions
