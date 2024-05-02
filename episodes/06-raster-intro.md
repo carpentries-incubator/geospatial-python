@@ -151,7 +151,7 @@ print(rhodes_red.rio.resolution())
 ```
 
 ```output
-EPSG:9122
+EPSG:32635
 0
 (499980.0, 3990240.0, 609780.0, 4100040.0)
 10980
@@ -159,7 +159,7 @@ EPSG:9122
 (10.0, -10.0)
 ```
 
-The Coordinate Reference System, or `rhodes_red.rio.crs`, is reported as the string `EPSG:9122`. The `nodata` value is encoded as 0 and the bounding box corners of our raster are represented by the output of `.bounds()` as a `tuple` (like a list but you can't edit it). The height and width match what we saw when we printed the `DataArray`, but by using `.rio.width` and `.rio.height` we can access these values if we need them in calculations.
+The Coordinate Reference System, or `rhodes_red.rio.crs`, is reported as the string `EPSG:32635`. The `nodata` value is encoded as 0 and the bounding box corners of our raster are represented by the output of `.bounds()` as a `tuple` (like a list but you can't edit it). The height and width match what we saw when we printed the `DataArray`, but by using `.rio.width` and `.rio.height` we can access these values if we need them in calculations.
 
 ## Visualize a Raster
 
@@ -233,7 +233,7 @@ rhodes_red_80.plot(robust=True)
 For a customized displaying range, you can also manually specifying the keywords `vmin` and `vmax`. For example ploting between `100` and `7000`:
 
 ```python
-rhodes_red.plot(vmin=100, vmax=7000)
+rhodes_red_80.plot(vmin=100, vmax=7000)
 ```
 More options can be consulted [here](https://docs.xarray.dev/en/v2024.02.0/generated/xarray.plot.imshow.html). You will notice that these parameters are part of the `imshow` method from the plot function. Since plot originates from matplotlib and is so widely used, your python environment helps you to interpret the parameters without having to specify the method. It is a service to help you, but can be confusing when teaching it. We will explain more about this below.
 
@@ -241,50 +241,56 @@ More options can be consulted [here](https://docs.xarray.dev/en/v2024.02.0/gener
 
 ## View Raster Coordinate Reference System (CRS) in Python
 Another information that we're interested in is the CRS, and it can be accessed with `.rio.crs`. We introduced the concept of a CRS in [an earlier
-episode](03-crs.md).
-Now we will see how features of the CRS appear in our data file and what
-meanings they have. We can view the CRS string associated with our DataArray's `rio` object using the `crs`
-attribute.
+episode](03-crs.md). Now we will see how features of the CRS appear in our data file and what
+meanings they have. We can view the CRS string associated with our DataArray's `rio` object using the `crs` attribute.
 
 ```python
-print(raster_ams_b9.rio.crs)
+print(rhodes_red_80.rio.crs)
 ```
 
 ```output
-EPSG:32631
+EPSG:32635
 ```
 
 To print the EPSG code number as an `int`, we use the `.to_epsg()` method:
 
+*[comment mdk]: I cannot find any documentation about this or is it https://pyproj4.github.io/pyproj/stable/api/crs/crs.html#pyproj.crs.CRS.to_epsg ? . If yes, why do we first call something from CRS as part of xarray and later introduce CRS? Also the method to_epsg seems like a method that ports it to a specific epsg code. I find the documentation and the mehtod a little counterintuitive. Alternative might be:
+
 ```python
-raster_ams_b9.rio.crs.to_epsg()
+epsg_code = int(str(rhodes_red_80.rio.crs)[5:])
+```
+Since we know that the epsg code always starts after the 5th character.
+
+
+```python
+rhodes_red_80.rio.crs.to_epsg()
 ```
 
 ```output
-32631
+32635
 ```
 
 
-EPSG codes are great for succinctly representing a particular coordinate reference system. But what if we want to see more details about the CRS, like the units? For that, we can use `pyproj`, a library for representing and working with coordinate reference systems.
+EPSG codes are great for succinctly representing a particular coordinate reference system. But what if we want to see more details about the CRS, like the units? For that, we can use [`pyproj`](https://pyproj4.github.io/pyproj/stable/api/index.html) , a library for representing and working with coordinate reference systems.
 
 ```python
 from pyproj import CRS
-epsg = raster_ams_b9.rio.crs.to_epsg()
+epsg = rhodes_red_80.rio.crs.to_epsg()
 crs = CRS(epsg)
 crs
 ```
 
 ```output
-<Derived Projected CRS: EPSG:32631>
-Name: WGS 84 / UTM zone 31N
+<Projected CRS: EPSG:32635>
+Name: WGS 84 / UTM zone 35N
 Axis Info [cartesian]:
 - E[east]: Easting (metre)
 - N[north]: Northing (metre)
 Area of Use:
-- name: Between 0°E and 6°E, northern hemisphere between equator and 84°N, onshore and offshore. Algeria. Andorra. Belgium. Benin. Burkina Faso. Denmark - North Sea. France. Germany - North Sea. Ghana. Luxembourg. Mali. Netherlands. Niger. Nigeria. Norway. Spain. Togo. United Kingdom (UK) - North Sea.
-- bounds: (0.0, 0.0, 6.0, 84.0)
+- name: Between 24°E and 30°E, northern hemisphere between equator and 84°N, onshore and offshore. Belarus. Bulgaria. Central African Republic. Democratic Republic of the Congo (Zaire). Egypt. Estonia. Finland. Greece. Latvia. Lesotho. Libya. Lithuania. Moldova. Norway. Poland. Romania. Russian Federation. Sudan. Svalbard. Türkiye (Turkey). Uganda. Ukraine.
+- bounds: (24.0, 0.0, 30.0, 84.0)
 Coordinate Operation:
-- name: UTM zone 31N
+- name: UTM zone 35N
 - method: Transverse Mercator
 Datum: World Geodetic System 1984 ensemble
 - Ellipsoid: WGS 84
@@ -293,14 +299,14 @@ Datum: World Geodetic System 1984 ensemble
 
 The `CRS` class from the `pyproj` library allows us to create a `CRS` object with methods and attributes for accessing specific information about a CRS, or the detailed summary shown above.
 
-A particularly useful attribute is `area_of_use`, which shows the geographic bounds that the CRS is intended to be used.
+A particularly useful attribute is [`area_of_use`](https://pyproj4.github.io/pyproj/stable/api/crs/crs.html#pyproj.crs.CRS.area_of_use), which shows the geographic bounds that the CRS is intended to be used.
 
 ```python
 crs.area_of_use
 ```
 
 ```output
-AreaOfUse(west=0.0, south=0.0, east=6.0, north=84.0, name='Between 0°E and 6°E, northern hemisphere between equator and 84°N, onshore and offshore. Algeria. Andorra. Belgium. Benin. Burkina Faso. Denmark - North Sea. France. Germany - North Sea. Ghana. Luxembourg. Mali. Netherlands. Niger. Nigeria. Norway. Spain. Togo. United Kingdom (UK) - North Sea.')
+AreaOfUse(west=24.0, south=0.0, east=30.0, north=84.0, name='Between 24°E and 30°E, northern hemisphere between equator and 84°N, onshore and offshore. Belarus. Bulgaria. Central African Republic. Democratic Republic of the Congo (Zaire). Egypt. Estonia. Finland. Greece. Latvia. Lesotho. Libya. Lithuania. Moldova. Norway. Poland. Romania. Russian Federation. Sudan. Svalbard. Türkiye (Turkey). Uganda. Ukraine.')
 ```
 
 :::challenge
@@ -309,7 +315,7 @@ What units are our data in? See if you can find a method to examine this informa
 
 ::::solution
 `crs.axis_info` tells us that the CRS for our raster has two axis and both are in meters.
-We could also get this information from the attribute `raster_ams_b9.rio.crs.linear_units`.
+We could also get this information from the attribute `rhodes_red_80.rio.crs.linear_units`.
 ::::
 :::
 
@@ -317,25 +323,25 @@ We could also get this information from the attribute `raster_ams_b9.rio.crs.lin
 Let's break down the pieces of the `pyproj` CRS summary. The string contains all of the individual CRS elements that Python or another GIS might need, separated into distinct sections, and datum.
 
 ```output
-<Derived Projected CRS: EPSG:32631>
-Name: WGS 84 / UTM zone 31N
+<Projected CRS: EPSG:32635>
+Name: WGS 84 / UTM zone 35N
 Axis Info [cartesian]:
 - E[east]: Easting (metre)
 - N[north]: Northing (metre)
 Area of Use:
-- name: Between 0°E and 6°E, northern hemisphere between equator and 84°N, onshore and offshore. Algeria. Andorra. Belgium. Benin. Burkina Faso. Denmark - North Sea. France. Germany - North Sea. Ghana. Luxembourg. Mali. Netherlands. Niger. Nigeria. Norway. Spain. Togo. United Kingdom (UK) - North Sea.
-- bounds: (0.0, 0.0, 6.0, 84.0)
+- name: Between 24°E and 30°E, northern hemisphere between equator and 84°N, onshore and offshore. Belarus. Bulgaria. Central African Republic. Democratic Republic of the Congo (Zaire). Egypt. Estonia. Finland. Greece. Latvia. Lesotho. Libya. Lithuania. Moldova. Norway. Poland. Romania. Russian Federation. Sudan. Svalbard. Türkiye (Turkey). Uganda. Ukraine.
+- bounds: (24.0, 0.0, 30.0, 84.0)
 Coordinate Operation:
-- name: UTM zone 31N
+- name: UTM zone 35N
 - method: Transverse Mercator
 Datum: World Geodetic System 1984 ensemble
 - Ellipsoid: WGS 84
 - Prime Meridian: Greenwich
 ```
 
-* **Name** of the projection is UTM zone 31N (UTM has 60 zones, each 6-degrees of longitude in width). The underlying datum is WGS84.
+* **Name** of the projection is UTM zone 35N (UTM has 60 zones, each 6-degrees of longitude in width). The underlying datum is WGS84.
 * **Axis Info**: the CRS shows a Cartesian system with two axes, easting and northing, in meter units.
-* **Area of Use**: the projection is used for a particular range of longitudes `0°E to 6°E` in the northern hemisphere (`0.0°N to 84.0°N`)
+* **Area of Use**: the projection is used for a particular range of longitudes `24°E to 30°E` in the northern hemisphere (`0.0°N to 84.0°N`)
 * **Coordinate Operation**: the operation to project the coordinates (if it is projected) onto a cartesian (x, y) plane. Transverse Mercator is accurate for areas with longitudinal widths of a few degrees, hence the distinct UTM zones.
 * **Datum**: Details about the datum, or the reference point for coordinates. `WGS 84` and `NAD 1983` are common datums. `NAD 1983` is [set to be replaced in 2022](https://en.wikipedia.org/wiki/Datum_of_2022).
 
@@ -349,43 +355,43 @@ zone. Below is a simplified view of US UTM zones.
 It is useful to know the minimum or maximum values of a raster dataset. We can compute these and other descriptive statistics with `min`, `max`, `mean`, and `std`.
 
 ```python
-print(raster_ams_b9.min())
-print(raster_ams_b9.max())
-print(raster_ams_b9.mean())
-print(raster_ams_b9.std())
+print(rhodes_red_80.min())
+print(rhodes_red_80.max())
+print(rhodes_red_80.mean())
+print(rhodes_red_80.std())
 ```
 
 ```output
-<xarray.DataArray ()>
+<xarray.DataArray ()> Size: 2B
 array(0, dtype=uint16)
 Coordinates:
-    spatial_ref  int64 0
-<xarray.DataArray ()>
-array(15497, dtype=uint16)
+    spatial_ref  int32 4B 0
+<xarray.DataArray ()> Size: 2B
+array(7277, dtype=uint16)
 Coordinates:
-    spatial_ref  int64 0
-<xarray.DataArray ()>
-array(1652.44009944)
+    spatial_ref  int32 4B 0
+<xarray.DataArray ()> Size: 8B
+array(404.07532588)
 Coordinates:
-    spatial_ref  int64 0
-<xarray.DataArray ()>
-array(2049.16447495)
+    spatial_ref  int32 4B 0
+<xarray.DataArray ()> Size: 8B
+array(527.5557502)
 Coordinates:
-    spatial_ref  int64 0
+    spatial_ref  int32 4B 0
 ```
 
 
 The information above includes a report of the min, max, mean, and standard deviation values, along with the data type. If we want to see specific quantiles, we can use xarray's `.quantile()` method. For example for the 25% and 75% quantiles:
 
 ```python
-print(raster_ams_b9.quantile([0.25, 0.75]))
+print(rhodes_red_80.quantile([0.25, 0.75]))
 ```
 
 ```output
-<xarray.DataArray (quantile: 2)>
-array([   0., 2911.])
+<xarray.DataArray (quantile: 2)> Size: 16B
+array([165., 315.])
 Coordinates:
-  * quantile  (quantile) float64 0.25 0.75
+  * quantile  (quantile) float64 16B 0.25 0.75
 ```
 
 :::callout
@@ -394,90 +400,127 @@ You could also get each of these values one by one using `numpy`.
 
 ```python
 import numpy
-print(numpy.percentile(raster_ams_b9, 25))
-print(numpy.percentile(raster_ams_b9, 75))
+print(numpy.percentile(rhodes_red_80, 25))
+print(numpy.percentile(rhodes_red_80, 75))
 ```
 
 ```output
-0.0
-2911.0
+165.0
+315.0
 ```
 
-You may notice that `raster_ams_b9.quantile` and `numpy.percentile` didn't require an argument specifying the axis or dimension along which to compute the quantile. This is because `axis=None` is the default for most numpy functions, and therefore `dim=None` is the default for most xarray methods. It's always good to check out the docs on a function to see what the default arguments are, particularly when working with multi-dimensional image data. To do so, we can use`help(raster_ams_b9.quantile)` or `?raster_ams_b9.percentile` if you are using jupyter notebook or jupyter lab.
+You may notice that `rhodes_red_80.quantile` and `numpy.percentile` didn't require an argument specifying the axis or dimension along which to compute the quantile. This is because `axis=None` is the default for most numpy functions, and therefore `dim=None` is the default for most xarray methods. It's always good to check out the docs on a function to see what the default arguments are, particularly when working with multi-dimensional image data. To do so, we can use`help(rhodes_red_80.quantile)` or `?rhodes_red_80.percentile` if you are using jupyter notebook or jupyter lab.
 :::
 
 ## Dealing with Missing Data
-So far, we have visualized a band of a Sentinel-2 scene and calculated its statistics. However, we need to take missing data into account. Raster data often has a "no data value" associated with it and for raster datasets read in by `rioxarray`. This value is referred to as `nodata`. This is a value assigned to pixels where data is missing or no data were collected. There can be different cases that cause missing data, and it's common for other values in a raster to represent different cases. The most common example is missing data at the edges of rasters.
+So far, we have visualized a band of a Sentinel-2 scene and calculated its statistics. However, as you can see on the image it also contains an artificial band to the top left where data is missing. In order to calculate meaningfull statistics, we need to take missing data into account. Raster data often has a "no data value" associated with it and for raster datasets read in by `rioxarray`. This value is referred to as `nodata`. This is a value assigned to pixels where data is missing or no data were collected. There can be different cases that cause missing data, and it's common for other values in a raster to represent different cases. The most common example is missing data at the edges of rasters.
 
-By default the shape of a raster is always rectangular. So if we have a dataset that has a shape that isn't rectangular, some pixels at the edge of the raster will have no data values. This often happens when the data were collected by a sensor which only flew over some part of a defined region.
+By default the shape of a raster is always rectangular. So if we have a dataset that has a shape that isn't rectangular, like most satellite images, some pixels at the edge of the raster will have no data values. This often happens when the data were collected by a sensor which only flew over some part of a defined region and is also almost by default because of the fact that the earth is not flat and that we work with geographic and projected coordinate system. 
 
-As we have seen above, the `nodata` value of this dataset (`raster_ams_b9.rio.nodata`) is 0. When we have plotted the band data, or calculated statistics, the missing value was not distinguished from other values. Missing data may cause some unexpected results. For example, the 25th percentile we just calculated was 0, probably reflecting the presence of a lot of missing data in the raster.
+To check the value of `nodata` of this dataset you can use:
 
-To distinguish missing data from real data, one possible way is to use `nan` to represent them. This can be done by specifying `masked=True` when loading the raster:
 ```python
-raster_ams_b9 = rioxarray.open_rasterio(items[0].assets["nir09"].href, masked=True)
+rhodes_red_80.rio.nodata
+```
+*[comment mdk]: Again I could not find where this function came from. This is problematic from a didactical perspective.
+
+```output
+0
 ```
 
+You will find out that this is 0. When we have plotted the band data, or calculated statistics, the missing value was not distinguished from other values. Missing data may cause some unexpected results. 
 
-One can also use the `where` function to select all the pixels which are different from the `nodata` value of the raster:
+To distinguish missing data from real data, one possible way is to use `nan`(which stands for Not a Number) to represent them. This can be done by specifying `masked=True` when loading the raster. Let us reload our data and put it into a different variable with the mask. Remember the `red_href` variable we created previously. (If you used the downloaded data you can use a direct link to the file):
+
 ```python
-raster_ams_b9.where(raster_ams_b9!=raster_ams_b9.rio.nodata)
+rhodes_red_mask_80 = rioxarray.open_rasterio(red_href, masked=True, overview_level=2)
 ```
 
+Let us have a look at the data.
 
-Either way will change the `nodata` value from 0 to `nan`. Now if we compute the statistics again, the missing data will not be considered:
+```python
+print(rhodes_red_mask_80)
 ```
-print(raster_ams_b9.min())
-print(raster_ams_b9.max())
-print(raster_ams_b9.mean())
-print(raster_ams_b9.std())
+
+One can also use the `where` function, which is standard python functionality, to select all the pixels which are different from the `nodata` value of the raster:
+
+```python
+rhodes_red_altmask_80 = rhodes_red_80.where(rhodes_red_80!=rhodes_red_80.rio.nodata)
+```
+*[comment mdk]: Do I get it right, that this is actually the same as we have sone above with the masking?
+
+Either way will change the `nodata` value from 0 to `nan`. Now if we compute the statistics again, the missing data will not be considered. Let´s compare them:
+```
+print(rhodes_red_80.min())
+print(rhodes_red_mask_80.min())
+print(rhodes_red_80.max())
+print(rhodes_red_mask_80.max())
+print(rhodes_red_80.mean())
+print(rhodes_red_mask_80.mean()
+print(rhodes_red_80.std())
+print(rhodes_red_mask_80.std())
 ```python
 
 ```output
-<xarray.DataArray ()>
-array(8., dtype=float32)
+<xarray.DataArray ()> Size: 2B
+array(0, dtype=uint16)
 Coordinates:
-    spatial_ref  int64 0
-<xarray.DataArray ()>
-array(15497., dtype=float32)
+    spatial_ref  int32 4B 0
+<xarray.DataArray ()> Size: 4B
+array(1., dtype=float32)
 Coordinates:
-    spatial_ref  int64 0
-<xarray.DataArray ()>
-array(2477.405, dtype=float32)
+    spatial_ref  int32 4B 0
+<xarray.DataArray ()> Size: 2B
+array(7277, dtype=uint16)
 Coordinates:
-    spatial_ref  int64 0
-<xarray.DataArray ()>
-array(2061.9539, dtype=float32)
+    spatial_ref  int32 4B 0
+<xarray.DataArray ()> Size: 4B
+array(7277., dtype=float32)
 Coordinates:
-    spatial_ref  int64 0
+    spatial_ref  int32 4B 0
+<xarray.DataArray ()> Size: 8B
+array(404.07532588)
+Coordinates:
+    spatial_ref  int32 4B 0
+<xarray.DataArray ()> Size: 4B
+array(461.78833, dtype=float32)
+Coordinates:
+    spatial_ref  int32 4B 0
+<xarray.DataArray ()> Size: 8B
+array(527.5557502)
+Coordinates:
+    spatial_ref  int32 4B 0
+<xarray.DataArray ()> Size: 4B
+array(539.82855, dtype=float32)
+Coordinates:
+    spatial_ref  int32 4B 0
 ```
-
 
 And if we plot the image, the `nodata` pixels are not shown because they are not 0 anymore:
 
 ![Raster plot after masking out missing values](fig/E06/overview-plot-B09-robust-with-nan.png){alt="raster plot masking missing values"}
 
-One should notice that there is a side effect of using `nan` instead of `0` to represent the missing data: the data type of the `DataArray` was changed from integers to float. This need to be taken into consideration when the data type matters in your application.
+One should notice that there is a side effect of using `nan` instead of `0` to represent the missing data: the data type of the `DataArray` was changed from integers to float (as can be seen when we printed the statistics). This needs to be taken into consideration when the data type matters in your application.
 
 ## Raster Bands
-So far we looked into a single band raster, i.e. the `nir09` band of a Sentinel-2 scene. However, to get a smaller, non georeferenced version of the scene, one may also want to visualize the true-color overview of the region. This is provided as a multi-band raster -- a raster dataset that contains more than one band.
+So far we looked into a single band raster, i.e. the `red` band of a Sentinel-2 scene. However, to get a smaller, non georeferenced version of the scene, one may also want to visualize the true-color overview of the region. This is provided as a multi-band raster -- a raster dataset that contains more than one band.
 
 ![Sketch of a multi-band raster image](fig/E06/single_multi_raster.png){alt="multi-band raster"}
 
-The `overview` asset in the Sentinel-2 scene is a multiband asset. Similar to `nir09`, we can load it by:
+The `overview` asset in the Sentinel-2 scene is a multiband asset. Similar to `red`, we can load it by:
 ```python
-raster_ams_overview = rioxarray.open_rasterio(items[0].assets['visual'].href, overview_level=3)
-raster_ams_overview
+rhodes_overview = rioxarray.open_rasterio(items[-1].assets['visual'].href, overview_level=2)
+rhodes_overview
 ```
 
 ```output
-<xarray.DataArray (band: 3, y: 687, x: 687)>
-[1415907 values with dtype=uint8]
+<xarray.DataArray (band: 3, y: 1373, x: 1373)> Size: 6MB
+[5655387 values with dtype=uint8]
 Coordinates:
-  * band         (band) int64 1 2 3
-  * x            (x) float64 6.001e+05 6.002e+05 ... 7.096e+05 7.097e+05
-  * y            (y) float64 5.9e+06 5.9e+06 5.9e+06 ... 5.79e+06 5.79e+06
-    spatial_ref  int64 0
+  * band         (band) int32 12B 1 2 3
+  * x            (x) float64 11kB 5e+05 5.001e+05 ... 6.097e+05 6.097e+05
+  * y            (y) float64 11kB 4.1e+06 4.1e+06 4.1e+06 ... 3.99e+06 3.99e+06
+    spatial_ref  int32 4B 0
 Attributes:
     AREA_OR_POINT:       Area
     OVR_RESAMPLING_ALG:  AVERAGE
@@ -487,18 +530,19 @@ Attributes:
 ```
 
 
-The band number comes first when GeoTiffs are read with the `.open_rasterio()` function. As we can see in the `xarray.DataArray` object, the shape is now `(band: 3, y: 687, x: 687)`, with three bands in the `band` dimension. It's always a good idea to examine the shape of the raster array you are working with and make sure it's what you expect. Many functions, especially the ones that plot images, expect a raster array to have a particular shape. One can also check the shape using the `.shape` attribute:
+The band number comes first when GeoTiffs are read with the `.open_rasterio()` function. As we can see in the `xarray.DataArray` object, the shape is now `(band: 3, y: 1373, x: 1373)`, with three bands in the `band` dimension. It's always a good idea to examine the shape of the raster array you are working with and make sure it's what you expect. Many functions, especially the ones that plot images, expect a raster array to have a particular shape. One can also check the shape using the [`.shape`](https://docs.xarray.dev/en/latest/generated/xarray.DataArray.shape.html) attribute:
+
 ```python
-raster_ams_overview.shape
+rhodes_overview.shape
 ```
 
 ```output
-(3, 687, 687)
+(3, 1373, 1373)
 ```
 
 One can visualize the multi-band data with the `DataArray.plot.imshow()` function:
 ```python
-raster_ams_overview.plot.imshow()
+rhodes_overview.plot.imshow()
 ```
 
 ![Overview of the true-color image (multi-band raster)](fig/E06/overview-plot-true-color.png){alt="true-color image overview"}
@@ -513,7 +557,7 @@ As seen in the figure above, the true-color image is stretched. Let's visualize 
 Since we know the height/width ratio is 1:1 (check the `rio.height` and `rio.width` attributes), we can set the aspect ratio to be 1. For example, we can choose the size to be 5 inches, and set `aspect=1`. Note that according to the [documentation](https://xarray.pydata.org/en/stable/generated/xarray.DataArray.plot.imshow.html) of `DataArray.plot.imshow()`, when specifying the `aspect` argument, `size` also needs to be provided.
 
 ```python
-raster_ams_overview.plot.imshow(size=5, aspect=1)
+rhodes_overview.plot.imshow(size=5, aspect=1)
 ```
 
 ![Overview of the true-color image with the correct aspect ratio](fig/E06/overview-plot-true-color-aspect-equal.png){alt="raster plot with correct aspect ratio"}
