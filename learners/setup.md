@@ -6,7 +6,7 @@ title: Setup
 
 1. Create a new directory on your Desktop called `geospatial-python`.
 2. Within `geospatial-python`, create a directory called `data`.
-3. Download the data required for this lesson via [this link](https://figshare.com/ndownloader/articles/25721754).
+3. Download the data required for this lesson via [this link](https://figshare.com/ndownloader/articles/25721754) (612MB).
 4. Unzip downloaded files and save them to the just created `data` directory.
 
 Now you should have the following files in the `data` directory:
