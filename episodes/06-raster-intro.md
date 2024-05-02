@@ -23,11 +23,9 @@ exercises: 30
 
 In the [first episode](01-intro-raster-data.md) of this course we provided an introduction on what Raster datasets are and how these divert from vector data. In this episode we will dive more into raster data and focus on how to work with them. We introduce fundamental principles, python packages, metadata and raster attributes for working with this type of data. In addition, we will explore how Python handles missing and bad data values.
 
-The Python package we will use throughout this episode to handle raster data is [`rioxarray`](https://corteva.github.io/rioxarray/stable/). This package is based on the popular [`rasterio`](https://rasterio.readthedocs.io/en/latest/) package for working with raster data and [`xarray`](https://xarray.pydata.org/en/stable/) for working with multi-dimensional arrays.
+The Python package we will use throughout this episode to handle raster data is [`rioxarray`](https://corteva.github.io/rioxarray/stable/). This package is based on the popular [`rasterio`](https://rasterio.readthedocs.io/en/latest/) (which is build upon the GDAL library) for working with raster data and [`xarray`](https://xarray.pydata.org/en/stable/) for working with multi-dimensional arrays.
 
 `Rioxarray` extends `xarray` by providing top-level functions like the [`open_rasterio`](https://corteva.github.io/rioxarray/html/rioxarray.html#rioxarray-open-rasterio) function to open raster datasets. Furthermore, it adds a set of methods to the main objects of the `xarray` package like the [`Dataset`](https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html) and the [`DataArray`](https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray). These methods are made available via the `rio` accessor and become available from `xarray` objects after importing `rioxarray`.
-
-*[comment_mdk]: what do we mean with the "rio accessor"? Furthermore, it is unclear in this text what the advantages are of dataset and dataarray, why are these interesting for us? We should explain that.*
 
 In addition, we will use the [`pystac`](https://github.com/stac-utils/pystac) package to load rasters from the search results that were created in [episode 5](05-access-data.md).
 
@@ -252,15 +250,7 @@ print(rhodes_red_80.rio.crs)
 EPSG:32635
 ```
 
-To print the EPSG code number as an `int`, we use the `.to_epsg()` method:
-
-*[comment mdk]: I cannot find any documentation about this or is it https://pyproj4.github.io/pyproj/stable/api/crs/crs.html#pyproj.crs.CRS.to_epsg ? . If yes, why do we first call something from CRS as part of xarray and later introduce CRS? Also the method to_epsg seems like a method that ports it to a specific epsg code. I find the documentation and the mehtod a little counterintuitive. Alternative might be:
-
-```python
-epsg_code = int(str(rhodes_red_80.rio.crs)[5:])
-```
-Since we know that the epsg code always starts after the 5th character.
-
+To print the EPSG code number as an `int`, we use the `.to_epsg()` method (which originally is part of rasterio [`to_epsg`](url)):
 
 ```python
 rhodes_red_80.rio.crs.to_epsg()
@@ -415,20 +405,20 @@ You may notice that `rhodes_red_80.quantile` and `numpy.percentile` didn't requi
 ## Dealing with Missing Data
 So far, we have visualized a band of a Sentinel-2 scene and calculated its statistics. However, as you can see on the image it also contains an artificial band to the top left where data is missing. In order to calculate meaningfull statistics, we need to take missing data into account. Raster data often has a "no data value" associated with it and for raster datasets read in by `rioxarray`. This value is referred to as `nodata`. This is a value assigned to pixels where data is missing or no data were collected. There can be different cases that cause missing data, and it's common for other values in a raster to represent different cases. The most common example is missing data at the edges of rasters.
 
-By default the shape of a raster is always rectangular. So if we have a dataset that has a shape that isn't rectangular, like most satellite images, some pixels at the edge of the raster will have no data values. This often happens when the data were collected by a sensor which only flew over some part of a defined region and is also almost by default because of the fact that the earth is not flat and that we work with geographic and projected coordinate system. 
+By default the shape of a raster is always rectangular. So if we have a dataset that has a shape that isn't rectangular, like most satellite images, some pixels at the edge of the raster will have no data values. This often happens when the data were collected by a sensor which only flew over some part of a defined region and is also almost by default because of the fact that the earth is not flat and that we work with geographic and projected coordinate system.
 
-To check the value of `nodata` of this dataset you can use:
+To check the value of [`nodata`](https://corteva.github.io/rioxarray/html/rioxarray.html#rioxarray.raster_array.RasterArray.nodata) of this dataset you can use:
 
 ```python
 rhodes_red_80.rio.nodata
 ```
-*[comment mdk]: Again I could not find where this function came from. This is problematic from a didactical perspective.
+
 
 ```output
 0
 ```
 
-You will find out that this is 0. When we have plotted the band data, or calculated statistics, the missing value was not distinguished from other values. Missing data may cause some unexpected results. 
+You will find out that this is 0. When we have plotted the band data, or calculated statistics, the missing value was not distinguished from other values. Missing data may cause some unexpected results.
 
 To distinguish missing data from real data, one possible way is to use `nan`(which stands for Not a Number) to represent them. This can be done by specifying `masked=True` when loading the raster. Let us reload our data and put it into a different variable with the mask. Remember the `red_href` variable we created previously. (If you used the downloaded data you can use a direct link to the file):
 
