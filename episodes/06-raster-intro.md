@@ -25,9 +25,112 @@ In the [first episode](01-intro-raster-data.md) of this course we provided an in
 
 The Python package we will use throughout this episode to handle raster data is [`rioxarray`](https://corteva.github.io/rioxarray/stable/). This package is based on the popular [`rasterio`](https://rasterio.readthedocs.io/en/latest/) (which is build upon the GDAL library) for working with raster data and [`xarray`](https://xarray.pydata.org/en/stable/) for working with multi-dimensional arrays.
 
-`Rioxarray` extends `xarray` by providing top-level functions like the [`open_rasterio`](https://corteva.github.io/rioxarray/html/rioxarray.html#rioxarray-open-rasterio) function to open raster datasets. Furthermore, it adds a set of methods to the main objects of the `xarray` package like the [`Dataset`](https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html) and the [`DataArray`](https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray). These methods are made available via the `rio` accessor and become available from `xarray` objects after importing `rioxarray`.
+`Rioxarray` extends `xarray` by providing top-level functions like the [`open_rasterio`](https://corteva.github.io/rioxarray/html/rioxarray.html#rioxarray-open-rasterio) function to open raster datasets. Furthermore, it adds a set of methods to the main objects of the `xarray` package like the [`Dataset`](https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html) and the [`DataArray`](https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray). These methods are made available via the `rio` accessor and become available from `xarray` objects after importing `rioxarray`. Since a lot of the functions, methods and attributes do not orginate from rioxarray, but come from the other packages mentioned and are accessible through the accessor, the documentation is in some cases limited and requires a little puzzling. It is therefore recommended to foremost focus at the notebook´s functionality to use tab and go through the various functionalities. In addition, every function or method offers the opportunity to add a questionmark `?` to see the various options. 
 
-In addition, we will use the [`pystac`](https://github.com/stac-utils/pystac) package to load rasters from the search results that were created in [episode 5](05-access-data.md).
+For instance if you want to understand the options for rioxarray´s open_rasterio call:
+
+```python
+rioxarray.open_rasterio?
+```
+
+```output
+Signature:
+rioxarray.open_rasterio(
+    filename: Union[str, os.PathLike, rasterio.io.DatasetReader, rasterio.vrt.WarpedVRT, rioxarray._io.SingleBandDatasetReader],
+    parse_coordinates: Optional[bool] = None,
+    chunks: Union[int, tuple, dict, NoneType] = None,
+    cache: Optional[bool] = None,
+    lock: Optional[Any] = None,
+    masked: bool = False,
+    mask_and_scale: bool = False,
+    variable: Union[str, list[str], tuple[str, ...], NoneType] = None,
+    group: Union[str, list[str], tuple[str, ...], NoneType] = None,
+    default_name: Optional[str] = None,
+    decode_times: bool = True,
+    decode_timedelta: Optional[bool] = None,
+    band_as_variable: bool = False,
+    **open_kwargs,
+) -> Union[xarray.core.dataset.Dataset, xarray.core.dataarray.DataArray, list[xarray.core.dataset.Dataset]]
+Docstring:
+Open a file with rasterio (experimental).
+
+This should work with any file that rasterio can open (most often:
+geoTIFF). The x and y coordinates are generated automatically from the
+file's geoinformation, shifted to the center of each pixel (see
+`"PixelIsArea" Raster Space
+<http://web.archive.org/web/20160326194152/http://remotesensing.org/geotiff/spec/geotiff2.5.html#2.5.2>`_
+for more information).
+
+.. versionadded:: 0.13 band_as_variable
+
+Parameters
+----------
+filename: str, rasterio.io.DatasetReader, or rasterio.vrt.WarpedVRT
+    Path to the file to open. Or already open rasterio dataset.
+parse_coordinates: bool, optional
+    Whether to parse the x and y coordinates out of the file's
+    ``transform`` attribute or not. The default is to automatically
+    parse the coordinates only if they are rectilinear (1D).
+    It can be useful to set ``parse_coordinates=False``
+    if your files are very large or if you don't need the coordinates.
+chunks: int, tuple or dict, optional
+    Chunk sizes along each dimension, e.g., ``5``, ``(5, 5)`` or
+    ``{'x': 5, 'y': 5}``. If chunks is provided, it used to load the new
+    DataArray into a dask array. Chunks can also be set to
+    ``True`` or ``"auto"`` to choose sensible chunk sizes according to
+    ``dask.config.get("array.chunk-size")``.
+cache: bool, optional
+    If True, cache data loaded from the underlying datastore in memory as
+    NumPy arrays when accessed to avoid reading from the underlying data-
+    store multiple times. Defaults to True unless you specify the `chunks`
+    argument to use dask, in which case it defaults to False.
+lock: bool or dask.utils.SerializableLock, optional
+
+    If chunks is provided, this argument is used to ensure that only one
+    thread per process is reading from a rasterio file object at a time.
+
+    By default and when a lock instance is provided,
+    a :class:`xarray.backends.CachingFileManager` is used to cache File objects.
+    Since rasterio also caches some data, this will make repeated reads from the
+    same object fast.
+
+    When ``lock=False``, no lock is used, allowing for completely parallel reads
+    from multiple threads or processes. However, a new file handle is opened on
+    each request.
+
+masked: bool, optional
+    If True, read the mask and set values to NaN. Defaults to False.
+mask_and_scale: bool, default=False
+    Lazily scale (using the `scales` and `offsets` from rasterio) and mask.
+    If the _Unsigned attribute is present treat integer arrays as unsigned.
+variable: str or list or tuple, optional
+    Variable name or names to use to filter loading.
+group: str or list or tuple, optional
+    Group name or names to use to filter loading.
+default_name: str, optional
+    The name of the data array if none exists. Default is None.
+decode_times: bool, default=True
+    If True, decode times encoded in the standard NetCDF datetime format
+    into datetime objects. Otherwise, leave them encoded as numbers.
+decode_timedelta: bool, optional
+    If True, decode variables and coordinates with time units in
+    {“days”, “hours”, “minutes”, “seconds”, “milliseconds”, “microseconds”}
+    into timedelta objects. If False, leave them encoded as numbers.
+    If None (default), assume the same value of decode_time.
+band_as_variable: bool, default=False
+    If True, will load bands in a raster to separate variables.
+**open_kwargs: kwargs, optional
+    Optional keyword arguments to pass into :func:`rasterio.open`.
+
+Returns
+-------
+:obj:`xarray.Dataset` | :obj:`xarray.DataArray` | list[:obj:`xarray.Dataset`]:
+    The newly created dataset(s).
+File:      c:\miniconda3\envs\geospatial\lib\site-packages\rioxarray\_io.py
+Type:      function
+```
+
+In addition to rioxarray, we will use the [`pystac`](https://github.com/stac-utils/pystac) package to load rasters from the search results that were created in [episode 5](05-access-data.md).
 
 :::
 
@@ -39,8 +142,9 @@ We will continue from the results of the satellite image search that we have car
 In case you would like to work with raster data for this lesson without downloading data on-the-fly, you can download the raster data using this [link](https://figshare.com/ndownloader/files/36028100). Save the `geospatial-python-raster-dataset.tar.gz` file in your current working directory, and extract the archive file by double-clicking on it or by running the
 following command in your terminal `tar -zxvf geospatial-python-raster-dataset.tar.gz`.
 
-*[comment mdk]: update zip file [link](https://figshare.com/ndownloader/files/36028100)*
-If you use choose to download the data you can skip the following part and continue at chapter XXXX.
+If you use choose to download the data you can skip the following part and continue with 
+
+**Load a Raster and View Attributes**.
 
 When you use the `rhodes_sentinel-2.json` you will remember that this file contains information on where and how to access the target images from a remote repository. To load the saved search results as an `Item` list we will use [`pystac.ItemCollection.from_file()`](https://pystac.readthedocs.io/en/stable/api/item_collection.html). Through this, we are instructing Python to use the `from_file` method of the `ItemCollection` class in the `pystac` module to load data from a specified JSON file.
 
@@ -48,7 +152,7 @@ When you use the `rhodes_sentinel-2.json` you will remember that this file conta
 import pystac
 file_items = pystac.ItemCollection.from_file("../data/stac_json/rhodes_sentinel-2.json")
 ```
-In the search results, we have eleven `Item` type objects, corresponding to the Sentinel-2 scenes parameters we set in episode 5 (which were all images from July 8th till the 27th of August 2023 that have less than 1% cloud coverage). In this episode we will focus on the oldest item in our collection, since that would show the situation before the wildfire.
+In the search results, we have eleven `Item` type objects, corresponding to the Sentinel-2 scenes parameters we set in episode 5 (which were all images from July 8th till the 27th of August 2023 that have less than 1% cloud coverage). In this episode we will focus on the newest item in our collection, since that would show the situation after the wildfire.
 
 Like when reading the data from the api we can perform the same actions on the collection since it is stored to the class ItemColleciton. For instance, you can check the number of items in the item collection, you can use `len` or to check the items themselved include a for loop.
 
@@ -63,20 +167,45 @@ for item in file_items:
     print(item.datetime)
 ```
 
-You will notice that the item collection `S2A_35SNA_20230708_0_L2A` would be the oldest since it is printed as last.
+```output
+S2A_35SNA_20230827_0_L2A
+2023-08-27 09:00:21.327000+00:00
+S2B_35SNA_20230822_0_L2A
+2023-08-22 09:00:20.047000+00:00
+S2A_35SNA_20230817_0_L2A
+2023-08-17 09:00:21.370000+00:00
+S2B_35SNA_20230812_0_L2A
+2023-08-12 09:00:21.069000+00:00
+S2A_35SNA_20230807_0_L2A
+2023-08-07 09:00:20.107000+00:00
+S2B_35SNA_20230802_0_L2A
+2023-08-02 09:00:20.321000+00:00
+S2A_35SNA_20230728_0_L2A
+2023-07-28 09:00:20.662000+00:00
+S2B_35SNA_20230723_0_L2A
+2023-07-23 09:00:21.476000+00:00
+S2A_35SNA_20230718_0_L2A
+2023-07-18 09:00:19.860000+00:00
+S2B_35SNA_20230713_0_L2A
+2023-07-13 09:00:20.114000+00:00
+S2A_35SNA_20230708_0_L2A
+2023-07-08 09:00:20.745000+00:00
+```
+
+You will notice that the item collection `S2A_35SNA_20230827_0_L2A` would be the newest since it is printed as first.
 
 ```python
-print(file_items[-1])
+print(file_items[0])
 ```
 
 ```output
-<Item id=S2A_35SNA_20230708_0_L2A>
+<Item id=S2A_35SNA_20230827_0_L2A>
 ```
 
 To access an actual raster image from that date we look at the item´s attribute `assets` which is accessible through a dictionary. This contains all the various datasets that have been collected at that specific date.
 
 ```python
-assets = file_items[-1].assets
+assets = file_items[0].assets
 print(assets.keys())
 ```
 
@@ -183,7 +312,7 @@ This can give us a quick view of the values of our array, but only at the corner
 rhodes_red.plot()
 ```
 
-![Raster plot with rioxarray](fig/E06/overview-plot-B09.png){alt="raster plot with defualt setting"}
+![Raster plot with rioxarray](fig/E06/rhodes_red_B04.png){alt="raster plot with defualt setting"}
 
 Notice that `rioxarray` helpfully allows us to plot this raster with spatial coordinates on the x and y axis (this is not the default in many cases with other functions or libraries). Nice plot! However, it probably took a while for it to load therefore it would make sense to resample it.
 
@@ -213,12 +342,10 @@ Lets plot this one.
 ```python
 rhodes_red_80.plot()
 ```
+![Raster plot 80 x 80 meter resolution with rioxarray](fig/E06/rhodes_red_80_B04.png){alt="raster plot with defualt setting"}
 
 This plot shows the satellite measurement of the band `red` for Rhodes before the wildfire. According to the [Sentinel-2 documentaion](https://sentinels.copernicus.eu/web/sentinel/technical-guides/sentinel-2-msi/msi-instrument), this is a band with the central wavelength of 665nm. It has a spatial resolution of 10m. Note that the `band=1` in the image title refers to the ordering of all the bands in the  `DataArray`, not the Sentinel-2 band number `04` that we saw in the pystac search results.
 
-![Raster plot using the "robust" setting](fig/E06/overview-plot-B09-robust.png){alt="raster plot with robust setting"}
-
-Now the color limit is set in a way fitting most of the values in the image. We have a better view of the ground pixels.
 
 :::callout
 ## Tool Tip
@@ -227,12 +354,18 @@ The option `robust=True` always forces displaying values between the 2nd and 98t
 ```python
 rhodes_red_80.plot(robust=True)
 ```
+![Raster plot using the "robust" setting](fig/E06/rhodes_red_80_B04_robust.png){alt="raster plot with robust setting"}
 
-For a customized displaying range, you can also manually specifying the keywords `vmin` and `vmax`. For example ploting between `100` and `7000`:
+Now the color limit is set in a way fitting most of the values in the image. We have a better view of the ground pixels.
+
+For a customized displaying range, you can also manually specifying the keywords `vmin` and `vmax`. For example ploting between `100` and `2000`:
 
 ```python
-rhodes_red_80.plot(vmin=100, vmax=7000)
+rhodes_red_80.plot(vmin=100, vmax=2000)
 ```
+
+![Raster plot using vmin 100 and vmax 2000](fig/E06/rhodes_red_80_B04_vmin100_vmax2000.png){alt="raster plot with robust setting"}
+
 More options can be consulted [here](https://docs.xarray.dev/en/v2024.02.0/generated/xarray.plot.imshow.html). You will notice that these parameters are part of the `imshow` method from the plot function. Since plot originates from matplotlib and is so widely used, your python environment helps you to interpret the parameters without having to specify the method. It is a service to help you, but can be confusing when teaching it. We will explain more about this below.
 
 :::
@@ -250,7 +383,7 @@ print(rhodes_red_80.rio.crs)
 EPSG:32635
 ```
 
-To print the EPSG code number as an `int`, we use the `.to_epsg()` method (which originally is part of rasterio [`to_epsg`](url)):
+To print the EPSG code number as an `int`, we use the `.to_epsg()` method (which originally is part of rasterio [`to_epsg`](https://rasterio.readthedocs.io/en/stable/api/rasterio.crs.html#rasterio.crs.CRS.to_epsg)):
 
 ```python
 rhodes_red_80.rio.crs.to_epsg()
@@ -259,7 +392,6 @@ rhodes_red_80.rio.crs.to_epsg()
 ```output
 32635
 ```
-
 
 EPSG codes are great for succinctly representing a particular coordinate reference system. But what if we want to see more details about the CRS, like the units? For that, we can use [`pyproj`](https://pyproj4.github.io/pyproj/stable/api/index.html) , a library for representing and working with coordinate reference systems.
 
@@ -488,7 +620,7 @@ Coordinates:
 
 And if we plot the image, the `nodata` pixels are not shown because they are not 0 anymore:
 
-![Raster plot after masking out missing values](fig/E06/overview-plot-B09-robust-with-nan.png){alt="raster plot masking missing values"}
+![Raster plot after masking out missing values](fig/E06/rhodes_red_80_B04_robust_nan.png){alt="raster plot masking missing values"}
 
 One should notice that there is a side effect of using `nan` instead of `0` to represent the missing data: the data type of the `DataArray` was changed from integers to float (as can be seen when we printed the statistics). This needs to be taken into consideration when the data type matters in your application.
 
@@ -535,7 +667,7 @@ One can visualize the multi-band data with the `DataArray.plot.imshow()` functio
 rhodes_overview.plot.imshow()
 ```
 
-![Overview of the true-color image (multi-band raster)](fig/E06/overview-plot-true-color.png){alt="true-color image overview"}
+![Overview of the true-color image (multi-band raster)](fig/E06/rhodes_multiband_80.png){alt="true-color image overview"}
 
 Note that the `DataArray.plot.imshow()` function makes assumptions about the shape of the input DataArray, that since it has three channels, the correct colormap for these channels is RGB. It does not work directly on image arrays with more than 3 channels. One can replace one of the RGB channels with another band, to make a false-color image.
 
@@ -550,7 +682,7 @@ Since we know the height/width ratio is 1:1 (check the `rio.height` and `rio.wid
 rhodes_overview.plot.imshow(size=5, aspect=1)
 ```
 
-![Overview of the true-color image with the correct aspect ratio](fig/E06/overview-plot-true-color-aspect-equal.png){alt="raster plot with correct aspect ratio"}
+![Overview of the true-color image with the correct aspect ratio](fig/E06/rhodes_multiband_80_equal_aspect.png){alt="raster plot with correct aspect ratio"}
 
 ::::
 :::
