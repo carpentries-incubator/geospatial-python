@@ -19,27 +19,28 @@ exercises: 5
 
 ## Introduction
 
-This episode introduces the two primary types of geospatial data: rasters and vectors. After briefly introducing these data types, this episode focuses on raster data, describing some major features and types of raster data.
+This episode introduces the two primary types of data models that are used to digitally represent the earth's surface: raster and vector. After briefly introducing these data models, this episode focuses on the raster representation, describing some major features and types of raster data. This workshop will focus on how to work with both raster and vector data sets, therefore it is essential that we understand the basic structures of these types of data and the types of phenomena that they can represent.
 
 ## Data Structures: Raster and Vector
 
-The two primary types of geospatial data are raster and vector data. Raster data is stored as a grid of values which are rendered on a map as pixels. Each pixel value represents an area on the Earth's surface. Vector data structures represent specific features on the Earth's surface, and assign attributes to those features. Vector data is stored as points, lines or polygons and can contain multiple attributes for every feature. Vector data will be discussed in more detail in [the next episode](02-intro-vector-data.md).
+The two primary data models that are used to represent the earth's surface digitally are the raster and vector. **Raster data** is stored as a grid of values which are rendered on a map as pixels—also known as cells—where each pixel—or cell—represents a value of the earth's surface. Examples of raster data are satellite images or aerial photographs. Data stored according to the **vector data** model are represented by points, lines, or polygons. Examples of vector representation are points of interest, buildings—often represented as building footprints—or roads.
 
-This lesson will focus on how to work with both raster and vector data sets, therefore it is essential to understand the basic structures of these data models and the types of data that they can be used to represent.
+Representing phenomena as vector data allows you to add attribute information to them. For instance, a polygon of a house can contain multiple attributes containing information about the address like the street name, zip code, city, and number. More explanations about vector data will be discussed in the [next episode](02-intro-vector-data.md).
 
-### About Raster Data
+When working with spatial information, you will experience that many phenomena can be represented as vector data and raster data. A house, for instance, can be represented by a set of cells in a raster having all the same value or by a polygon as vector containing attribute information (figure 1). It depends on the purpose for which the data is collected and intended to be used which data model it is stored in. But as a rule of thumb, you can apply that discrete phenomena like buildings, roads, trees, signs are represented as vector data, whereas continuous phenomena like temperature, wind speed, elevation are represented as raster data. Yet, one of the things a spatial data analyst often has to do is to transform data from vector to raster or the other way around. Keep in mind that this can cause problems in the data quality.
 
-Raster data is any pixelated (or gridded) data where each pixel, also called a cell, has the same size and is associated with a specific geographic location. The value of a pixel or cell can be continuous, typically stored as a float number, (e.g. temperature, precipitation, elevation) or categorical, stored as an integer (e.g. land-use types, building footprints, roads). If this sounds familiar, it is because this data structure is very common: it's how we represent any digital image. A geospatial raster is only different from a digital photo in that it is accompanied by spatial information that connects the data to a particular location. This includes the raster's extent and cell size, the number of rows and columns, and its coordinate reference system (or CRS).
+### Raster Data
+
+Raster data is any pixelated (or gridded) data where each pixel has a value and is associated with a specific geographic location. The value of a pixel can be continuous (e.g., elevation, temperature) or categorical (e.g., land-use type). If this sounds familiar, it is because this data structure is very common: it's how we represent any digital image. A geospatial raster is only different from a digital photo in that it is accompanied by spatial information that connects the data to a particular location. This includes the raster's extent and cell size, the number of rows and columns, and its Coordinate Reference System (CRS), which will be explained in [episode 3](03-crs.md) of this workshop.
 
 ![Raster Concept (Source: National Ecological Observatory Network (NEON))](fig/E01/raster_concept.png){alt="raster concept"}
 
 Some examples of continuous rasters include:
 
 1. Precipitation maps.
-2. Maps of tree height derived from LiDAR data.
-3. Elevation values for a region.
+2. Elevation maps.
 
-A map of elevation for Harvard Forest derived from the [NEON AOP LiDAR sensor](https://www.neonscience.org/data-collection/airborne-remote-sensing)
+A map of elevation for *Harvard Forest* derived from the [NEON AOP LiDAR sensor](https://www.neonscience.org/data-collection/airborne-remote-sensing)
 is below. Elevation is represented as a continuous numeric variable in this map. The legend
 shows the continuous range of values in the data from around 300 to 420 meters.
 
@@ -51,8 +52,7 @@ continuous value such as elevation or temperature. Some examples of classified
 maps include:
 
 1. Landcover / land-use maps.
-2. Tree height maps classified as short, medium, and tall trees.
-3. Elevation maps classified as low, medium, and high elevation.
+2. Elevation maps classified as low, medium, and high elevation.
 
 ![USA landcover classification](fig/E01/USA_landcover_classification.png){alt="USA landcover classification"}
 
@@ -129,12 +129,12 @@ of changes in resolution.
 ### Raster Data Format for this Workshop
 
 Raster data can come in many different formats. For this workshop, we will use
-the GeoTIFF format which has the extension `.tif`. A `.tif` file stores metadata
-or attributes about the file as embedded `tif tags`. For instance, your camera
+the GeoTIFF format which has the extension `.tif`, since this is one of the most common formats to be used. 
+A `.tif` file stores metadata or attributes about the file as embedded `tif tags`. For instance, your camera
 might store a tag that describes the make and model of the camera or the date
 the photo was taken when it saves a `.tif`. A GeoTIFF is a standard `.tif` image
 format with additional spatial (georeferencing) information embedded in the file
-as tags. These tags should include the following raster metadata:
+as tags. These tags include the following raster metadata:
 
 1. Extent
 2. Resolution
@@ -156,14 +156,11 @@ from a GeoTIFF file.
 ### Multi-band Raster Data
 
 A raster can contain one or more bands. One type of multi-band raster
-dataset that is familiar to many of us is a color
-image. A basic color image consists of three bands: red, green, and blue.
-Each
+dataset that is familiar to many of us is a color image. A basic color 
+image often consists of three bands: red, green, and blue (RGB). Each
 band represents light reflected from the red, green or blue portions of
-the
-electromagnetic spectrum. The pixel brightness for each band, when
-composited
-creates the colors that we see in an image.
+the electromagnetic spectrum. The pixel brightness for each band, when
+composited creates the colors that we see in an image.
 
 ![RGB multi-band raster image (Source: National Ecological Observatory Network (NEON).)](fig/E01/RGBSTack_1.jpg){alt="multi-band raster"}
 

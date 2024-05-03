@@ -6,10 +6,12 @@ title: Setup
 
 1. Create a new directory on your Desktop called `geospatial-python`.
 2. Within `geospatial-python`, create a directory called `data`.
-3. Download the following files and save them to the just created `data` directory (**do not unzip the files**, we will read from them directly):
-  * [brpgewaspercelen_definitief_2020_small.gpkg](https://figshare.com/ndownloader/files/37729413)
-  * [brogmwvolledigeset.zip](https://figshare.com/ndownloader/files/37729416)
-  * [status_vaarweg.zip](https://figshare.com/ndownloader/files/37729419)
+3. Download the data required for this lesson via [this link](https://figshare.com/ndownloader/articles/25721754).
+4. Unzip downloaded files and save them to the just created `data` directory.
+
+In total three files were downloaded
+  - In `gadm` folder: `ADM_ADM_3.gpkg` - This data is downloaded from [GADM](https://gadm.org/) and modified for this course.
+  - In `osm` folder: [osm_landuse.gpkg] and [osm_roads.gpkg] - This data is downloaded from [Openstreetmaps](www.openstreetmaps.org) via [Geofabrik](http://www.geofabrik.de/data/download.html) and modified for this course.
 
 ## Software Setup
 
@@ -121,6 +123,15 @@ command in your terminal (use the **Anaconda prompt** on **Windows**).
 
 3. Create the Python environment for the workshop by running:
 
+   The main python libraries that are used in this lesson are:
+   - [geopandas](https://geopandas.org/en/stable/)
+   - [rioxarray](https://github.com/corteva/rioxarray)
+   - [xarray-spatial](https://xarray-spatial.org/)
+   - [dask](https://www.dask.org/)
+   - [pystac](https://pystac.readthedocs.io/en/stable/)
+
+   In order to **not** have to install all these libraries and their dependencies seperately, a .yaml configuration file has been created which will install all of them automatically. (If you still want to install all these packages seperately you could use `pip`. However, the easiest way is just to execute the .yaml file run the following command:
+
    ```bash
    mamba env create -n geospatial -f https://raw.githubusercontent.com/carpentries-incubator/geospatial-python/main/files/environment.yaml
    ```
@@ -137,7 +148,7 @@ command in your terminal (use the **Anaconda prompt** on **Windows**).
    #    $ conda deactivate
    ```
 
-5. Activate the `geospatial` environment:
+5. Now Activate the `geospatial` environment by running:
 
    ```bash
    conda activate geospatial
@@ -217,4 +228,3 @@ If all the steps above completed successfully you are ready to follow along with
 [python]: https://python.org
 [video-mac]: https://www.youtube.com/watch?v=TcSAln46u9U
 [video-windows]: https://www.youtube.com/watch?v=xxQ0mzZ8UvA
-

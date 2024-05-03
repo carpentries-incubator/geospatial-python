@@ -27,7 +27,7 @@ The [Open Source Geospatial Foundation (OSGEO)](https://www.osgeo.org/) supports
 
   * [QGIS](https://www.qgis.org/en/site/) is a professional GIS application that is
   built on top of and proud to be itself Free and Open Source Software (FOSS). QGIS is
-  written in Python, has a python console interface, and has several interfaces written in R including
+  written in Python and C++, has a python console interface, allows to develop plugins and has several interfaces written in R including
   [RQGIS](https://cran.r-project.org/package=RQGIS).
   * [GRASS GIS](https://grass.osgeo.org/), commonly referred to as GRASS
   (Geographic Resources Analysis Support System), is a FOSS-GIS software suite used for
@@ -50,7 +50,9 @@ The [Open Source Geospatial Foundation (OSGEO)](https://www.osgeo.org/) supports
   visualisation options, and runs under Windows and Linux operating systems. Like
   GRASS GIS, it can also be installed and made accessible in QGIS3.
   * [PostGIS](https://postgis.net/) is a geospatial extension to the PostGreSQL
-  relational database.
+  relational database and is especially suited to work with large vector datasets.
+  * [GeoDMS](https://geodms.nl/) is a powerful Open sources GIS which allows for
+  fast calculations and calculations with large datasets. Furthermore it allows for complex scenario analyses.
 
 ### Commercial software
 
@@ -63,7 +65,7 @@ The [Open Source Geospatial Foundation (OSGEO)](https://www.osgeo.org/) supports
   ArGIS Online which you host locally. ESRI welcomes development on their platforms
   through their [DevLabs](https://developers.arcgis.com/). ArcGIS software can be
   installed using
-  [Chef Cookbooks from Github](https://github.com/Esri/arcgis-cookbook).
+  [Chef Cookbooks from Github](https://github.com/Esri/arcgis-cookbook). In addition, ESRI offers the [arcpy python library](https://pro.arcgis.com/en/pro-app/3.1/arcpy/get-started/what-is-arcpy-.htm) as part of an ArcGIS pro licence allowing bring all operations from the ArcGIS pro GUI to the python ecosystem.
   * Pitney Bowes produce [MapInfo Professional](https://www.pitneybowes.com/us/location-intelligence/geographic-information-systems/mapinfo-pro.html),
   which was one of the earliest desktop GIS programs on the market.
   * [Hexagon Geospatial Power Portfolio](https://www.hexagongeospatial.com/products/products)
@@ -76,7 +78,7 @@ The [Open Source Geospatial Foundation (OSGEO)](https://www.osgeo.org/) supports
   * [PANGEO](https://pangeo.io/) is a community organization dedicated to open and reproducible data science with python.
   They focus on the Pangeo software ecosystem for working with big
   data in the geosciences.
-  * Google has created [Google Earth Engine](https://earthengine.google.com/) which
+  * Google developed [Google Earth Engine](https://earthengine.google.com/) which
   combines a multi-petabyte catalog of satellite imagery and geospatial datasets with
   planetary-scale analysis capabilities and makes it available for scientists,
   researchers, and developers to detect changes, map trends, and quantify differences
@@ -112,15 +114,15 @@ Benefits of using a GUI include:
 
 Downsides of using a GUI include:
 
-  - Low reproducibility - you can't record your actions and replay
-  - Most are not designed for batch-processing files
+  - Low reproducibility - you can record your actions and replay, but this is limited to the functionalities of the software
+  - Batch-processing is possible, but limited to the funstionalities of the software and hard to be integrated with other workflows
   - Limited ability to customise functions or write your own
   - Intimidating interface for new users - so many buttons!
 
 In scientific computing, the lack of reproducibility in point-and-click software has
 come to be viewed as a critical weakness. As such, scripted CLI-style workflows are
-again becoming popular, which leads us to another approach to doing GIS — via a
-programming language. This is the approach we will be using throughout this workshop.
+becoming popular, which leads us to another approach to doing GIS — via a
+programming language. Therefore this is the approach we will be using throughout this workshop.
 
 ## GIS in programming languages
 
@@ -129,7 +131,7 @@ programming languages like Java and C++. However, the learning curve for these
 languages is steep and the effort required is excessive for users who only need a
 subset of their functionality.
 
-Higher-level scripting languages like Python and R are easier to learn and use. Both
+Higher-level scripting languages like Python and R are considered easier to learn and use. Both
 now have their own packages that wrap up those geospatial processing libraries and make
 them easy to access and use safely. A key example is the Java Topology Suite (JTS),
 which is implemented in C++ as GEOS. GEOS is accessible in Python via the `shapely`
@@ -161,7 +163,7 @@ are other popular options for data science.
 
 Traditional GIS apps are also moving back towards providing a scripting environment for
 users, further blurring the CLI/GUI divide. ESRI have adopted Python into their
-software, and QGIS is both Python and R-friendly.
+software by introducing [arcpy](https://developers.arcgis.com/documentation/arcgis-add-ins-and-automation/arcpy/), and QGIS is both Python and R-friendly.
 
 ## GIS File Types
 
@@ -174,8 +176,10 @@ raster file types.
 | File Type | Extensions | Description |
 | --------- | ---------- | ----------- |
 | Esri Shapefile | .SHP .DBF .SHX | The most common geospatial file type. This has become the industry standard. The three required files are: SHP is the feature geometry. SHX is the shape index position. DBF is the attribute data. |
+| GeoPackage | .gpkg | As an alternative for a Shapfile. This open file format is gaining terrain and exists of one file containing all necessary attribute information. |
 | Geographic JavaScript Object Notation (GeoJSON) | .GEOJSON .JSON |Used for web-based mapping and uses JavaScript Object Notation to store the coordinates as text. |
 | Google Keyhole Markup Language (KML) | .KML .KMZ | KML stands for Keyhole Markup Language. This GIS format is XML-based and is primarily used for Google Earth. |
+| GPX or GPS Exchange Format | .gpx | Is an XML schema designed as a common GPS data format for software applications. This format is often used for tracking activities e.g. hiking, cycling, running etc. |
 | OpenStreetMap | .OSM | OSM files are the native file for OpenStreetMap which had become the largest crowdsourcing GIS data project in the world. These files are a collection of vector features from crowd-sourced contributions from the open community. |
 
 ### Raster
