@@ -59,7 +59,7 @@ As we have shown in the previous episodes, this search result contains the infor
 visual_href = item.assets['visual'].href
 ```
 
-We can open this asset with `rioxarray`, and specify the overview level, since this is a Cloud-Optimized GeoTIFF (COG) file. Here we use `overview_level=1`: 
+We can open this asset with `rioxarray`, and specify the overview level, since this is a Cloud-Optimized GeoTIFF (COG) file. As explained in episode 6 raster images can be quite big, therefore we decided to resample the data using ´rioxarray's´ overview parameter and set it to `overview_level=1`.  
 
 ```python
 import rioxarray
@@ -83,7 +83,7 @@ Attributes:
     add_offset:          0.0
 ```
 
-As we introduced in the raster data introduction episode, this will perform a "lazy" loading of the image, i.e. the image will not be loaded into the memory until necessary.
+As we introduced in the raster data introduction episode, this will perform a "lazy" loading of the image meaning that the image will not be loaded into the memory until necessary.
 
 Let's also load the assets file generated in the vector data episode:
 
@@ -93,7 +93,7 @@ assets = gpd.read_file('assets.gpkg')
 ```
 ### Crop the raster with a bounding box
 
-The assets file contains contains the information of the vital infrastructure and built-up areas in Rhodes Island. The visual image, on the other hand, has a larger extent. We can check this by visualizing the raster image:
+The assets file contains the information of the vital infrastructure and built-up areas on the island Rhodes. The visual image, on the other hand, has a larger extent. Let us check this by visualizing the raster image:
 
 ```python
 visual.plot.imshow()
@@ -112,7 +112,7 @@ assets.total_bounds
 array([27.7121001 , 35.87837949, 28.24591124, 36.45725024])
 ```
 
-The bounding box is in the form of `[minx, miny, maxx, maxy]`. Comparing this values with the raster image, we can see the magnitude of the bounding box coordinates does not match the coordinates of the raster image. This is because the two datasets have different coordinate reference systems (CRS). Therefore, we need to align the CRS of the two datasets before cropping the raster image.
+The bounding box is composed of the `[minx, miny, maxx, maxy]` values of the raster. Comparing these values with the raster image, we can identify that the magnitude of the bounding box coordinates does not match the coordinates of the raster image. This is because the two datasets have different coordinate reference systems (CRS). This will cause problems when cropping the raster image, therefore we first need to align the CRS-s of the two datasets 
 
 Considering the raster image has larger data volume than the vector data, we will reproject the vector data to the CRS of the raster data. We can use the `to_crs` method:
 
@@ -128,7 +128,7 @@ assets.total_bounds
 array([ 564058.0257114, 3970719.4080227,  611743.71498815, 4035358.56340039])
 ```
 
-Now the bounding box coordinates are updated. We can use the `clip_box` function to crop the raster image to the bounding box of the vector data:
+Now the bounding box coordinates are updated. We can use the `clip_box` function, through the `rioaxarray` accessor, to crop the raster image to the bounding box of the vector data:
 
 ```python
 # Crop the raster with the bounding box
@@ -142,12 +142,12 @@ visual_clipbox.plot.imshow()
 
 :::callout
 ## Code Tip
-Cropping a raster with a bounding box is a quick way to reduce the size of the raster data. Since this operation is based on min/max coordinates, it is not as expensive as cropping with polygons, which requires more accurate overlay operations.
+Cropping a raster with a bounding box is a quick way to reduce the size of the raster data. Since this operation is based on min/max coordinates, it is not as computational extensive as cropping with polygons, which requires more accurate overlay operations.
 :::
 
 ### Crop the raster with a polygon
 
-We can also crop the raster with a polygon. In this case, we will use the `clip` function. We will use the `geometry` column of the `assets` GeoDataFrame to specify the polygon:
+We can also crop the raster with a polygon. In this case, we will use the raster `clip` function through the `rio` accessor. For this we will use the `geometry` column of the `assets` GeoDataFrame to specify the polygon:
 
 ```python
 # Crop the raster with the polygon
@@ -161,7 +161,7 @@ visual_clip.plot.imshow()
 
 ### Match two rasters
 
-Sometimes we need to match two rasters with different extents, resolutions, or CRS. The `reproject_match` function can be used for this purpose. We will demonstrate this by matching the cropped raster `visual_clip` with the Digital Elevation Model (DEM) of Rhodes Island `rhodes_dem.tif`.
+Sometimes you need to match two rasters with different extents, resolutions, or CRS. The `reproject_match` function can be used for this purpose. We will demonstrate this by matching the cropped raster `visual_clip` with the Digital Elevation Model (DEM),`rhodes_dem.tif` of Rhodes.
 
 First, let's load the DEM:
 
@@ -177,7 +177,7 @@ dem.plot()
 
 ![](fig/E08/dem.png){alt="DEM"}
 
-From the visualization, we can see the DEM has a different extent, resolution and CRS compared to the cropped visual image. We can also confirm this by checking the CRS of the two images:
+From the visualization, we can see that the DEM has a different extent, resolution and CRS compared to the cropped visual image. We can also confirm this by checking the CRS of the two images:
 
 ```python
 print(dem.rio.crs)
