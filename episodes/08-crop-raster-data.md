@@ -38,32 +38,16 @@ We also use the cropped fields polygons `fields_cropped.shp`, which was generate
 
 ### Data loading
 
-First, we will load the search results we saved in the data access episode.
+### Data loading
 
-```python
-import pystac
-
-# Load the search results
-items= pystac.ItemCollection.from_file("rhodes_sentinel-2.json")
-```
-
-We will inspect the first item.
-
-```python
-item = items[0]
-```
-
-As we have shown in the previous episodes, this search result contains the information of the URL of different channels, for example, `visual`: 
-
-```python
-visual_href = item.assets['visual'].href
-```
+First, we will load the visual image of Sentinel-2 over Rhodes Island, which we downloaded and stored in `data/sentinel2/visual.tif`. 
 
 We can open this asset with `rioxarray`, and specify the overview level, since this is a Cloud-Optimized GeoTIFF (COG) file. As explained in episode 6 raster images can be quite big, therefore we decided to resample the data using ´rioxarray's´ overview parameter and set it to `overview_level=1`.  
 
 ```python
 import rioxarray
-visual = rioxarray.open_rasterio(visual_href, overview_level=1)
+path_visual = 'data/sentinel2/visual.tif'
+visual = rioxarray.open_rasterio(path_visual, overview_level=1)
 visual
 ```
 
