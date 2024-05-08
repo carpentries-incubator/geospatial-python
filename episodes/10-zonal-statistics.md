@@ -14,7 +14,7 @@ exercises: 0
 - Calculate raster statistics over zones
 :::
 
-
+ 
 
 
 ## Introduction
