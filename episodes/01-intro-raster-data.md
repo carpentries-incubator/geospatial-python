@@ -15,6 +15,7 @@ exercises: 5
 - Describe the strengths and weaknesses of storing data in raster format.
 - Distinguish between continuous and categorical raster data and identify types of datasets that would be stored in each format.
 :::
+ 
 
 ## Introduction
 
@@ -22,7 +23,7 @@ This episode introduces the two primary types of data models that are used to di
 
 ## Data Structures: Raster and Vector
 
-The two primary data models that are used to represent the earth's surface digitally are the raster and vector. **Raster data** are stored as a grid of values which are rendered on the map as pixels—also known as cells—where each pixel—or cell—represents a value of the earth's surface. Examples of raster data are satellite images or aerial photographs. Data stored according to the **vector data** model are represented by points, lines, or polygons. Examples of vector representation are points of interest, buildings—often represented as building footprints—or roads.
+The two primary data models that are used to represent the earth's surface digitally are the raster and vector. **Raster data** is stored as a grid of values which are rendered on a map as pixels—also known as cells—where each pixel—or cell—represents a value of the earth's surface. Examples of raster data are satellite images or aerial photographs. Data stored according to the **vector data** model are represented by points, lines, or polygons. Examples of vector representation are points of interest, buildings—often represented as building footprints—or roads.
 
 Representing phenomena as vector data allows you to add attribute information to them. For instance, a polygon of a house can contain multiple attributes containing information about the address like the street name, zip code, city, and number. More explanations about vector data will be discussed in the [next episode](02-intro-vector-data.md).
 
@@ -30,7 +31,7 @@ When working with spatial information, you will experience that many phenomena c
 
 ### Raster Data
 
-Raster data are any pixelated (or gridded) data where each pixel has a value and is associated with a specific geographic location. The value of a pixel can be continuous (e.g., elevation, temperature) or categorical (e.g., land-use type). If this sounds familiar, it is because this data structure is very common: it's how we represent any digital image. A geospatial raster is only different from a digital photo in that it is accompanied by spatial information that connects the data to a particular location. This includes the raster's extent and cell size, the number of rows and columns, and its Coordinate Reference System (CRS), which will be explained in [episode 3](03-crs.md) of this workshop.
+Raster data is any pixelated (or gridded) data where each pixel has a value and is associated with a specific geographic location. The value of a pixel can be continuous (e.g., elevation, temperature) or categorical (e.g., land-use type). If this sounds familiar, it is because this data structure is very common: it's how we represent any digital image. A geospatial raster is only different from a digital photo in that it is accompanied by spatial information that connects the data to a particular location. This includes the raster's extent and cell size, the number of rows and columns, and its Coordinate Reference System (CRS), which will be explained in [episode 3](03-crs.md) of this workshop.
 
 ![Raster Concept (Source: National Ecological Observatory Network (NEON))](fig/E01/raster_concept.png){alt="raster concept"}
 
