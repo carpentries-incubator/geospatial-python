@@ -9,9 +9,11 @@ title: Setup
 3. Download the data required for this lesson via [this link](https://figshare.com/ndownloader/articles/25721754).
 4. Unzip downloaded files and save them to the just created `data` directory.
 
-In total three files were downloaded
-  - In `gadm` folder: `ADM_ADM_3.gpkg` - This data is downloaded from [GADM](https://gadm.org/) and modified for this course.
-  - In `osm` folder: [osm_landuse.gpkg] and [osm_roads.gpkg] - This data is downloaded from [Openstreetmaps](www.openstreetmaps.org) via [Geofabrik](http://www.geofabrik.de/data/download.html) and modified for this course.
+Now you should have the following files in the `data` directory:
+
+- `dem/rhodes_dem.tif` - This is the Digital Elevation Model (DEM) of the island of Rhodes, retrieved from [Copernicus Digital Elevation Model (GLO-30 instance)](https://spacedata.copernicus.eu/collections/copernicus-digital-elevation-model) and modified for this course.
+- `gadm/ADM_ADM_3.gpkg` - This is the administration boundaries of Rhodes, downloaded from [GADM](https://gadm.org/) and modified for this course.
+- `osm/osm_landuse.gpkg` and `osm/osm_roads.gpkg` - They are landuse poylgons and roads polylines of Rhodes, downloaded from [Openstreetmaps](www.openstreetmaps.org) via [Geofabrik](http://www.geofabrik.de/data/download.html) and modified for this course.
 
 ## Software Setup
 
