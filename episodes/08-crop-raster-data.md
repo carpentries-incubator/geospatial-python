@@ -86,7 +86,7 @@ visual.plot.imshow()
 ![](fig/E08/visual_large.png){alt="Large visual raster"}
 
 Let's check the extent of the assets to find out its rough location in the raster image.
-We can use the `total_bounds` attribute to get the bounding box:
+We can use the [`total_bounds`](https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoSeries.total_bounds.html) attribute from `GeoSeries` of `geopandas` to get the bounding box:
 
 ```python
 assets.total_bounds
@@ -112,7 +112,7 @@ assets.total_bounds
 array([ 564058.0257114, 3970719.4080227,  611743.71498815, 4035358.56340039])
 ```
 
-Now the bounding box coordinates are updated. We can use the `clip_box` function, through the `rioaxarray` accessor, to crop the raster image to the bounding box of the vector data:
+Now the bounding box coordinates are updated. We can use the `clip_box` function, through the `rioaxarray` accessor, to crop the raster image to the bounding box of the vector data. `clip_box` takes four positional input arguments in the order of `xmin`, `ymin`, `xmax`, `ymax`, which is exactly the same order in the `assets.total_bounds`. Since `assets.total_bounds` is an `numpy.array`, we can use the symbol `*` to unpack it to the relevant positions in `clip_box`.
 
 ```python
 # Crop the raster with the bounding box
