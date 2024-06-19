@@ -25,9 +25,9 @@ In the [first episode](01-intro-raster-data.md) of this course we provided an in
 
 The Python package we will use throughout this episode to handle raster data is [`rioxarray`](https://corteva.github.io/rioxarray/stable/). This package is based on the popular [`rasterio`](https://rasterio.readthedocs.io/en/latest/) (which is build upon the GDAL library) for working with raster data and [`xarray`](https://xarray.pydata.org/en/stable/) for working with multi-dimensional arrays.
 
-`Rioxarray` extends `xarray` by providing top-level functions like the [`open_rasterio`](https://corteva.github.io/rioxarray/html/rioxarray.html#rioxarray-open-rasterio) function to open raster datasets. Furthermore, it adds a set of methods to the main objects of the `xarray` package like the [`Dataset`](https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html) and the [`DataArray`](https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray). These methods are made available via the `rio` accessor and become available from `xarray` objects after importing `rioxarray`. Since a lot of the functions, methods and attributes do not orginate from rioxarray, but come from the other packages mentioned and are accessible through the accessor, the documentation is in some cases limited and requires a little puzzling. It is therefore recommended to foremost focus at the notebook´s functionality to use tab and go through the various functionalities. In addition, every function or method offers the opportunity to add a questionmark `?` to see the various options. 
+`rioxarray` extends `xarray` by providing top-level functions like the [`open_rasterio`](https://corteva.github.io/rioxarray/html/rioxarray.html#rioxarray-open-rasterio) function to open raster datasets. Furthermore, it adds a set of methods to the main objects of the `xarray` package like the [`Dataset`](https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html) and the [`DataArray`](https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray). These methods are made available via the `rio` accessor and become available from `xarray` objects after importing `rioxarray`. Since a lot of the functions, methods and attributes do not originate from `rioxarray`, but come from the other packages mentioned and are accessible through the accessor, the documentation is in some cases limited and requires a little puzzling. It is therefore recommended to foremost focus at the notebook´s functionality to use tab completion and go through the various functionalities. In addition, adding a question mark `?` after every function or method offers the opportunity to see the various options.
 
-For instance if you want to understand the options for rioxarray´s open_rasterio call:
+For instance if you want to understand the options for rioxarray´s `open_rasterio` function:
 
 ```python
 rioxarray.open_rasterio?
@@ -142,7 +142,7 @@ We will continue from the results of the satellite image search that we have car
 In case you would like to work with raster data for this lesson without downloading data on-the-fly, you can download the raster data using this [link](https://figshare.com/ndownloader/files/36028100). Save the `geospatial-python-raster-dataset.tar.gz` file in your current working directory, and extract the archive file by double-clicking on it or by running the
 following command in your terminal `tar -zxvf geospatial-python-raster-dataset.tar.gz`.
 
-If you use choose to download the data you can skip the following part and continue with 
+If you use choose to download the data you can skip the following part and continue with
 
 **Load a Raster and View Attributes**.
 
