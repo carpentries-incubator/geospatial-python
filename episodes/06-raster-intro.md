@@ -233,7 +233,7 @@ print(rhodes_red_href)
 
 ## Load a Raster and View Attributes
 
-Now we can load `red` band using the function [`rioxarray.open_rasterio()`](), via the variable we created.
+Now we can load the red band using the function [`rioxarray.open_rasterio()`](https://corteva.github.io/rioxarray/html/rioxarray.html#rioxarray-open-rasterio), via the variable we created.
 
 ```python
 import rioxarray
@@ -244,12 +244,12 @@ In case you used the downloaded data you can do.
 
 ```python
 import rioxarray
-rhodes_red = rioxarray.open_rasterio("../data/stac_json/rhodes_red.tif")
+rhodes_red = rioxarray.open_rasterio("data/sentinel2/red.tif")
 ```
 
 The first call to `rioxarray.open_rasterio()` opens the file from remote or local storage, and then returns a `xarray.DataArray` object. The object is stored in a variable, i.e. `rhodes_red`. Reading in the data with `xarray` instead of `rioxarray` also returns a `xarray.DataArray`, but the output will not contain the geospatial metadata (such as projection information). You can use numpy functions or built-in Python math operators on a `xarray.DataArray` just like a numpy array. Calling the variable name of the `DataArray` also prints out all of its metadata information.
 
-By calling the variable name we can get a quick look at the shape and attributes of the data.
+By printing the variable we can get a quick look at the shape and attributes of the data.
 ```python
 print(rhodes_red)
 ```
