@@ -38,11 +38,9 @@ We also use the cropped fields polygons `fields_cropped.shp`, which was generate
 
 ### Data loading
 
-### Data loading
+First, we will load the visual image of Sentinel-2 over Rhodes Island, which we downloaded and stored in `data/sentinel2/visual.tif`.
 
-First, we will load the visual image of Sentinel-2 over Rhodes Island, which we downloaded and stored in `data/sentinel2/visual.tif`. 
-
-We can open this asset with `rioxarray`, and specify the overview level, since this is a Cloud-Optimized GeoTIFF (COG) file. As explained in episode 6 raster images can be quite big, therefore we decided to resample the data using ´rioxarray's´ overview parameter and set it to `overview_level=1`.  
+We can open this asset with `rioxarray`, and specify the overview level, since this is a Cloud-Optimized GeoTIFF (COG) file. As explained in episode 6 raster images can be quite big, therefore we decided to resample the data using ´rioxarray's´ overview parameter and set it to `overview_level=1`.
 
 ```python
 import rioxarray
@@ -96,7 +94,7 @@ assets.total_bounds
 array([27.7121001 , 35.87837949, 28.24591124, 36.45725024])
 ```
 
-The bounding box is composed of the `[minx, miny, maxx, maxy]` values of the raster. Comparing these values with the raster image, we can identify that the magnitude of the bounding box coordinates does not match the coordinates of the raster image. This is because the two datasets have different coordinate reference systems (CRS). This will cause problems when cropping the raster image, therefore we first need to align the CRS-s of the two datasets 
+The bounding box is composed of the `[minx, miny, maxx, maxy]` values of the raster. Comparing these values with the raster image, we can identify that the magnitude of the bounding box coordinates does not match the coordinates of the raster image. This is because the two datasets have different coordinate reference systems (CRS). This will cause problems when cropping the raster image, therefore we first need to align the CRS-s of the two datasets
 
 Considering the raster image has larger data volume than the vector data, we will reproject the vector data to the CRS of the raster data. We can use the `to_crs` method:
 
