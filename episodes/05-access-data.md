@@ -329,7 +329,7 @@ items = search.item_collection()
 items.save_object("rhodes_sentinel-2.json")
 ```
 
-This creates a file in GeoJSON format, which we will reuse here and in the next episodes. Note that this file contains the metadata of the files that meet out criteria. It does not include the data itself, only their metadata and links to where the data files can be accessed.
+This creates a file in GeoJSON format, which we will reuse here and in the next episodes. Note that this file contains the metadata of the files that meet our criteria. It does not include the data itself, only their metadata and links to where the data files can be accessed.
 
 ## Access the assets
 
