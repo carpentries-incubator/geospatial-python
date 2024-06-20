@@ -96,7 +96,7 @@ functionality of searching its items. For the Earth Search STAC catalog the API 
 api_url = "https://earth-search.aws.element84.com/v1"
 ```
 
-You can query a STAC API endpoint from Python using the [`pystac_client` library](https://pystac-client.readthedocs.io/en/stable/api.html#pystac_client). 
+You can query a STAC API endpoint from Python using the [`pystac_client` library](https://pystac-client.readthedocs.io/en/stable/api.html#pystac_client).
 To do so we will first import `Client` from `pystac_client` and use the [method open from the Client object](https://pystac-client.readthedocs.io/en/stable/quickstart.html):
 
 ```python
@@ -105,11 +105,11 @@ from pystac_client import Client
 client = Client.open(api_url)
 ```
 
-For this episode we will focus at scenes belonging to the `sentinel-2-l2a` collection. 
-This dataset is useful for our case and includes Sentinel-2 data products pre-processed at level 2A (bottom-of-atmosphere reflectance). 
+For this episode we will focus at scenes belonging to the `sentinel-2-l2a` collection.
+This dataset is useful for our case and includes Sentinel-2 data products pre-processed at level 2A (bottom-of-atmosphere reflectance).
 
-In order to see which collections are available in the provided `api_url` the 
-[`get_collections`](https://pystac-client.readthedocs.io/en/stable/api.html#pystac_client.Client.get_collections) method can be used on the Client object. 
+In order to see which collections are available in the provided `api_url` the
+[`get_collections`](https://pystac-client.readthedocs.io/en/stable/api.html#pystac_client.Client.get_collections) method can be used on the Client object.
 
 ```python
 collections = client.get_collections()
@@ -136,7 +136,7 @@ for collection in collections:
 As said, we want to focus to the `sentinel-2-l2a` collection. To do so, we set this collection into a variable:
 
 ```python
-collection_sentinel_2_l2a = "sentinel-2-l2a"  
+collection_sentinel_2_l2a = "sentinel-2-l2a"
 ```
 
 The data in this collection is stored in the Cloud Optimized GeoTIFF (COG) format and as JPEG2000 images. In this episode we will focus at COGs, as these offer useful functionalities for our purpose.
@@ -156,7 +156,7 @@ by a high-resolution raster can directly access the lower-resolution versions of
 on the downloading time. More information on the COG format can be found [here](https://www.cogeo.org).
 :::
 
-In order to get data for a specific location you can add longitude latitude coordinates (World Geodetic System 1984 EPSG:4326) in your request. 
+In order to get data for a specific location you can add longitude latitude coordinates (World Geodetic System 1984 EPSG:4326) in your request.
 In order to do so we are using the `shapely` library to define a geometrical point.
 Below we have included a center point for the island of Rhodes, which is the location of interest for our case study (i.e. Longitude: 27.95 | Latitude 36.20).
 
@@ -329,7 +329,17 @@ items = search.item_collection()
 items.save_object("rhodes_sentinel-2.json")
 ```
 
-This creates a file in GeoJSON format, which we will reuse here and in the next episodes. Note that this file contains the metadata of the files that meet out criteria. It does not include the data itself, only their metadata.
+This creates a file in GeoJSON format, which we can reuse here and in the next episodes. Note that this file contains the metadata of the files that meet out criteria. It does not include the data itself, only their metadata.
+
+To load the saved search results as a `ItemCollection` we can use [`pystac.ItemCollection.from_file()`](https://pystac.readthedocs.io/en/stable/api/item_collection.html). Through this, we are instructing Python to use the `from_file` method of the `ItemCollection` class from the `pystac` library to load data from the specified GeoJSON file:
+
+```python
+import pystac
+items_loaded = pystac.ItemCollection.from_file("../data/stac_json/rhodes_sentinel-2.json")
+```
+
+The loaded item collection (`items_loaded`) is equivalent to the one returned earlier by `search.item_collection()` (`items`). You can thus perform the same actions on it: you can check the number of items (`len(items_loaded)`), you can loop over items (`for item in items_loaded: ...`), and you can access individual elements using their index (`items_loaded[0]`).
+
 
 ## Access the assets
 
