@@ -79,7 +79,7 @@ print(item)
 <Item id=S2A_35SNA_20230827_0_L2A>
 ```
 
-In this episode we will consider a the red and near infrared bands associated with this scene. We extract the URL / `href` (Hypertext Reference) that point to each of the raster files, and store these in variables that we can use later on instead of the raster data paths to access the data:
+In this episode we will consider the red and near infrared bands associated with this scene. We extract the URL / `href` (Hypertext Reference) that point to each of the raster files, and store these in variables that we can use later on instead of the raster data paths to access the data:
 
 ```python
 rhodes_red_href = item.assets["red"].href  # red band

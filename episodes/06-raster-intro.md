@@ -160,18 +160,18 @@ print(item)
 <Item id=S2A_35SNA_20230827_0_L2A>
 ```
 
-In this episode we will consider the red band and the true color image associated with this scene. They are labelled with the `red` and `visual` keys, respectively, in the asset dictionary. For each asset, We extract the URL / `href` (Hypertext Reference) that point to the file, and store it in a variable that we can use later on to access the data:
+In this episode we will consider the red band and the true color image associated with this scene. They are labelled with the `red` and `visual` keys, respectively, in the asset dictionary. For each asset, we extract the URL / `href` (Hypertext Reference) that point to the file, and store it in a variable that we can use later on to access the data instead of the raster data paths:
 
 ```python
-rhodes_red_href = item.assets["red"].href
-rhodes_visual_href = item.assets["visual"].href
+rhodes_red_href = item.assets["red"].href  # red band
+rhodes_visual_href = item.assets["visual"].href  # true color image
 ```
 
 :::
 
 ## Load a Raster and View Attributes
 
-To analyse the burned areas, we are interested in the red band of the satellite scene. In [episode 9](/episodes/09-raster-calculations.md) we will further explain why the characteristics of that band are interesting in relation to wildfires. For now, we can load `red` band using the function [`rioxarray.open_rasterio()`]() (replace the path string with the variable `rhodes_red_href` if you want to download data on-the-fly, see the block ["Introduce the data"](#Introduce-the-data)):
+To analyse the burned areas, we are interested in the red band of the satellite scene. In [episode 9](/episodes/09-raster-calculations.md) we will further explain why the characteristics of that band are interesting in relation to wildfires. For now, we can load `red` band using the function [`rioxarray.open_rasterio()`]():
 
 ```python
 import rioxarray
@@ -267,7 +267,7 @@ of 4, and so on. Here, we open the third level overview (index 2, zoom factor 8)
 
 ```python
 import rioxarray
-rhodes_red_80 = rioxarray.open_rasterio(red_href, overview_level=2)
+rhodes_red_80 = rioxarray.open_rasterio("data/sentinel2/red.tif", overview_level=2)
 print(rhodes_red_80.rio.resolution())
 ```
 
@@ -489,10 +489,10 @@ rhodes_red_80.rio.nodata
 
 You will find out that this is 0. When we have plotted the band data, or calculated statistics, the missing value was not distinguished from other values. Missing data may cause some unexpected results.
 
-To distinguish missing data from real data, one possible way is to use `nan`(which stands for Not a Number) to represent them. This can be done by specifying `masked=True` when loading the raster. Let us reload our data and put it into a different variable with the mask. Remember the `red_href` variable we created previously. (If you used the downloaded data you can use a direct link to the file):
+To distinguish missing data from real data, one possible way is to use `nan`(which stands for Not a Number) to represent them. This can be done by specifying `masked=True` when loading the raster. Let us reload our data and put it into a different variable with the mask:
 
 ```python
-rhodes_red_mask_80 = rioxarray.open_rasterio(red_href, masked=True, overview_level=2)
+rhodes_red_mask_80 = rioxarray.open_rasterio("data/sentinel2/red.tif", masked=True, overview_level=2)
 ```
 
 Let us have a look at the data.
@@ -567,7 +567,7 @@ So far we looked into a single band raster, i.e. the `red` band of a Sentinel-2 
 
 ![Sketch of a multi-band raster image](fig/E06/single_multi_raster.png){alt="multi-band raster"}
 
-The `visual` asset in the Sentinel-2 scene is a multiband asset. Similar to the red band, we can load it by (replace the path string with the variable `rhodes_visual_href` if you want to download data on-the-fly, see the block ["Introduce the data"](#Introduce-the-data)):
+The `visual` asset in the Sentinel-2 scene is a multiband asset. Similar to the red band, we can load it by:
 
 ```python
 rhodes_visual = rioxarray.open_rasterio('data/sentinel2/visual.tif', overview_level=2)

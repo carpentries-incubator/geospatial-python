@@ -50,10 +50,10 @@ print(item)
 <Item id=S2A_35SNA_20230827_0_L2A>
 ```
 
-In this episode we will consider the true color image associated with this scene, which is labelled with the `visual` key in the asset dictionary. We extract the URL / `href` (Hypertext Reference) that point to the file, and store it in a variable that is then used to access the data:
+In this episode we will consider the true color image associated with this scene, which is labelled with the `visual` key in the asset dictionary. We extract the URL / `href` (Hypertext Reference) that point to the file, and store it in a variable that we can use later on instead of the raster data path to access the data:
 
 ```python
-rhodes_visual_href = item.assets["visual"].href
+rhodes_visual_href = item.assets["visual"].href  # true color image
 ```
 
 As **vector data**, we will use the `assets.gpkg`, which was generated in an exercise from [Episode 7: Vector data in python](07-vector-data-in-python.md).
