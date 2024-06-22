@@ -1,7 +1,7 @@
 ---
 title: "Data cubes with ODC-STAC"
 teaching: 45
-exercises: -
+exercises: 0
 ---
 
 :::questions
