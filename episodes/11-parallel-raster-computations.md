@@ -39,6 +39,7 @@ This episode shows how Dask can be used to parallelize operations on local CPUs.
 configured to run tasks on large compute clusters.
 
 More resources on Dask:
+
 - [Dask](https://dask.org) and [Dask Array](https://docs.dask.org/en/stable/array.html).
 - [Xarray with Dask](https://xarray.pydata.org/en/stable/user-guide/dask.html).
 
