@@ -130,8 +130,6 @@ File:      c:\miniconda3\envs\geospatial\lib\site-packages\rioxarray\_io.py
 Type:      function
 ```
 
-In addition to rioxarray, we will use the [`pystac`](https://github.com/stac-utils/pystac) package to load rasters from the search results that were created in [episode 5](05-access-data.md).
-
 :::
 
 :::callout
