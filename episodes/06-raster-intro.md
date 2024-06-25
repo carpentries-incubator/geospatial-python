@@ -40,8 +40,6 @@ rioxarray.open_rasterio?
 
 :::
 
-:::
-
 :::callout
 
 ## Introduce the data
@@ -82,22 +80,15 @@ rhodes_visual_href = item.assets["visual"].href  # true color image
 
 ## Load a Raster and View Attributes
 
-To analyse the burned areas, we are interested in the red band of the satellite scene. In [episode 9](/episodes/09-raster-calculations.md) we will further explain why the characteristics of that band are interesting in relation to wildfires. 
-For now, we can load `red` band using the function [`rioxarray.open_rasterio()`](https://corteva.github.io/rioxarray/html/rioxarray.html#rioxarray-open-rasterio), using the variable we created.
-
-```python
-import rioxarray
-rhodes_red = rioxarray.open_rasterio(rhodes_red_href)
-```
-
-In case you used the downloaded data locally you can do.
+To analyse the burned areas, we are interested in the red band of the satellite scene. In [episode 9](/episodes/09-raster-calculations.md) we will further explain why the characteristics of that band are interesting in relation to wildfires.
+For now, we can load the red band using the function [`rioxarray.open_rasterio()`](https://corteva.github.io/rioxarray/html/rioxarray.html#rioxarray-open-rasterio):
 
 ```python
 import rioxarray
 rhodes_red = rioxarray.open_rasterio("data/sentinel2/red.tif")
 ```
 
-The first call to `rioxarray.open_rasterio()` opens the file from remote or local storage, and then returns a `xarray.DataArray` object. The object is stored in a variable, i.e. `rhodes_red`. Reading in the data with `xarray` instead of `rioxarray` also returns a `xarray.DataArray`, but the output will not contain the geospatial metadata (such as projection information). You can use numpy functions or built-in Python math operators on a `xarray.DataArray` just like a numpy array. Calling the variable name of the `DataArray` also prints out all of its metadata information.
+The first call to `rioxarray.open_rasterio()` opens the file and it returns a `xarray.DataArray` object. The object is stored in a variable, i.e. `rhodes_red`. Reading in the data with `xarray` instead of `rioxarray` also returns a `xarray.DataArray`, but the output will not contain the geospatial metadata (such as projection information). You can use numpy functions or built-in Python math operators on a `xarray.DataArray` just like a numpy array. Calling the variable name of the `DataArray` also prints out all of its metadata information.
 
 By printing the variable we can get a quick look at the shape and attributes of the data.
 ```python
