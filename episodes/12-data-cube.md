@@ -106,7 +106,7 @@ nir = ds['nir']
 scl = ds['scl']
 ```
 
-We first use the classification map to mask out pixels recognized by the Sentinel-2 processing algorithm as cloud or water:
+Next we will use the mask to drop pixels that are labeled as clouds and water. For this we use the classification map to mask out pixels recognized by the [Sentinel-2 processing algorithm](https://custom-scripts.sentinel-hub.com/custom-scripts/sentinel-2/scene-classification/) as cloud or water:
 
 ```python
 # generate mask ("True" for pixel being cloud or water)
