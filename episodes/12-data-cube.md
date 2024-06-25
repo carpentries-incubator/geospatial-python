@@ -18,7 +18,11 @@ In this notebook we show how [odc-stac](https://odc-stac.readthedocs.io/en/lates
 
 ## Create a data cube with ODC-STAC
 
-We use the administrative boundaries of the island of Rhodes to define our area of interest (AoI):
+As you might have noticed in the previous episodes, the satellite images we have used until now do actually not cover the whole island of Rhodes. They miss the southern part of the island. Using ODC-STAC we can obtain an image for the whole island. We use the administrative boundary of Rhodes to define our area of interest (AoI). This way we are sure to have the whole island.
+
+More important, using ODC-STAC you can also load multiple images (lazy) into one datacube allowing you to perform all kind of interesting analyses as will be demonstrated below.
+
+But first we need to upload the geometry of Rhodes. To do so we use geopandas and load the geometry we previously stored in a geopackage.
 
 ```python
 import geopandas
