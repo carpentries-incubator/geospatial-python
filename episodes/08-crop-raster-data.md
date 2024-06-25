@@ -63,8 +63,6 @@ As **vector data**, we will use the `assets.gpkg`, which was generated in an exe
 
 ### Data loading
 
-### Data loading
-
 First, we will load the visual image of Sentinel-2 over Rhodes Island, which we downloaded and stored in `data/sentinel2/visual.tif`.
 
 We can open this asset with `rioxarray`, and specify the overview level, since this is a Cloud-Optimized GeoTIFF (COG) file. As explained in episode 6 raster images can be quite big, therefore we decided to resample the data using ´rioxarray's´ overview parameter and set it to `overview_level=1`.

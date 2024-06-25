@@ -17,118 +17,28 @@ exercises: 30
 -  Visualize single/multi-band raster data.
 :::
 
-
-:::callout
 ## Raster Data
 
 In the [first episode](01-intro-raster-data.md) of this course we provided an introduction on what Raster datasets are and how these divert from vector data. In this episode we will dive more into raster data and focus on how to work with them. We introduce fundamental principles, python packages, metadata and raster attributes for working with this type of data. In addition, we will explore how Python handles missing and bad data values.
 
 The Python package we will use throughout this episode to handle raster data is [`rioxarray`](https://corteva.github.io/rioxarray/stable/). This package is based on the popular [`rasterio`](https://rasterio.readthedocs.io/en/latest/) (which is build upon the GDAL library) for working with raster data and [`xarray`](https://xarray.pydata.org/en/stable/) for working with multi-dimensional arrays.
 
-`Rioxarray` extends `xarray` by providing top-level functions like the [`open_rasterio`](https://corteva.github.io/rioxarray/html/rioxarray.html#rioxarray-open-rasterio) function to open raster datasets. Furthermore, it adds a set of methods to the main objects of the `xarray` package like the [`Dataset`](https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html) and the [`DataArray`](https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray). These methods are made available via the `rio` accessor and become available from `xarray` objects after importing `rioxarray`. Since a lot of the functions, methods and attributes do not orginate from rioxarray, but come from the other packages mentioned and are accessible through the accessor, the documentation is in some cases limited and requires a little puzzling. It is therefore recommended to foremost focus at the notebook´s functionality to use tab and go through the various functionalities. In addition, every function or method offers the opportunity to add a questionmark `?` to see the various options.
 
-For instance if you want to understand the options for rioxarray´s open_rasterio call:
+`rioxarray` extends `xarray` by providing top-level functions like the [`open_rasterio`](https://corteva.github.io/rioxarray/html/rioxarray.html#rioxarray-open-rasterio) function to open raster datasets. Furthermore, it adds a set of methods to the main objects of the `xarray` package like the [`Dataset`](https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html) and the [`DataArray`](https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray). These methods are made available via the `rio` accessor and become available from `xarray` objects after importing `rioxarray`.
+
+:::callout
+
+## Exploring `rioxarray` and getting help
+
+Since a lot of the functions, methods and attributes from `rioxarray` originate from other packages (mostly `rasterio`), the documentation is in some cases limited and requires a little puzzling. It is therefore recommended to foremost focus at the notebook´s functionality to use tab completion and go through the various functionalities. In addition, adding a question mark `?` after every function or method offers the opportunity to see the available options.
+
+For instance if you want to understand the options for rioxarray´s `open_rasterio` function:
 
 ```python
 rioxarray.open_rasterio?
 ```
 
-```output
-Signature:
-rioxarray.open_rasterio(
-    filename: Union[str, os.PathLike, rasterio.io.DatasetReader, rasterio.vrt.WarpedVRT, rioxarray._io.SingleBandDatasetReader],
-    parse_coordinates: Optional[bool] = None,
-    chunks: Union[int, tuple, dict, NoneType] = None,
-    cache: Optional[bool] = None,
-    lock: Optional[Any] = None,
-    masked: bool = False,
-    mask_and_scale: bool = False,
-    variable: Union[str, list[str], tuple[str, ...], NoneType] = None,
-    group: Union[str, list[str], tuple[str, ...], NoneType] = None,
-    default_name: Optional[str] = None,
-    decode_times: bool = True,
-    decode_timedelta: Optional[bool] = None,
-    band_as_variable: bool = False,
-    **open_kwargs,
-) -> Union[xarray.core.dataset.Dataset, xarray.core.dataarray.DataArray, list[xarray.core.dataset.Dataset]]
-Docstring:
-Open a file with rasterio (experimental).
-
-This should work with any file that rasterio can open (most often:
-geoTIFF). The x and y coordinates are generated automatically from the
-file's geoinformation, shifted to the center of each pixel (see
-`"PixelIsArea" Raster Space
-<http://web.archive.org/web/20160326194152/http://remotesensing.org/geotiff/spec/geotiff2.5.html#2.5.2>`_
-for more information).
-
-.. versionadded:: 0.13 band_as_variable
-
-Parameters
-----------
-filename: str, rasterio.io.DatasetReader, or rasterio.vrt.WarpedVRT
-    Path to the file to open. Or already open rasterio dataset.
-parse_coordinates: bool, optional
-    Whether to parse the x and y coordinates out of the file's
-    ``transform`` attribute or not. The default is to automatically
-    parse the coordinates only if they are rectilinear (1D).
-    It can be useful to set ``parse_coordinates=False``
-    if your files are very large or if you don't need the coordinates.
-chunks: int, tuple or dict, optional
-    Chunk sizes along each dimension, e.g., ``5``, ``(5, 5)`` or
-    ``{'x': 5, 'y': 5}``. If chunks is provided, it used to load the new
-    DataArray into a dask array. Chunks can also be set to
-    ``True`` or ``"auto"`` to choose sensible chunk sizes according to
-    ``dask.config.get("array.chunk-size")``.
-cache: bool, optional
-    If True, cache data loaded from the underlying datastore in memory as
-    NumPy arrays when accessed to avoid reading from the underlying data-
-    store multiple times. Defaults to True unless you specify the `chunks`
-    argument to use dask, in which case it defaults to False.
-lock: bool or dask.utils.SerializableLock, optional
-
-    If chunks is provided, this argument is used to ensure that only one
-    thread per process is reading from a rasterio file object at a time.
-
-    By default and when a lock instance is provided,
-    a :class:`xarray.backends.CachingFileManager` is used to cache File objects.
-    Since rasterio also caches some data, this will make repeated reads from the
-    same object fast.
-
-    When ``lock=False``, no lock is used, allowing for completely parallel reads
-    from multiple threads or processes. However, a new file handle is opened on
-    each request.
-
-masked: bool, optional
-    If True, read the mask and set values to NaN. Defaults to False.
-mask_and_scale: bool, default=False
-    Lazily scale (using the `scales` and `offsets` from rasterio) and mask.
-    If the _Unsigned attribute is present treat integer arrays as unsigned.
-variable: str or list or tuple, optional
-    Variable name or names to use to filter loading.
-group: str or list or tuple, optional
-    Group name or names to use to filter loading.
-default_name: str, optional
-    The name of the data array if none exists. Default is None.
-decode_times: bool, default=True
-    If True, decode times encoded in the standard NetCDF datetime format
-    into datetime objects. Otherwise, leave them encoded as numbers.
-decode_timedelta: bool, optional
-    If True, decode variables and coordinates with time units in
-    {“days”, “hours”, “minutes”, “seconds”, “milliseconds”, “microseconds”}
-    into timedelta objects. If False, leave them encoded as numbers.
-    If None (default), assume the same value of decode_time.
-band_as_variable: bool, default=False
-    If True, will load bands in a raster to separate variables.
-**open_kwargs: kwargs, optional
-    Optional keyword arguments to pass into :func:`rasterio.open`.
-
-Returns
--------
-:obj:`xarray.Dataset` | :obj:`xarray.DataArray` | list[:obj:`xarray.Dataset`]:
-    The newly created dataset(s).
-File:      c:\miniconda3\envs\geospatial\lib\site-packages\rioxarray\_io.py
-Type:      function
-```
+:::
 
 :::
 
@@ -138,7 +48,8 @@ Type:      function
 
 In this episode, we will use satellite images from the search that we have carried out in [the episode: "Access satellite imagery using Python"](05-access-data.md). Briefly, we have searched for Sentinel-2 scenes of Rhodes from July 1st to August 31st 2023 that have less than 1% cloud coverage. The search resulted in 11 scenes. We focus here on the most recent scene (August 27th), since that would show the situation after the wildfire, and use this as an example to demonstrate raster data loading and visualization.
 
-For your convenience, we have included the scene of interest among the datasets that you have already downloaded when following [the setup instructions](../learners/setup.md) (the raster data files should be in the `data/sentinel2` directory). You should, however, be able to download the same datasets "on-the-fly" using the JSON metadata file that was created in [the previous episode](05-access-data.md) (the file `rhodes_sentinel-2.json`).
+For your convenience, we included the scene of interest among the datasets that you have already downloaded when following [the setup instructions](../learners/setup.md) (the raster data files should be in the `data/sentinel2` directory). You should, however, be able to download the same datasets "on-the-fly" using the JSON metadata file that was created in [the previous episode](05-access-data.md) (the file `rhodes_sentinel-2.json`).
+
 
 If you choose to work with the provided data (which is advised in case you are working offline or have a slow/unstable network connection) you can skip the remaining part of the block and continue with the following section: [Load a Raster and View Attributes](#Load-a-Raster-and-View-Attributes).
 
@@ -171,16 +82,24 @@ rhodes_visual_href = item.assets["visual"].href  # true color image
 
 ## Load a Raster and View Attributes
 
-To analyse the burned areas, we are interested in the red band of the satellite scene. In [episode 9](/episodes/09-raster-calculations.md) we will further explain why the characteristics of that band are interesting in relation to wildfires. For now, we can load `red` band using the function [`rioxarray.open_rasterio()`]():
+To analyse the burned areas, we are interested in the red band of the satellite scene. In [episode 9](/episodes/09-raster-calculations.md) we will further explain why the characteristics of that band are interesting in relation to wildfires. 
+For now, we can load `red` band using the function [`rioxarray.open_rasterio()`](https://corteva.github.io/rioxarray/html/rioxarray.html#rioxarray-open-rasterio), using the variable we created.
 
 ```python
 import rioxarray
-rhodes_red = rioxarray.open_rasterio("../data/stac_json/rhodes_red.tif")
+rhodes_red = rioxarray.open_rasterio(rhodes_red_href)
+```
+
+In case you used the downloaded data locally you can do.
+
+```python
+import rioxarray
+rhodes_red = rioxarray.open_rasterio("data/sentinel2/red.tif")
 ```
 
 The first call to `rioxarray.open_rasterio()` opens the file from remote or local storage, and then returns a `xarray.DataArray` object. The object is stored in a variable, i.e. `rhodes_red`. Reading in the data with `xarray` instead of `rioxarray` also returns a `xarray.DataArray`, but the output will not contain the geospatial metadata (such as projection information). You can use numpy functions or built-in Python math operators on a `xarray.DataArray` just like a numpy array. Calling the variable name of the `DataArray` also prints out all of its metadata information.
 
-By calling the variable name we can get a quick look at the shape and attributes of the data.
+By printing the variable we can get a quick look at the shape and attributes of the data.
 ```python
 print(rhodes_red)
 ```
