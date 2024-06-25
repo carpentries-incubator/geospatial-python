@@ -515,7 +515,7 @@ print(rhodes_red_mask_80.min())
 print(rhodes_red_80.max())
 print(rhodes_red_mask_80.max())
 print(rhodes_red_80.mean())
-print(rhodes_red_mask_80.mean()
+print(rhodes_red_mask_80.mean())
 print(rhodes_red_80.std())
 print(rhodes_red_mask_80.std())
 ```python
