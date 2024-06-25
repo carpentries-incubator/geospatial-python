@@ -166,9 +166,57 @@ visual_clip.plot.imshow()
 
 ![](fig/E08/visual_clip.png){alt="Clip results"}
 
+:::challenge
+## Exercise: Get the red band for the Rhodes
+
+Now that you have seen how clip a raster using a polygon, we want you to do this for the red band of the sattelite image. Use the shape of Rhodes from GADM and clip the red band with it. Furthermore, make sure to transform the no data values to Not a Number values.     
+
+::::solution
+```python
+# Solution
+
+# Step 1 - Load the datasets - Vector data
+
+import geopandas as gpd
+gdf_greece = gpd.read_file('./data_workshop/gadm/ADM_ADM_3.gpkg')
+gdf_rhodes = gdf_greece.loc[gdf_greece['NAME_3']=='Rhodos']
+
+# Step 2 - Load the raster red band
+import rioxarray
+path_red = './data_workshop/sentinel2/red.tif'
+red = rioxarray.open_rasterio(path_red, overview_level=1)
+
+# Step 3 - It will not work, since it is not projected yet
+
+gdf_rhodes = gdf_rhodes.to_crs(red.rio.crs)
+
+# Step 4 - Clip the two
+
+red_clip = red.rio.clip(gdf_rhodes["geometry"])
+
+# Step 5 - assing nan values to no data
+
+red_clip_nan = red_clip.where(red_clip!=red_clip.rio.nodata)
+
+# Step 6 - Visualize the result
+
+red_clip_nan.plot()
+
+```
+
+![](fig/E08/solution_excercise.png){alt="rhodes_builtup_buffer"}
+
+::::
+:::
+
+
+
+
+
+
 ### Match two rasters
 
-Sometimes you need to match two rasters with different extents, resolutions, or CRS. The `reproject_match` function can be used for this purpose. We will demonstrate this by matching the cropped raster `visual_clip` with the Digital Elevation Model (DEM),`rhodes_dem.tif` of Rhodes.
+Sometimes you need to match two rasters with different extents, resolutions, or CRS. For this you can use the  [`reproject_match`](https://corteva.github.io/rioxarray/stable/examples/reproject_match.html#Reproject-Match) function . We will demonstrate this by matching the cropped raster `visual_clip` with the Digital Elevation Model (DEM),`rhodes_dem.tif` of Rhodes.
 
 First, let's load the DEM:
 
@@ -219,7 +267,7 @@ As we can see, `reproject_match` does a lot of helpful things in one line of cod
 Finally, we can save the matched DEM for later use. We save it as a Cloud-Optimized GeoTIFF (COG) file:
 
 ```python
-dem_match.rio.to_raster('dem_rhodes_match.tif', driver='COG')
+dem_matched.rio.to_raster('dem_rhodes_match.tif', driver='COG')
 ```
 
 :::callout

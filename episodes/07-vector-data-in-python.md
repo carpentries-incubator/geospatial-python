@@ -21,7 +21,7 @@ questions:
 
 In the preceding episodes, we have prepared, selected and downloaded raster data from before and after the wildfire event in the summer of 2023 on the Greek island of Rhodes. To evaluate the impact of this wildfire on the vital infrastructure and built-up areas we are going to create a subset of vector data representing these assets. In this episode you will learn how to extract vector data with specific characteristics like the type of attributes or their locations. The dataset that we will generate in this episode can lateron be confronted with scorched areas which we determine by analyzing the satellite images [Episode 9: Raster Calculations in Python](09-raster-calculations.md).
 
-We'll be examining vector datasets that represent the valuable assests of Rhodes. As mentioned in [Episode 2: Introduction to Vector Data](02-intro-vector-data.md), vector data uses points, lines, and polygons to depict specific features on the Earth's surface. These geographic elements can have one or more attributes, like 'name' and 'population' for a city. In this epidoe we'll be using two open data sources: the Database of Global Administrative Areas (GADM) dataset to generate a polygon for the island of Rhodes and and Open Street Map data for the vital infrastructure and valuable assets.
+We'll be examining vector datasets that represent the valuable assests of Rhodes. As mentioned in [Episode 2: Introduction to Vector Data](02-intro-vector-data.md), vector data uses points, lines, and polygons to depict specific features on the Earth's surface. These geographic elements can have one or more attributes, like 'name' and 'population' for a city. In this episode we'll be using two open data sources: the Database of Global Administrative Areas (GADM) dataset to generate a polygon for the island of Rhodes and and Open Street Map data for the vital infrastructure and valuable assets.
 
 To handle the vector data in python we use the package [`geopandas`](https://geopandas.org/en/stable/). This package allows us to open, manipulate, and write vector dataset through python.
 
@@ -308,16 +308,16 @@ Now it will be up to you to create a dataset with valueable assets. You should b
 :::challenge
 ## Exercise: Get the built-up regions
 
-Create a `builtup_buffer` from the file `data/osm_landuse.gpkg` by the following steps:
+Create a `builtup_buffer` from the file `data/osm/osm_landuse.gpkg` by the following steps:
 
-1. Load the land use data from `data/osm_landuse.gpkg` and mask it with the administrative boundary of Rhodes Island (`gdf_rhodes`).
+1. Load the land use data from `data/osm/osm_landuse.gpkg` and mask it with the administrative boundary of Rhodes Island (`gdf_rhodes`).
 2. Select the land use data for "commercial", "industrial", and "residential".
 3. Create a 10m buffer around the land use data.
 4. Visualize the results.
 
 After completing the exercise, answer the following questions:
 
-1. How many unique land use types are there in `landuse.gpkg`?
+1. How many unique land use types are there in `osm_landuse.gpkg`?
 2. After selecting the three types of land use, how many entries (rows) are there in the results?
 
 Hints:
@@ -329,7 +329,7 @@ Hints:
 ::::solution
 ```python
 # Read data with a mask of Rhodes
-gdf_landuse = gpd.read_file('../data/osm/landuse.gpkg', mask=gdf_rhodes)
+gdf_landuse = gpd.read_file('./data_workshop/osm/osm_landuse.gpkg', mask=gdf_rhodes)
 
 # Find number of unique landuse types
 print(len(gdf_landuse['fclass'].unique()))
