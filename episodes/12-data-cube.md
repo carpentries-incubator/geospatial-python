@@ -30,7 +30,7 @@ rhodes = geopandas.read_file('rhodes.gpkg')
 bbox = rhodes.total_bounds
 ```
 
-We search for satellite images including the AoI in the [Sentinel-2 L2A](https://radiantearth.github.io/stac-browser/#/external/earth-search.aws.element84.com/v1/collections/sentinel-2-l2a) collection that is indexed in the [Earth Search STAC API](https://radiantearth.github.io/stac-browser/#/external/earth-search.aws.element84.com/v1/):
+Next, we search for satellite images that cover our AoI (i.e. Rhodes) in the [Sentinel-2 L2A](https://radiantearth.github.io/stac-browser/#/external/earth-search.aws.element84.com/v1/collections/sentinel-2-l2a) collection that is indexed in the [Earth Search STAC API](https://radiantearth.github.io/stac-browser/#/external/earth-search.aws.element84.com/v1/). Since we are interested the period right before and after the wild fire we include as dates the 1st of July until the 31st of August 2023 :
 
 ```python
 import pystac_client
