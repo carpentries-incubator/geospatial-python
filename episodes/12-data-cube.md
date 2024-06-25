@@ -157,7 +157,7 @@ ax.scatter(x, y, marker="o", c="k")
 
 ![NDVI plot with selected point](fig/E12/NDVI-after_point.png){alt="NDVI plot with selected point"}
 
-Let us extract the NDVI value computed at that point for the full time series:
+Now let us extract the NDVI values computed at that point for the full time series:
 
 ```python
 ndvi_xy = ndvi.sel(x=x, y=y, method="nearest")
