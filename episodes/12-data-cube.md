@@ -143,7 +143,7 @@ ndvi_after.plot()
 
 ![NDVI after the wildfire](fig/E12/NDVI-after.png){alt="NDVI after the wildfire"}
 
-Let's now select a point in the region scorched by wildfires:
+Another feature of having the data available in a datacube is that you can for instance questions multiple layers. If you want for instance to see how the NDVI changed over time for a specific point you can do the following. Let us first define a point in the region where we know it was affected by the wildfile. To check that it is after the fire we plot it:
 
 ```python
 x = 585_000
