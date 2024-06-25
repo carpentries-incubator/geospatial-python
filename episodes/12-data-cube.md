@@ -14,7 +14,9 @@ exercises: 0
 
 ## Introduction
 
-In this notebook we show how [odc-stac](https://odc-stac.readthedocs.io/en/latest/?badge=latest) can be employed to retile and stack satellite images in what are sometimes referred to as "data cubes".
+In the previous episodes we worked with satellite images with a fixed boundary on how they have been collected, however in many cases you would want to have an image that covers your area of interest which often does not align with boundaries of the collected images. If the phenomena you are interested in covers two images you could manually mosaic them, but sometimes you are interested in multiple images that overlapping.  
+
+ODC-STAC offers functionality that allows you to get a mosaic-ed image based on the a bounding box or a polygon containing the area of interest. In this lesson we show how [odc-stac](https://odc-stac.readthedocs.io/en/latest/?badge=latest) can be employed to re-tile and stack satellite images in what are sometimes referred to as "data cubes". 
 
 ## Create a data cube with ODC-STAC
 
