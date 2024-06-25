@@ -22,16 +22,41 @@ In this episode, we will introduce how to crop raster data into the desired area
 :::callout
 ## Introduce the Data
 
-We will use the results of the satellite image search: `search.json`, which is generated in an exercise from
-[Episode 5: Access satellite imagery using Python](05-access-data.md).
+In this episode, we will work with both raster and vector data.
 
-If you would like to work with the data for this lesson without downloading data on-the-fly, you can download the
-raster data using this [link](https://figshare.com/ndownloader/files/36028100). Save the `geospatial-python-raster-dataset.tar.gz`
-file in your current working directory, and extract the archive file by double-clicking on it or by running the
-following command in your terminal `tar -zxvf geospatial-python-raster-dataset.tar.gz`. Use the file `geospatial-python-raster-dataset/search.json`
-(instead of `search.json`) to get started with this lesson.
+As *raster data*, we will use satellite images from the search that we have carried out in [the episode: "Access satellite imagery using Python"](05-access-data.md) as well as Digital Elevation Model (DEM) data from the [Copernicus DEM GLO-30 dataset](https://spacedata.copernicus.eu/collections/copernicus-digital-elevation-model).
 
-We also use the cropped fields polygons `fields_cropped.shp`, which was generated in an exercise from [Episode 7: Vector data in python](07-vector-data-in-python.md).
+For the satellite images, we have searched for Sentinel-2 scenes of Rhodes from July 1st to August 31st 2023 that have less than 1% cloud coverage. The search resulted in 11 scenes. We focus here on the most recent scene (August 27th), since that would show the situation after the wildfire, and use this as an example to demonstrate raster data cropping.
+
+For your convenience, we have included the scene of interest among the datasets that you have already downloaded when following [the setup instructions](../learners/setup.md). You should, however, be able to download the satellite images "on-the-fly" using the JSON metadata file that was created in [the previous episode](05-access-data.md) (the file `rhodes_sentinel-2.json`).
+
+If you choose to work with the provided data (which is advised in case you are working offline or have a slow/unstable network connection) you can skip the remaining part of the block and continue with the following section: [Align the CRS of the raster and the vector data](#Align-the-CRS-of-the-raster-and-the-vector-data).
+
+If you want instead to experiment with downloading the data on-the-fly, you need to load the file `rhodes_sentinel-2.json`, which contains information on where and how to access the target satellite images from the remote repository:
+
+```python
+import pystac
+items = pystac.ItemCollection.from_file("rhodes_sentinel-2.json")
+```
+
+You can then select the first item in the collection, which is the most recent in the sequence:
+
+```python
+item = items[0]
+print(item)
+```
+
+```output
+<Item id=S2A_35SNA_20230827_0_L2A>
+```
+
+In this episode we will consider the true color image associated with this scene, which is labelled with the `visual` key in the asset dictionary. We extract the URL / `href` (Hypertext Reference) that point to the file, and store it in a variable that we can use later on instead of the raster data path to access the data:
+
+```python
+rhodes_visual_href = item.assets["visual"].href  # true color image
+```
+
+As **vector data**, we will use the `assets.gpkg`, which was generated in an exercise from [Episode 7: Vector data in python](07-vector-data-in-python.md).
 :::
 
 ## Align the CRS of the raster and the vector data

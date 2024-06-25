@@ -96,8 +96,10 @@ functionality of searching its items. For the Earth Search STAC catalog the API 
 api_url = "https://earth-search.aws.element84.com/v1"
 ```
 
+
 You can query a STAC API endpoint from Python using the [`pystac_client` library](https://pystac-client.readthedocs.io).
 To do so we will first import `Client` from `pystac_client` and use the [method `open` from the Client object](https://pystac-client.readthedocs.io/en/stable/quickstart.html):
+
 
 ```python
 from pystac_client import Client
@@ -329,7 +331,16 @@ items = search.item_collection()
 items.save_object("rhodes_sentinel-2.json")
 ```
 
-This creates a file in GeoJSON format, which we will reuse here and in the next episodes. Note that this file contains the metadata of the files that meet our criteria. It does not include the data itself, only their metadata and links to where the data files can be accessed.
+This creates a file in GeoJSON format, which we can reuse here and in the next episodes. Note that this file contains the metadata of the files that meet out criteria. It does not include the data itself, only their metadata.
+
+To load the saved search results as a `ItemCollection` we can use [`pystac.ItemCollection.from_file()`](https://pystac.readthedocs.io/en/stable/api/item_collection.html). Through this, we are instructing Python to use the `from_file` method of the `ItemCollection` class from the `pystac` library to load data from the specified GeoJSON file:
+
+```python
+import pystac
+items_loaded = pystac.ItemCollection.from_file("../data/stac_json/rhodes_sentinel-2.json")
+```
+
+The loaded item collection (`items_loaded`) is equivalent to the one returned earlier by `search.item_collection()` (`items`). You can thus perform the same actions on it: you can check the number of items (`len(items_loaded)`), you can loop over items (`for item in items_loaded: ...`), and you can access individual elements using their index (`items_loaded[0]`).
 
 ## Access the assets
 
