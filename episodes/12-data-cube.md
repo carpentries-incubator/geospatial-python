@@ -64,7 +64,7 @@ ds = odc.stac.load(
 )
 ```
 
-odc-stac builds a data cube representation from all the relevant files linked in `item_collection` as a Xarray DataSet:
+odc-stac builds a data cube representation from all the relevant files linked in `item_collection` as a Xarray DataSet. Let us have a look at it:
 
 ```python
 print(ds)
