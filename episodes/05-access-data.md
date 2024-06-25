@@ -17,6 +17,11 @@ exercises: 15
 - Open satellite imagery as raster data and save it to disk.
 :::
 
+
+## Considerations for the position of this episode in the workshop
+
+*When this workshop is taught to learners with limited prior knowledge of Python, it might be better to place this episode after episode 11 and before episode 12. This episode contains an introduction to working with APIs and dictionaries, which can be perceived as challenging by some learners. Another consideration for placing this episode later in the workshop is when it is taught to learners with prior GIS knowledge who want to perform GIS-like operations with data they have already collected or for learners interested in working with raster data but less interested in satellite images.*
+
 ## Introduction
 
 A number of satellites take snapshots of the Earth's surface from space. The images recorded by these remote sensors
