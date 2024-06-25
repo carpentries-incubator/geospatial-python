@@ -50,7 +50,7 @@ search = client.search(
 item_collection = search.item_collection()
 ```
 
-[odc-stac](https://odc-stac.readthedocs.io/en/latest/?badge=latest) can ingest directly our search results and create a Xarray DataSet object from the STAC metadata that are present in the `item_collection`. By specifying `groupby='solar_day'`, odc-stac automatically groups and merges images corresponding to the same date of acquisition. `chunks={...}` sets up the resulting data cube using Dask arrays, thus enabling lazy loading (and further operations). `use_overviews=True` tells odc-stac to direcly load lower-resolution versions of the images from the overviews, if these are available in Cloud Optimized Geotiffs (COGs). We set the resolution of the data cube using the `resolution` argument, and define the AoI using the bounding box (`bbox`).
+[odc-stac](https://odc-stac.readthedocs.io/en/latest/?badge=latest) can ingest directly our search results and create a Xarray DataSet object from the STAC metadata that are present in the `item_collection`. By specifying `groupby='solar_day'`, odc-stac automatically groups and merges images corresponding to the same date of acquisition. `chunks={...}` sets up the resulting data cube using Dask arrays, thus enabling lazy loading (and further operations). `use_overviews=True` tells odc-stac to direcly load lower-resolution versions of the images from the overviews, if these are available in Cloud Optimized Geotiffs (COGs). We set the resolution of the data cube using the `resolution` argument, and define the AoI using the bounding box (`bbox`). We decided to set the resolution to 20 in order to limit the size of the images a bit.
 
 ```python
 import odc.stac
