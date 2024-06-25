@@ -25,7 +25,7 @@ In the [first episode](01-intro-raster-data.md) of this course we provided an in
 
 The Python package we will use throughout this episode to handle raster data is [`rioxarray`](https://corteva.github.io/rioxarray/stable/). This package is based on the popular [`rasterio`](https://rasterio.readthedocs.io/en/latest/) (which is build upon the GDAL library) for working with raster data and [`xarray`](https://xarray.pydata.org/en/stable/) for working with multi-dimensional arrays.
 
-`Rioxarray` extends `xarray` by providing top-level functions like the [`open_rasterio`](https://corteva.github.io/rioxarray/html/rioxarray.html#rioxarray-open-rasterio) function to open raster datasets. Furthermore, it adds a set of methods to the main objects of the `xarray` package like the [`Dataset`](https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html) and the [`DataArray`](https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray). These methods are made available via the `rio` accessor and become available from `xarray` objects after importing `rioxarray`. Since a lot of the functions, methods and attributes do not orginate from rioxarray, but come from the other packages mentioned and are accessible through the accessor, the documentation is in some cases limited and requires a little puzzling. It is therefore recommended to foremost focus at the notebook´s functionality to use tab and go through the various functionalities. In addition, every function or method offers the opportunity to add a questionmark `?` to see the various options. 
+`Rioxarray` extends `xarray` by providing top-level functions like the [`open_rasterio`](https://corteva.github.io/rioxarray/html/rioxarray.html#rioxarray-open-rasterio) function to open raster datasets. Furthermore, it adds a set of methods to the main objects of the `xarray` package like the [`Dataset`](https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html) and the [`DataArray`](https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray). These methods are made available via the `rio` accessor and become available from `xarray` objects after importing `rioxarray`. Since a lot of the functions, methods and attributes do not orginate from rioxarray, but come from the other packages mentioned and are accessible through the accessor, the documentation is in some cases limited and requires a little puzzling. It is therefore recommended to foremost focus at the notebook´s functionality to use tab and go through the various functionalities. In addition, every function or method offers the opportunity to add a questionmark `?` to see the various options.
 
 For instance if you want to understand the options for rioxarray´s open_rasterio call:
 
@@ -130,111 +130,48 @@ File:      c:\miniconda3\envs\geospatial\lib\site-packages\rioxarray\_io.py
 Type:      function
 ```
 
-In addition to rioxarray, we will use the [`pystac`](https://github.com/stac-utils/pystac) package to load rasters from the search results that were created in [episode 5](05-access-data.md).
-
 :::
 
-## Getting the data
+:::callout
 
-We will continue from the results of the satellite image search that we have carried out in an exercise from
-[the previous episode](05-access-data.md). We will load data using the created metadata file and use one scene from the search results as an example to demonstrate data loading and visualization. To do so you can use the `rhodes_sentinel-2.json` you created or download and use the created JSON file [here](../data/stac_json/rhodes_sentinel-2.json).
+## Introduce the data
 
-In case you would like to work with raster data for this lesson without downloading data on-the-fly, you can download the raster data using this [link](https://figshare.com/ndownloader/files/36028100). Save the `geospatial-python-raster-dataset.tar.gz` file in your current working directory, and extract the archive file by double-clicking on it or by running the
-following command in your terminal `tar -zxvf geospatial-python-raster-dataset.tar.gz`.
+In this episode, we will use satellite images from the search that we have carried out in [the episode: "Access satellite imagery using Python"](05-access-data.md). Briefly, we have searched for Sentinel-2 scenes of Rhodes from July 1st to August 31st 2023 that have less than 1% cloud coverage. The search resulted in 11 scenes. We focus here on the most recent scene (August 27th), since that would show the situation after the wildfire, and use this as an example to demonstrate raster data loading and visualization.
 
-If you use choose to download the data you can skip the following part and continue with 
+For your convenience, we have included the scene of interest among the datasets that you have already downloaded when following [the setup instructions](../learners/setup.md) (the raster data files should be in the `data/sentinel2` directory). You should, however, be able to download the same datasets "on-the-fly" using the JSON metadata file that was created in [the previous episode](05-access-data.md) (the file `rhodes_sentinel-2.json`).
 
-**Load a Raster and View Attributes**.
+If you choose to work with the provided data (which is advised in case you are working offline or have a slow/unstable network connection) you can skip the remaining part of the block and continue with the following section: [Load a Raster and View Attributes](#Load-a-Raster-and-View-Attributes).
 
-When you use the `rhodes_sentinel-2.json` you will remember that this file contains information on where and how to access the target images from a remote repository. To load the saved search results as an `Item` list we will use [`pystac.ItemCollection.from_file()`](https://pystac.readthedocs.io/en/stable/api/item_collection.html). Through this, we are instructing Python to use the `from_file` method of the `ItemCollection` class in the `pystac` module to load data from a specified JSON file.
+If you want instead to experiment with downloading the data on-the-fly, you need to load the file `rhodes_sentinel-2.json`, which contains information on where and how to access the target images from the remote repository:
 
 ```python
 import pystac
-file_items = pystac.ItemCollection.from_file("../data/stac_json/rhodes_sentinel-2.json")
+items = pystac.ItemCollection.from_file("rhodes_sentinel-2.json")
 ```
-In the search results, we have eleven `Item` type objects, corresponding to the Sentinel-2 scenes parameters we set in episode 5 (which were all images from July 8th till the 27th of August 2023 that have less than 1% cloud coverage). In this episode we will focus on the newest item in our collection, since that would show the situation after the wildfire.
 
-Like when reading the data from the api we can perform the same actions on the collection since it is stored to the class ItemColleciton. For instance, you can check the number of items in the item collection, you can use `len` or to check the items themselved include a for loop.
+The loaded item collection is equivalent to the one returned by `pystac_client` when querying the API in the [the episode: "Access satellite imagery using Python"](05-access-data.md). You can thus perform the same actions on it, like accessing the individual items using their index. Here we select the first item in the collection, which is the most recent:
 
 ```python
-print(len(file_items))
-```
-To check the items themselves you can make a for loop on the items (as we did in episode 5). To look at specific parameters of the item you can have a look [here](https://pystac.readthedocs.io/en/latest/api/item.html). Since we are interested in the most recent image let us print the `datetime` and `id`:
-
-```python
-for item in file_items:
-    print(item.id)
-    print(item.datetime)
-```
-
-```output
-S2A_35SNA_20230827_0_L2A
-2023-08-27 09:00:21.327000+00:00
-S2B_35SNA_20230822_0_L2A
-2023-08-22 09:00:20.047000+00:00
-S2A_35SNA_20230817_0_L2A
-2023-08-17 09:00:21.370000+00:00
-S2B_35SNA_20230812_0_L2A
-2023-08-12 09:00:21.069000+00:00
-S2A_35SNA_20230807_0_L2A
-2023-08-07 09:00:20.107000+00:00
-S2B_35SNA_20230802_0_L2A
-2023-08-02 09:00:20.321000+00:00
-S2A_35SNA_20230728_0_L2A
-2023-07-28 09:00:20.662000+00:00
-S2B_35SNA_20230723_0_L2A
-2023-07-23 09:00:21.476000+00:00
-S2A_35SNA_20230718_0_L2A
-2023-07-18 09:00:19.860000+00:00
-S2B_35SNA_20230713_0_L2A
-2023-07-13 09:00:20.114000+00:00
-S2A_35SNA_20230708_0_L2A
-2023-07-08 09:00:20.745000+00:00
-```
-
-You will notice that the item collection `S2A_35SNA_20230827_0_L2A` would be the newest since it is printed as first.
-
-```python
-print(file_items[0])
+item = items[0]
+print(item)
 ```
 
 ```output
 <Item id=S2A_35SNA_20230827_0_L2A>
 ```
 
-To access an actual raster image from that date we look at the item´s attribute `assets` which is accessible through a dictionary. This contains all the various datasets that have been collected at that specific date.
+In this episode we will consider the red band and the true color image associated with this scene. They are labelled with the `red` and `visual` keys, respectively, in the asset dictionary. For each asset, we extract the URL / `href` (Hypertext Reference) that point to the file, and store it in a variable that we can use later on to access the data instead of the raster data paths:
 
 ```python
-assets = file_items[0].assets
-print(assets.keys())
+rhodes_red_href = item.assets["red"].href  # red band
+rhodes_visual_href = item.assets["visual"].href  # true color image
 ```
 
-```output
-dict_keys(['aot', 'blue', 'coastal', 'granule_metadata', 'green', 'nir', 'nir08', 'nir09', 'red', 'rededge1', 'rededge2', 'rededge3', 'scl', 'swir16', 'swir22', 'thumbnail', 'tileinfo_metadata', 'visual', 'wvp', 'aot-jp2', 'blue-jp2', 'coastal-jp2', 'green-jp2', 'nir-jp2', 'nir08-jp2', 'nir09-jp2', 'red-jp2', 'rededge1-jp2', 'rededge2-jp2', 'rededge3-jp2', 'scl-jp2', 'swir16-jp2', 'swir22-jp2', 'visual-jp2', 'wvp-jp2']
-```
-
-To analyse the burned areas, we are interested in the `red` band of the satellite scene. In [episode 9](/episodes/09-raster-calculations.md) we will further explain why the characteristics of that band are interesting in relation to wildfires.
-
-To select the red band we need to get the URL / `href` (Hypertext Referenc) and put it into a variable.
-
-```python
-rhodes_red_href = assets["red"].href
-```
-
-```python
-print(rhodes_red_href)
-```
+:::
 
 ## Load a Raster and View Attributes
 
-Now we can load `red` band using the function [`rioxarray.open_rasterio()`](), via the variable we created.
-
-```python
-import rioxarray
-rhodes_red = rioxarray.open_rasterio(rhodes_red_href)
-```
-
-In case you used the downloaded data you can do.
+To analyse the burned areas, we are interested in the red band of the satellite scene. In [episode 9](/episodes/09-raster-calculations.md) we will further explain why the characteristics of that band are interesting in relation to wildfires. For now, we can load `red` band using the function [`rioxarray.open_rasterio()`]():
 
 ```python
 import rioxarray
@@ -330,7 +267,7 @@ of 4, and so on. Here, we open the third level overview (index 2, zoom factor 8)
 
 ```python
 import rioxarray
-rhodes_red_80 = rioxarray.open_rasterio(red_href, overview_level=2)
+rhodes_red_80 = rioxarray.open_rasterio("data/sentinel2/red.tif", overview_level=2)
 print(rhodes_red_80.rio.resolution())
 ```
 
@@ -552,10 +489,10 @@ rhodes_red_80.rio.nodata
 
 You will find out that this is 0. When we have plotted the band data, or calculated statistics, the missing value was not distinguished from other values. Missing data may cause some unexpected results.
 
-To distinguish missing data from real data, one possible way is to use `nan`(which stands for Not a Number) to represent them. This can be done by specifying `masked=True` when loading the raster. Let us reload our data and put it into a different variable with the mask. Remember the `red_href` variable we created previously. (If you used the downloaded data you can use a direct link to the file):
+To distinguish missing data from real data, one possible way is to use `nan`(which stands for Not a Number) to represent them. This can be done by specifying `masked=True` when loading the raster. Let us reload our data and put it into a different variable with the mask:
 
 ```python
-rhodes_red_mask_80 = rioxarray.open_rasterio(red_href, masked=True, overview_level=2)
+rhodes_red_mask_80 = rioxarray.open_rasterio("data/sentinel2/red.tif", masked=True, overview_level=2)
 ```
 
 Let us have a look at the data.
@@ -625,14 +562,16 @@ And if we plot the image, the `nodata` pixels are not shown because they are not
 One should notice that there is a side effect of using `nan` instead of `0` to represent the missing data: the data type of the `DataArray` was changed from integers to float (as can be seen when we printed the statistics). This needs to be taken into consideration when the data type matters in your application.
 
 ## Raster Bands
-So far we looked into a single band raster, i.e. the `red` band of a Sentinel-2 scene. However, to get a smaller, non georeferenced version of the scene, one may also want to visualize the true-color overview of the region. This is provided as a multi-band raster -- a raster dataset that contains more than one band.
+
+So far we looked into a single band raster, i.e. the `red` band of a Sentinel-2 scene. However, for certain applications it is helpful to visualize the true-color image of the region. This is provided as a multi-band raster -- a raster dataset that contains more than one band.
 
 ![Sketch of a multi-band raster image](fig/E06/single_multi_raster.png){alt="multi-band raster"}
 
-The `overview` asset in the Sentinel-2 scene is a multiband asset. Similar to `red`, we can load it by:
+The `visual` asset in the Sentinel-2 scene is a multiband asset. Similar to the red band, we can load it by:
+
 ```python
-rhodes_overview = rioxarray.open_rasterio(items[-1].assets['visual'].href, overview_level=2)
-rhodes_overview
+rhodes_visual = rioxarray.open_rasterio('data/sentinel2/visual.tif', overview_level=2)
+rhodes_visual
 ```
 
 ```output
@@ -651,11 +590,10 @@ Attributes:
     add_offset:          0.0
 ```
 
-
 The band number comes first when GeoTiffs are read with the `.open_rasterio()` function. As we can see in the `xarray.DataArray` object, the shape is now `(band: 3, y: 1373, x: 1373)`, with three bands in the `band` dimension. It's always a good idea to examine the shape of the raster array you are working with and make sure it's what you expect. Many functions, especially the ones that plot images, expect a raster array to have a particular shape. One can also check the shape using the [`.shape`](https://docs.xarray.dev/en/latest/generated/xarray.DataArray.shape.html) attribute:
 
 ```python
-rhodes_overview.shape
+rhodes_visual.shape
 ```
 
 ```output
@@ -664,7 +602,7 @@ rhodes_overview.shape
 
 One can visualize the multi-band data with the `DataArray.plot.imshow()` function:
 ```python
-rhodes_overview.plot.imshow()
+rhodes_visual.plot.imshow()
 ```
 
 ![Overview of the true-color image (multi-band raster)](fig/E06/rhodes_multiband_80.png){alt="true-color image overview"}
@@ -679,7 +617,7 @@ As seen in the figure above, the true-color image is stretched. Let's visualize 
 Since we know the height/width ratio is 1:1 (check the `rio.height` and `rio.width` attributes), we can set the aspect ratio to be 1. For example, we can choose the size to be 5 inches, and set `aspect=1`. Note that according to the [documentation](https://xarray.pydata.org/en/stable/generated/xarray.DataArray.plot.imshow.html) of `DataArray.plot.imshow()`, when specifying the `aspect` argument, `size` also needs to be provided.
 
 ```python
-rhodes_overview.plot.imshow(size=5, aspect=1)
+rhodes_visual.plot.imshow(size=5, aspect=1)
 ```
 
 ![Overview of the true-color image with the correct aspect ratio](fig/E06/rhodes_multiband_80_equal_aspect.png){alt="raster plot with correct aspect ratio"}

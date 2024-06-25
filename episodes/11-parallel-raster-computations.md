@@ -55,32 +55,38 @@ in the next section.
 
 ## Introduce the Data
 
-We'll continue from the results of the satellite image search that we have carried out in an exercise from
-[a previous episode](./05-access-data.md). We will load data starting from the `search.json` file.
+We will use satellite images from the search that we have carried out in [the episode: "Access satellite imagery using Python"](05-access-data.md). Briefly, we have searched for Sentinel-2 scenes of Rhodes from July 1st to August 31st 2023 that have less than 1% cloud coverage. The search resulted in 11 scenes. We focus here on the most recent scene (August 27th), since that would show the situation after the wildfire, and use this as an example to demonstrate parallel raster calculations.
 
-If you would like to work with the data for this lesson without downloading data on-the-fly, you can download the
-raster data using this [link](https://figshare.com/ndownloader/files/36028100). Save the `geospatial-python-raster-dataset.tar.gz`
-file in your current working directory, and extract the archive file by double-clicking on it or by running the
-following command in your terminal `tar -zxvf geospatial-python-raster-dataset.tar.gz`. Use the file `geospatial-python-raster-dataset/search.json`
-(instead of `search.json`) to get started with this lesson.
-:::
+For your convenience, we have included the scene of interest among the datasets that you have already downloaded when following [the setup instructions](../learners/setup.md). You should, however, be able to download the satellite images "on-the-fly" using the JSON metadata file that was created in [the previous episode](05-access-data.md) (the file `rhodes_sentinel-2.json`).
 
-Let's set up a raster calculation using assets from our previous search of satellite scenes. We first load the item
-collection using the `pystac` library:
+If you choose to work with the provided data (which is advised in case you are working offline or have a slow/unstable network connection) you can skip the remaining part of the block and continue with the following section: [Dask-powered rasters](#Dask-powered-rasters).
+
+If you want instead to experiment with downloading the data on-the-fly, you need to load the file `rhodes_sentinel-2.json`, which contains information on where and how to access the target satellite images from the remote repository:
 
 ```python
 import pystac
-items = pystac.ItemCollection.from_file("search.json")
+items = pystac.ItemCollection.from_file("rhodes_sentinel-2.json")
 ```
 
-We select the last scene, extract the URLs of the red ("red") and near-infrared ("nir") bands, open them with
-`rioxarray` and save them to disk:
+You can then select the first item in the collection, which is the most recent in the sequence:
 
 ```python
-import rioxarray
-rioxarray.open_rasterio(items[-1].assets["red"].href).rio.to_raster("red.tif", driver="COG")
-rioxarray.open_rasterio(items[-1].assets["nir"].href).rio.to_raster("nir.tif", driver="COG")
+item = items[0]
+print(item)
 ```
+
+```output
+<Item id=S2A_35SNA_20230827_0_L2A>
+```
+
+In this episode we will consider the red and near infrared bands associated with this scene. We extract the URL / `href` (Hypertext Reference) that point to each of the raster files, and store these in variables that we can use later on instead of the raster data paths to access the data:
+
+```python
+rhodes_red_href = item.assets["red"].href  # red band
+rhodes_nir_href = item.assets["nir"].href  # near-infrared band
+```
+
+:::
 
 ## Dask-powered rasters
 
@@ -93,7 +99,8 @@ open the red band raster using a chunk shape of `(1, 4000, 4000)` (block size of
 of `4000` in the second and third dimensions):
 
 ```python
-red = rioxarray.open_rasterio("red.tif", chunks=(1, 4000, 4000))
+import rioxarray
+red = rioxarray.open_rasterio("data/sentinel2/red.tif", chunks=(1, 4000, 4000))
 ```
 
 Xarray and Dask also provide a graphical representation of the raster data array and of its blocked structure.
@@ -124,7 +131,7 @@ the file. Which other elements do you think should be considered when choosing t
 
 ```python
 import rasterio
-with rasterio.open("red.tif") as r:
+with rasterio.open("data/sentinel2/red.tif") as r:
     if r.is_tiled:
         print(f"Chunk size: {r.block_shapes}")
 ```
@@ -141,14 +148,14 @@ the shape might be relevant, depending on the application! Here, we might select
 `(1, 6144, 6144)`::
 
 ```python
-red = rioxarray.open_rasterio("red.tif", chunks=(1, 6144, 6144))
+red = rioxarray.open_rasterio("data/sentinel2/red.tif", chunks=(1, 6144, 6144))
 ```
 
 which leads to chunks 72 MB large: ((1 x 6144 x 6144) x 2 bytes / 2^20 = 72 MB). Also, we can let rioxarray and Dask
 figure out appropriate chunk shapes by setting `chunks="auto"`:
 
 ```python
-red = rioxarray.open_rasterio("red.tif", chunks="auto")
+red = rioxarray.open_rasterio("data/sentinel2/red.tif", chunks="auto")
 ```
 
 which leads to `(1, 8192, 8192)` chunks (128 MB).
@@ -167,8 +174,8 @@ Let us set up an example where we calculate the NDVI for a full Sentinel-2 tile,
 To run the calculation serially, we open the relevant raster bands, as we have learned in the previous episodes:
 
 ```python
-red = rioxarray.open_rasterio('red.tif', masked=True)
-nir = rioxarray.open_rasterio('nir.tif', masked=True)
+red = rioxarray.open_rasterio('data/sentinel2/red.tif', masked=True)
+nir = rioxarray.open_rasterio('data/sentinel2/nir.tif', masked=True)
 ```
 
 We then compute the NDVI. Note the Jupyter magic `%%time`, which returns the time required to run the content of a cell (note that commands starting with `%%` needs to be on the first line of the cell!):
@@ -188,8 +195,8 @@ We note down the calculation's "Wall time" (actual time to perform the task).
 Now we run the same task in parallel using Dask. To do so, we open the relevant rasters as chunked arrays:
 
 ```python
-red_dask = rioxarray.open_rasterio('red.tif', masked=True, lock=False, chunks=(1, 6144, 6144))
-nir_dask = rioxarray.open_rasterio('nir.tif', masked=True, lock=False, chunks=(1, 6144, 6144))
+red_dask = rioxarray.open_rasterio('data/sentinel2/red.tif', masked=True, lock=False, chunks=(1, 6144, 6144))
+nir_dask = rioxarray.open_rasterio('data/sentinel2/nir.tif', masked=True, lock=False, chunks=(1, 6144, 6144))
 ```
 
 Setting `lock=False` tells `rioxarray` that the individual data chunks can be loaded simultaneously from the source by

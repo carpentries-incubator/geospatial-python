@@ -49,41 +49,53 @@ For this episode, we will use one of the Sentinel-2 scenes that we have already 
 
 ## Introduce the Data
 
-We'll continue from the results of the satellite image search that we have carried out in an exercise from
-[a previous episode](05-access-data.md). We will load data starting from the `search.json` file.
+We will use satellite images from the search that we have carried out in [the episode: "Access satellite imagery using Python"](05-access-data.md). Briefly, we have searched for Sentinel-2 scenes of Rhodes from July 1st to August 31st 2023 that have less than 1% cloud coverage. The search resulted in 11 scenes. We focus here on the most recent scene (August 27th), since that would show the situation after the wildfire, and use this as an example to demonstrate raster calculations.
 
-If you would like to work with the data for this lesson without downloading data on-the-fly, you can download the
-raster data using this [link](https://figshare.com/ndownloader/files/36028100). Save the `geospatial-python-raster-dataset.tar.gz`
-file in your current working directory, and extract the archive file by double-clicking on it or by running the
-following command in your terminal `tar -zxvf geospatial-python-raster-dataset.tar.gz`. Use the file `geospatial-python-raster-dataset/search.json`
-(instead of `search.json`) to get started with this lesson.
+For your convenience, we have included the scene of interest among the datasets that you have already downloaded when following [the setup instructions](../learners/setup.md). You should, however, be able to download the satellite images "on-the-fly" using the JSON metadata file that was created in [the previous episode](05-access-data.md) (the file `rhodes_sentinel-2.json`).
 
-:::
+If you choose to work with the provided data (which is advised in case you are working offline or have a slow/unstable network connection) you can skip the remaining part of the block.
 
-Let's load the results of our initial imagery search using `pystac`:
+If you want instead to experiment with downloading the data on-the-fly, you need to load the file `rhodes_sentinel-2.json`, which contains information on where and how to access the target satellite images from the remote repository:
 
 ```python
 import pystac
 items = pystac.ItemCollection.from_file("rhodes_sentinel-2.json")
 ```
 
-We then select the first item, and extract the URLs of the red and NIR bands ("red" and "nir", respectively):
+You can then select the first item in the collection, which is the most recent in the sequence:
 
 ```python
 item = items[0]
-red_href = item.assets["red"].get_absolute_href()
-nir_href = item.assets["nir"].get_absolute_href()
+print(item)
 ```
 
-Let's load the rasters with `open_rasterio` using the argument `masked=True`.
+```output
+<Item id=S2A_35SNA_20230827_0_L2A>
+```
+
+In this episode we will consider a number of bands associated with this scene. We extract the URL / `href` (Hypertext Reference) that point to each of the raster files, and store these in variables that we can use later on instead of the raster data paths to access the data:
+
+```python
+rhodes_red_href = item.assets["red"].href  # red band
+rhodes_green_href = item.assets["green"].href  # green band
+rhodes_blue_href = item.assets["blue"].href  # blue band
+rhodes_nir_href = item.assets["nir"].href  # near-infrared band
+rhodes_swir16_href = item.assets["swir16"].href  # short-wave infrared (1600 nm) band
+rhodes_swir22_href = item.assets["swir22"].href  # short-wave infrared (2200 nm) band
+rhodes_visual_href = item.assets["visual"].href  # true-color image
+```
+
+:::
+
+Let's load the red and NIR band rasters with `open_rasterio` using the argument `masked=True`:
 
 ```python
 import rioxarray
-red = rioxarray.open_rasterio(red_href, masked=True)
-nir = rioxarray.open_rasterio(nir_href, masked=True)
+red = rioxarray.open_rasterio("data/sentinel2/red.tif", masked=True)
+nir = rioxarray.open_rasterio("data/sentinel2/nir.tif", masked=True)
 ```
 
-Let’s also restrict our analysis to the island of Rhodes - we can extract the bounding box from the vector file written
+Let’s restrict our analysis to the island of Rhodes - we can extract the bounding box from the vector file written
 in an earlier episode (note that we need to match the CRS to the one of the raster files):
 
 ```python
@@ -184,11 +196,11 @@ ndvi.plot.hist()
 
 Calculate the other two indices required to compute the burned area classification mask, specifically:
 
-* The [normalized difference water index (NDWI)](https://en.wikipedia.org/wiki/Normalized_difference_water_index), derived from the **green** and **NIR** bands (with band ID "green" and "nir", respectively):
+* The [normalized difference water index (NDWI)](https://en.wikipedia.org/wiki/Normalized_difference_water_index), derived from the **green** and **NIR** bands (file "green.tif" and "nir.tif", respectively):
 
 $$ NDWI = \frac{green - NIR}{green + NIR} $$
 
-* A custom index derived from the  1600 nm and the 2200 nm **short-wave infrared (SWIR)** bands ( "swir16" and "swir22", respectively):
+* A custom index derived from the  1600 nm and the 2200 nm **short-wave infrared (SWIR)** bands ( "swir16.tif" and "swir22.tif", respectively):
 
 $$ INDEX = \frac{SWIR_{16} - SWIR_{22}}{SWIR_{16} + SWIR_{22}}$$
 
@@ -197,17 +209,17 @@ What challenge do you foresee in combining the data from the two indices?
 ::::solution
 
 ```python
-def get_band_and_clip(item, band_name, bbox):
-    href = item.assets[band_name].get_absolute_href()
-    band = rioxarray.open_rasterio(href, masked=True)
+def get_band_and_clip(band_path, bbox):
+    band = rioxarray.open_rasterio(band_path, masked=True)
     return band.rio.clip_box(*bbox)
 ```
 
 
 ```python
-green_clip = get_band_and_clip(item, 'green', bbox)
-swir16_clip = get_band_and_clip(item, 'swir16', bbox)
-swir22_clip = get_band_and_clip(item, 'swir22', bbox)
+data_path = 'data/sentinel2'
+green_clip = get_band_and_clip(f'{data_path}/green.tif', bbox)
+swir16_clip = get_band_and_clip(f'{data_path}/swir16.tif', bbox)
+swir22_clip = get_band_and_clip(f'{data_path}/swir22.tif', bbox)
 ```
 
 
@@ -255,7 +267,7 @@ ndwi_match = ndwi.rio.reproject_match(index)
 Finally, we also fetch the blue band data and match this and the NIR band data to the template:
 
 ```python
-blue_clip = get_band_and_clip(item, 'blue', bbox)
+blue_clip = get_band_and_clip(f'{data_path}/blue.tif', bbox)
 blue_match = blue_clip.rio.reproject_match(index)
 nir_match = nir_clip.rio.reproject_match(index)
 ```
@@ -283,8 +295,7 @@ burned = burned.squeeze()
 Let's now fetch and visualize the true color image of Rhodes, after coloring the pixels identified as burned area in red:
 
 ```python
-visual_href = item.assets['visual'].get_absolute_href()
-visual = rioxarray.open_rasterio(visual_href)
+visual = rioxarray.open_rasterio(f'{data_path}/visual.tif')
 visual_clip = visual.rio.clip_box(*bbox)
 ```
 
