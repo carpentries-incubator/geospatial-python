@@ -434,7 +434,7 @@ https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/35/S/NA/20
 
 From the thumbnails alone we can already observe some dark spots on the island of Rhodes at the bottom right of the image!
 
-In order to open the high-resolution satellite images and investigate the scenes in more detail, we will be using the [`rioxarray` library](https://corteva.github.io/rioxarray). Note that this library can both work with local and remote raster data. At this moment, we will only take a sneak peek of the functionality of this library. We will learn more about it in the next episode.
+In order to open the high-resolution satellite images and investigate the scenes in more detail, we will be using the [`rioxarray` library](https://corteva.github.io/rioxarray). Note that this library can both work with local and remote raster data. At this moment, we will only quickly look at the functionality of this library. We will learn more about it in the next episode.
 
 Now let us focus on the red band by accessing the item `red` from the assets dictionary and get the Hypertext Reference (also known as URL) attribute using `.href` after the item selection.
 
