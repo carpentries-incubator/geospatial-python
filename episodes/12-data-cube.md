@@ -127,7 +127,7 @@ Then, we calculate the NDVI:
 ndvi = (nir_masked - red_masked) / (nir_masked + red_masked)
 ```
 
-We can visualize the NDVI calculated for the AoI at two given dates (before and after the wildfires):
+We can visualize the calculated NDVI for the AoI at two given dates (before and after the wildfires) by selecting the date:
 
 ```python
 ndvi_before = ndvi.sel(time="2023-07-13")
