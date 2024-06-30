@@ -416,10 +416,10 @@ One can also use the `where` function, which is standard python functionality, t
 ```python
 rhodes_red_altmask_80 = rhodes_red_80.where(rhodes_red_80!=rhodes_red_80.rio.nodata)
 ```
-*[comment mdk]: Do I get it right, that this is actually the same as we have sone above with the masking?
 
 Either way will change the `nodata` value from 0 to `nan`. Now if we compute the statistics again, the missing data will not be considered. Let´s compare them:
-```
+
+```python
 print(rhodes_red_80.min())
 print(rhodes_red_mask_80.min())
 print(rhodes_red_80.max())
@@ -428,7 +428,7 @@ print(rhodes_red_80.mean())
 print(rhodes_red_mask_80.mean())
 print(rhodes_red_80.std())
 print(rhodes_red_mask_80.std())
-```python
+```
 
 ```output
 <xarray.DataArray ()> Size: 2B
