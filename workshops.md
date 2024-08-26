@@ -4,4 +4,4 @@
 | 2023-05-08        | Netherlands eScience Center | Online                     |                            |
 | 2023-10-10        | Netherlands eScience Center | Amsterdam, The Netherlands |                            |
 | 2024-05-13        | Netherlands eScience Center | Amsterdam, The Netherlands |                            |
-| 2024-07-91        | Netherlands eScience Center | Online                     | Unigis Master VU Amsterdam |
+| 2024-07-01        | Netherlands eScience Center | Amsterdam, The Netherlands                     | Unigis Master VU Amsterdam |
