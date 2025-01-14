@@ -314,7 +314,7 @@ following syntax (see [docs](https://pystac-client.readthedocs.io/en/stable/usag
 
 ```python
 search = client.search(
-    collections=[collection],
+    collections=[collection_sentinel_2_l2a],
     intersects=point,
     datetime='2023-07-01/2023-08-31',
     query=['eo:cloud_cover<1']
