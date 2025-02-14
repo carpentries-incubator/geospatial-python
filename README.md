@@ -5,6 +5,13 @@
 ## The Lesson
 Check out https://carpentries-incubator.github.io/geospatial-python/ to view the lesson as it currently stands. Episodes 1-7 and Episode 12 are currently complete. Epsiodes 1-7 have been taught previously in workshop settings, read more about that experience and feedback [here](https://carpentries.org/blog/2020/03/teaching-a-new-geospatial-python-lesson/). Other episodes still need to be fleshed out and we welcome contributions!
 
+## Teaching this lesson?
+Do you want to Introduction to Geospatial Raster and Vector Data with Python? This material is open-source and freely available. 
+Are you planning on using our material in your teaching? 
+We would love to help you prepare to teach the lesson and receive feedback on how it could be further improved, based on your experience in the workshop.
+
+You can notify us that you plan to teach this lesson by creating an issue in this repository. Also, it would be great if you can update [this overview of all workshops taught with this lesson material](workshops.md). This helps us show the impact of developing open-source lessons to our funders.
+
 ## Contributing
 
 We welcome all contributions to improve the lesson! Maintainers will do their best to help you if you have any questions, concerns, or experience any difficulties along the way.
