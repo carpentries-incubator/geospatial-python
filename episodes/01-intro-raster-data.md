@@ -15,15 +15,14 @@ exercises: 5
 - Describe the strengths and weaknesses of storing data in raster format.
 - Distinguish between continuous and categorical raster data and identify types of datasets that would be stored in each format.
 :::
- 
 
 ## Introduction
 
-This episode introduces the two primary types of data models that are used to digitally represent the earth's surface: raster and vector. After briefly introducing these data models, this episode focuses on the raster representation, describing some major features and types of raster data. This workshop will focus on how to work with both raster and vector data sets, therefore it is essential that we understand the basic structures of these types of data and the types of phenomena that they can represent.
+This episode introduces the two primary types of data models that are used to digitally represent the Earth surface: raster and vector. After briefly introducing these data models, this episode focuses on the raster representation, describing some major features and types of raster data. This workshop will focus on how to work with both raster and vector data sets, therefore it is essential that we understand the basic structures of these types of data and the types of phenomena that they can represent.
 
 ## Data Structures: Raster and Vector
 
-The two primary data models that are used to represent the earth's surface digitally are the raster and vector. **Raster data** is stored as a grid of values which are rendered on a map as pixels—also known as cells—where each pixel—or cell—represents a value of the earth's surface. Examples of raster data are satellite images or aerial photographs. Data stored according to the **vector data** model are represented by points, lines, or polygons. Examples of vector representation are points of interest, buildings—often represented as building footprints—or roads.
+The two primary data models that are used to represent the Earth surface digitally are the raster and vector. **Raster data** is stored as a grid of values which are rendered on a map as pixels (also known as cells) where each pixel (or cell) represents a value of the Earth surface. Examples of raster data are satellite images or aerial photographs. Data stored according to the **vector data** model are represented by points, lines, or polygons. Examples of vector representation are points of interest, buildings (often represented as building footprints) or roads.
 
 Representing phenomena as vector data allows you to add attribute information to them. For instance, a polygon of a house can contain multiple attributes containing information about the address like the street name, zip code, city, and number. More explanations about vector data will be discussed in the [next episode](02-intro-vector-data.md).
 
@@ -129,7 +128,7 @@ of changes in resolution.
 ### Raster Data Format for this Workshop
 
 Raster data can come in many different formats. For this workshop, we will use
-the GeoTIFF format which has the extension `.tif`, since this is one of the most common formats to be used. 
+one of the most common formats for raster data, i.e. the GeoTIFF format, which has the extension `.tif`. 
 A `.tif` file stores metadata or attributes about the file as embedded `tif tags`. For instance, your camera
 might store a tag that describes the make and model of the camera or the date
 the photo was taken when it saves a `.tif`. A GeoTIFF is a standard `.tif` image

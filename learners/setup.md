@@ -6,15 +6,15 @@ title: Setup
 
 1. Create a new directory on your Desktop called `geospatial-python`.
 2. Within `geospatial-python`, create a directory called `data`.
-3. Download the data required for this lesson via [this link](https://figshare.com/ndownloader/articles/25721754/versions/3) (612MB).
-4. Unzip downloaded files and save them to the just created `data` directory.
+3. Download the data required for this lesson via [this link](https://figshare.com/ndownloader/articles/25721754/versions/3) (678MB).
+4. Unzip the downloaded file and save its content into the just created `data` directory.
 
 Now you should have the following files in the `data` directory:
 
-- `sentinel-2` - This is a directory containing multiple bands of Sentinel-2 raster images over the island of Rhodes, on Aug 27, 2023. 
-- `dem/rhodes_dem.tif` - This is the Digital Elevation Model (DEM) of the island of Rhodes, retrieved from [Copernicus Digital Elevation Model (GLO-30 instance)](https://spacedata.copernicus.eu/collections/copernicus-digital-elevation-model) and modified for this course.
-- `gadm/ADM_ADM_3.gpkg` - This is the administration boundaries of Rhodes, downloaded from [GADM](https://gadm.org/) and modified for this course.
-- `osm/osm_landuse.gpkg` and `osm/osm_roads.gpkg` - They are landuse poylgons and roads polylines of Rhodes, downloaded from [Openstreetmaps](www.openstreetmaps.org) via [Geofabrik](http://www.geofabrik.de/data/download.html) and modified for this course.
+- `sentinel-2` - This is a directory containing multiple bands of Sentinel-2 raster images collected over the island of Rhodes on Aug 27, 2023. 
+- `dem/rhodes_dem.tif` - This is the Digital Elevation Model (DEM) of the island of Rhodes, retrieved from the [Copernicus Digital Elevation Model (GLO-30)](https://spacedata.copernicus.eu/collections/copernicus-digital-elevation-model). The original tiles have been cropped and mosaicked for this lesson.
+- `gadm/ADM_ADM_3.gpkg` - This is the administration boundaries of Rhodes, downloaded from [GADM](https://gadm.org/) and modified for this lesson.
+- `osm/osm_landuse.gpkg` and `osm/osm_roads.gpkg` - They are land-use poylgons and roads polylines of Rhodes, downloaded from [Openstreetmaps](www.openstreetmaps.org) via [Geofabrik](https://www.geofabrik.de/data/download.html) and modified for this lesson.
 
 ## Software Setup
 
@@ -125,15 +125,6 @@ command in your terminal (use the **Anaconda prompt** on **Windows**).
    IMPORTANT: If your terminal responds to the above command with `conda: command not found` see the [Troubleshooting section](#troubleshooting-conda-command-not-found).
 
 3. Create the Python environment for the workshop by running:
-
-   The main python libraries that are used in this lesson are:
-   - [geopandas](https://geopandas.org/en/stable/)
-   - [rioxarray](https://github.com/corteva/rioxarray)
-   - [xarray-spatial](https://xarray-spatial.org/)
-   - [dask](https://www.dask.org/)
-   - [pystac](https://pystac.readthedocs.io/en/stable/)
-
-   In order to **not** have to install all these libraries and their dependencies seperately, a .yaml configuration file has been created which will install all of them automatically. (If you still want to install all these packages seperately you could use `pip`. However, the easiest way is just to execute the .yaml file run the following command:
 
    ```bash
    mamba env create -n geospatial -f https://raw.githubusercontent.com/carpentries-incubator/geospatial-python/main/files/environment.yaml

@@ -5,11 +5,12 @@ exercises: 0
 ---
 
 :::questions
-- a
+- Can I mosaic tiled raster datasets when my area of interest spans multiple files?   
+- Can I stack raster datasets that cover the same area along the time dimension in order to explore temporal changes of some quantities? 
 :::
 
 :::objectives
-- a
+- ODC-STAC allows you to work with raster datasets spanning multiple files as if they were a single multi-dimensional object (a "data cube").
 :::
 
 ## Introduction

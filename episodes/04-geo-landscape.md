@@ -51,7 +51,7 @@ The [Open Source Geospatial Foundation (OSGEO)](https://www.osgeo.org/) supports
   GRASS GIS, it can also be installed and made accessible in QGIS3.
   * [PostGIS](https://postgis.net/) is a geospatial extension to the PostGreSQL
   relational database and is especially suited to work with large vector datasets.
-  * [GeoDMS](https://geodms.nl/) is a powerful Open sources GIS which allows for
+  * [GeoDMS](https://geodms.nl/) is a powerful Open Source GIS software which allows for
   fast calculations and calculations with large datasets. Furthermore it allows for complex scenario analyses.
 
 ### Commercial software
@@ -65,7 +65,7 @@ The [Open Source Geospatial Foundation (OSGEO)](https://www.osgeo.org/) supports
   ArGIS Online which you host locally. ESRI welcomes development on their platforms
   through their [DevLabs](https://developers.arcgis.com/). ArcGIS software can be
   installed using
-  [Chef Cookbooks from Github](https://github.com/Esri/arcgis-cookbook). In addition, ESRI offers the [arcpy python library](https://pro.arcgis.com/en/pro-app/3.1/arcpy/get-started/what-is-arcpy-.htm) as part of an ArcGIS pro licence allowing bring all operations from the ArcGIS pro GUI to the python ecosystem.
+  [Chef Cookbooks from Github](https://github.com/Esri/arcgis-cookbook). In addition, ESRI offers the [ArcPy Python library](https://pro.arcgis.com/en/pro-app/latest/arcpy/get-started/what-is-arcpy-.htm) as part of an ArcGIS Pro licence, allowing to translate operations in the ArcGIS Pro GUI to Python scripts.
   * Pitney Bowes produce [MapInfo Professional](https://www.pitneybowes.com/us/location-intelligence/geographic-information-systems/mapinfo-pro.html),
   which was one of the earliest desktop GIS programs on the market.
   * [Hexagon Geospatial Power Portfolio](https://www.hexagongeospatial.com/products/products)
@@ -163,7 +163,7 @@ are other popular options for data science.
 
 Traditional GIS apps are also moving back towards providing a scripting environment for
 users, further blurring the CLI/GUI divide. ESRI have adopted Python into their
-software by introducing [arcpy](https://developers.arcgis.com/documentation/arcgis-add-ins-and-automation/arcpy/), and QGIS is both Python and R-friendly.
+software by introducing [ArcPy](https://developers.arcgis.com/documentation/arcgis-add-ins-and-automation/arcpy/), and QGIS is both Python and R-friendly.
 
 ## GIS File Types
 
@@ -176,10 +176,10 @@ raster file types.
 | File Type | Extensions | Description |
 | --------- | ---------- | ----------- |
 | Esri Shapefile | .SHP .DBF .SHX | The most common geospatial file type. This has become the industry standard. The three required files are: SHP is the feature geometry. SHX is the shape index position. DBF is the attribute data. |
-| GeoPackage | .gpkg | As an alternative for a Shapfile. This open file format is gaining terrain and exists of one file containing all necessary attribute information. |
+| GeoPackage | .gpkg | As an alternative to Shapefile, this open file format is gaining terrain and it consists of one file containing all necessary attribute information. |
 | Geographic JavaScript Object Notation (GeoJSON) | .GEOJSON .JSON |Used for web-based mapping and uses JavaScript Object Notation to store the coordinates as text. |
 | Google Keyhole Markup Language (KML) | .KML .KMZ | KML stands for Keyhole Markup Language. This GIS format is XML-based and is primarily used for Google Earth. |
-| GPX or GPS Exchange Format | .gpx | Is an XML schema designed as a common GPS data format for software applications. This format is often used for tracking activities e.g. hiking, cycling, running etc. |
+| GPX or GPS Exchange Format | .gpx | XML schema designed as a common GPS data format for software applications. This format is often used for tracking activities e.g. hiking, cycling, running etc. |
 | OpenStreetMap | .OSM | OSM files are the native file for OpenStreetMap which had become the largest crowdsourcing GIS data project in the world. These files are a collection of vector features from crowd-sourced contributions from the open community. |
 
 ### Raster

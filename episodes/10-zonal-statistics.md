@@ -68,10 +68,13 @@ geom
 ```
 
 ```output
-[[<POLYGON ((569708.927 3972332.358, 569709.096 3972333.79, 569710.406 3972341...>,
+[[<POLYGON ((602761.27 4013139.375, 602764.522 4013072.287, 602771.476 4012998...>,
   1],
- [<MULTIPOLYGON (((567767.095 3970740.732, 567767.548 3970741.604, 567772.083 ...>,
-  2]]
+ [<POLYGON ((602779.808 4013298.838, 602772.497 4013266.01, 602768.577 4013242...>,
+  1],
+ [<POLYGON ((602594.855 4012962.661, 602593.423 4012983.028, 602588.485 401302...>,
+  1],
+  ...]
 ```
 
 The raster image `burned` is a 3D image with a "band" dimension.
@@ -81,7 +84,7 @@ burned.shape
 ```
 
 ```output
-(1, 1131, 1207)
+(1, 4523, 4828)
 ```
 
 To create the grid space, we only need the two spatial dimensions. We can used `.squeeze()` to drop the band dimension:
@@ -92,7 +95,7 @@ burned_squeeze.shape
 ```
 
 ```output
-(1131, 1207)
+(4523, 4828)
 ```
 
 Now we can use `features.rasterize` from `rasterio` to rasterize the vector data `assets` to the grid space of `burned`:
@@ -123,7 +126,7 @@ assets_rasterized_xarr.data = assets_rasterized
 assets_rasterized_xarr.plot()
 ```
 
-![](../fig/E10/zones_rasterized_xarray.png){alt="Rasterized zones"}
+![](fig/E10/zones_rasterized_xarray.png){alt="Rasterized zones"}
 
 Then we can calculate the zonal statistics using the `zonal_stats` function:
 
@@ -134,10 +137,10 @@ stats
 ```
 
 ```output
-    zone	  mean	    max	min	sum	    std	      var	      count
-0	    0	    0.022570	1.0	0.0	28929.0	0.148528	0.022061	1281749.0
-1	    1	    0.009607	1.0	0.0	568.0	  0.097542	0.009514	59125.0
-2	    2	    0.000000	0.0	0.0	0.0	    0.000000	0.000000	24243.0
+   zone      mean  max  min       sum       std       var       count
+0     0  0.023504  1.0  0.0  485164.0  0.151498  0.022952  20641610.0
+1     1  0.010361  1.0  0.0    9634.0  0.101259  0.010253    929853.0
+2     2  0.000004  1.0  0.0       1.0  0.001940  0.000004    265581.0
 ```
 
 The results provide statistics for three zones: `1` represents infrastructure regions, `2` represents built-up regions, and `0` represents the rest of the area.

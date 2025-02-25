@@ -55,14 +55,14 @@ CRS information has three components:
 degrees) and defines the starting point (i.e. where is [0,0]?) so the angles
 reference a meaningful spot on the earth. Common global datums are WGS84 and
 NAD83. Datums can also be local - fit to a particular area of the globe, but
-ill-fitting outside the area of intended use For instance local Cadastre, Land Registry and Mapping Agencies require a high quality of their datasets, which can be obtained using a local system. In this workshop, we will use the
+ill-fitting outside the area of intended use. For instance local cadastre, land registry and mapping agencies require a high quality for their datasets, which can be obtained using a local system. In this lesson, we will use the
 [WGS84 datum](https://www.linz.govt.nz/data/geodetic-system/datums-projections-and-heights/geodetic-datums/world-geodetic-system-1984-wgs84). The datum is often also refered to as the Geographical Coordinate System.
 
 * **Projection:** A mathematical transformation of the angular measurements on a
 round earth to a flat surface (i.e. paper or a computer screen). The units
 associated with a given projection are usually linear (feet, meters, etc.). In
 this workshop, we will see data in two different projections.
-Note that the projection is also often refered to as Projected Coordinate System.
+Note that the projection is also often referred to as Projected Coordinate System.
 
 * **Additional Parameters:** Additional parameters are often necessary to create
 the full coordinate reference system. One common additional parameter is a
@@ -91,7 +91,7 @@ stem of the fruit. What other parameters could be included in this analogy?
 
 ## Which projection should I use?
 
-A well know projection is the [Mercator projection](https://en.wikipedia.org/wiki/Mercator_projection) introduced by the Flamisch Cartographer Gerardus Mercator in the 16th Century. This so-called cilindrical projection, meaning that a virtual cilinder is place on the globe to flatten it, it relatively accurate near to the equator, but towards the poles blows things up see:[Cylindrical projection](https://gisgeography.com/cylindrical-projection/). The main advantage of the Mercator projection is that it is very suitable for navigation purpuses since it always north as *up* and south and as *down*, in the 17th century this projection was essential for sailors to navigate the oceans.
+A well know projection is the [Mercator projection](https://en.wikipedia.org/wiki/Mercator_projection) introduced by the Flemisch cartographer Gerardus Mercator in the 16th Century. This is a so-called cilindrical projection, meaning that a virtual cilinder is placed around the globe to flatten it. This type of projections are relatively accurate near to the equator, but towards the poles blows things up (more info on cylindrical projections [here](https://gisgeography.com/cylindrical-projection/). The main advantage of the Mercator projection is that it is very suitable for navigation purposes since it always shows North as *up* and South and as *down* - in the 17th century this projection was essential for sailors to navigate the oceans.
 
 To decide if a projection is right for your data, answer these questions:
 
@@ -214,11 +214,11 @@ generated and maintained manually.
 * [Choosing the Right Map Projection.](https://source.opennews.org/en-US/learning/choosing-right-map-projection/)
 * [Video](https://www.youtube.com/embed/KUF_Ckv8HbE) highlighting how map projections can make continents
 seems proportionally larger or smaller than they actually are.
-* [The True size](https://www.thetruesize.com/) An intuitive webmap that allows you to drag countries to another place in the webmercator projection.
+* [The True size](https://www.thetruesize.com/) An intuitive webmap that allows you to compare the actual size of countries by dragging them to another place in the webmercator projection.
 :::
 
 :::keypoints
 - All geospatial datasets (raster and vector) are associated with a specific coordinate reference system.
 - A coordinate reference system includes datum, projection, and additional parameters specific to the dataset.
-- All maps are distored because of the projection.
+- All maps are distorted because of the projection.
 :::

@@ -90,9 +90,9 @@ their features to real-world locations.
 ## Vector Data Format for this Workshop
 
 Like raster data, vector data can also come in many different formats. For this
-workshop, we will use the GeoPackage format. GeoPackage is developed by the [Open Geospatial Consortium](https://www.ogc.org/) and is *is an open, standards-based, platform-independent, portable, self-describing, compact format for transferring geospatial information.* (source: [https://www.geopackage.org/](https://www.geopackage.org/) ) A GeoPackage file, **.gpkg**, is a single file that contains the geometries of features, their attributes and information about the CRS used.  
+workshop, we will use the GeoPackage format. GeoPackage is developed by the [Open Geospatial Consortium](https://www.ogc.org/) and is *is an open, standards-based, platform-independent, portable, self-describing, compact format for transferring geospatial information* (source: [https://www.geopackage.org/](https://www.geopackage.org/)). A GeoPackage file, with extension **.gpkg**, is a single file that contains the geometries of features, their attributes and information about the coordinate reference system (CRS) used.  
 
-Another vector format that you will probably come accross quite often is a Shapefile. Although we will not be using that format in this workshop we do believe it is useful to understand how that format works. A Shapefile format consists of multiple files in the same directory, of which `.shp`, `.shx`, and `.dbf` files are mandatory. Other non-mandatory but very important files are `.prj` and `shp.xml` files.
+Another vector format that you will probably come accross quite often is a Shapefile. Although we will not be using this format in this lesson we do believe it is useful to understand how the Shapefile format works. Shapefile is a multi-file format, with each shapefile consisting of multiple files in the same directory, of which `.shp`, `.shx`, and `.dbf` files are mandatory. Other non-mandatory but very important files are `.prj` and `shp.xml` files.
 
 - The `.shp` file stores the feature geometry itself
 - `.shx` is a positional index of the feature geometry to allow quickly searching forwards and backwards the geographic coordinates of each vertex in the vector
