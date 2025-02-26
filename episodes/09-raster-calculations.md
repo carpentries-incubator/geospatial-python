@@ -141,7 +141,7 @@ print(red_clip.shape, nir_clip.shape)
 ```
 
 ```output
-(1, 1131, 1207) (1, 1131, 1207)
+(1, 4523, 4828) (1, 4523, 4828)
 ```
 
 The shapes of the two rasters match (and, not shown, the coordinates and the CRSs match too).
@@ -255,21 +255,18 @@ ndvi.rio.resolution(), ndwi.rio.resolution(), index.rio.resolution()
 :::
 
 In order to combine data from the computed indices, we use the `reproject_match` method, which reprojects, clips and
-match the resolution of a raster using another raster as a template. We use the `index` raster as a template, and match
-`ndvi` and `ndwi` to its resolution and extent:
+match the resolution of a raster using another raster as a template. We use the `ndvi` raster as a template, and match `index` and `swir16_clip` to its resolution and extent:
 
 
 ```python
-ndvi_match = ndvi.rio.reproject_match(index)
-ndwi_match = ndwi.rio.reproject_match(index)
+index_match = index.rio.reproject_match(ndvi)
+swir16_match = swir16_clip.rio.reproject_match(ndvi)
 ```
 
-Finally, we also fetch the blue band data and match this and the NIR band data to the template:
+Finally, we also load the blue band data and clip it to the area of interest:
 
 ```python
 blue_clip = get_band_and_clip(f'{data_path}/blue.tif', bbox)
-blue_match = blue_clip.rio.reproject_match(index)
-nir_match = nir_clip.rio.reproject_match(index)
 ```
 
 We can now go ahead and compute the binary classification mask for burned areas. Note that we need to convert the unit
@@ -278,10 +275,10 @@ of the Sentinel-2 bands [from digital numbers to reflectance](https://docs.senti
 
 ```python
 burned = (
-    (ndvi_match <= 0.3) &
-    (ndwi_match <= 0.1) &
-    ((index + nir_match/10_000) <= 0.1) &
-    ((blue_match/10_000) <= 0.1) &
+    (ndvi <= 0.3) &
+    (ndwi <= 0.1) &
+    ((index_match + nir_clip/10_000) <= 0.1) &
+    ((blue_clip/10_000) <= 0.1) &
     ((swir16_clip/10_000) >= 0.1)
 )
 ```

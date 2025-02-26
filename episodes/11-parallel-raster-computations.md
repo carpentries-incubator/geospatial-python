@@ -268,7 +268,7 @@ as additional argument `lock=threading.Lock()`. This is because the threads whic
 
 ```python
 from threading import Lock
-ndvi_dask.rio.to_raster('ndvi.tif', driver='COG', lock=Lock())
+ndvi_dask.rio.to_raster('ndvi.tif', tiled=True, lock=Lock())
 ```
 
 Note that `.to_raster()` is among the methods that trigger immediate calculations (one can change this behaviour by

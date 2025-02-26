@@ -167,9 +167,9 @@ visual_clip.plot.imshow()
 ![](fig/E08/visual_clip.png){alt="Clip results"}
 
 :::challenge
-## Exercise: Get the red band for the Rhodes
+## Exercise: Clip the red band for Rhodes
 
-Now that you have seen how clip a raster using a polygon, we want you to do this for the red band of the sattelite image. Use the shape of Rhodes from GADM and clip the red band with it. Furthermore, make sure to transform the no data values to Not a Number values.     
+Now that you have seen how clip a raster using a polygon, we want you to do this for the red band of the satellite image. Use the shape of Rhodes from GADM and clip the red band with it. Furthermore, make sure to transform the no data values to not-a-number (NaN) values.     
 
 ::::solution
 ```python
@@ -178,12 +178,12 @@ Now that you have seen how clip a raster using a polygon, we want you to do this
 # Step 1 - Load the datasets - Vector data
 
 import geopandas as gpd
-gdf_greece = gpd.read_file('./data_workshop/gadm/ADM_ADM_3.gpkg')
-gdf_rhodes = gdf_greece.loc[gdf_greece['NAME_3']=='Rhodos']
+gdf_greece = gpd.read_file('./data/gadm/ADM_ADM_3.gpkg')
+gdf_rhodes = gdf_greece[gdf_greece['NAME_3']=='Rhodos']
 
 # Step 2 - Load the raster red band
 import rioxarray
-path_red = './data_workshop/sentinel2/red.tif'
+path_red = './data/sentinel2/red.tif'
 red = rioxarray.open_rasterio(path_red, overview_level=1)
 
 # Step 3 - It will not work, since it is not projected yet
@@ -204,7 +204,7 @@ red_clip_nan.plot()
 
 ```
 
-![](fig/E08/solution_excercise.png){alt="rhodes_builtup_buffer"}
+![](fig/E08/solution_exercise.png){alt="rhodes_builtup_buffer"}
 
 ::::
 :::

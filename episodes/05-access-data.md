@@ -184,7 +184,7 @@ search = client.search(
 )
 ```
 
-Now we submit the query in order te find out how many scenes match our search criteria with the parameters assigned above (please note that this output can be different as more data is added to the catalog to when this episode was created):
+Now we submit the query in order to find out how many scenes match our search criteria with the parameters assigned above (please note that this output can be different as more data is added to the catalog to when this episode was created):
 
 ```python
 print(search.matched())
@@ -297,7 +297,7 @@ print(item.properties)
 You can access items from the `properties` dictionary as usual in Python. For instance, for the EPSG code of the projected coordinate system:
 
 ```python
-print(item.properties['proj:epsg'])
+print(item.properties['proj:code'])
 ```
 
 ::: challenge

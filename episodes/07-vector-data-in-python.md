@@ -49,7 +49,7 @@ We will use the `geopandas` package to load the file and use the `read_file` fun
 
 ```python
 import geopandas as gpd
-gdf_greece = gpd.read_file('../data/gadm/ADM_ADM_3.gpkg')
+gdf_greece = gpd.read_file('data/gadm/ADM_ADM_3.gpkg')
 ```
 
 We can print out the `gdf_greece`variable:
@@ -117,7 +117,6 @@ gdf_rhodes.plot()
 Now that we have the administrative area of Rhodes Island. We can use the `to_file()` function save this file for future use.
 
 ```python
-# Save the rhodes_boundary to gpkg
 gdf_rhodes.to_file('rhodes.gpkg')
 ```
 
@@ -138,7 +137,7 @@ For this workshop, in particular to not have everyone downloading too much data,
 Let's load the file and plot it:
 
 ```python
-gdf_roads = gpd.read_file('../data/osm/osm_roads.gpkg')
+gdf_roads = gpd.read_file('data/osm/osm_roads.gpkg')
 ```
 
 We can explore it using the same commands as above:
@@ -154,7 +153,7 @@ As you may have noticed, loading and plotting `osm_roads.gpkg` takes a bit long.
 Now let us overwrite the GeoDataframe `gdf_roads` using the mask with the GeoDataFrame `gdf_rhodes` we created above.
 
 ```python
-gdf_roads = gpd.read_file('../data/osm/osm_roads.gpkg', mask=gdf_rhodes)
+gdf_roads = gpd.read_file('data/osm/osm_roads.gpkg', mask=gdf_rhodes)
 ```
 
 Now let us explore these roads using `.explore` (or `.plot`):
@@ -192,7 +191,7 @@ key_infra_labels = ['primary', 'secondary', 'tertiary']
 Now we are using this list make a subselection of the key infrastructure using pandas´ [`.isin` function](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.isin.html).
 
 ```python
-key_infra = gdf_roads.loc[gdf_roads['fclass'].isin(key_infra_labels)]
+key_infra = gdf_roads[gdf_roads['fclass'].isin(key_infra_labels)]
 ```
 
 We can plot the key infrastructure :
@@ -329,14 +328,14 @@ Hints:
 ::::solution
 ```python
 # Read data with a mask of Rhodes
-gdf_landuse = gpd.read_file('./data_workshop/osm/osm_landuse.gpkg', mask=gdf_rhodes)
+gdf_landuse = gpd.read_file('./data/osm/osm_landuse.gpkg', mask=gdf_rhodes)
 
 # Find number of unique landuse types
 print(len(gdf_landuse['fclass'].unique()))
 
 # Extract built-up regions
 builtup_labels = ['commercial', 'industrial', 'residential']
-builtup = gdf_landuse.loc[gdf_landuse['fclass'].isin(builtup_labels)]
+builtup = gdf_landuse[gdf_landuse['fclass'].isin(builtup_labels)]
 
 # Create 10m buffer around the built-up regions
 builtup_buffer = buffer_crs(builtup, 10)
@@ -350,7 +349,7 @@ builtup_buffer.plot()
 
 ```output
 19
-1336
+1349
 ```
 
 ![](fig/E07/rhodes_builtup_buffer.png){alt="rhodes_builtup_buffer"}
