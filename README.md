@@ -57,9 +57,12 @@ https://doi.org/10.5281/zenodo.1404414
 
 ## Maintainer(s)
 
-The current maintainer of this lesson is
+The current maintainers of this lesson are:
 
 * Ryan Avery
+* Francesco Nattino
+* Ou Ku
+* Maurice de Kleijn
 
 ## Citation
 
