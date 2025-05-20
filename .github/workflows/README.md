@@ -2,7 +2,7 @@
 
 This directory contains workflows to be used for Lessons using the {sandpaper}
 lesson infrastructure. Two of these workflows require R (`sandpaper-main.yaml`
-and `pr-recieve.yaml`) and the rest are bots to handle pull request management.
+and `pr-receive.yaml`) and the rest are bots to handle pull request management.
 
 These workflows will likely change as {sandpaper} evolves, so it is important to
 keep them up-to-date. To do this in your lesson you can do the following in your
@@ -43,7 +43,7 @@ This workflow does the following:
 #### Caching
 
 This workflow has two caches; one cache is for the lesson infrastructure and 
-the other is for the the lesson dependencies if the lesson contains rendered
+the other is for the lesson dependencies if the lesson contains rendered
 content. These caches are invalidated by new versions of the infrastructure and
 the `renv.lock` file, respectively. If there is a problem with the cache, 
 manual invaliation is necessary. You will need maintain access to the repository
@@ -94,9 +94,9 @@ branch called `update/workflows` and a pull request is created. Maintainers are
 encouraged to review the changes and accept the pull request if the outputs
 are okay.
 
-This update is run ~~weekly or~~ on demand.
+This update is run weekly or on demand.
 
-### 03 Maintain: Update Pacakge Cache (update-cache.yaml)
+### 03 Maintain: Update Package Cache (update-cache.yaml)
 
 For lessons that have generated content, we use {renv} to ensure that the output
 is stable. This is controlled by a single lockfile which documents the packages
@@ -140,7 +140,7 @@ Once the checks are finished, a comment is issued to the pull request, which
 will allow maintainers to determine if it is safe to run the 
 "Receive Pull Request" workflow from new contributors.
 
-### Recieve Pull Request (pr-recieve.yaml)
+### Receive Pull Request (pr-receive.yaml)
 
 **Note of caution:** This workflow runs arbitrary code by anyone who creates a
 pull request. GitHub has safeguarded the token used in this workflow to have no
@@ -171,7 +171,7 @@ The artifacts produced are used by the next workflow.
 
 ### Comment on Pull Request (pr-comment.yaml)
 
-This workflow is triggered if the `pr-recieve.yaml` workflow is successful.
+This workflow is triggered if the `pr-receive.yaml` workflow is successful.
 The steps in this workflow are:
 
 1. Test if the workflow is valid and comment the validity of the workflow to the
