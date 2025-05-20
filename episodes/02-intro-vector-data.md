@@ -34,7 +34,9 @@ vertex that has a defined x, y location.
 
 * **Polygons:** A polygon consists of 3 or more vertices that are connected and
 closed. The outlines of survey plot boundaries, lakes, oceans, and states or
-countries are often represented by polygons.
+countries are often represented by polygons. Note, that polygons can also contain one 
+or multiple holes, for instance a plot boundary with a lake in it. These polygons are 
+considered *complex* or *donut* polygons. 
 
 :::callout
 ## Data Tip
@@ -56,8 +58,11 @@ are represented by which vector type.
 ::::solution
 ## Solution
 
-State boundaries are polygons. The Fisher Tower location is
-a point. There are no line features shown.
+State boundaries are shown as polygons. The Fisher Tower location is
+represented by a purple point. There are no line features shown. 
+Note, that at a different scale the Fischer Tower coudl also have been represented as a polygon. 
+Keep in mind that the purpose for which the dataset is created and aimed to be used for determines 
+which vector type it uses. 
 ::::
 :::
 
@@ -66,14 +71,14 @@ Vector data has some important advantages:
 * The geometry itself contains information about what the dataset creator thought was important
 * The geometry structures hold information in themselves - why choose point over polygon, for instance?
 * Each geometry feature can carry multiple attributes instead of just one, e.g. a database of cities can have attributes for name, country, population, etc
-* Data storage can be very efficient compared to rasters
+* Data storage can, depending on the scale, be very efficient compared to rasters
+* When working with network analysis, for instance to calculate the shortest route between A and B, topologically correct lines are essential. This is not possible through raster data. 
 
 The downsides of vector data include:
 
-* Potential loss of detail compared to raster
-* Potential bias in datasets - what didn't get recorded?
+* Potential bias in datasets - what didn't get recorded? Often vector data are interpreted datasets like topographical maps and have been collected by someone else, for another purpose.
 * Calculations involving multiple vector layers need to do math on the
-  geometry as well as the attributes, so can be slow compared to raster math.
+  geometry as well as the attributes, which potentially can be slow compared to raster calculations.
 
 Vector datasets are in use in many industries besides geospatial fields. For
 instance, computer graphics are largely vector-based, although the data
@@ -85,8 +90,9 @@ their features to real-world locations.
 ## Vector Data Format for this Workshop
 
 Like raster data, vector data can also come in many different formats. For this
-workshop, we will use the Shapefile format. A Shapefile format consists of multiple
-files in the same directory, of which `.shp`, `.shx`, and `.dbf` files are mandatory. Other non-mandatory but very important files are `.prj` and `shp.xml` files.
+workshop, we will use the GeoPackage format. GeoPackage is developed by the [Open Geospatial Consortium](https://www.ogc.org/) and is *is an open, standards-based, platform-independent, portable, self-describing, compact format for transferring geospatial information* (source: [https://www.geopackage.org/](https://www.geopackage.org/)). A GeoPackage file, with extension **.gpkg**, is a single file that contains the geometries of features, their attributes and information about the coordinate reference system (CRS) used.  
+
+Another vector format that you will probably come accross quite often is a Shapefile. Although we will not be using this format in this lesson we do believe it is useful to understand how the Shapefile format works. Shapefile is a multi-file format, with each shapefile consisting of multiple files in the same directory, of which `.shp`, `.shx`, and `.dbf` files are mandatory. Other non-mandatory but very important files are `.prj` and `shp.xml` files.
 
 - The `.shp` file stores the feature geometry itself
 - `.shx` is a positional index of the feature geometry to allow quickly searching forwards and backwards the geographic coordinates of each vertex in the vector
@@ -114,8 +120,8 @@ objects in a single shapefile.
 
 More about shapefiles can be found on
 [Wikipedia.](https://en.wikipedia.org/wiki/Shapefile) Shapefiles are often publicly
-available from government services, such as [this page from the US Census Bureau][us-cb] or
-[this one from Australia's Data.gov.au website](https://data.gov.au/data/dataset?res_format=SHP).
+available from government services, such as [this page containing all administrative boundaries for countries in the world](https://gadm.org/download_country.html) or
+[topographical vector data from Open Street Maps](https://download.geofabrik.de/).
 :::
 
 :::callout
@@ -131,9 +137,9 @@ effects of particular data manipulations are more predictable if you are
 confident that all of your input data has the same characteristics.
 :::
 
-[us-cb]: https://www.census.gov/geographies/mapping-files/time-series/geo/carto-boundary-file.html
 
 :::keypoints
 - Vector data structures represent specific features on the Earth's surface along with attributes of those features.
+- Vector data is often interpreted data and collected for a different purpose than you would want to use it for.
 - Vector objects are either points, lines, or polygons.
 :::

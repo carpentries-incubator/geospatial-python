@@ -1,7 +1,7 @@
 ---
 title: "Crop raster data with rioxarray and geopandas"
-teaching: 70
-exercises: 30
+teaching: 40
+exercises: 0
 ---
 
 :::questions
@@ -9,286 +9,271 @@ exercises: 30
 :::
 
 :::objectives
+- Align the CRS of geopatial data.
 - Crop raster data with a bounding box.
 - Crop raster data with a polygon.
-- Match two raster datasets in different CRS.
 :::
 
 
 It is quite common that the raster data you have in hand is too large to process, or not all the pixels are relevant to your area of interest (AoI). In both situations, you should consider cropping your raster data before performing data analysis.
 
-In this episode, we will introduce how to crop raster data into the desired area. We will use one Sentinel-2 image over Amsterdam as the example raster data, and introduce how to crop your data to different types of AoIs.
+In this episode, we will introduce how to crop raster data into the desired area. We will use one Sentinel-2 image over Rhodes Island as the example raster data, and introduce how to crop your data to different types of AoIs.
 
 :::callout
 ## Introduce the Data
 
-We will use the results of the satellite image search: `search.json`, which is generated in an exercise from
-[Episode 5: Access satellite imagery using Python](05-access-data.md).
+In this episode, we will work with both raster and vector data.
 
-If you would like to work with the data for this lesson without downloading data on-the-fly, you can download the
-raster data using this [link](https://figshare.com/ndownloader/files/36028100). Save the `geospatial-python-raster-dataset.tar.gz`
-file in your current working directory, and extract the archive file by double-clicking on it or by running the
-following command in your terminal `tar -zxvf geospatial-python-raster-dataset.tar.gz`. Use the file `geospatial-python-raster-dataset/search.json`
-(instead of `search.json`) to get started with this lesson.
+As *raster data*, we will use satellite images from the search that we have carried out in [the episode: "Access satellite imagery using Python"](05-access-data.md) as well as Digital Elevation Model (DEM) data from the [Copernicus DEM GLO-30 dataset](https://spacedata.copernicus.eu/collections/copernicus-digital-elevation-model).
 
-We also use the cropped fields polygons `fields_cropped.shp`, which was generated in an exercise from [Episode 7: Vector data in python](07-vector-data-in-python.md).
+For the satellite images, we have searched for Sentinel-2 scenes of Rhodes from July 1st to August 31st 2023 that have less than 1% cloud coverage. The search resulted in 11 scenes. We focus here on the most recent scene (August 27th), since that would show the situation after the wildfire, and use this as an example to demonstrate raster data cropping.
+
+For your convenience, we have included the scene of interest among the datasets that you have already downloaded when following [the setup instructions](../learners/setup.md). You should, however, be able to download the satellite images "on-the-fly" using the JSON metadata file that was created in [the previous episode](05-access-data.md) (the file `rhodes_sentinel-2.json`).
+
+If you choose to work with the provided data (which is advised in case you are working offline or have a slow/unstable network connection) you can skip the remaining part of the block and continue with the following section: [Align the CRS of the raster and the vector data](#Align-the-CRS-of-the-raster-and-the-vector-data).
+
+If you want instead to experiment with downloading the data on-the-fly, you need to load the file `rhodes_sentinel-2.json`, which contains information on where and how to access the target satellite images from the remote repository:
+
+```python
+import pystac
+items = pystac.ItemCollection.from_file("rhodes_sentinel-2.json")
+```
+
+You can then select the first item in the collection, which is the most recent in the sequence:
+
+```python
+item = items[0]
+print(item)
+```
+
+```output
+<Item id=S2A_35SNA_20230827_0_L2A>
+```
+
+In this episode we will consider the true color image associated with this scene, which is labelled with the `visual` key in the asset dictionary. We extract the URL / `href` (Hypertext Reference) that point to the file, and store it in a variable that we can use later on instead of the raster data path to access the data:
+
+```python
+rhodes_visual_href = item.assets["visual"].href  # true color image
+```
+
+As **vector data**, we will use the `assets.gpkg`, which was generated in an exercise from [Episode 7: Vector data in python](07-vector-data-in-python.md).
 :::
 
 ## Align the CRS of the raster and the vector data
 
-We load a true color image using `pystac` and `rioxarray` and check the shape of the raster:
+### Data loading
+
+First, we will load the visual image of Sentinel-2 over Rhodes Island, which we downloaded and stored in `data/sentinel2/visual.tif`.
+
+We can open this asset with `rioxarray`, and specify the overview level, since this is a Cloud-Optimized GeoTIFF (COG) file. As explained in episode 6 raster images can be quite big, therefore we decided to resample the data using ´rioxarray's´ overview parameter and set it to `overview_level=1`.
 
 ```python
-import pystac
 import rioxarray
-
-# Load image and inspect the shape
-items = pystac.ItemCollection.from_file("search.json")
-raster = rioxarray.open_rasterio(items[1].assets["visual"].href) # Select a true color image
-print(raster.shape)
+path_visual = 'data/sentinel2/visual.tif'
+visual = rioxarray.open_rasterio(path_visual, overview_level=1)
+visual
 ```
-
 
 ```output
-(3, 10980, 10980)
+<xarray.DataArray (band: 3, y: 2745, x: 2745)>
+[22605075 values with dtype=uint8]
+Coordinates:
+  * band         (band) int64 1 2 3
+  * x            (x) float64 5e+05 5e+05 5.001e+05 ... 6.097e+05 6.098e+05
+  * y            (y) float64 4.1e+06 4.1e+06 4.1e+06 ... 3.99e+06 3.99e+06
+    spatial_ref  int64 0
+Attributes:
+    AREA_OR_POINT:       Area
+    OVR_RESAMPLING_ALG:  AVERAGE
+    _FillValue:          0
+    scale_factor:        1.0
+    add_offset:          0.0
 ```
 
+As we introduced in the raster data introduction episode, this will perform a "lazy" loading of the image meaning that the image will not be loaded into the memory until necessary.
 
-This will perform a "lazy" loading of the image, i.e. the image will not be loaded into the memory until necessary, but we can still access some attributes, e.g. the shape of the image.
-
-The large size of the raster data makes it time and memory consuming to visualize in its entirety. Instead, we can fetch and plot the overviews of the raster. "Overviews" are precomputed lower resolution representations of a raster, stored in the same COG that contains the original raster.
-
-```python
-# Get the overview asset
-raster_overview = rioxarray.open_rasterio(items[1].assets["visual"].href, overview_level=3)
-print(raster_overview.shape)
-
-# Visualize it
-raster_overview.plot.imshow(figsize=(8,8))
-```
-
-![](fig/E08/crop-raster-overview-raster-00.png){alt="Overview of the raster"}
-
-As we can see, the overview image is much smaller compared to the original true color image. 
-
-To align the raster and vector data, we first check each coordinate system. For raster data, we use `pyproj.CRS`:
-
-```python
-from pyproj import CRS
-
-# Check the coordinate system
-CRS(raster.rio.crs)
-```
-
-
-```output
-<Derived Projected CRS: EPSG:32631>
-Name: WGS 84 / UTM zone 31N
-Axis Info [cartesian]:
-- [east]: Easting (metre)
-- [north]: Northing (metre)
-Area of Use:
-- undefined
-Coordinate Operation:
-- name: UTM zone 31N
-- method: Transverse Mercator
-Datum: World Geodetic System 1984
-- Ellipsoid: WGS 84
-- Prime Meridian: Greenwich
-```
-
-
-
-To open and check the coordinate system of vector data, we use `geopandas`:
+Let's also load the assets file generated in the vector data episode:
 
 ```python
 import geopandas as gpd
-
-# Load the polygons of the crop fields
-fields = gpd.read_file("fields_cropped.shp")
-
-# Check the coordinate system
-fields.crs
+assets = gpd.read_file('assets.gpkg')
 ```
+### Crop the raster with a bounding box
 
-
-```output
-<Derived Projected CRS: EPSG:28992>
-Name: Amersfoort / RD New
-Axis Info [cartesian]:
-- X[east]: Easting (metre)
-- Y[north]: Northing (metre)
-Area of Use:
-- name: Netherlands - onshore, including Waddenzee, Dutch Wadden Islands and 12-mile offshore coastal zone.
-- bounds: (3.2, 50.75, 7.22, 53.7)
-Coordinate Operation:
-- name: RD New
-- method: Oblique Stereographic
-Datum: Amersfoort
-- Ellipsoid: Bessel 1841
-- Prime Meridian: Greenwich
-```
-
-
-As seen, the coordinate systems differ. To crop the raster using the shapefile, we first need to reproject one dataset to the other's CRS. Since `raster` is large, we will convert the CRS of `fields` to the CRS of `raster` to avoid loading the entire image:
+The assets file contains the information of the vital infrastructure and built-up areas on the island Rhodes. The visual image, on the other hand, has a larger extent. Let us check this by visualizing the raster image:
 
 ```python
-fields = fields.to_crs(raster.rio.crs)
+visual.plot.imshow()
 ```
 
+![](fig/E08/visual_large.png){alt="Large visual raster"}
 
-## Crop raster data with a bounding box
+Let's check the extent of the assets to find out its rough location in the raster image.
+We can use the [`total_bounds`](https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoSeries.total_bounds.html) attribute from `GeoSeries` of `geopandas` to get the bounding box:
 
-The `clip_box` function allows one to crop a raster by the
-min/max of the x and y coordinates. Note that we are cropping the original image `raster` now, and not the overview image `raster_overview`.
+```python
+assets.total_bounds
+```
+
+```output
+array([27.7121001 , 35.87837949, 28.24591124, 36.45725024])
+```
+
+The bounding box is composed of the `[minx, miny, maxx, maxy]` values of the raster. Comparing these values with the raster image, we can identify that the magnitude of the bounding box coordinates does not match the coordinates of the raster image. This is because the two datasets have different coordinate reference systems (CRS). This will cause problems when cropping the raster image, therefore we first need to align the CRS-s of the two datasets
+
+Considering the raster image has larger data volume than the vector data, we will reproject the vector data to the CRS of the raster data. We can use the `to_crs` method:
+
+```python
+# Reproject
+assets = assets.to_crs(visual.rio.crs)
+
+# Check the new bounding box
+assets.total_bounds
+```
+
+```output
+array([ 564058.0257114, 3970719.4080227,  611743.71498815, 4035358.56340039])
+```
+
+Now the bounding box coordinates are updated. We can use the `clip_box` function, through the `rioaxarray` accessor, to crop the raster image to the bounding box of the vector data. `clip_box` takes four positional input arguments in the order of `xmin`, `ymin`, `xmax`, `ymax`, which is exactly the same order in the `assets.total_bounds`. Since `assets.total_bounds` is an `numpy.array`, we can use the symbol `*` to unpack it to the relevant positions in `clip_box`.
 
 ```python
 # Crop the raster with the bounding box
-raster_clip_box = raster.rio.clip_box(*fields.total_bounds)
-print(raster_clip_box.shape)
+visual_clipbox = visual.rio.clip_box(*assets.total_bounds)
+
+# Visualize the cropped image
+visual_clipbox.plot.imshow()
 ```
 
-```output
-(3, 1565, 1565)
-```
+![](fig/E08/visual_clip_box.png){alt="Clip box results"}
 
+:::callout
+## Code Tip
+Cropping a raster with a bounding box is a quick way to reduce the size of the raster data. Since this operation is based on min/max coordinates, it is not as computational extensive as cropping with polygons, which requires more accurate overlay operations.
+:::
 
-We successfully cropped the raster to a much smaller piece. We can visualize it now:
+### Crop the raster with a polygon
+
+We can also crop the raster with a polygon. In this case, we will use the raster `clip` function through the `rio` accessor. For this we will use the `geometry` column of the `assets` GeoDataFrame to specify the polygon:
 
 ```python
-raster_clip_box.plot.imshow(figsize=(8,8))
-```
-![](fig/E08/crop-raster-crop-by-bb-02.png){alt="Raster cropped by a bounding box"}
+# Crop the raster with the polygon
+visual_clip = visual_clipbox.rio.clip(assets["geometry"])
 
-This cropped image can be saved for later usage:
-```python
-raster_clip_box.rio.to_raster("raster_clip.tif")
+# Visualize the cropped image
+visual_clip.plot.imshow()
 ```
 
-
-## Crop raster data with polygons
-
-We have a cropped image around the fields. To further analyze the fields, one may want to crop the image to the exact field boundaries.
-This can be done with the `clip` function:
-
-```python
-raster_clip_fields = raster_clip_box.rio.clip(fields['geometry'])
-```
-
-
-And we can visualize the results:
-```python
-raster_clip_fields.plot.imshow(figsize=(8,8))
-```
-![](fig/E08/crop-raster-crop-fields.png){alt="Ratser cropped by field polygons"}
+![](fig/E08/visual_clip.png){alt="Clip results"}
 
 :::challenge
-## Exercise: crop raster data with a specific code
-In the column "gewascode" (translated as "crop code") of `fields`, you can find the code representing the types of plants grown in each field. Can you:
+## Exercise: Clip the red band for Rhodes
 
-1. Select the fields with "gewascode" equal to `257`;
-2. Crop the raster `raster_clip_box` with the selected fields;
-3. Visualize the cropped image.
+Now that you have seen how clip a raster using a polygon, we want you to do this for the red band of the satellite image. Use the shape of Rhodes from GADM and clip the red band with it. Furthermore, make sure to transform the no data values to not-a-number (NaN) values.     
 
 ::::solution
 ```python
-mask = fields['gewascode']==257
-fields_gwascode = fields.where(mask)
-fields_gwascode = fields_gwascode.dropna()
-raster_clip_fields_gwascode = raster_clip_box.rio.clip(fields_gwascode['geometry'])
-raster_clip_fields_gwascode.plot.imshow(figsize=(8,8))
+# Solution
+
+# Step 1 - Load the datasets - Vector data
+
+import geopandas as gpd
+gdf_greece = gpd.read_file('./data/gadm/ADM_ADM_3.gpkg')
+gdf_rhodes = gdf_greece[gdf_greece['NAME_3']=='Rhodos']
+
+# Step 2 - Load the raster red band
+import rioxarray
+path_red = './data/sentinel2/red.tif'
+red = rioxarray.open_rasterio(path_red, overview_level=1)
+
+# Step 3 - It will not work, since it is not projected yet
+
+gdf_rhodes = gdf_rhodes.to_crs(red.rio.crs)
+
+# Step 4 - Clip the two
+
+red_clip = red.rio.clip(gdf_rhodes["geometry"])
+
+# Step 5 - assing nan values to no data
+
+red_clip_nan = red_clip.where(red_clip!=red_clip.rio.nodata)
+
+# Step 6 - Visualize the result
+
+red_clip_nan.plot()
+
 ```
 
-![](fig/E08/crop-raster-fields-gewascode.png){alt="Raster croped by fields with gewascode 257"}
+![](fig/E08/solution_exercise.png){alt="rhodes_builtup_buffer"}
 
 ::::
 :::
 
 
-## Crop raster data using `reproject_match()` function
-
-So far we have learned how to crop raster images with vector data. We can also crop a raster with another raster data. In this section, we will demonstrate how to crop the `raster_clip_box` image using the `raster_clip_fields_gwascode` image. We will use the `reproject_match` function. As indicated by its name, it performs reprojection and clipping in one go.
 
 
-To demonstrate the reprojection, we will first reproject `raster_clip_fields_gwascode` to the RD CRS system, so it will be in a different CRS from `raster_clip_box`:
+
+
+### Match two rasters
+
+Sometimes you need to match two rasters with different extents, resolutions, or CRS. For this you can use the  [`reproject_match`](https://corteva.github.io/rioxarray/stable/examples/reproject_match.html#Reproject-Match) function . We will demonstrate this by matching the cropped raster `visual_clip` with the Digital Elevation Model (DEM),`rhodes_dem.tif` of Rhodes.
+
+First, let's load the DEM:
+
 ```python
-# Reproject to RD to make the CRS different from the "raster"
-raster_clip_fields_gwascode = raster_clip_fields_gwascode.rio.reproject("EPSG:28992")
-CRS(raster_clip_fields_gwascode.rio.crs)
+dem = rioxarray.open_rasterio('./data/dem/rhodes_dem.tif')
 ```
 
+And visualize it:
+
+```python
+dem.plot()
+```
+
+![](fig/E08/dem.png){alt="DEM"}
+
+From the visualization, we can see that the DEM has a different extent, resolution and CRS compared to the cropped visual image. We can also confirm this by checking the CRS of the two images:
+
+```python
+print(dem.rio.crs)
+print(visual_clip.rio.crs)
+```
 
 ```output
-<Derived Projected CRS: EPSG:28992>
-Name: Amersfoort / RD New
-Axis Info [cartesian]:
-- [east]: Easting (metre)
-- [north]: Northing (metre)
-Area of Use:
-- undefined
-Coordinate Operation:
-- name: unnamed
-- method: Oblique Stereographic
-Datum: Amersfoort
-- Ellipsoid: Bessel 1841
-- Prime Meridian: Greenwich
+EPSG:4326
+EPSG:32635
 ```
 
-
-And let's check again the CRS of `raster_clip_box`:
+We can use the `reproject_match` function to match the two rasters. One can choose to match the dem to the visual image or vice versa. Here we will match the DEM to the visual image:
 
 ```python
-CRS(raster_clip_box.rio.crs)
+dem_matched = dem.rio.reproject_match(visual_clip)
 ```
 
-
-```output
-<Derived Projected CRS: EPSG:32631>
-Name: WGS 84 / UTM zone 31N
-Axis Info [cartesian]:
-- [east]: Easting (metre)
-- [north]: Northing (metre)
-Area of Use:
-- undefined
-Coordinate Operation:
-- name: UTM zone 31N
-- method: Transverse Mercator
-Datum: World Geodetic System 1984
-- Ellipsoid: WGS 84
-- Prime Meridian: Greenwich
-```
-
-
-Now the two images are in different coordinate systems. We can use `rioxarray.reproject_match()` function to crop `raster_clip_box` image.
+And then visualize the matched DEM:
 
 ```python
-raster_reproject_match = raster_clip_box.rio.reproject_match(raster_clip_fields_gwascode)
-raster_reproject_match.plot.imshow(figsize=(8,8))
+dem_matched.plot()
 ```
 
+![](fig/E08/dem_matched.png){alt="Matched DEM"}
 
-![](fig/E08/reprojectmatch-big-to-small.png){alt="Reproject match big to small"}
-
-We can also use it to expand `raster_clip_fields_gwascode` to the extent of `raster_clip_box`:
-
-```python
-raster_reproject_match = raster_clip_fields_gwascode.rio.reproject_match(raster_clip_box)
-raster_reproject_match.plot.imshow(figsize=(8,8))
-```
-
-![](fig/E08/reprojectmatch-small-to-big.png){alt="Reproject match small to big"}
-
-In one line `reproject_match` does a lot of helpful things:
+As we can see, `reproject_match` does a lot of helpful things in one line of code:
 
 1. It reprojects.
-2. It matches the extent using `nodata` values or by clipping the data.
-3. It sets `nodata` values. This means we can run calculations on those two images.
+2. It matches the extent.
+3. It matches the resolution.
+
+Finally, we can save the matched DEM for later use. We save it as a Cloud-Optimized GeoTIFF (COG) file:
+
+```python
+dem_matched.rio.to_raster('dem_rhodes_match.tif', driver='COG')
+```
 
 :::callout
-
 ## Code Tip
 
-As we saw before, there also exists a method called `reproject()`, which only reprojects one raster to another projection. If you want more control over how rasters are resampled, clipped, and/or reprojected, you can use the `reproject()` method and other `rioxarray` methods individually.
+There is also a method in rioxarray: [`reproject()`](https://corteva.github.io/rioxarray/stable/rioxarray.html#rioxarray.raster_array.RasterArray.reproject), which only reprojects one raster to another projection. If you want more control over how rasters are resampled, clipped, and/or reprojected, you can use the `reproject()` method individually.
 :::
 
 :::keypoints
