@@ -279,7 +279,7 @@ burned = (
     (ndwi <= 0.1) &
     ((index_match + nir_clip/10_000) <= 0.1) &
     ((blue_clip/10_000) <= 0.1) &
-    ((swir16_clip/10_000) >= 0.1)
+    ((swir16_match/10_000) >= 0.1)
 )
 ```
 
