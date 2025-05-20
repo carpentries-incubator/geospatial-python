@@ -20,7 +20,7 @@
       <div class="large-logo">
         <img id="incubator-logo" alt="Carpentries Incubator" src="../assets/images/incubator-logo.svg"><span class="badge text-bg-info">
           <abbr title="This lesson is in the beta phase, which means that it is ready for teaching by instructors outside of the original author team.">
-            <a href="https://cdh.carpentries.org/the-lesson-life-cycle.html#polishing-beta-stage" class="external-link alert-link">
+            <a href="https://docs.carpentries.org/resources/curriculum/lesson-life-cycle.html" class="external-link alert-link">
               <i aria-hidden="true" class="icon" data-feather="alert-circle" style="border-radius: 5px"></i>
               Beta
             </a>
@@ -117,11 +117,11 @@
   Introduction to Geospatial Raster and Vector Data with Python
 </div>
 
-<aside class="col-md-12 lesson-progress"><div style="width: 11%" class="percentage">
-    11%
+<aside class="col-md-12 lesson-progress"><div style="width: 12%" class="percentage">
+    12%
   </div>
   <div class="progress incubator">
-    <div class="progress-bar incubator" role="progressbar" style="width: 11%" aria-valuenow="11" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar incubator" role="progressbar" style="width: 12%" aria-valuenow="12" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
     </div>
   </div>
 </aside><div class="container">
@@ -315,6 +315,15 @@
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
+<div class="accordion accordion-flush" id="accordionFlush13">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading13">
+        <a href="12-data-cube.html">12. Data cubes with ODC-STAC</a>
+    </div><!--/div.accordion-header-->
+
+  </div><!--/div.accordion-item-->
+</div><!--/div.accordion-flush-->
+
                 </div>
               </div>
             </div>
@@ -372,7 +381,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>The Geospatial Landscape</h1>
-        <p>Last updated on 2023-08-14 |
+        <p>Last updated on 2025-05-20 |
 
         <a href="https://github.com/carpentries-incubator/geospatial-python/edit/main/episodes/04-geo-landscape.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -427,8 +436,9 @@ platforms:</p>
 <ul><li>
 <a href="https://www.qgis.org/en/site/" class="external-link">QGIS</a> is a professional
 GIS application that is built on top of and proud to be itself Free and
-Open Source Software (FOSS). QGIS is written in Python, has a python
-console interface, and has several interfaces written in R including <a href="https://cran.r-project.org/package=RQGIS" class="external-link">RQGIS</a>.</li>
+Open Source Software (FOSS). QGIS is written in Python and C++, has a
+python console interface, allows to develop plugins and has several
+interfaces written in R including <a href="https://cran.r-project.org/package=RQGIS" class="external-link">RQGIS</a>.</li>
 <li>
 <a href="https://grass.osgeo.org/" class="external-link">GRASS GIS</a>, commonly referred
 to as GRASS (Geographic Resources Analysis Support System), is a
@@ -458,7 +468,13 @@ systems. Like GRASS GIS, it can also be installed and made accessible in
 QGIS3.</li>
 <li>
 <a href="https://postgis.net/" class="external-link">PostGIS</a> is a geospatial extension
-to the PostGreSQL relational database.</li>
+to the PostGreSQL relational database and is especially suited to work
+with large vector datasets.</li>
+<li>
+<a href="https://geodms.nl/" class="external-link">GeoDMS</a> is a powerful Open Source
+GIS software which allows for fast calculations and calculations with
+large datasets. Furthermore it allows for complex scenario
+analyses.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="commercial-software">Commercial software<a class="anchor" aria-label="anchor" href="#commercial-software"></a></h3>
@@ -472,7 +488,9 @@ Online</a>, and <a href="https://server.arcgis.com/en/portal/" class="external-l
 for ArcGIS</a> a standalone version of ArGIS Online which you host
 locally. ESRI welcomes development on their platforms through their <a href="https://developers.arcgis.com/" class="external-link">DevLabs</a>. ArcGIS software can
 be installed using <a href="https://github.com/Esri/arcgis-cookbook" class="external-link">Chef Cookbooks from
-Github</a>.</li>
+Github</a>. In addition, ESRI offers the <a href="https://pro.arcgis.com/en/pro-app/latest/arcpy/get-started/what-is-arcpy-.htm" class="external-link">ArcPy
+Python library</a> as part of an ArcGIS Pro licence, allowing to
+translate operations in the ArcGIS Pro GUI to Python scripts.</li>
 <li>Pitney Bowes produce <a href="https://www.pitneybowes.com/us/location-intelligence/geographic-information-systems/mapinfo-pro.html" class="external-link">MapInfo
 Professional</a>, which was one of the earliest desktop GIS programs on
 the market.</li>
@@ -492,7 +510,7 @@ processing.</li>
 dedicated to open and reproducible data science with python. They focus
 on the Pangeo software ecosystem for working with big data in the
 geosciences.</li>
-<li>Google has created <a href="https://earthengine.google.com/" class="external-link">Google
+<li>Google developed <a href="https://earthengine.google.com/" class="external-link">Google
 Earth Engine</a> which combines a multi-petabyte catalog of satellite
 imagery and geospatial datasets with planetary-scale analysis
 capabilities and makes it available for scientists, researchers, and
@@ -533,24 +551,27 @@ with all common tools and procedures accessed via buttons and menus.</p>
 <li>Don’t need to learn a coding language</li>
 <li>Cartography and visualisation is more intuitive and flexible</li>
 </ul><p>Downsides of using a GUI include:</p>
-<ul><li>Low reproducibility - you can’t record your actions and replay</li>
-<li>Most are not designed for batch-processing files</li>
+<ul><li>Low reproducibility - you can record your actions and replay, but
+this is limited to the functionalities of the software</li>
+<li>Batch-processing is possible, but limited to the funstionalities of
+the software and hard to be integrated with other workflows</li>
 <li>Limited ability to customise functions or write your own</li>
 <li>Intimidating interface for new users - so many buttons!</li>
 </ul><p>In scientific computing, the lack of reproducibility in
 point-and-click software has come to be viewed as a critical weakness.
-As such, scripted CLI-style workflows are again becoming popular, which
-leads us to another approach to doing GIS — via a programming language.
-This is the approach we will be using throughout this workshop.</p>
+As such, scripted CLI-style workflows are becoming popular, which leads
+us to another approach to doing GIS — via a programming language.
+Therefore this is the approach we will be using throughout this
+workshop.</p>
 </section><section><h2 class="section-heading" id="gis-in-programming-languages">GIS in programming languages<a class="anchor" aria-label="anchor" href="#gis-in-programming-languages"></a></h2>
 <hr class="half-width"><p>A number of powerful geospatial processing libraries exist for
 general-purpose programming languages like Java and C++. However, the
 learning curve for these languages is steep and the effort required is
 excessive for users who only need a subset of their functionality.</p>
-<p>Higher-level scripting languages like Python and R are easier to
-learn and use. Both now have their own packages that wrap up those
-geospatial processing libraries and make them easy to access and use
-safely. A key example is the Java Topology Suite (JTS), which is
+<p>Higher-level scripting languages like Python and R are considered
+easier to learn and use. Both now have their own packages that wrap up
+those geospatial processing libraries and make them easy to access and
+use safely. A key example is the Java Topology Suite (JTS), which is
 implemented in C++ as GEOS. GEOS is accessible in Python via the
 <code>shapely</code> package (and <code>geopandas</code>, which makes
 use of <code>shapely</code>) and in R via <code>sf</code>. R and Python
@@ -588,8 +609,8 @@ and <a href="https://www.spyder-ide.org/" class="external-link">Spyder</a> are o
 options for data science.</p>
 <p>Traditional GIS apps are also moving back towards providing a
 scripting environment for users, further blurring the CLI/GUI divide.
-ESRI have adopted Python into their software, and QGIS is both Python
-and R-friendly.</p>
+ESRI have adopted Python into their software by introducing <a href="https://developers.arcgis.com/documentation/arcgis-add-ins-and-automation/arcpy/" class="external-link">ArcPy</a>,
+and QGIS is both Python and R-friendly.</p>
 </section><section><h2 class="section-heading" id="gis-file-types">GIS File Types<a class="anchor" aria-label="anchor" href="#gis-file-types"></a></h2>
 <hr class="half-width"><p>There are a variety of file types that are used in GIS analysis.
 Depending on the program you choose to use some file types can be used
@@ -605,14 +626,24 @@ the most common vector and raster file types.</p>
 <td>The most common geospatial file type. This has become the industry
 standard. The three required files are: SHP is the feature geometry. SHX
 is the shape index position. DBF is the attribute data.</td>
-</tr><tr class="even"><td>Geographic JavaScript Object Notation (GeoJSON)</td>
+</tr><tr class="even"><td>GeoPackage</td>
+<td>.gpkg</td>
+<td>As an alternative to Shapefile, this open file format is gaining
+terrain and it consists of one file containing all necessary attribute
+information.</td>
+</tr><tr class="odd"><td>Geographic JavaScript Object Notation (GeoJSON)</td>
 <td>.GEOJSON .JSON</td>
 <td>Used for web-based mapping and uses JavaScript Object Notation to
 store the coordinates as text.</td>
-</tr><tr class="odd"><td>Google Keyhole Markup Language (KML)</td>
+</tr><tr class="even"><td>Google Keyhole Markup Language (KML)</td>
 <td>.KML .KMZ</td>
 <td>KML stands for Keyhole Markup Language. This GIS format is XML-based
 and is primarily used for Google Earth.</td>
+</tr><tr class="odd"><td>GPX or GPS Exchange Format</td>
+<td>.gpx</td>
+<td>XML schema designed as a common GPS data format for software
+applications. This format is often used for tracking activities
+e.g. hiking, cycling, running etc.</td>
 </tr><tr class="even"><td>OpenStreetMap</td>
 <td>.OSM</td>
 <td>OSM files are the native file for OpenStreetMap which had become the
@@ -702,7 +733,7 @@ any links that you are not going to use.
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
 
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.10" class="external-link">sandpaper (0.16.10)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.7" class="external-link">pegboard (0.7.7)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.5" class="external-link">varnish (1.0.5)</a></p>
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.12" class="external-link">sandpaper (0.16.12)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.9" class="external-link">pegboard (0.7.9)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.6" class="external-link">varnish (1.0.6)</a></p>
 			</div>
 		</footer></div> <!-- / div.container -->
 	<div id="to-top">
@@ -713,19 +744,19 @@ any links that you are not going to use.
   <script type="application/ld+json">
     {
   "@context": "https://schema.org",
-  "@type": "TrainingMaterial",
+  "@type": "LearningResource",
   "@id": "https://carpentries-incubator.github.io/geospatial-python/instructor/04-geo-landscape.html",
   "inLanguage": "en",
-  "dct:conformsTo": "https://bioschemas.org/profiles/TrainingMaterial/1.0-RELEASE",
+  "dct:conformsTo": "https://bioschemas.org/profiles/LearningResource/1.0-RELEASE",
   "description": "A Carpentries Lesson teaching foundational data and coding skills to researchers worldwide",
   "keywords": "software, data, lesson, The Carpentries",
   "name": "The Geospatial Landscape",
   "creativeWorkStatus": "active",
   "url": "https://carpentries-incubator.github.io/geospatial-python/instructor/04-geo-landscape.html",
   "identifier": "https://carpentries-incubator.github.io/geospatial-python/instructor/04-geo-landscape.html",
-  "dateCreated": "2024-03-05",
-  "dateModified": "2023-08-14",
-  "datePublished": "2024-12-03"
+  "dateCreated": "2025-05-20",
+  "dateModified": "2025-05-20",
+  "datePublished": "2025-05-20"
 }
 
   </script><script>

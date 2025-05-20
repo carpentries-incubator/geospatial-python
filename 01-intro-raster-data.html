@@ -20,7 +20,7 @@
       <div class="large-logo">
         <img id="incubator-logo" alt="Carpentries Incubator" src="assets/images/incubator-logo.svg"><span class="badge text-bg-info">
           <abbr title="This lesson is in the beta phase, which means that it is ready for teaching by instructors outside of the original author team.">
-            <a href="https://cdh.carpentries.org/the-lesson-life-cycle.html#polishing-beta-stage" class="external-link alert-link">
+            <a href="https://docs.carpentries.org/resources/curriculum/lesson-life-cycle.html" class="external-link alert-link">
               <i aria-hidden="true" class="icon" data-feather="alert-circle" style="border-radius: 5px"></i>
               Beta
             </a>
@@ -313,6 +313,15 @@
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
+<div class="accordion accordion-flush" id="accordionFlush13">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading13">
+        <a href="12-data-cube.html">12. Data cubes with ODC-STAC</a>
+    </div><!--/div.accordion-header-->
+
+  </div><!--/div.accordion-item-->
+</div><!--/div.accordion-flush-->
+
                 </div>
               </div>
             </div>
@@ -371,7 +380,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Introduction to Raster Data</h1>
-        <p>Last updated on 2023-08-14 |
+        <p>Last updated on 2025-05-20 |
 
         <a href="https://github.com/carpentries-incubator/geospatial-python/edit/main/episodes/01-intro-raster-data.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -412,39 +421,62 @@ identify types of datasets that would be stored in each format.</li>
 </div>
 </div>
 <section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a></h2>
-<hr class="half-width"><p>This episode introduces the two primary types of geospatial data:
-rasters and vectors. After briefly introducing these data types, this
-episode focuses on raster data, describing some major features and types
-of raster data.</p>
+<hr class="half-width"><p>This episode introduces the two primary types of data models that are
+used to digitally represent the Earth surface: raster and vector. After
+briefly introducing these data models, this episode focuses on the
+raster representation, describing some major features and types of
+raster data. This workshop will focus on how to work with both raster
+and vector data sets, therefore it is essential that we understand the
+basic structures of these types of data and the types of phenomena that
+they can represent.</p>
 </section><section><h2 class="section-heading" id="data-structures-raster-and-vector">Data Structures: Raster and Vector<a class="anchor" aria-label="anchor" href="#data-structures-raster-and-vector"></a></h2>
-<hr class="half-width"><p>The two primary types of geospatial data are raster and vector data.
-Raster data is stored as a grid of values which are rendered on a map as
-pixels. Each pixel value represents an area on the Earth’s surface.
-Vector data structures represent specific features on the Earth’s
-surface, and assign attributes to those features. Vector data structures
-will be discussed in more detail in <a href="02-intro-vector-data.html">the next episode</a>.</p>
-<p>This workshop will focus on how to work with both raster and vector
-data sets, therefore it is essential that we understand the basic
-structures of these types of data and the types of data that they can be
-used to represent.</p>
+<hr class="half-width"><p>The two primary data models that are used to represent the Earth
+surface digitally are the raster and vector. <strong>Raster
+data</strong> is stored as a grid of values which are rendered on a map
+as pixels (also known as cells) where each pixel (or cell) represents a
+value of the Earth surface. Examples of raster data are satellite images
+or aerial photographs. Data stored according to the <strong>vector
+data</strong> model are represented by points, lines, or polygons.
+Examples of vector representation are points of interest, buildings
+(often represented as building footprints) or roads.</p>
+<p>Representing phenomena as vector data allows you to add attribute
+information to them. For instance, a polygon of a house can contain
+multiple attributes containing information about the address like the
+street name, zip code, city, and number. More explanations about vector
+data will be discussed in the <a href="02-intro-vector-data.html">next
+episode</a>.</p>
+<p>When working with spatial information, you will experience that many
+phenomena can be represented as vector data and raster data. A house,
+for instance, can be represented by a set of cells in a raster having
+all the same value or by a polygon as vector containing attribute
+information (figure 1). It depends on the purpose for which the data is
+collected and intended to be used which data model it is stored in. But
+as a rule of thumb, you can apply that discrete phenomena like
+buildings, roads, trees, signs are represented as vector data, whereas
+continuous phenomena like temperature, wind speed, elevation are
+represented as raster data. Yet, one of the things a spatial data
+analyst often has to do is to transform data from vector to raster or
+the other way around. Keep in mind that this can cause problems in the
+data quality.</p>
 <div class="section level3">
-<h3 id="about-raster-data">About Raster Data<a class="anchor" aria-label="anchor" href="#about-raster-data"></a></h3>
-<p>Raster data is any pixelated (or gridded) data where each pixel is
-associated with a specific geographic location. The value of a pixel can
-be continuous (e.g. elevation) or categorical (e.g. land use). If this
-sounds familiar, it is because this data structure is very common: it’s
-how we represent any digital image. A geospatial raster is only
-different from a digital photo in that it is accompanied by spatial
-information that connects the data to a particular location. This
-includes the raster’s extent and cell size, the number of rows and
-columns, and its coordinate reference system (or CRS).</p>
+<h3 id="raster-data">Raster Data<a class="anchor" aria-label="anchor" href="#raster-data"></a></h3>
+<p>Raster data is any pixelated (or gridded) data where each pixel has a
+value and is associated with a specific geographic location. The value
+of a pixel can be continuous (e.g., elevation, temperature) or
+categorical (e.g., land-use type). If this sounds familiar, it is
+because this data structure is very common: it’s how we represent any
+digital image. A geospatial raster is only different from a digital
+photo in that it is accompanied by spatial information that connects the
+data to a particular location. This includes the raster’s extent and
+cell size, the number of rows and columns, and its Coordinate Reference
+System (CRS), which will be explained in <a href="03-crs.html">episode
+3</a> of this workshop.</p>
 <figure><img src="fig/E01/raster_concept.png" alt="raster concept" class="figure mx-auto d-block"><div class="figcaption">Raster Concept (Source: National Ecological
 Observatory Network (NEON))</div>
 </figure><p>Some examples of continuous rasters include:</p>
 <ol style="list-style-type: decimal"><li>Precipitation maps.</li>
-<li>Maps of tree height derived from LiDAR data.</li>
-<li>Elevation values for a region.</li>
-</ol><p>A map of elevation for Harvard Forest derived from the <a href="https://www.neonscience.org/data-collection/airborne-remote-sensing" class="external-link">NEON
+<li>Elevation maps.</li>
+</ol><p>A map of elevation for <em>Harvard Forest</em> derived from the <a href="https://www.neonscience.org/data-collection/airborne-remote-sensing" class="external-link">NEON
 AOP LiDAR sensor</a> is below. Elevation is represented as a continuous
 numeric variable in this map. The legend shows the continuous range of
 values in the data from around 300 to 420 meters.</p>
@@ -454,7 +486,6 @@ discrete class such as a landcover type (e.g., “forest” or “grassland”)
 rather than a continuous value such as elevation or temperature. Some
 examples of classified maps include:</p>
 <ol style="list-style-type: decimal"><li>Landcover / land-use maps.</li>
-<li>Tree height maps classified as short, medium, and tall trees.</li>
 <li>Elevation maps classified as low, medium, and high elevation.</li>
 </ol><figure><img src="fig/E01/USA_landcover_classification.png" alt="USA landcover classification" class="figure mx-auto d-block"><div class="figcaption">USA landcover classification</div>
 </figure><p>The map above shows the contiguous United States with landcover as
@@ -482,7 +513,7 @@ the small group discussions.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>Raster data has some important advantages:</p>
 <ul><li>representation of continuous surfaces</li>
@@ -529,7 +560,7 @@ If not, which object(s) have a different extent?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>The lines and polygon objects have the same extent. The extent for
 the points object is smaller in the vertical direction than the other
@@ -551,14 +582,15 @@ Observatory Network (NEON))</div>
 <div class="section level3">
 <h3 id="raster-data-format-for-this-workshop">Raster Data Format for this Workshop<a class="anchor" aria-label="anchor" href="#raster-data-format-for-this-workshop"></a></h3>
 <p>Raster data can come in many different formats. For this workshop, we
-will use the GeoTIFF format which has the extension <code>.tif</code>. A
+will use one of the most common formats for raster data, i.e. the
+GeoTIFF format, which has the extension <code>.tif</code>. A
 <code>.tif</code> file stores metadata or attributes about the file as
 embedded <code>tif tags</code>. For instance, your camera might store a
 tag that describes the make and model of the camera or the date the
 photo was taken when it saves a <code>.tif</code>. A GeoTIFF is a
 standard <code>.tif</code> image format with additional spatial
 (georeferencing) information embedded in the file as tags. These tags
-should include the following raster metadata:</p>
+include the following raster metadata:</p>
 <ol style="list-style-type: decimal"><li>Extent</li>
 <li>Resolution</li>
 <li>Coordinate Reference System (CRS) - we will introduce this concept
@@ -590,9 +622,9 @@ documentation</a></li>
 <h3 id="multi-band-raster-data">Multi-band Raster Data<a class="anchor" aria-label="anchor" href="#multi-band-raster-data"></a></h3>
 <p>A raster can contain one or more bands. One type of multi-band raster
 dataset that is familiar to many of us is a color image. A basic color
-image consists of three bands: red, green, and blue. Each band
-represents light reflected from the red, green or blue portions of the
-electromagnetic spectrum. The pixel brightness for each band, when
+image often consists of three bands: red, green, and blue (RGB). Each
+band represents light reflected from the red, green or blue portions of
+the electromagnetic spectrum. The pixel brightness for each band, when
 composited creates the colors that we see in an image.</p>
 <figure><img src="fig/E01/RGBSTack_1.jpg" alt="multi-band raster" class="figure mx-auto d-block"><div class="figcaption">RGB multi-band raster image (Source: National
 Ecological Observatory Network (NEON).)</div>
@@ -675,7 +707,7 @@ any links that you are not going to use.
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
 
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.10" class="external-link">sandpaper (0.16.10)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.7" class="external-link">pegboard (0.7.7)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.5" class="external-link">varnish (1.0.5)</a></p>
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.12" class="external-link">sandpaper (0.16.12)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.9" class="external-link">pegboard (0.7.9)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.6" class="external-link">varnish (1.0.6)</a></p>
 			</div>
 		</footer></div> <!-- / div.container -->
 	<div id="to-top">
@@ -686,19 +718,19 @@ any links that you are not going to use.
   <script type="application/ld+json">
     {
   "@context": "https://schema.org",
-  "@type": "TrainingMaterial",
+  "@type": "LearningResource",
   "@id": "https://carpentries-incubator.github.io/geospatial-python/01-intro-raster-data.html",
   "inLanguage": "en",
-  "dct:conformsTo": "https://bioschemas.org/profiles/TrainingMaterial/1.0-RELEASE",
+  "dct:conformsTo": "https://bioschemas.org/profiles/LearningResource/1.0-RELEASE",
   "description": "A Carpentries Lesson teaching foundational data and coding skills to researchers worldwide",
   "keywords": "software, data, lesson, The Carpentries",
   "name": "Introduction to Raster Data",
   "creativeWorkStatus": "active",
   "url": "https://carpentries-incubator.github.io/geospatial-python/01-intro-raster-data.html",
   "identifier": "https://carpentries-incubator.github.io/geospatial-python/01-intro-raster-data.html",
-  "dateCreated": "2024-03-05",
-  "dateModified": "2023-08-14",
-  "datePublished": "2024-12-03"
+  "dateCreated": "2025-05-20",
+  "dateModified": "2025-05-20",
+  "datePublished": "2025-05-20"
 }
 
   </script><script>

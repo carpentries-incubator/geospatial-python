@@ -36,7 +36,7 @@
       <div class="large-logo">
         <img id="incubator-logo" alt="Carpentries Incubator" src="../assets/images/incubator-logo.svg"><span class="badge text-bg-info">
           <abbr title="This lesson is in the beta phase, which means that it is ready for teaching by instructors outside of the original author team.">
-            <a href="https://cdh.carpentries.org/the-lesson-life-cycle.html#polishing-beta-stage" class="external-link alert-link">
+            <a href="https://docs.carpentries.org/resources/curriculum/lesson-life-cycle.html" class="external-link alert-link">
               <i aria-hidden="true" class="icon" data-feather="alert-circle" style="border-radius: 5px"></i>
               Beta
             </a>
@@ -370,6 +370,18 @@
 </div>
 <!--/div.accordion-flush-->
 
+<div class="accordion accordion-flush" id="accordionFlush13">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading13">
+        <a href="12-data-cube.html">12. Data cubes with ODC-STAC</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
                 </div>
               </div>
             </div>
@@ -467,8 +479,8 @@ Ecological Observatory Network (NEON))</div>
 <hr class="half-width">
 <h3 id="03-crs-figure-1">Figure 1</h3>
 <p aria-hidden="true">Image 1 of 1: ‘US difference projections’</p>
-<figure><img src="https://media.opennews.org/cache/06/37/0637aa2541b31f526ad44f7cb2db7b6c.jpg" alt="US difference projections" class="figure mx-auto d-block"><div class="figcaption">Maps of the United States in different
-projections (Source: opennews.org)</div>
+<figure><img src="https://media.opennews.org/cache/06/37/0637aa2541b31f526ad44f7cb2db7b6c.jpg" alt="US difference projections" class="figure mx-auto d-block"><div class="figcaption">Figure 3.1: Maps of the United States in
+different projections (Source: opennews.org)</div>
 </figure><hr>
 <h3 id="03-crs-figure-2">Figure 2</h3>
 <p aria-hidden="true">Image 1 of 1: ‘datum fruit example’</p>
@@ -497,46 +509,60 @@ Commons</a> (CC-BY))</div>
 <figure><img src="../fig/E05/STAC-browser-exercise.jpg" alt="earth-search stac catalog views" class="figure mx-auto d-block"><div class="figcaption">Views of the Earth Search STAC endpoint</div>
 </figure><hr>
 <h3 id="05-access-data-figure-3">Figure 3</h3>
-<p aria-hidden="true">Image 1 of 1: ‘thumbnail of the sentinel-2 scene’</p>
-<figure><img src="../fig/E05/STAC-s2-preview.jpg" alt="thumbnail of the sentinel-2 scene" class="figure mx-auto d-block"><div class="figcaption">Overview of the true-color image
-(“thumbnail”)</div>
+<p aria-hidden="true">Image 1 of 1: ‘thumbnail of the sentinel-2 scene before the wildfires’</p>
+<figure><img src="../fig/E05/STAC-s2-preview-before.jpg" alt="thumbnail of the sentinel-2 scene before the wildfires" class="figure mx-auto d-block"><div class="figcaption">Overview of the true-color image (“thumbnail”)
+before the wildfires on Rhodes</div>
 </figure><hr>
 <h3 id="05-access-data-figure-4">Figure 4</h3>
+<p aria-hidden="true">Image 1 of 1: ‘thumbnail of the sentinel-2 scene after the wildfires’</p>
+<figure><img src="../fig/E05/STAC-s2-preview-after.jpg" alt="thumbnail of the sentinel-2 scene after the wildfires" class="figure mx-auto d-block"><div class="figcaption">Overview of the true-color image (“thumbnail”)
+after the wildfires on Rhodes</div>
+</figure><hr>
+<h3 id="05-access-data-figure-5">Figure 5</h3>
 <p aria-hidden="true">Image 1 of 1: ‘thumbnail of the landsat-8 scene’</p>
 <figure><img src="../fig/E05/STAC-l8-preview.jpg" alt="thumbnail of the landsat-8 scene" class="figure mx-auto d-block"><div class="figcaption">Thumbnail of the Landsat-8 scene</div>
-</figure><hr></section><section id="06-raster-intro"><h2 class="section-heading"><a href="06-raster-intro.html">Read and visualize raster data</a></h2>
+</figure><hr></section><section id="06-raster-intro"><h2 class="section-heading"><a href="06-raster-intro.html">Read and visualize raster dataResampling the raster image<a class="anchor" aria-label="anchor" href="#resampling-the-raster-image"></a></a></h2>
 <hr class="half-width">
 <h3 id="06-raster-intro-figure-1">Figure 1</h3>
 <p aria-hidden="true">Image 1 of 1: ‘raster plot with defualt setting’</p>
-<figure><img src="../fig/E06/overview-plot-B09.png" alt="raster plot with defualt setting" class="figure mx-auto d-block"><div class="figcaption">Raster plot with rioxarray</div>
+<figure><img src="../fig/E06/rhodes_red_B04.png" alt="raster plot with defualt setting" class="figure mx-auto d-block"><div class="figcaption">Raster plot with rioxarray</div>
 </figure><hr>
 <h3 id="06-raster-intro-figure-2">Figure 2</h3>
-<p aria-hidden="true">Image 1 of 1: ‘raster plot with robust setting’</p>
-<figure><img src="../fig/E06/overview-plot-B09-robust.png" alt="raster plot with robust setting" class="figure mx-auto d-block"><div class="figcaption">Raster plot using the “robust” setting</div>
+<p aria-hidden="true">Image 1 of 1: ‘raster plot with defualt setting’</p>
+<figure><img src="../fig/E06/rhodes_red_80_B04.png" alt="raster plot with defualt setting" class="figure mx-auto d-block"><div class="figcaption">Raster plot 80 x 80 meter resolution with
+rioxarray</div>
 </figure><hr>
 <h3 id="06-raster-intro-figure-3">Figure 3</h3>
+<p aria-hidden="true">Image 1 of 1: ‘raster plot with robust setting’</p>
+<figure><img src="../fig/E06/rhodes_red_80_B04_robust.png" alt="raster plot with robust setting" class="figure mx-auto d-block"><div class="figcaption">Raster plot using the “robust” setting</div>
+</figure><hr>
+<h3 id="06-raster-intro-figure-4">Figure 4</h3>
+<p aria-hidden="true">Image 1 of 1: ‘raster plot with robust setting’</p>
+<figure><img src="../fig/E06/rhodes_red_80_B04_vmin100_vmax2000.png" alt="raster plot with robust setting" class="figure mx-auto d-block"><div class="figcaption">Raster plot using vmin 100 and vmax 2000</div>
+</figure><hr>
+<h3 id="06-raster-intro-figure-5">Figure 5</h3>
 <p aria-hidden="true">Image 1 of 1: ‘UTM zones across the CONUS’</p>
 <figure><img src="../fig/E03/Utm-zones-USA.svg" alt="UTM zones across the CONUS" class="figure mx-auto d-block"><div class="figcaption">The UTM zones across the continental United
 States (Chrismurf at English Wikipedia, via <a href="https://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system#/media/File:Utm-zones-USA.svg" class="external-link">Wikimedia
 Commons</a> (CC-BY))</div>
 </figure><hr>
-<h3 id="06-raster-intro-figure-4">Figure 4</h3>
+<h3 id="06-raster-intro-figure-6">Figure 6</h3>
 <p aria-hidden="true">Image 1 of 1: ‘raster plot masking missing values’</p>
-<figure><img src="../fig/E06/overview-plot-B09-robust-with-nan.png" alt="raster plot masking missing values" class="figure mx-auto d-block"><div class="figcaption">Raster plot after masking out missing
+<figure><img src="../fig/E06/rhodes_red_80_B04_robust_nan.png" alt="raster plot masking missing values" class="figure mx-auto d-block"><div class="figcaption">Raster plot after masking out missing
 values</div>
 </figure><hr>
-<h3 id="06-raster-intro-figure-5">Figure 5</h3>
+<h3 id="06-raster-intro-figure-7">Figure 7</h3>
 <p aria-hidden="true">Image 1 of 1: ‘multi-band raster’</p>
 <figure><img src="../fig/E06/single_multi_raster.png" alt="multi-band raster" class="figure mx-auto d-block"><div class="figcaption">Sketch of a multi-band raster image</div>
 </figure><hr>
-<h3 id="06-raster-intro-figure-6">Figure 6</h3>
+<h3 id="06-raster-intro-figure-8">Figure 8</h3>
 <p aria-hidden="true">Image 1 of 1: ‘true-color image overview’</p>
-<figure><img src="../fig/E06/overview-plot-true-color.png" alt="true-color image overview" class="figure mx-auto d-block"><div class="figcaption">Overview of the true-color image (multi-band
+<figure><img src="../fig/E06/rhodes_multiband_80.png" alt="true-color image overview" class="figure mx-auto d-block"><div class="figcaption">Overview of the true-color image (multi-band
 raster)</div>
 </figure><hr>
-<h3 id="06-raster-intro-figure-7">Figure 7</h3>
+<h3 id="06-raster-intro-figure-9">Figure 9</h3>
 <p aria-hidden="true">Image 1 of 1: ‘raster plot with correct aspect ratio’</p>
-<figure><img src="../fig/E06/overview-plot-true-color-aspect-equal.png" alt="raster plot with correct aspect ratio" class="figure mx-auto d-block"><div class="figcaption">Overview of the true-color image with the
+<figure><img src="../fig/E06/rhodes_multiband_80_equal_aspect.png" alt="raster plot with correct aspect ratio" class="figure mx-auto d-block"><div class="figcaption">Overview of the true-color image with the
 correct aspect ratio</div>
 </figure><hr></section><section id="07-vector-data-in-python"><h2 class="section-heading"><a href="07-vector-data-in-python.html">Vector data in Python</a></h2>
 <hr class="half-width">
@@ -544,111 +570,96 @@ correct aspect ratio</div>
 <p aria-hidden="true">Image 1 of 1: ‘Pandas and Geopandas’</p>
 <figure><img src="../fig/E07/pandas_geopandas_relation.png" alt="Pandas and Geopandas" class="figure mx-auto d-block"></figure><hr>
 <h3 id="07-vector-data-in-python-figure-2">Figure 2</h3>
-<p aria-hidden="true">Image 1 of 1: ‘Crop fields inside the AOI’</p>
-<figure><img src="../fig/E07/fields.png" alt="Crop fields inside the AOI" class="figure mx-auto d-block"></figure><hr>
+<p aria-hidden="true">Image 1 of 1: ‘greece_administrations’</p>
+<figure><img src="../fig/E07/greece_administration_areas.png" alt="greece_administrations" class="figure mx-auto d-block"></figure><hr>
 <h3 id="07-vector-data-in-python-figure-3">Figure 3</h3>
-<p aria-hidden="true">Image 1 of 1: ‘all wells in the NL’</p>
-<figure><img src="../fig/E07/wells-nl.png" alt="all wells in the NL" class="figure mx-auto d-block"></figure><hr>
+<p aria-hidden="true">Image 1 of 1: ‘rhodes_administrations’</p>
+<figure><img src="../fig/E07/rhodes_administration_areas.png" alt="rhodes_administrations" class="figure mx-auto d-block"></figure><hr>
 <h3 id="07-vector-data-in-python-figure-4">Figure 4</h3>
-<p aria-hidden="true">Image 1 of 1: ‘50m buffer around the fields’</p>
-<figure><img src="../fig/E07/fields-buffer.png" alt="50m buffer around the fields" class="figure mx-auto d-block"></figure><hr>
+<p aria-hidden="true">Image 1 of 1: ‘greece_highways’</p>
+<figure><img src="../fig/E07/greece_highways.png" alt="greece_highways" class="figure mx-auto d-block"></figure><hr>
 <h3 id="07-vector-data-in-python-figure-5">Figure 5</h3>
-<p aria-hidden="true">Image 1 of 1: ‘Wells within 50m buffer of fields’</p>
-<figure><img src="../fig/E07/wells-in-buffer.png" alt="Wells within 50m buffer of fields" class="figure mx-auto d-block"></figure><hr>
+<p aria-hidden="true">Image 1 of 1: ‘rhodes_highways’</p>
+<figure><img src="../fig/E07/rhodes_highways.png" alt="rhodes_highways" class="figure mx-auto d-block"></figure><hr>
 <h3 id="07-vector-data-in-python-figure-6">Figure 6</h3>
-<p aria-hidden="true">Image 1 of 1: ‘fields within 50m buffer of the wells, truncated’</p>
-<figure><img src="../fig/E07/fields-in-buffer-clip.png" alt="fields within 50m buffer of the wells, truncated" class="figure mx-auto d-block"></figure><hr>
+<p aria-hidden="true">Image 1 of 1: ‘rhodes_infra_highways’</p>
+<figure><img src="../fig/E07/rhodes_infra_highways.png" alt="rhodes_infra_highways" class="figure mx-auto d-block"></figure><hr>
 <h3 id="07-vector-data-in-python-figure-7">Figure 7</h3>
-<p aria-hidden="true">Image 1 of 1: ‘Fields in 50m buffer of wells, not truncated’</p>
-<figure><img src="../fig/E07/fields-in-buffer-sjoin.png" alt="Fields in 50m buffer of wells, not truncated" class="figure mx-auto d-block"></figure><hr>
+<p aria-hidden="true">Image 1 of 1: ‘rhodes_builtup_buffer’</p>
+<figure><img src="../fig/E07/rhodes_builtup_buffer.png" alt="rhodes_builtup_buffer" class="figure mx-auto d-block"></figure><hr>
 <h3 id="07-vector-data-in-python-figure-8">Figure 8</h3>
-<p aria-hidden="true">Image 1 of 1: ‘waterways, rotated’</p>
-<figure><img src="../fig/E07/waterways-wrong.png" alt="waterways, rotated" class="figure mx-auto d-block"></figure><hr>
-<h3 id="07-vector-data-in-python-figure-9">Figure 9</h3>
-<p aria-hidden="true">Image 1 of 1: ‘waterways, corrected’</p>
-<figure><img src="../fig/E07/waterways-corrected.png" alt="waterways, corrected" class="figure mx-auto d-block"></figure><hr></section><section id="08-crop-raster-data"><h2 class="section-heading"><a href="08-crop-raster-data.html">Crop raster data with rioxarray and geopandas</a></h2>
+<p aria-hidden="true">Image 1 of 1: ‘rhodes_assets’</p>
+<figure><img src="../fig/E07/rhodes_assets.png" alt="rhodes_assets" class="figure mx-auto d-block"></figure><hr></section><section id="08-crop-raster-data"><h2 class="section-heading"><a href="08-crop-raster-data.html">Crop raster data with rioxarray and geopandas</a></h2>
 <hr class="half-width">
 <h3 id="08-crop-raster-data-figure-1">Figure 1</h3>
-<p aria-hidden="true">Image 1 of 1: ‘Overview of the raster’</p>
-<figure><img src="../fig/E08/crop-raster-overview-raster-00.png" alt="Overview of the raster" class="figure mx-auto d-block"></figure><hr>
+<p aria-hidden="true">Image 1 of 1: ‘Large visual raster’</p>
+<figure><img src="../fig/E08/visual_large.png" alt="Large visual raster" class="figure mx-auto d-block"></figure><hr>
 <h3 id="08-crop-raster-data-figure-2">Figure 2</h3>
-<p aria-hidden="true">Image 1 of 1: ‘Raster cropped by a bounding box’</p>
-<figure><img src="../fig/E08/crop-raster-crop-by-bb-02.png" alt="Raster cropped by a bounding box" class="figure mx-auto d-block"></figure><hr>
+<p aria-hidden="true">Image 1 of 1: ‘Clip box results’</p>
+<figure><img src="../fig/E08/visual_clip_box.png" alt="Clip box results" class="figure mx-auto d-block"></figure><hr>
 <h3 id="08-crop-raster-data-figure-3">Figure 3</h3>
-<p aria-hidden="true">Image 1 of 1: ‘Ratser cropped by field polygons’</p>
-<figure><img src="../fig/E08/crop-raster-crop-fields.png" alt="Ratser cropped by field polygons" class="figure mx-auto d-block"></figure><hr>
+<p aria-hidden="true">Image 1 of 1: ‘Clip results’</p>
+<figure><img src="../fig/E08/visual_clip.png" alt="Clip results" class="figure mx-auto d-block"></figure><hr>
 <h3 id="08-crop-raster-data-figure-4">Figure 4</h3>
-<p aria-hidden="true">Image 1 of 1: ‘Raster croped by fields with gewascode 257’</p>
-<figure><img src="../fig/E08/crop-raster-fields-gewascode.png" alt="Raster croped by fields with gewascode 257" class="figure mx-auto d-block"></figure><hr>
+<p aria-hidden="true">Image 1 of 1: ‘rhodes_builtup_buffer’</p>
+<figure><img src="../fig/E08/solution_exercise.png" alt="rhodes_builtup_buffer" class="figure mx-auto d-block"></figure><hr>
 <h3 id="08-crop-raster-data-figure-5">Figure 5</h3>
-<p aria-hidden="true">Image 1 of 1: ‘Reproject match big to small’</p>
-<figure><img src="../fig/E08/reprojectmatch-big-to-small.png" alt="Reproject match big to small" class="figure mx-auto d-block"></figure><hr>
+<p aria-hidden="true">Image 1 of 1: ‘DEM’</p>
+<figure><img src="../fig/E08/dem.png" alt="DEM" class="figure mx-auto d-block"></figure><hr>
 <h3 id="08-crop-raster-data-figure-6">Figure 6</h3>
-<p aria-hidden="true">Image 1 of 1: ‘Reproject match small to big’</p>
-<figure><img src="../fig/E08/reprojectmatch-small-to-big.png" alt="Reproject match small to big" class="figure mx-auto d-block"></figure><hr></section><section id="09-raster-calculations"><h2 class="section-heading"><a href="09-raster-calculations.html">Raster Calculations in Python</a></h2>
+<p aria-hidden="true">Image 1 of 1: ‘Matched DEM’</p>
+<figure><img src="../fig/E08/dem_matched.png" alt="Matched DEM" class="figure mx-auto d-block"></figure><hr></section><section id="09-raster-calculations"><h2 class="section-heading"><a href="09-raster-calculations.html">Raster Calculations in Python</a></h2>
 <hr class="half-width">
 <h3 id="09-raster-calculations-figure-1">Figure 1</h3>
-<p aria-hidden="true">Image 1 of 1: ‘PONE-NDVI image’</p>
-<figure><img src="../fig/E09/PONE-NDVI.jpg" alt="PONE-NDVI image" class="figure mx-auto d-block"><div class="figcaption">Source: Wu C-D, McNeely E, Cedeño-Laurent JG,
-Pan W-C, Adamkiewicz G, Dominici F, et al. (2014) Linking Student
-Performance in Massachusetts Elementary Schools with the “Greenness” of
-School Surroundings Using Remote Sensing. PLoS ONE 9(10): e108548. <a href="https://doi.org/10.1371/journal.pone.0108548" class="external-link uri">https://doi.org/10.1371/journal.pone.0108548</a>
-</div>
-</figure><hr>
-<h3 id="09-raster-calculations-figure-2">Figure 2</h3>
 <p aria-hidden="true">Image 1 of 1: ‘red band image’</p>
 <figure><img src="../fig/E09/red-band.png" alt="red band image" class="figure mx-auto d-block"></figure><hr>
-<h3 id="09-raster-calculations-figure-3">Figure 3</h3>
+<h3 id="09-raster-calculations-figure-2">Figure 2</h3>
 <p aria-hidden="true">Image 1 of 1: ‘near infra-red band image’</p>
 <figure><img src="../fig/E09/NIR-band.png" alt="near infra-red band image" class="figure mx-auto d-block"></figure><hr>
-<h3 id="09-raster-calculations-figure-4">Figure 4</h3>
+<h3 id="09-raster-calculations-figure-3">Figure 3</h3>
 <p aria-hidden="true">Image 1 of 1: ‘NDVI map’</p>
 <figure><img src="../fig/E09/NDVI-map.png" alt="NDVI map" class="figure mx-auto d-block"></figure><hr>
-<h3 id="09-raster-calculations-figure-5">Figure 5</h3>
+<h3 id="09-raster-calculations-figure-4">Figure 4</h3>
 <p aria-hidden="true">Image 1 of 1: ‘NDVI histogram’</p>
 <figure><img src="../fig/E09/NDVI-hist.png" alt="NDVI histogram" class="figure mx-auto d-block"></figure><hr>
+<h3 id="09-raster-calculations-figure-5">Figure 5</h3>
+<p aria-hidden="true">Image 1 of 1: ‘NDWI index’</p>
+<figure><img src="../fig/E09/NDWI.png" alt="NDWI index" class="figure mx-auto d-block"></figure><hr>
 <h3 id="09-raster-calculations-figure-6">Figure 6</h3>
-<p aria-hidden="true">Image 1 of 1: ‘NDVI histogram with 50 bins’</p>
-<figure><img src="../fig/E09/NDVI-hist-bins.png" alt="NDVI histogram with 50 bins" class="figure mx-auto d-block"></figure><hr>
+<p aria-hidden="true">Image 1 of 1: ‘custom index’</p>
+<figure><img src="../fig/E09/custom-index.png" alt="custom index" class="figure mx-auto d-block"></figure><hr>
 <h3 id="09-raster-calculations-figure-7">Figure 7</h3>
-<p aria-hidden="true">Image 1 of 1: ‘binned NDVI map’</p>
-<figure><img src="../fig/E09/NDVI-map-binned.png" alt="binned NDVI map" class="figure mx-auto d-block"></figure><hr>
-<h3 id="09-raster-calculations-figure-8">Figure 8</h3>
-<p aria-hidden="true">Image 1 of 1: ‘NDVI classes’</p>
-<figure><img src="../fig/E09/NDVI-classes.jpg" alt="NDVI classes" class="figure mx-auto d-block"><div class="figcaption">Source: Image created for this lesson (<a href="LICENSE.html">license</a>)</div>
-</figure><hr>
-<h3 id="09-raster-calculations-figure-9">Figure 9</h3>
-<p aria-hidden="true">Image 1 of 1: ‘classified NDVI map’</p>
-<figure><img src="../fig/E09/NDVI-classified.png" alt="classified NDVI map" class="figure mx-auto d-block"></figure><hr>
-<h3 id="09-raster-calculations-figure-10">Figure 10</h3>
-<p aria-hidden="true">Image 1 of 1: ‘NDVI map Texel’</p>
-<figure><img src="../fig/E09/NDVI-map-Texel.png" alt="NDVI map Texel" class="figure mx-auto d-block"></figure><hr>
-<h3 id="09-raster-calculations-figure-11">Figure 11</h3>
-<p aria-hidden="true">Image 1 of 1: ‘NDVI histogram Texel’</p>
-<figure><img src="../fig/E09/NDVI-hist-Texel.png" alt="NDVI histogram Texel" class="figure mx-auto d-block"></figure><hr></section><section id="10-zonal-statistics"><h2 class="section-heading"><a href="10-zonal-statistics.html">Calculating Zonal Statistics on RastersIntroduction<a class="anchor" aria-label="anchor" href="#introduction"></a>Making vector and raster data compatible<a class="anchor" aria-label="anchor" href="#making-vector-and-raster-data-compatible"></a>Rasterizing the vector data<a class="anchor" aria-label="anchor" href="#rasterizing-the-vector-data"></a>Calculate zonal statistics<a class="anchor" aria-label="anchor" href="#calculate-zonal-statistics"></a></a></h2>
+<p aria-hidden="true">Image 1 of 1: ‘RGB image with burned area in red’</p>
+<figure><img src="../fig/E09/visual-burned-index.png" alt="RGB image with burned area in red" class="figure mx-auto d-block"></figure><hr></section><section id="10-zonal-statistics"><h2 class="section-heading"><a href="10-zonal-statistics.html">Calculating Zonal Statistics on Rasters</a></h2>
 <hr class="half-width">
 <h3 id="10-zonal-statistics-figure-1">Figure 1</h3>
-<p aria-hidden="true">Image 1 of 1: ‘rasterization results’</p>
-<figure><img src="../fig/E10/rasterization-results.png" alt="rasterization results" class="figure mx-auto d-block"></figure><hr>
-<h3 id="10-zonal-statistics-figure-2">Figure 2</h3>
-<p aria-hidden="true">Image 1 of 1: ‘Rasterization results Xarray’</p>
-<figure><img src="../fig/E10/rasterization-results-xr.png" alt="Rasterization results Xarray" class="figure mx-auto d-block"></figure><hr></section><section id="11-parallel-raster-computations"><h2 class="section-heading"><a href="11-parallel-raster-computations.html">Parallel raster computations using Dask</a></h2>
+<p aria-hidden="true">Image 1 of 1: ‘Rasterized zones’</p>
+<figure><img src="../fig/E10/zones_rasterized_xarray.png" alt="Rasterized zones" class="figure mx-auto d-block"></figure><hr></section><section id="11-parallel-raster-computations"><h2 class="section-heading"><a href="11-parallel-raster-computations.html">Parallel raster computations using Dask</a></h2>
 <hr class="half-width">
 <h3 id="11-parallel-raster-computations-figure-1">Figure 1</h3>
-<p aria-hidden="true">Image 1 of 1: ‘true color image scene’</p>
-<figure><img src="../fig/E11/true-color-image.png" alt="true color image scene" class="figure mx-auto d-block"><div class="figcaption">Scene’s true-color image</div>
-</figure><hr>
-<h3 id="11-parallel-raster-computations-figure-2">Figure 2</h3>
-<p aria-hidden="true">Image 1 of 1: ‘median filter true color image’</p>
-<figure><img src="../fig/E11/true-color-image_median-filter.png" alt="median filter true color image" class="figure mx-auto d-block"><div class="figcaption">True-color image after median filtering</div>
-</figure><hr>
-<h3 id="11-parallel-raster-computations-figure-3">Figure 3</h3>
 <p aria-hidden="true">Image 1 of 1: ‘DataArray with Dask’</p>
 <figure><img src="../fig/E11/xarray-with-dask.png" alt="DataArray with Dask" class="figure mx-auto d-block"><div class="figcaption">Xarray Dask-backed DataArray</div>
 </figure><hr>
-<h3 id="11-parallel-raster-computations-figure-4">Figure 4</h3>
+<h3 id="11-parallel-raster-computations-figure-2">Figure 2</h3>
 <p aria-hidden="true">Image 1 of 1: ‘dask graph’</p>
 <figure><img src="../fig/E11/dask-graph.png" alt="dask graph" class="figure mx-auto d-block"><div class="figcaption">Dask graph</div>
+</figure><hr></section><section id="12-data-cube"><h2 class="section-heading"><a href="12-data-cube.html">Data cubes with ODC-STAC</a></h2>
+<hr class="half-width">
+<h3 id="12-data-cube-figure-1">Figure 1</h3>
+<p aria-hidden="true">Image 1 of 1: ‘NDVI before the wildfire’</p>
+<figure><img src="../fig/E12/NDVI-before.png" alt="NDVI before the wildfire" class="figure mx-auto d-block"><div class="figcaption">NDVI before the wildfire</div>
+</figure><hr>
+<h3 id="12-data-cube-figure-2">Figure 2</h3>
+<p aria-hidden="true">Image 1 of 1: ‘NDVI after the wildfire’</p>
+<figure><img src="../fig/E12/NDVI-after.png" alt="NDVI after the wildfire" class="figure mx-auto d-block"><div class="figcaption">NDVI after the wildfire</div>
+</figure><hr>
+<h3 id="12-data-cube-figure-3">Figure 3</h3>
+<p aria-hidden="true">Image 1 of 1: ‘NDVI plot with selected point’</p>
+<figure><img src="../fig/E12/NDVI-after_point.png" alt="NDVI plot with selected point" class="figure mx-auto d-block"><div class="figcaption">NDVI plot with selected point</div>
+</figure><hr>
+<h3 id="12-data-cube-figure-4">Figure 4</h3>
+<p aria-hidden="true">Image 1 of 1: ‘NDVI time series’</p>
+<figure><img src="../fig/E12/NDVI-time-series.png" alt="NDVI time series" class="figure mx-auto d-block"><div class="figcaption">NDVI time series</div>
 </figure><hr></section>
 </div>
     </main>
@@ -674,7 +685,7 @@ School Surroundings Using Remote Sensing. PLoS ONE 9(10): e108548. <a href="http
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
 
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.10" class="external-link">sandpaper (0.16.10)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.7" class="external-link">pegboard (0.7.7)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.5" class="external-link">varnish (1.0.5)</a></p>
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.12" class="external-link">sandpaper (0.16.12)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.9" class="external-link">pegboard (0.7.9)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.6" class="external-link">varnish (1.0.6)</a></p>
 			</div>
 		</footer>
 </div> <!-- / div.container -->
@@ -686,19 +697,19 @@ School Surroundings Using Remote Sensing. PLoS ONE 9(10): e108548. <a href="http
   <script type="application/ld+json">
     {
   "@context": "https://schema.org",
-  "@type": "TrainingMaterial",
+  "@type": "LearningResource",
   "@id": "https://carpentries-incubator.github.io/geospatial-python/instructor/images.html",
   "inLanguage": "en",
-  "dct:conformsTo": "https://bioschemas.org/profiles/TrainingMaterial/1.0-RELEASE",
+  "dct:conformsTo": "https://bioschemas.org/profiles/LearningResource/1.0-RELEASE",
   "description": "A Carpentries Lesson teaching foundational data and coding skills to researchers worldwide",
   "keywords": "software, data, lesson, The Carpentries",
   "name": "All Images",
   "creativeWorkStatus": "active",
   "url": "https://carpentries-incubator.github.io/geospatial-python/instructor/images.html",
   "identifier": "https://carpentries-incubator.github.io/geospatial-python/instructor/images.html",
-  "dateCreated": "2024-03-05",
-  "dateModified": "2024-12-03",
-  "datePublished": "2024-12-03"
+  "dateCreated": "2025-05-20",
+  "dateModified": "2025-05-20",
+  "datePublished": "2025-05-20"
 }
 
   </script><script>

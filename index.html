@@ -20,7 +20,7 @@
       <div class="large-logo">
         <img id="incubator-logo" alt="Carpentries Incubator" src="assets/images/incubator-logo.svg"><span class="badge text-bg-info">
           <abbr title="This lesson is in the beta phase, which means that it is ready for teaching by instructors outside of the original author team.">
-            <a href="https://cdh.carpentries.org/the-lesson-life-cycle.html#polishing-beta-stage" class="external-link alert-link">
+            <a href="https://docs.carpentries.org/resources/curriculum/lesson-life-cycle.html" class="external-link alert-link">
               <i aria-hidden="true" class="icon" data-feather="alert-circle" style="border-radius: 5px"></i>
               Beta
             </a>
@@ -313,6 +313,15 @@
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
+<div class="accordion accordion-flush" id="accordionFlush13">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading13">
+        <a href="12-data-cube.html">12. Data cubes with ODC-STAC</a>
+    </div><!--/div.accordion-header-->
+
+  </div><!--/div.accordion-item-->
+</div><!--/div.accordion-flush-->
+
                 </div>
               </div>
             </div>
@@ -364,24 +373,77 @@
       <hr></nav><main id="main-content" class="main-content"><h1 class="schedule-heading">Summary and Setup</h1>
       
 
-<p>Data Carpentry’s teaching is hands-on, so participants are encouraged
-to use their own computers to ensure the proper setup of tools for an
-efficient workflow. To most effectively use these materials, please make
-sure to download the data and install everything before working through
-this lesson.</p>
+<div class="section level3">
+<h3 id="introduction-to-geospatial-raster-and-vector-data-with-python">Introduction to Geospatial Raster and Vector Data with Python<a class="anchor" aria-label="anchor" href="#introduction-to-geospatial-raster-and-vector-data-with-python"></a></h3>
+<p>In this lesson you will learn how to work with geospatial datasets
+and how to process these with Python. Python is one of the most popular
+programming languages for data science and analytics, with a large and
+steadily growing community in the field of Earth and Space Sciences. The
+lesson is meant for participants with a basic knowledge of Python and it
+allows them to familiarize with the world of geospatial raster and
+vector data. If you are unfamiliar with Python, useful resources to get
+started include the Software Carpentry’s lesson <a href="https://swcarpentry.github.io/python-novice-inflammation/" class="external-link">“Programming
+with Python”</a> and the book <a href="https://allendowney.github.io/ThinkPython/index.html" class="external-link">“Think
+Python”</a> by Allen Downey. In the <em>Introduction to Geospatial
+Raster and Vector Data with Python</em> lesson you will be introduced to
+a set of tools from the Python ecosystem and learn how these can be used
+to carry out geospatial data analysis tasks. In particular, you will
+work with satellite images and open topographical geo-datasets, and
+learn how these spatial datasets can be accessed, explored, manipulated
+and visualized using Python.</p>
+</div>
+<div class="section level3">
+<h3 id="case-study---wildfires">Case study - Wildfires<a class="anchor" aria-label="anchor" href="#case-study---wildfires"></a></h3>
+<p>As a case study for this lesson we will focus on wildfires. According
+to <a href="https://www.ipcc.ch/report/ar6/wg2/about/frequently-asked-questions/keyfaq1/" class="external-link">the
+IPCC assessment report</a>, the wildfire seasons are lengthening as a
+result of changes in temperature and increasing drought conditions. To
+analyse the impact of these wildfires, we will focus on the wildfire
+that occurred on the Greek island of <a href="https://news.sky.com/story/wildfires-on-rhodes-force-hundreds-of-holidaymakers-to-flee-their-hotels-12925583" class="external-link">Rhodes
+in the summer of 2023</a>, which had a devastating effect and led to the
+evacuation of <a href="https://en.wikipedia.org/wiki/2023_Greece_wildfires" class="external-link">19.000
+people</a>. In this lesson we are going to analyse the effect of this
+disaster by estimating which built-up areas were affected by these
+wildfires. Furthermore, we will analyse which vegetation and land-use
+types have been affected the most by the wildfire in order to get an
+understanding of which areas are more vulnerable to wildfires. The
+analysis that we set up provides insights in the effect of the wildfire
+and generates input for wildfire mitigation strategies.</p>
+<p><em>Note, that the analyses presented in this lesson are developed
+for educational purposes. Therefore in some occasions the analysis steps
+have been simplified and assumptions have been made.</em></p>
 <p>The data used in this lesson includes optical satellite images from
 <a href="https://sentinel.esa.int/web/sentinel/missions/sentinel-2" class="external-link">the
-Copernicus Sentinel-2 mission</a> and public geographical datasets from
-<a href="https://www.pdok.nl" class="external-link">the dedicated distribution platform of the
-Dutch government</a>. These are real-world data sets that entail
+Copernicus Sentinel-2 mission</a> and topographical data from <a href="https://www.openstreetmap.org/#map=14/45.2935/18.7986" class="external-link">OpenStreetMap
+(OSM)</a>. These datasets are real-world open data sets that entail
 sufficient complexity to teach many aspects of data analysis and
-management. They have been selected to allow students to focus on the
-core ideas and skills being taught while offering the chance to
-encounter common challenges with geospatial data.</p>
-<!--
+management. The datasets have been selected to allow participants to
+focus on the core ideas and skills being taught while offering the
+chance to encounter common challenges with geospatial data. Furthermore,
+we have selected datasets which are available anywhere on Earth.</p>
+<p>During this lesson we will setup an analysis pipeline which
+identifies scorched areas based on bands of satellite images collected
+after the disaster in July 2023. Next, we will calculate the <a href="https://en.wikipedia.org/wiki/Normalized_difference_vegetation_index" class="external-link">Normalized
+Difference Vegetation Index (NDVI)</a> to assess the vegetation cover of
+the areas before and after the wildfire. To investigate the affected
+built-up areas and main roads, we will use OSM vector data and compare
+them with the previously identified scorched areas.</p>
+<p>To most effectively use this material, make sure to <a href="index.html#data-sets">download the data</a> and follow <a href="index.html#software-setup">the software setup instructions</a>
+before working through the lesson (this especially accounts for learners
+that follow this lesson in a workshop).</p>
+</div>
+<div class="section level3">
+<h3 id="python-libraries-used-in-this-lesson">Python libraries used in this lesson<a class="anchor" aria-label="anchor" href="#python-libraries-used-in-this-lesson"></a></h3>
+<p>The main python libraries that are used in this lesson are:</p>
+<ul><li><a href="https://geopandas.org/en/stable/" class="external-link">geopandas</a></li>
+<li><a href="https://github.com/corteva/rioxarray" class="external-link">rioxarray</a></li>
+<li><a href="https://xarray-spatial.org/" class="external-link">xarray-spatial</a></li>
+<li><a href="https://www.dask.org/" class="external-link">dask</a></li>
+<li><a href="https://pystac-client.readthedocs.io/" class="external-link">pystac-client</a></li>
+</ul><!--
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
- -->
+ --></div>
 
 
       <section id="setup"><section><h2 class="section-heading" id="data-sets">Data Sets<a class="anchor" aria-label="anchor" href="#data-sets"></a></h2>
@@ -389,12 +451,29 @@ any links that you are not going to use.
 <code>geospatial-python</code>.</li>
 <li>Within <code>geospatial-python</code>, create a directory called
 <code>data</code>.</li>
-<li>Download the following files and save them to the just created
-<code>data</code> directory (<strong>do not unzip the files</strong>, we
-will read from them directly):</li>
-</ol><ul><li><a href="https://figshare.com/ndownloader/files/37729413" class="external-link">brpgewaspercelen_definitief_2020_small.gpkg</a></li>
-<li><a href="https://figshare.com/ndownloader/files/37729416" class="external-link">brogmwvolledigeset.zip</a></li>
-<li><a href="https://figshare.com/ndownloader/files/37729419" class="external-link">status_vaarweg.zip</a></li>
+<li>Download the data required for this lesson via <a href="https://figshare.com/ndownloader/articles/25721754/versions/3" class="external-link">this
+link</a> (678MB).</li>
+<li>Unzip the downloaded file and save its content into the just created
+<code>data</code> directory.</li>
+</ol><p>Now you should have the following files in the <code>data</code>
+directory:</p>
+<ul><li>
+<code>sentinel-2</code> - This is a directory containing multiple
+bands of Sentinel-2 raster images collected over the island of Rhodes on
+Aug 27, 2023.</li>
+<li>
+<code>dem/rhodes_dem.tif</code> - This is the Digital Elevation
+Model (DEM) of the island of Rhodes, retrieved from the <a href="https://spacedata.copernicus.eu/collections/copernicus-digital-elevation-model" class="external-link">Copernicus
+Digital Elevation Model (GLO-30)</a>. The original tiles have been
+cropped and mosaicked for this lesson.</li>
+<li>
+<code>gadm/ADM_ADM_3.gpkg</code> - This is the administration
+boundaries of Rhodes, downloaded from <a href="https://gadm.org/" class="external-link">GADM</a> and modified for this lesson.</li>
+<li>
+<code>osm/osm_landuse.gpkg</code> and
+<code>osm/osm_roads.gpkg</code> - They are land-use poylgons and roads
+polylines of Rhodes, downloaded from <a href="www.openstreetmaps.org">Openstreetmaps</a> via <a href="https://www.geofabrik.de/data/download.html" class="external-link">Geofabrik</a> and
+modified for this lesson.</li>
 </ul></section><section><h2 class="section-heading" id="software-setup">Software Setup<a class="anchor" aria-label="anchor" href="#software-setup"></a></h2>
 <hr class="half-width"><div class="section level3">
 <h3 id="installing-python-using-anaconda">Installing Python Using Anaconda<a class="anchor" aria-label="anchor" href="#installing-python-using-anaconda"></a></h3>
@@ -567,7 +646,8 @@ message in the terminal:</p>
 </div>
 </li>
 <li>
-<p>Activate the <code>geospatial</code> environment:</p>
+<p>Now Activate the <code>geospatial</code> environment by
+running:</p>
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -691,7 +771,7 @@ any links that you are not going to use.
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
 
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.10" class="external-link">sandpaper (0.16.10)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.7" class="external-link">pegboard (0.7.7)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.5" class="external-link">varnish (1.0.5)</a></p>
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.12" class="external-link">sandpaper (0.16.12)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.9" class="external-link">pegboard (0.7.9)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.6" class="external-link">varnish (1.0.6)</a></p>
 			</div>
 		</footer></div> <!-- / div.container -->
 	<div id="to-top">
@@ -702,19 +782,19 @@ any links that you are not going to use.
   <script type="application/ld+json">
     {
   "@context": "https://schema.org",
-  "@type": "TrainingMaterial",
+  "@type": "LearningResource",
   "@id": "https://carpentries-incubator.github.io/geospatial-python/index.html",
   "inLanguage": "en",
-  "dct:conformsTo": "https://bioschemas.org/profiles/TrainingMaterial/1.0-RELEASE",
+  "dct:conformsTo": "https://bioschemas.org/profiles/LearningResource/1.0-RELEASE",
   "description": "A Carpentries Lesson teaching foundational data and coding skills to researchers worldwide",
   "keywords": "software, data, lesson, The Carpentries",
   "name": "Introduction to Geospatial Raster and Vector Data with Python",
   "creativeWorkStatus": "active",
   "url": "https://carpentries-incubator.github.io/geospatial-python/index.html",
   "identifier": "https://carpentries-incubator.github.io/geospatial-python/index.html",
-  "dateCreated": "2024-03-05",
-  "dateModified": "2024-12-03",
-  "datePublished": "2024-12-03"
+  "dateCreated": "2025-05-20",
+  "dateModified": "2025-05-20",
+  "datePublished": "2025-05-20"
 }
 
   </script><script>

@@ -20,7 +20,7 @@
       <div class="large-logo">
         <img id="incubator-logo" alt="Carpentries Incubator" src="assets/images/incubator-logo.svg"><span class="badge text-bg-info">
           <abbr title="This lesson is in the beta phase, which means that it is ready for teaching by instructors outside of the original author team.">
-            <a href="https://cdh.carpentries.org/the-lesson-life-cycle.html#polishing-beta-stage" class="external-link alert-link">
+            <a href="https://docs.carpentries.org/resources/curriculum/lesson-life-cycle.html" class="external-link alert-link">
               <i aria-hidden="true" class="icon" data-feather="alert-circle" style="border-radius: 5px"></i>
               Beta
             </a>
@@ -117,11 +117,11 @@
   Introduction to Geospatial Raster and Vector Data with Python
 </div>
 
-<aside class="col-md-12 lesson-progress"><div style="width: 88%" class="percentage">
-    88%
+<aside class="col-md-12 lesson-progress"><div style="width: 81%" class="percentage">
+    81%
   </div>
   <div class="progress incubator">
-    <div class="progress-bar incubator" role="progressbar" style="width: 88%" aria-valuenow="88" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar incubator" role="progressbar" style="width: 81%" aria-valuenow="81" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
     </div>
   </div>
 </aside><div class="container">
@@ -306,10 +306,18 @@
     <div id="flush-collapsecurrent" class="accordion-collapse collapse show" aria-labelledby="flush-headingcurrent" data-bs-parent="#accordionFlushcurrent">
       <div class="accordion-body">
         <ul><li><a href="#introduction">Introduction</a></li>
-<li><a href="#time-profiling-in-jupyter">Time profiling in Jupyter</a></li>
 <li><a href="#dask-powered-rasters">Dask-powered rasters</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
+
+  </div><!--/div.accordion-item-->
+</div><!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush13">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading13">
+        <a href="12-data-cube.html">12. Data cubes with ODC-STAC</a>
+    </div><!--/div.accordion-header-->
 
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
@@ -357,7 +365,7 @@
   <div class="col-xl-8 col-lg-12 primary-content">
     <nav class="lesson-content mx-md-4" aria-label="Previous and Next Chapter"><!-- content for small screens --><div class="d-block d-sm-block d-md-none">
         <a class="chapter-link" href="10-zonal-statistics.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
-        <a class="chapter-link float-end" href="index.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
+        <a class="chapter-link float-end" href="12-data-cube.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
       </div>
       <!-- content for large screens -->
       <div class="d-none d-sm-none d-md-block">
@@ -365,14 +373,14 @@
           <i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>
           Previous: Calculating Zonal
         </a>
-        <a class="chapter-link float-end" href="index.html" rel="next">
-          Home
+        <a class="chapter-link float-end" href="12-data-cube.html" rel="next">
+          Next: Data cubes with...
           <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i>
         </a>
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Parallel raster computations using Dask</h1>
-        <p>Last updated on 2023-08-14 |
+        <p>Last updated on 2025-05-20 |
 
         <a href="https://github.com/carpentries-incubator/geospatial-python/edit/main/episodes/11-parallel-raster-computations.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -440,9 +448,13 @@ Dask arrays as underlying data structures.</p>
 <p>This episode shows how Dask can be used to parallelize operations on
 local CPUs. However, the same library can be configured to run tasks on
 large compute clusters.</p>
-<p>More resources on Dask: - <a href="https://dask.org" class="external-link">Dask</a> and <a href="https://docs.dask.org/en/stable/array.html" class="external-link">Dask Array</a>. - <a href="https://xarray.pydata.org/en/stable/user-guide/dask.html" class="external-link">Xarray
-with Dask</a>.</p>
-</div>
+<p>More resources on Dask:</p>
+<ul><li>
+<a href="https://dask.org" class="external-link">Dask</a> and <a href="https://docs.dask.org/en/stable/array.html" class="external-link">Dask Array</a>.</li>
+<li>
+<a href="https://xarray.pydata.org/en/stable/user-guide/dask.html" class="external-link">Xarray
+with Dask</a>.</li>
+</ul></div>
 </div>
 </div>
 <p>It is important to realize, however, that many details determine the
@@ -454,155 +466,69 @@ computations. Depending on the specifics of the calculations, serial
 calculations might actually turn out to be faster! Being able to profile
 the computational time is thus essential, and we will see how to do that
 in a Jupyter environment in the next section.</p>
-<p>The example that we consider here is the application of a median
-filter to a satellite image. <a href="https://en.wikipedia.org/wiki/Median_filter" class="external-link">Median filtering</a>
-is a common noise removal technique which replaces a pixel’s value with
-the median value computed from its surrounding pixels.</p>
-</section><section><h2 class="section-heading" id="time-profiling-in-jupyter">Time profiling in Jupyter<a class="anchor" aria-label="anchor" href="#time-profiling-in-jupyter"></a></h2>
-<hr class="half-width"><div id="introduce-the-data" class="callout">
+<div id="introduce-the-data" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
 <div id="introduce-the-data" class="callout-inner">
 <h3 class="callout-title">Introduce the Data</h3>
 <div class="callout-content">
-<p>We’ll continue from the results of the satellite image search that we
-have carried out in an exercise from <a href="./05-access-data.html">a
-previous episode</a>. We will load data starting from the
-<code>search.json</code> file.</p>
-<p>If you would like to work with the data for this lesson without
-downloading data on-the-fly, you can download the raster data using this
-<a href="https://figshare.com/ndownloader/files/36028100" class="external-link">link</a>. Save
-the <code>geospatial-python-raster-dataset.tar.gz</code> file in your
-current working directory, and extract the archive file by
-double-clicking on it or by running the following command in your
-terminal <code>tar -zxvf geospatial-python-raster-dataset.tar.gz</code>.
-Use the file <code>geospatial-python-raster-dataset/search.json</code>
-(instead of <code>search.json</code>) to get started with this
-lesson.</p>
-</div>
-</div>
-</div>
-<p>Let’s set up a raster calculation using assets from our previous
-search of satellite scenes. We first load the item collection using the
-<code>pystac</code> library:</p>
+<p>We will use satellite images from the search that we have carried out
+in <a href="05-access-data.html">the episode: “Access satellite imagery
+using Python”</a>. Briefly, we have searched for Sentinel-2 scenes of
+Rhodes from July 1st to August 31st 2023 that have less than 1% cloud
+coverage. The search resulted in 11 scenes. We focus here on the most
+recent scene (August 27th), since that would show the situation after
+the wildfire, and use this as an example to demonstrate parallel raster
+calculations.</p>
+<p>For your convenience, we have included the scene of interest among
+the datasets that you have already downloaded when following <a href="index.html#setup">the setup instructions</a>. You should, however, be
+able to download the satellite images “on-the-fly” using the JSON
+metadata file that was created in <a href="05-access-data.html">the
+previous episode</a> (the file <code>rhodes_sentinel-2.json</code>).</p>
+<p>If you choose to work with the provided data (which is advised in
+case you are working offline or have a slow/unstable network connection)
+you can skip the remaining part of the block and continue with the
+following section: <a href="#Dask-powered-rasters">Dask-powered
+rasters</a>.</p>
+<p>If you want instead to experiment with downloading the data
+on-the-fly, you need to load the file
+<code>rhodes_sentinel-2.json</code>, which contains information on where
+and how to access the target satellite images from the remote
+repository:</p>
 <div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="im">import</span> pystac</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>items <span class="op">=</span> pystac.ItemCollection.from_file(<span class="st">"search.json"</span>)</span></code></pre>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>items <span class="op">=</span> pystac.ItemCollection.from_file(<span class="st">"rhodes_sentinel-2.json"</span>)</span></code></pre>
 </div>
-<p>We select the last scene, and extract the URL of the true-color image
-(“visual”):</p>
+<p>You can then select the first item in the collection, which is the
+most recent in the sequence:</p>
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>assets <span class="op">=</span> items[<span class="op">-</span><span class="dv">1</span>].assets  <span class="co"># last item's assets</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>visual_href <span class="op">=</span> assets[<span class="st">"visual"</span>].href  <span class="co"># true color image</span></span></code></pre>
-</div>
-<p>The true-color image is available as a raster file with 10 m
-resolution and 3 bands (you can verify this by opening the file with
-<code>rioxarray</code>), which makes it a relatively large file (few
-hundreds MBs). In order to keep calculations “manageable” (reasonable
-execution time and memory usage) we select here a lower resolution
-version of the image, taking advantage of the so-called “pyramidal”
-structure of cloud-optimized GeoTIFFs (COGs). COGs, in fact, typically
-include multiple lower-resolution versions of the original image, called
-“overviews”, in the same file. This allows us to avoid downloading
-high-resolution images when only quick previews are required.</p>
-<p>Overviews are often computed using powers of 2 as down-sampling (or
-zoom) factors. So, typically, the first level overview (index 0)
-corresponds to a zoom factor of 2, the second level overview (index 1)
-corresponds to a zoom factor of 4, and so on. Here, we open the third
-level overview (zoom factor 8) and check that the resolution is about 80
-m:</p>
-<div class="codewrapper sourceCode" id="cb3">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="im">import</span> rioxarray</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>visual <span class="op">=</span> rioxarray.open_rasterio(visual_href, overview_level<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="bu">print</span>(visual.rio.resolution())</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>item <span class="op">=</span> items[<span class="dv">0</span>]</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="bu">print</span>(item)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>(79.97086671522214, -79.97086671522214)</code></pre>
+<pre class="output" tabindex="0"><code>&lt;Item id=S2A_35SNA_20230827_0_L2A&gt;</code></pre>
 </div>
-<p>Let’s make sure the data has been loaded into memory before
-proceeding to time profile our raster calculation. Calling the
-<code>.load()</code> method of a DataArray object triggers data
-loading:</p>
-<div class="codewrapper sourceCode" id="cb5">
+<p>In this episode we will consider the red and near infrared bands
+associated with this scene. We extract the URL / <code>href</code>
+(Hypertext Reference) that point to each of the raster files, and store
+these in variables that we can use later on instead of the raster data
+paths to access the data:</p>
+<div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>visual <span class="op">=</span> visual.load()</span></code></pre>
-</div>
-<p>Note that by default data is loaded using Numpy arrays as underlying
-data structure. We can visualize the raster:</p>
-<div class="codewrapper sourceCode" id="cb6">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>visual.plot.imshow(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">10</span>))</span></code></pre>
-</div>
-<figure><img src="fig/E11/true-color-image.png" alt="true color image scene" class="figure mx-auto d-block"><div class="figcaption">Scene’s true-color image</div>
-</figure><p>Let’s now apply a median filter to the image while keeping track of
-the execution time of this task. The filter is carried out in two steps:
-first, we define the size and centering of the region around each pixel
-that will be considered for the median calculation (the so-called
-“windows”), using the <code>.rolling()</code> method. We choose here
-windows that are 7 pixel wide in both x and y dimensions, and, for each
-window, consider the central pixel as the window target. We then call
-the <code>.median()</code> method, which initiates the construction of
-the windows and the actual calculation.</p>
-<p>For the time profiling, we make use of the Jupyter magic
-<code>%%time</code>, which returns the time required to run the content
-of a cell (note that commands starting with <code>%%</code> needs to be
-on the first line of the cell!):</p>
-<div class="codewrapper sourceCode" id="cb7">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="op">%%</span>time</span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>median <span class="op">=</span> visual.rolling(x<span class="op">=</span><span class="dv">7</span>, y<span class="op">=</span><span class="dv">7</span>, center<span class="op">=</span><span class="va">True</span>).median()</span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>CPU times: user 15.6 s, sys: 3.2 s, total: 18.8 s
-Wall time: 19.6 s</code></pre>
-</div>
-<p>Let’s note down the calculation’s “Wall time” (actual time to perform
-the task). We can inspect the image resulting after the application of
-median filtering:</p>
-<div class="codewrapper sourceCode" id="cb9">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>median.plot.imshow(robust<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">10</span>))</span></code></pre>
-</div>
-<figure><img src="fig/E11/true-color-image_median-filter.png" alt="median filter true color image" class="figure mx-auto d-block"><div class="figcaption">True-color image after median filtering</div>
-</figure><div id="handling-edges" class="callout">
-<div class="callout-square">
-<i class="callout-icon" data-feather="bell"></i>
-</div>
-<div id="handling-edges" class="callout-inner">
-<h3 class="callout-title">Handling edges</h3>
-<div class="callout-content">
-<p>By looking closely, you might notice a tiny white edge at the plot
-boundaries. These are the pixels that are less than 3 pixels away from
-the border of the image. These pixels cannot be surrounded by a 7 pixel
-wide window. The default behaviour is to assign these with nodata
-values.</p>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>rhodes_red_href <span class="op">=</span> item.assets[<span class="st">"red"</span>].href  <span class="co"># red band</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>rhodes_nir_href <span class="op">=</span> item.assets[<span class="st">"nir"</span>].href  <span class="co"># near-infrared band</span></span></code></pre>
 </div>
 </div>
 </div>
-<p>Finally, let’s write the data to disk:</p>
-<div class="codewrapper sourceCode" id="cb10">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>median.rio.to_raster(<span class="st">"visual_median-filter.tif"</span>)</span></code></pre>
 </div>
-<p>In the following section we will see how to parallelize these raster
-calculations, and we will compare timings to the serial calculations
-that we have just run.</p>
 </section><section><h2 class="section-heading" id="dask-powered-rasters">Dask-powered rasters<a class="anchor" aria-label="anchor" href="#dask-powered-rasters"></a></h2>
 <hr class="half-width"><div class="section level3">
 <h3 id="chunked-arrays">Chunked arrays<a class="anchor" aria-label="anchor" href="#chunked-arrays"></a></h3>
@@ -611,15 +537,15 @@ Dask’s chunked arrays as underlying data structure. When opening a
 raster file with <code>open_rasterio</code> and providing the
 <code>chunks</code> argument, Dask arrays are employed instead of
 regular Numpy arrays. <code>chunks</code> describes the shape of the
-blocks which the data will be split in. As an example, we open the blue
+blocks which the data will be split in. As an example, we open the red
 band raster using a chunk shape of <code>(1, 4000, 4000)</code> (block
 size of <code>1</code> in the first dimension and of <code>4000</code>
 in the second and third dimensions):</p>
-<div class="codewrapper sourceCode" id="cb11">
+<div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>blue_band_href <span class="op">=</span> assets[<span class="st">"blue"</span>].href</span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>blue_band <span class="op">=</span> rioxarray.open_rasterio(blue_band_href, chunks<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">4000</span>, <span class="dv">4000</span>))</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="im">import</span> rioxarray</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>red <span class="op">=</span> rioxarray.open_rasterio(<span class="st">"data/sentinel2/red.tif"</span>, chunks<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">4000</span>, <span class="dv">4000</span>))</span></code></pre>
 </div>
 <p>Xarray and Dask also provide a graphical representation of the raster
 data array and of its blocked structure.</p>
@@ -632,26 +558,24 @@ data array and of its blocked structure.</p>
 <h3 class="callout-title">Exercise: Chunk sizes matter</h3>
 <div class="callout-content">
 <p>We have already seen how COGs are regular GeoTIFF files with a
-special internal structure. other feature of COGs is that data is
+special internal structure. Another feature of COGs is that data is
 organized in “blocks” that can be accessed remotely via independent HTTP
-requests, abling partial file readings. This is useful if you want to
-access only a portion of your raster file, but it also lows for
+requests, enabling partial file readings. This is useful if you want to
+access only a portion of your raster file, but it also allows for
 efficient parallel reading. You can check the blocksize employed in a
-COG file with the following code ippet:</p>
-<div class="codewrapper sourceCode" id="cb12">
+COG file with the following code snippet:</p>
+<div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="im">import</span> rasterio</span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="cf">with</span> rasterio.<span class="bu">open</span>(visual_href) <span class="im">as</span> r:</span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>    <span class="cf">if</span> r.is_tiled:</span>
-<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Chunk size: </span><span class="sc">{</span>r<span class="sc">.</span>block_shapes<span class="sc">}</span><span class="ss">"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="im">import</span> rasterio</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="cf">with</span> rasterio.<span class="bu">open</span>(<span class="st">"/path/or/URL/to/file.tif"</span>) <span class="im">as</span> r:</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>    <span class="cf">if</span> r.is_tiled:</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Chunk size: </span><span class="sc">{</span>r<span class="sc">.</span>block_shapes<span class="sc">}</span><span class="ss">"</span>)</span></code></pre>
 </div>
 <p>In order to optimally access COGs it is best to align the blocksize
-of the file with the chunks ployed when loading the file. Open the
-blue-band asset (the “blue” asset) of a Sentinel-2 scene as a chunked
-<code>DataArray</code> object using a suitable chunk size. Which
-elements do you think should be considered when choosing the chunk
-size?</p>
+of the file with the chunks enployed when loading the file. Which other
+elements do you think should be considered when choosing the chunk size?
+What do you think are suitable chunk sizes for the red band raster?</p>
 </div>
 </div>
 </div>
@@ -662,21 +586,21 @@ size?</p>
 </button>
 <div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb13">
+<div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="im">import</span> rasterio</span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="cf">with</span> rasterio.<span class="bu">open</span>(blue_band_href) <span class="im">as</span> r:</span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>    <span class="cf">if</span> r.is_tiled:</span>
-<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Chunk size: </span><span class="sc">{</span>r<span class="sc">.</span>block_shapes<span class="sc">}</span><span class="ss">"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="im">import</span> rasterio</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="cf">with</span> rasterio.<span class="bu">open</span>(<span class="st">"data/sentinel2/red.tif"</span>) <span class="im">as</span> r:</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>    <span class="cf">if</span> r.is_tiled:</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Chunk size: </span><span class="sc">{</span>r<span class="sc">.</span>block_shapes<span class="sc">}</span><span class="ss">"</span>)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code>Chunk size: [(1024, 1024)]</code></pre>
 </div>
-<p>Ideal chunk size values for this raster are thus multiples of 1024.
-An element to consider is number of resulting chunks and their size.
+<p>Ideal chunk size values for this raster are multiples of 1024. An
+element to consider is the number of resulting chunks and their size.
 While the optimal chunk size strongly depends on the specific
 application, chunks should in general not be too big nor too small
 (i.e. too many). As a rule of thumb, chunk sizes of 100 MB typically
@@ -684,18 +608,18 @@ work well with Dask (see, e.g., this <a href="https://blog.dask.org/2021/11/02/c
 post</a>). Also, the shape might be relevant, depending on the
 application! Here, we might select a chunks shape of
 <code>(1, 6144, 6144)</code>::</p>
-<div class="codewrapper sourceCode" id="cb15">
+<div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>band <span class="op">=</span> rioxarray.open_rasterio(blue_band_href, chunks<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">6144</span>, <span class="dv">6144</span>))</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>red <span class="op">=</span> rioxarray.open_rasterio(<span class="st">"data/sentinel2/red.tif"</span>, chunks<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">6144</span>, <span class="dv">6144</span>))</span></code></pre>
 </div>
 <p>which leads to chunks 72 MB large: ((1 x 6144 x 6144) x 2 bytes /
-2^20 = 72 MB). Also, we can t
-ioxarray<code>and Dask figure out appropriate chunk shapes by setting</code>chunks=“auto”`:</p>
-<div class="codewrapper sourceCode" id="cb16">
+2^20 = 72 MB). Also, we can let rioxarray and Dask figure out
+appropriate chunk shapes by setting <code>chunks="auto"</code>:</p>
+<div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>band <span class="op">=</span> rioxarray.open_rasterio(blue_band_href, chunks<span class="op">=</span><span class="st">"auto"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>red <span class="op">=</span> rioxarray.open_rasterio(<span class="st">"data/sentinel2/red.tif"</span>, chunks<span class="op">=</span><span class="st">"auto"</span>)</span></code></pre>
 </div>
 <p>which leads to <code>(1, 8192, 8192)</code> chunks (128 MB).</p>
 </div>
@@ -709,49 +633,65 @@ ioxarray<code>and Dask figure out appropriate chunk shapes by setting</code>chun
 as a chunked Dask array are executed using Dask. Dask coordinates how
 the operations should be executed on the individual chunks of data, and
 runs these tasks in parallel as much as possible.</p>
-<p>Let’s now repeat the raster calculations that we have carried out in
-the previous section, but running calculations in parallel over a
-multi-core CPU. We first open the relevant rasters as chunked
-arrays:</p>
-<div class="codewrapper sourceCode" id="cb17">
+<p>Let us set up an example where we calculate the NDVI for a full
+Sentinel-2 tile, and try to estimate the performance gain by running the
+calculation in parallel on a multi-core CPU.</p>
+<p>To run the calculation serially, we open the relevant raster bands,
+as we have learned in the previous episodes:</p>
+<div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>visual_dask <span class="op">=</span> rioxarray.open_rasterio(visual_href, overview_level<span class="op">=</span><span class="dv">2</span>, lock<span class="op">=</span><span class="va">False</span>, chunks<span class="op">=</span>(<span class="dv">3</span>, <span class="dv">500</span>, <span class="dv">500</span>))</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>red <span class="op">=</span> rioxarray.open_rasterio(<span class="st">'data/sentinel2/red.tif'</span>, masked<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>nir <span class="op">=</span> rioxarray.open_rasterio(<span class="st">'data/sentinel2/nir.tif'</span>, masked<span class="op">=</span><span class="va">True</span>)</span></code></pre>
 </div>
-<p>Setting <code>lock=False</code> tells <code>rioxarray</code> that the
-individual data chunks can be loaded simultaneously from the source by
-the Dask workers.</p>
-<p>As the next step, we trigger the download of the data using the
-<code>.persist()</code> method, see below. This makes sure that the
-downloaded chunks are stored in the form of a chunked Dask array
-(calling <code>.load()</code> would instead merge the chunks in a single
-Numpy array).</p>
-<p>We explicitly tell Dask to parallelize the required workload over 4
-threads:</p>
-<div class="codewrapper sourceCode" id="cb18">
+<p>We then compute the NDVI. Note the Jupyter magic <code>%%time</code>,
+which returns the time required to run the content of a cell (note that
+commands starting with <code>%%</code> needs to be on the first line of
+the cell!):</p>
+<div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>visual_dask <span class="op">=</span> visual_dask.persist(scheduler<span class="op">=</span><span class="st">"threads"</span>, num_workers<span class="op">=</span><span class="dv">4</span>)</span></code></pre>
-</div>
-<p>Let’s now continue to the actual calculation. Note how the same
-syntax as for its serial version is employed for applying the median
-filter. Don’t forget to add the Jupyter magic to record the timing!</p>
-<div class="codewrapper sourceCode" id="cb19">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="op">%%</span>time</span>
-<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>median_dask <span class="op">=</span> visual_dask.rolling(x<span class="op">=</span><span class="dv">7</span>, y<span class="op">=</span><span class="dv">7</span>, center<span class="op">=</span><span class="va">True</span>).median()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="op">%%</span>time</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>ndvi <span class="op">=</span> (nir <span class="op">-</span> red)<span class="op">/</span>(nir <span class="op">+</span> red)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>CPU times: user 20.6 ms, sys: 3.71 ms, total: 24.3 ms
-Wall time: 25.2 ms</code></pre>
+<pre class="output" tabindex="0"><code>CPU times: user 4.99 s, sys: 3.44 s, total: 8.43 s
+Wall time: 8.53 s</code></pre>
 </div>
-<p>Did we just observe a 700x speed-up when comparing to the serial
-calculation (19.6 s vs 25.2 ms)? Actually, no calculation has run yet.
-This is because operations performed on Dask arrays are executed
-“lazily”, i.e. they are not immediately run.</p>
+<p>We note down the calculation’s “Wall time” (actual time to perform
+the task).</p>
+<p>Now we run the same task in parallel using Dask. To do so, we open
+the relevant rasters as chunked arrays:</p>
+<div class="codewrapper sourceCode" id="cb14">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>red_dask <span class="op">=</span> rioxarray.open_rasterio(<span class="st">'data/sentinel2/red.tif'</span>, masked<span class="op">=</span><span class="va">True</span>, lock<span class="op">=</span><span class="va">False</span>, chunks<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">6144</span>, <span class="dv">6144</span>))</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>nir_dask <span class="op">=</span> rioxarray.open_rasterio(<span class="st">'data/sentinel2/nir.tif'</span>, masked<span class="op">=</span><span class="va">True</span>, lock<span class="op">=</span><span class="va">False</span>, chunks<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">6144</span>, <span class="dv">6144</span>))</span></code></pre>
+</div>
+<p>Setting <code>lock=False</code> tells <code>rioxarray</code> that the
+individual data chunks can be loaded simultaneously from the source by
+the Dask workers.</p>
+<p>We now continue to the actual calculation: Note how the same syntax
+as for its serial version is employed for computing the NDVI. Don’t
+forget to add the Jupyter magic to record the timing!</p>
+<div class="codewrapper sourceCode" id="cb15">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="op">%%</span>time</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>ndvi_dask <span class="op">=</span> (nir_dask <span class="op">-</span> red_dask)<span class="op">/</span>(nir_dask <span class="op">+</span> red_dask)</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>CPU times: user 7.71 ms, sys: 1.71 ms, total: 9.42 ms
+Wall time: 8.61 ms</code></pre>
+</div>
+<p>Did we just observe a 1000x speed-up when comparing to the serial
+calculation (~8 s vs ~8 ms)? Actually, no calculation has run yet. This
+is because operations performed on Dask arrays are executed “lazily”,
+i.e. they are not immediately run.</p>
 <div id="dask-graph" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
@@ -761,16 +701,16 @@ This is because operations performed on Dask arrays are executed
 <div class="callout-content">
 <p>The sequence of operations to carry out is stored in a task graph,
 which can be visualized with:</p>
-<div class="codewrapper sourceCode" id="cb21">
+<div class="codewrapper sourceCode" id="cb17">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="im">import</span> dask</span>
-<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>dask.visualize(median_dask)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="im">import</span> dask</span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>dask.visualize(ndvi_dask)</span></code></pre>
 </div>
 <figure><img src="fig/E11/dask-graph.png" alt="dask graph" class="figure mx-auto d-block"><div class="figcaption">Dask graph</div>
 </figure><p>The task graph gives Dask the complete “overview” of the calculation,
-thus enabling a better nagement of tasks and resources when dispatching
-calculations to be run in parallel.</p>
+thus enabling a better management of tasks and resources when
+dispatching calculations to be run in parallel.</p>
 </div>
 </div>
 </div>
@@ -781,24 +721,24 @@ keeps data in the form of chunked Dask arrays, and it should thus be
 used to run intermediate steps that will be followed by additional
 calculations. The latter merges instead the chunks in a single Numpy
 array, and it should be used at the very end of a sequence of
-calculations. Both methods accept the same parameters (here, we again
-explicitly tell Dask to run tasks on 4 threads). Let’s again time the
-cell execution:</p>
-<div class="codewrapper sourceCode" id="cb22">
+calculations. Both methods accept the same parameters. Here, we
+explicitly tell Dask to parallelize the required workload over 4
+threads. Let’s again time the cell execution:</p>
+<div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="op">%%</span>time</span>
-<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>median_dask <span class="op">=</span> median_dask.persist(scheduler<span class="op">=</span><span class="st">"threads"</span>, num_workers<span class="op">=</span><span class="dv">4</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="op">%%</span>time</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>ndvi_dask <span class="op">=</span> ndvi_dask.persist(scheduler<span class="op">=</span><span class="st">"threads"</span>, num_workers<span class="op">=</span><span class="dv">4</span>)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>CPU times: user 19.1 s, sys: 3.2 s, total: 22.3 s
-Wall time: 6.61 s</code></pre>
+<pre class="output" tabindex="0"><code>CPU times: user 4.18 s, sys: 2.19 s, total: 6.37 s
+Wall time: 2.32 s</code></pre>
 </div>
 <p>The timing that we have recorded makes much more sense now. When
-running the task on a 4-core CPU laptop, we observe a x3 speed-up when
-comparing to the analogous serial calculation (19.6 s vs 6.61 s).</p>
+running the task on a 4-core CPU laptop, we observe a x3.6 speed-up when
+comparing to the analogous serial calculation (8.53 s vs 2.32 s).</p>
 <p>Once again, we stress that one does not always obtain similar
 performance gains by exploiting the Dask-based parallelization. Even if
 the algorithm employed is well suited for parallelization, Dask
@@ -807,20 +747,20 @@ This overhead, which is typically of the order of few milliseconds per
 task, can be larger than the parallelization gain. This is the typical
 situation with calculations with many small chunks.</p>
 <p>Finally, let’s have a look at how Dask can be used to save raster
-files. When calling <code>.to_raster()</code>, we provide the following
-additional arguments: * <code>tiled=True</code>: write raster as a
-chunked GeoTIFF. * <code>lock=threading.Lock()</code>: the threads which
-are splitting the workload must “synchronise” when writing to the same
-file (they might otherwise overwrite each other’s output).</p>
-<div class="codewrapper sourceCode" id="cb24">
+files. When calling <code>.to_raster()</code>, we provide the as
+additional argument <code>lock=threading.Lock()</code>. This is because
+the threads which are splitting the workload must “synchronise” when
+writing to the same file (they might otherwise overwrite each other’s
+output).</p>
+<div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="im">from</span> threading <span class="im">import</span> Lock</span>
-<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>median_dask.rio.to_raster(<span class="st">"visual_median-filter_dask.tif"</span>, tiled<span class="op">=</span><span class="va">True</span>, lock<span class="op">=</span>Lock())</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="im">from</span> threading <span class="im">import</span> Lock</span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>ndvi_dask.rio.to_raster(<span class="st">'ndvi.tif'</span>, tiled<span class="op">=</span><span class="va">True</span>, lock<span class="op">=</span>Lock())</span></code></pre>
 </div>
 <p>Note that <code>.to_raster()</code> is among the methods that trigger
 immediate calculations (one can change this behaviour by specifying
-<code>compute=False</code>)</p>
+<code>compute=False</code>).</p>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -849,7 +789,7 @@ any links that you are not going to use.
 </section></div> <!-- / div.lesson-content -->
     </main><!-- / main#main-content.main-content --><nav class="bottom-pagination mx-md-4" aria-label="Previous and Next Chapter"><div class="d-block d-sm-block d-md-none">
         <a class="chapter-link" href="10-zonal-statistics.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
-        <a class="chapter-link float-end" href="index.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
+        <a class="chapter-link float-end" href="12-data-cube.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
       </div>
       <!-- content for large screens -->
       <div class="d-none d-sm-none d-md-block">
@@ -857,8 +797,8 @@ any links that you are not going to use.
           <i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>
           Previous: Calculating Zonal
         </a>
-        <a class="chapter-link float-end" href="index.html" rel="next">
-          Home
+        <a class="chapter-link float-end" href="12-data-cube.html" rel="next">
+          Next: Data cubes with...
           <i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i>
         </a>
       </div>
@@ -882,7 +822,7 @@ any links that you are not going to use.
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
 
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.10" class="external-link">sandpaper (0.16.10)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.7" class="external-link">pegboard (0.7.7)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.5" class="external-link">varnish (1.0.5)</a></p>
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.12" class="external-link">sandpaper (0.16.12)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.9" class="external-link">pegboard (0.7.9)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.6" class="external-link">varnish (1.0.6)</a></p>
 			</div>
 		</footer></div> <!-- / div.container -->
 	<div id="to-top">
@@ -893,19 +833,19 @@ any links that you are not going to use.
   <script type="application/ld+json">
     {
   "@context": "https://schema.org",
-  "@type": "TrainingMaterial",
+  "@type": "LearningResource",
   "@id": "https://carpentries-incubator.github.io/geospatial-python/11-parallel-raster-computations.html",
   "inLanguage": "en",
-  "dct:conformsTo": "https://bioschemas.org/profiles/TrainingMaterial/1.0-RELEASE",
+  "dct:conformsTo": "https://bioschemas.org/profiles/LearningResource/1.0-RELEASE",
   "description": "A Carpentries Lesson teaching foundational data and coding skills to researchers worldwide",
   "keywords": "software, data, lesson, The Carpentries",
   "name": "Parallel raster computations using Dask",
   "creativeWorkStatus": "active",
   "url": "https://carpentries-incubator.github.io/geospatial-python/11-parallel-raster-computations.html",
   "identifier": "https://carpentries-incubator.github.io/geospatial-python/11-parallel-raster-computations.html",
-  "dateCreated": "2024-03-05",
-  "dateModified": "2023-08-14",
-  "datePublished": "2024-12-03"
+  "dateCreated": "2025-05-20",
+  "dateModified": "2025-05-20",
+  "datePublished": "2025-05-20"
 }
 
   </script><script>

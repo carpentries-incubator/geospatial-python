@@ -20,7 +20,7 @@
       <div class="large-logo">
         <img id="incubator-logo" alt="Carpentries Incubator" src="../assets/images/incubator-logo.svg"><span class="badge text-bg-info">
           <abbr title="This lesson is in the beta phase, which means that it is ready for teaching by instructors outside of the original author team.">
-            <a href="https://cdh.carpentries.org/the-lesson-life-cycle.html#polishing-beta-stage" class="external-link alert-link">
+            <a href="https://docs.carpentries.org/resources/curriculum/lesson-life-cycle.html" class="external-link alert-link">
               <i aria-hidden="true" class="icon" data-feather="alert-circle" style="border-radius: 5px"></i>
               Beta
             </a>
@@ -117,11 +117,11 @@
   Introduction to Geospatial Raster and Vector Data with Python
 </div>
 
-<aside class="col-md-12 lesson-progress"><div style="width: 12%" class="percentage">
-    12%
+<aside class="col-md-12 lesson-progress"><div style="width: 13%" class="percentage">
+    13%
   </div>
   <div class="progress incubator">
-    <div class="progress-bar incubator" role="progressbar" style="width: 12%" aria-valuenow="12" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar incubator" role="progressbar" style="width: 13%" aria-valuenow="13" aria-label="Lesson Progress" aria-valuemin="0" aria-valuemax="100">
     </div>
   </div>
 </aside><div class="container">
@@ -251,7 +251,8 @@
 
     <div id="flush-collapsecurrent" class="accordion-collapse collapse show" aria-labelledby="flush-headingcurrent" data-bs-parent="#accordionFlushcurrent">
       <div class="accordion-body">
-        <ul><li><a href="#introduction">Introduction</a></li>
+        <ul><li><a href="#considerations-for-the-position-of-this-episode-in-the-workshop">Considerations for the position of this episode in the workshop</a></li>
+<li><a href="#introduction">Introduction</a></li>
 <li><a href="#search-for-satellite-imagery">Search for satellite imagery</a></li>
 <li><a href="#search-a-stac-catalog">Search a STAC catalog</a></li>
 <li><a href="#access-the-assets">Access the assets</a></li>
@@ -315,6 +316,15 @@
   </div><!--/div.accordion-item-->
 </div><!--/div.accordion-flush-->
 
+<div class="accordion accordion-flush" id="accordionFlush13">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading13">
+        <a href="12-data-cube.html">12. Data cubes with ODC-STAC</a>
+    </div><!--/div.accordion-header-->
+
+  </div><!--/div.accordion-item-->
+</div><!--/div.accordion-flush-->
+
                 </div>
               </div>
             </div>
@@ -372,7 +382,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Access satellite imagery using Python</h1>
-        <p>Last updated on 2023-08-29 |
+        <p>Last updated on 2025-05-20 |
 
         <a href="https://github.com/carpentries-incubator/geospatial-python/edit/main/episodes/05-access-data.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -414,7 +424,17 @@ scene.</li>
 </div>
 </div>
 </div>
-<section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a></h2>
+<section><h2 class="section-heading" id="considerations-for-the-position-of-this-episode-in-the-workshop">Considerations for the position of this episode in the workshop<a class="anchor" aria-label="anchor" href="#considerations-for-the-position-of-this-episode-in-the-workshop"></a></h2>
+<hr class="half-width"><p><em>When this workshop is taught to learners with limited prior
+knowledge of Python, it might be better to place this episode after
+episode 11 and before episode 12. This episode contains an introduction
+to working with APIs and dictionaries, which can be perceived as
+challenging by some learners. Another consideration for placing this
+episode later in the workshop is when it is taught to learners with
+prior GIS knowledge who want to perform GIS-like operations with data
+they have already collected or for learners interested in working with
+raster data but less interested in satellite images.</em></p>
+</section><section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a></h2>
 <hr class="half-width"><p>A number of satellites take snapshots of the Earth’s surface from
 space. The images recorded by these remote sensors represent a very
 precious data source for any activity that involves monitoring changes
@@ -424,8 +444,9 @@ geospatial raster data, with the measurements in each grid cell
 information.</p>
 <p>In this episode we will explore how to access open satellite data
 using Python. In particular, we will consider <a href="https://registry.opendata.aws/sentinel-2-l2a-cogs" class="external-link">the Sentinel-2
-data collection that is hosted on AWS</a>. This dataset consists of
-multi-band optical images acquired by the two satellites of <a href="https://sentinel.esa.int/web/sentinel/missions/sentinel-2" class="external-link">the
+data collection that is hosted on Amazon Web Services (AWS)</a>. This
+dataset consists of multi-band optical images acquired by the
+constellation of two satellites from <a href="https://sentinel.esa.int/web/sentinel/missions/sentinel-2" class="external-link">the
 Sentinel-2 mission</a> and it is continuously updated with new
 images.</p>
 </section><section><h2 class="section-heading" id="search-for-satellite-imagery">Search for satellite imagery<a class="anchor" aria-label="anchor" href="#search-for-satellite-imagery"></a></h2>
@@ -434,13 +455,13 @@ images.</p>
 <p>Current sensor resolutions and satellite revisit periods are such
 that terabytes of data products are added daily to the corresponding
 collections. Such datasets cannot be made accessible to users via
-full-catalog download. Space agencies and other data providers often
-offer access to their data catalogs through interactive Graphical User
-Interfaces (GUIs), see for instance the <a href="https://scihub.copernicus.eu/dhus/#/home" class="external-link">Copernicus Open Access
-Hub portal</a> for the Sentinel missions. Accessing data via a GUI is a
-nice way to explore a catalog and get familiar with its content, but it
-represents a heavy and error-prone task that should be avoided if
-carried out systematically to retrieve data.</p>
+full-catalog download. Therefore, space agencies and other data
+providers often offer access to their data catalogs through interactive
+Graphical User Interfaces (GUIs), see for instance the <a href="https://browser.dataspace.copernicus.eu" class="external-link">Copernicus Browser</a>
+for the Sentinel missions. Accessing data via a GUI is a nice way to
+explore a catalog and get familiar with its content, but it represents a
+heavy and error-prone task that should be avoided if carried out
+systematically to retrieve data.</p>
 <p>A service that offers programmatic access to the data enables users
 to reach the desired data in a more reliable, scalable and reproducible
 manner. An important element in the software interface exposed to the
@@ -505,7 +526,10 @@ assets represent?</li>
 <div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <figure><img src="../fig/E05/STAC-browser-exercise.jpg" alt="earth-search stac catalog views" class="figure mx-auto d-block"><div class="figcaption">Views of the Earth Search STAC endpoint</div>
-</figure><ol style="list-style-type: decimal"><li>7 subcatalogs are available, including a catalog for Landsat
+</figure><ol style="list-style-type: decimal"><li>8 sub-catalogs are available. In the STAC nomenclature, these are
+actually “collections”, i.e. catalogs with additional information about
+the elements they list: spatial and temporal extents, license,
+providers, etc. Among the available collections, we have Landsat
 Collection 2, Level-2 and Sentinel-2 Level 2A (see left screenshot in
 the figure above).</li>
 <li>When you select the Sentinel-2 Level 2A collection, and randomly
@@ -521,7 +545,7 @@ Instrument on board Sentinel-2.</li>
 </div>
 <p>When opening a catalog with the STAC browser, you can access the API
 URL by clicking on the “Source” button on the top right of the page. By
-using this URL, we have access to the catalog content and, if supported
+using this URL, you have access to the catalog content and, if supported
 by the catalog, to the functionality of searching its items. For the
 Earth Search STAC catalog the API URL is:</p>
 <div class="codewrapper sourceCode" id="cb1">
@@ -529,8 +553,10 @@ Earth Search STAC catalog the API URL is:</p>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>api_url <span class="op">=</span> <span class="st">"https://earth-search.aws.element84.com/v1"</span></span></code></pre>
 </div>
-<p>You can query a STAC API endpoint from Python using the
-<code>pystac_client</code> library:</p>
+<p>You can query a STAC API endpoint from Python using the <a href="https://pystac-client.readthedocs.io" class="external-link"><code>pystac_client</code>
+library</a>. To do so we will first import <code>Client</code> from
+<code>pystac_client</code> and use the <a href="https://pystac-client.readthedocs.io/en/stable/quickstart.html" class="external-link">method
+<code>open</code> from the Client object</a>:</p>
 <div class="codewrapper sourceCode" id="cb2">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -538,15 +564,47 @@ Earth Search STAC catalog the API URL is:</p>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>client <span class="op">=</span> Client.<span class="bu">open</span>(api_url)</span></code></pre>
 </div>
-<p>In the following, we ask for scenes belonging to the
-<code>sentinel-2-l2a</code> collection. This dataset includes Sentinel-2
-data products pre-processed at level 2A (bottom-of-atmosphere
-reflectance) and saved in Cloud Optimized GeoTIFF (COG) format:</p>
+<p>For this episode we will focus at scenes belonging to the
+<code>sentinel-2-l2a</code> collection. This dataset is useful for our
+case and includes Sentinel-2 data products pre-processed at level 2A
+(bottom-of-atmosphere reflectance).</p>
+<p>In order to see which collections are available in the provided
+<code>api_url</code> the <a href="https://pystac-client.readthedocs.io/en/stable/api.html#pystac_client.Client.get_collections" class="external-link"><code>get_collections</code></a>
+method can be used on the Client object.</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>collection <span class="op">=</span> <span class="st">"sentinel-2-l2a"</span>  <span class="co"># Sentinel-2, Level 2A, Cloud Optimized GeoTiffs (COGs)</span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>collections <span class="op">=</span> client.get_collections()</span></code></pre>
 </div>
+<p>To print the collections we can make a for loop doing:</p>
+<div class="codewrapper sourceCode" id="cb4">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="cf">for</span> collection <span class="kw">in</span> collections:</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>    <span class="bu">print</span>(collection)</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>&lt;CollectionClient id=cop-dem-glo-30&gt;
+&lt;CollectionClient id=naip&gt;
+&lt;CollectionClient id=sentinel-2-l2a&gt;
+&lt;CollectionClient id=sentinel-2-l1c&gt;
+&lt;CollectionClient id=cop-dem-glo-90&gt;
+&lt;CollectionClient id=landsat-c2-l2&gt;
+&lt;CollectionClient id=sentinel-1-grd&gt;
+&lt;CollectionClient id=sentinel-2-c1-l2a&gt;</code></pre>
+</div>
+<p>As said, we want to focus to the <code>sentinel-2-l2a</code>
+collection. To do so, we set this collection into a variable:</p>
+<div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>collection_sentinel_2_l2a <span class="op">=</span> <span class="st">"sentinel-2-l2a"</span></span></code></pre>
+</div>
+<p>The data in this collection is stored in the Cloud Optimized GeoTIFF
+(COG) format and as JPEG2000 images. In this episode we will focus at
+COGs, as these offer useful functionalities for our purpose.</p>
 <div id="cloud-optimized-geotiffs" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
@@ -573,117 +631,71 @@ the COG format can be found <a href="https://www.cogeo.org" class="external-link
 </div>
 </div>
 </div>
-<p>We also ask for scenes intersecting a geometry defined using the
-<code>shapely</code> library (in this case, a point):</p>
-<div class="codewrapper sourceCode" id="cb4">
+<p>In order to get data for a specific location you can add longitude
+latitude coordinates (World Geodetic System 1984 EPSG:4326) in your
+request. In order to do so we are using the <code>shapely</code> library
+to define a geometrical point. Below we have included a point on the
+island of Rhodes, which is the location of interest for our case study
+(i.e. Longitude: 27.95 | Latitude 36.20).</p>
+<div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="im">from</span> shapely.geometry <span class="im">import</span> Point</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>point <span class="op">=</span> Point(<span class="fl">4.89</span>, <span class="fl">52.37</span>)  <span class="co"># AMS coordinates</span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="im">from</span> shapely.geometry <span class="im">import</span> Point</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>point <span class="op">=</span> Point(<span class="fl">27.95</span>, <span class="fl">36.20</span>)  <span class="co"># Coordinates of a point on Rhodes</span></span></code></pre>
 </div>
 <p>Note: at this stage, we are only dealing with metadata, so no image
 is going to be downloaded yet. But even metadata can be quite bulky if a
 large number of scenes match our search! For this reason, we limit the
-search result to 10 items:</p>
-<div class="codewrapper sourceCode" id="cb5">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>search <span class="op">=</span> client.search(</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>    collections<span class="op">=</span>[collection],</span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>    intersects<span class="op">=</span>point,</span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>    max_items<span class="op">=</span><span class="dv">10</span>,</span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>)</span></code></pre>
-</div>
-<p>We submit the query and find out how many scenes match our search
-criteria (please note that this output can be different as more data is
-added to the catalog):</p>
-<div class="codewrapper sourceCode" id="cb6">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="bu">print</span>(search.matched())</span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code><span><span class="fl">840</span></span></code></pre>
-</div>
-<p>Finally, we retrieve the metadata of the search results:</p>
+search by the intersection of the point (by setting the parameter
+<code>intersects</code>) and assign the collection (by setting the
+parameter <code>collections</code>). More information about the possible
+parameters to be set can be found in the <code>pystac_client</code>
+documentation for the <a href="https://pystac-client.readthedocs.io/en/stable/api.html#pystac_client.Client.search" class="external-link">Client’s
+<code>search</code> method</a>.</p>
+<p>We now set up our search of satellite images in the following
+way:</p>
 <div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>items <span class="op">=</span> search.item_collection()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>search <span class="op">=</span> client.search(</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>    collections<span class="op">=</span>[collection_sentinel_2_l2a],</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>    intersects<span class="op">=</span>point,</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>)</span></code></pre>
 </div>
-<p>The variable <code>items</code> is an <code>ItemCollection</code>
-object. We can check its size by:</p>
+<p>Now we submit the query in order to find out how many scenes match
+our search criteria with the parameters assigned above (please note that
+this output can be different as more data is added to the catalog to
+when this episode was created):</p>
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(items))</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="bu">print</span>(search.matched())</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code><span><span class="fl">10</span></span></code></pre>
+<pre class="output" tabindex="0"><code><span><span class="fl">611</span></span></code></pre>
 </div>
-<p>which is consistent with the maximum number of items that we have set
-in the search criteria. We can iterate over the returned items and print
-these to show their IDs:</p>
-<div class="codewrapper sourceCode" id="cb11">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="cf">for</span> item <span class="kw">in</span> items:</span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>    <span class="bu">print</span>(item)</span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>&lt;Item id=S2A_31UFU_20230701_0_L2A&gt;
-&lt;Item id=S2B_31UFU_20230629_0_L2A&gt;
-&lt;Item id=S2B_31UFU_20230626_0_L2A&gt;
-&lt;Item id=S2A_31UFU_20230624_0_L2A&gt;
-&lt;Item id=S2A_31UFU_20230621_0_L2A&gt;
-&lt;Item id=S2B_31UFU_20230616_0_L2A&gt;
-&lt;Item id=S2A_31UFU_20230614_0_L2A&gt;
-&lt;Item id=S2A_31UFU_20230611_0_L2A&gt;
-&lt;Item id=S2B_31UFU_20230609_0_L2A&gt;
-&lt;Item id=S2B_31UFU_20230606_0_L2A&gt;</code></pre>
-</div>
-<p>Each of the items contains information about the scene geometry, its
-acquisition time, and other metadata that can be accessed as a
-dictionary from the <code>properties</code> attribute.</p>
-<p>Let’s inspect the metadata associated with the first item of the
-search results:</p>
-<div class="codewrapper sourceCode" id="cb13">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>item <span class="op">=</span> items[<span class="dv">0</span>]</span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="bu">print</span>(item.datetime)</span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="bu">print</span>(item.geometry)</span>
-<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="bu">print</span>(item.properties)</span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>2023-07-01 10:46:30.262000+00:00
-{'type': 'Polygon', 'coordinates': [[[5.233744523520149, 53.228684673408296], [6.141754296879459, 53.20819279121764], [6.071664488869862, 52.22257539160585], [4.80943323800081, 52.2486879358387], [5.233744523520149, 53.228684673408296]]]}
-{'created': '2023-07-02T01:49:17.191Z', 'platform': 'sentinel-2a', 'constellation': 'sentinel-2', 'instruments': ['msi'], 'eo:cloud_cover': 99.952936, 'proj:epsg': 32631, 'mgrs:utm_zone': 31, 'mgrs:latitude_band': 'U', 'mgrs:grid_square': 'FU', 'grid:code': 'MGRS-31UFU', 'view:sun_azimuth': 154.716674921261, 'view:sun_elevation': 58.4960054056685, 's2:degraded_msi_data_percentage': 0.0346, 's2:nodata_pixel_percentage': 33.00232, 's2:saturated_defective_pixel_percentage': 0, 's2:dark_features_percentage': 0, 's2:cloud_shadow_percentage': 0.030847, 's2:vegetation_percentage': 0, 's2:not_vegetated_percentage': 0.004947, 's2:water_percentage': 0.011271, 's2:unclassified_percentage': 0, 's2:medium_proba_clouds_percentage': 5.838514, 's2:high_proba_clouds_percentage': 94.035202, 's2:thin_cirrus_percentage': 0.07922, 's2:snow_ice_percentage': 0, 's2:product_type': 'S2MSI2A', 's2:processing_baseline': '05.09', 's2:product_uri': 'S2A_MSIL2A_20230701T103631_N0509_R008_T31UFU_20230701T200058.SAFE', 's2:generation_time': '2023-07-01T20:00:58.000000Z', 's2:datatake_id': 'GS2A_20230701T103631_041904_N05.09', 's2:datatake_type': 'INS-NOBS', 's2:datastrip_id': 'S2A_OPER_MSI_L2A_DS_2APS_20230701T200058_S20230701T104159_N05.09', 's2:granule_id': 'S2A_OPER_MSI_L2A_TL_2APS_20230701T200058_A041904_T31UFU_N05.09', 's2:reflectance_conversion_factor': 0.967641353116838, 'datetime': '2023-07-01T10:46:30.262000Z', 's2:sequence': '0', 'earthsearch:s3_path': 's3://sentinel-cogs/sentinel-s2-l2a-cogs/31/U/FU/2023/7/S2A_31UFU_20230701_0_L2A', 'earthsearch:payload_id': 'roda-sentinel2/workflow-sentinel2-to-stac/7b1a81ed3fb8d763a0cecf8d9edd4d4a', 'earthsearch:boa_offset_applied': True, 'processing:software': {'sentinel2-to-stac': '0.1.0'}, 'updated': '2023-07-02T01:49:17.191Z'}</code></pre>
-</div>
-<div id="exercise-search-satellite-scenes-using-metadata-filters" class="callout challenge">
+<p>You will notice that more than 500 scenes match our search criteria.
+We are however interested in the period right before and after the
+wildfire of Rhodes. In the following exercise you will therefore have to
+add a time filter to our search criteria to narrow down our search for
+images of that period.</p>
+<div id="exercise-search-satellite-scenes-with-a-time-filter" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
-<div id="exercise-search-satellite-scenes-using-metadata-filters" class="callout-inner">
-<h3 class="callout-title">Exercise: Search satellite scenes using metadata filters</h3>
+<div id="exercise-search-satellite-scenes-with-a-time-filter" class="callout-inner">
+<h3 class="callout-title">Exercise: Search satellite scenes with a time filter</h3>
 <div class="callout-content">
 <p>Search for all the available Sentinel-2 scenes in the
-<code>sentinel-2-l2a</code> collection that satisfy the following
-criteria: - intersect a provided bounding box (use ±0.01 deg in lat/lon
-from the previously defined point); - have been recorded between 20
-March 2020 and 30 March 2020; - have a cloud coverage smaller than 10%
-(hint: use the <code>query</code> input argument of
-<code>client.search</code>).</p>
-<p>How many scenes are available? Save the search results in GeoJSON
-format.</p>
+<code>sentinel-2-c1-l2a</code> collection that have been recorded
+between 1st of July 2023 and 31st of August 2023 (few weeks before and
+after the time in which the wildfire took place).</p>
+<p>Hint: You can find the input argument and the required syntax in the
+documentation of <code>client.search</code> (which you can access from
+Python or <a href="https://pystac-client.readthedocs.io/en/stable/api.html#pystac_client.Client.search" class="external-link">online</a>)</p>
+<p>How many scenes are available?</p>
 </div>
 </div>
 </div>
@@ -694,47 +706,199 @@ format.</p>
 </button>
 <div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb15">
+<div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>bbox <span class="op">=</span> point.<span class="bu">buffer</span>(<span class="fl">0.01</span>).bounds</span></code></pre>
-</div>
-<div class="codewrapper sourceCode" id="cb16">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>search <span class="op">=</span> client.search(</span>
-<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>    collections<span class="op">=</span>[collection],</span>
-<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>    bbox<span class="op">=</span>bbox,</span>
-<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>    datetime<span class="op">=</span><span class="st">"2020-03-20/2020-03-30"</span>,</span>
-<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>    query<span class="op">=</span>[<span class="st">"eo:cloud_cover&lt;15"</span>]</span>
-<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>)</span>
-<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a><span class="bu">print</span>(search.matched())</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>search <span class="op">=</span> client.search(</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>    collections<span class="op">=</span>[collection_sentinel_2_l2a],</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>    intersects<span class="op">=</span>point,</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>    datetime<span class="op">=</span><span class="st">'2023-07-01/2023-08-31'</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>)</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="bu">print</span>(search.matched())</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code><span><span class="fl">4</span></span></code></pre>
+<pre class="output" tabindex="0"><code><span><span class="fl">12</span></span></code></pre>
 </div>
+<p>This means that 12 scenes satisfy the search criteria.</p>
+</div>
+</div>
+</div>
+</div>
+<p>Now that we have added a time filter, we retrieve the metadata of the
+search results by calling the method <code>item_collection</code>:</p>
+<div class="codewrapper sourceCode" id="cb13">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>items <span class="op">=</span> search.item_collection()</span></code></pre>
+</div>
+<p>The variable <code>items</code> is an <code>ItemCollection</code>
+object. More information can be found at the <a href="https://pystac.readthedocs.io/en/latest/api/pystac.html#pystac.ItemCollection" class="external-link">pystac
+documentation</a></p>
+<p>Now let us check the size using <code>len</code>:</p>
+<div class="codewrapper sourceCode" id="cb14">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(items))</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code><span><span class="fl">12</span></span></code></pre>
+</div>
+<p>which is consistent with the number of scenes matching our search
+results as found with <code>search.matched()</code>. We can iterate over
+the returned items and print these to show their IDs:</p>
+<div class="codewrapper sourceCode" id="cb16">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="cf">for</span> item <span class="kw">in</span> items:</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>    <span class="bu">print</span>(item)</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>&lt;Item id=S2A_35SNA_20230827_0_L2A&gt;
+&lt;Item id=S2B_35SNA_20230822_0_L2A&gt;
+&lt;Item id=S2A_35SNA_20230817_0_L2A&gt;
+&lt;Item id=S2B_35SNA_20230812_0_L2A&gt;
+&lt;Item id=S2A_35SNA_20230807_0_L2A&gt;
+&lt;Item id=S2B_35SNA_20230802_0_L2A&gt;
+&lt;Item id=S2A_35SNA_20230728_0_L2A&gt;
+&lt;Item id=S2B_35SNA_20230723_0_L2A&gt;
+&lt;Item id=S2A_35SNA_20230718_0_L2A&gt;
+&lt;Item id=S2B_35SNA_20230713_0_L2A&gt;
+&lt;Item id=S2A_35SNA_20230708_0_L2A&gt;
+&lt;Item id=S2B_35SNA_20230703_0_L2A&gt;</code></pre>
+</div>
+<p>Each of the items contains information about the scene geometry, its
+acquisition time, and other metadata that can be accessed as a
+dictionary from the <code>properties</code> attribute. To see which
+information Item objects can contain you can have a look at the <a href="https://pystac.readthedocs.io/en/latest/api/pystac.html#pystac.Item" class="external-link">pystac
+documentation</a>.</p>
+<p>Let us inspect the metadata associated with the first item of the
+search results. Let us first look at the collection date of the first
+item::</p>
 <div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>items <span class="op">=</span> search.item_collection()</span>
-<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>items.save_object(<span class="st">"search.json"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>item <span class="op">=</span> items[<span class="dv">0</span>]</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a><span class="bu">print</span>(item.datetime)</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>2023-08-27 09:00:21.327000+00:00</code></pre>
+</div>
+<p>Let us now look at the geometry and other properties as well.</p>
+<div class="codewrapper sourceCode" id="cb20">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="bu">print</span>(item.geometry)</span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a><span class="bu">print</span>(item.properties)</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>{'type': 'Polygon', 'coordinates': [[[27.290401625602243, 37.04621863329741], [27.23303872472207, 36.83882218126937], [27.011145718480538, 36.05673246264742], [28.21878905911668, 36.05053734221328], [28.234426643135546, 37.04015200857309], [27.290401625602243, 37.04621863329741]]]}
+{'created': '2023-08-27T18:15:43.106Z', 'platform': 'sentinel-2a', 'constellation': 'sentinel-2', 'instruments': ['msi'], 'eo:cloud_cover': 0.955362, 'proj:epsg': 32635, 'mgrs:utm_zone': 35, 'mgrs:latitude_band': 'S', 'mgrs:grid_square': 'NA', 'grid:code': 'MGRS-35SNA', 'view:sun_azimuth': 144.36354987218, 'view:sun_elevation': 59.06665363921, 's2:degraded_msi_data_percentage': 0.0126, 's2:nodata_pixel_percentage': 12.146327, 's2:saturated_defective_pixel_percentage': 0, 's2:dark_features_percentage': 0.249403, 's2:cloud_shadow_percentage': 0.237454, 's2:vegetation_percentage': 6.073786, 's2:not_vegetated_percentage': 18.026696, 's2:water_percentage': 74.259061, 's2:unclassified_percentage': 0.198216, 's2:medium_proba_clouds_percentage': 0.613614, 's2:high_proba_clouds_percentage': 0.341423, 's2:thin_cirrus_percentage': 0.000325, 's2:snow_ice_percentage': 2.3e-05, 's2:product_type': 'S2MSI2A', 's2:processing_baseline': '05.09', 's2:product_uri': 'S2A_MSIL2A_20230827T084601_N0509_R107_T35SNA_20230827T115803.SAFE', 's2:generation_time': '2023-08-27T11:58:03.000000Z', 's2:datatake_id': 'GS2A_20230827T084601_042718_N05.09', 's2:datatake_type': 'INS-NOBS', 's2:datastrip_id': 'S2A_OPER_MSI_L2A_DS_2APS_20230827T115803_S20230827T085947_N05.09', 's2:granule_id': 'S2A_OPER_MSI_L2A_TL_2APS_20230827T115803_A042718_T35SNA_N05.09', 's2:reflectance_conversion_factor': 0.978189079756816, 'datetime': '2023-08-27T09:00:21.327000Z', 's2:sequence': '0', 'earthsearch:s3_path': 's3://sentinel-cogs/sentinel-s2-l2a-cogs/35/S/NA/2023/8/S2A_35SNA_20230827_0_L2A', 'earthsearch:payload_id': 'roda-sentinel2/workflow-sentinel2-to-stac/af0287974aaa3fbb037c6a7632f72742', 'earthsearch:boa_offset_applied': True, 'processing:software': {'sentinel2-to-stac': '0.1.1'}, 'updated': '2023-08-27T18:15:43.106Z'}</code></pre>
+</div>
+<p>You can access items from the <code>properties</code> dictionary as
+usual in Python. For instance, for the EPSG code of the projected
+coordinate system:</p>
+<div class="codewrapper sourceCode" id="cb22">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="bu">print</span>(item.properties[<span class="st">'proj:code'</span>])</span></code></pre>
+</div>
+<div id="exercise-search-satellite-scenes-using-metadata-filters" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div id="exercise-search-satellite-scenes-using-metadata-filters" class="callout-inner">
+<h3 class="callout-title">Exercise: Search satellite scenes using metadata filters</h3>
+<div class="callout-content">
+<p>Let’s add a filter on the cloud cover to select the only scenes with
+less than 1% cloud coverage. How many scenes do now match our
+search?</p>
+<p>Hint: generic metadata filters can be implemented via the
+<code>query</code> input argument of <code>client.search</code>, which
+requires the following syntax (see <a href="https://pystac-client.readthedocs.io/en/stable/usage.html#query-extension" class="external-link">docs</a>):
+<code>query=['&lt;property&gt;&lt;operator&gt;&lt;value&gt;']</code>.</p>
+</div>
+</div>
+</div>
+<div id="accordionSolution3" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
+  <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
+</button>
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div class="accordion-body">
+<div class="codewrapper sourceCode" id="cb23">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>search <span class="op">=</span> client.search(</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>    collections<span class="op">=</span>[collection_sentinel_2_l2a],</span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>    intersects<span class="op">=</span>point,</span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>    datetime<span class="op">=</span><span class="st">'2023-07-01/2023-08-31'</span>,</span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>    query<span class="op">=</span>[<span class="st">'eo:cloud_cover&lt;1'</span>]</span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>)</span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a><span class="bu">print</span>(search.matched())</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code><span><span class="fl">11</span></span></code></pre>
 </div>
 </div>
 </div>
 </div>
 </div>
+<p>Once we are happy with our search, we save the search results in a
+file:</p>
+<div class="codewrapper sourceCode" id="cb25">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>items <span class="op">=</span> search.item_collection()</span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>items.save_object(<span class="st">"rhodes_sentinel-2.json"</span>)</span></code></pre>
+</div>
+<p>This creates a file in GeoJSON format, which we can reuse here and in
+the next episodes. Note that this file contains the metadata of the
+files that meet out criteria. It does not include the data itself, only
+their metadata.</p>
+<p>To load the saved search results as a <code>ItemCollection</code> we
+can use <a href="https://pystac.readthedocs.io/en/stable/api/item_collection.html" class="external-link"><code>pystac.ItemCollection.from_file()</code></a>.
+Through this, we are instructing Python to use the
+<code>from_file</code> method of the <code>ItemCollection</code> class
+from the <code>pystac</code> library to load data from the specified
+GeoJSON file:</p>
+<div class="codewrapper sourceCode" id="cb26">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="im">import</span> pystac</span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>items_loaded <span class="op">=</span> pystac.ItemCollection.from_file(<span class="st">"rhodes_sentinel-2.json"</span>)</span></code></pre>
+</div>
+<p>The loaded item collection (<code>items_loaded</code>) is equivalent
+to the one returned earlier by <code>search.item_collection()</code>
+(<code>items</code>). You can thus perform the same actions on it: you
+can check the number of items (<code>len(items_loaded)</code>), you can
+loop over items (<code>for item in items_loaded: ...</code>), and you
+can access individual elements using their index
+(<code>items_loaded[0]</code>).</p>
 </section><section><h2 class="section-heading" id="access-the-assets">Access the assets<a class="anchor" aria-label="anchor" href="#access-the-assets"></a></h2>
 <hr class="half-width"><p>So far we have only discussed metadata - but how can one get to the
 actual images of a satellite scene (the “assets” in the STAC
 nomenclature)? These can be reached via links that are made available
-through the item’s attribute <code>assets</code>.</p>
-<div class="codewrapper sourceCode" id="cb19">
+through the item’s attribute <code>assets</code>. Let’s focus on the
+last item in the collection: this is the oldest in time, and it thus
+corresponds to an image taken before the wildfires.</p>
+<div class="codewrapper sourceCode" id="cb27">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>assets <span class="op">=</span> items[<span class="dv">0</span>].assets  <span class="co"># first item's asset dictionary</span></span>
-<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="bu">print</span>(assets.keys())</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a>assets <span class="op">=</span> items[<span class="op">-</span><span class="dv">1</span>].assets  <span class="co"># last item's asset dictionary</span></span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a><span class="bu">print</span>(assets.keys())</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -742,11 +906,11 @@ through the item’s attribute <code>assets</code>.</p>
 <pre class="output" tabindex="0"><code>dict_keys(['aot', 'blue', 'coastal', 'granule_metadata', 'green', 'nir', 'nir08', 'nir09', 'red', 'rededge1', 'rededge2', 'rededge3', 'scl', 'swir16', 'swir22', 'thumbnail', 'tileinfo_metadata', 'visual', 'wvp', 'aot-jp2', 'blue-jp2', 'coastal-jp2', 'green-jp2', 'nir-jp2', 'nir08-jp2', 'nir09-jp2', 'red-jp2', 'rededge1-jp2', 'rededge2-jp2', 'rededge3-jp2', 'scl-jp2', 'swir16-jp2', 'swir22-jp2', 'visual-jp2', 'wvp-jp2'])</code></pre>
 </div>
 <p>We can print a minimal description of the available assets:</p>
-<div class="codewrapper sourceCode" id="cb21">
+<div class="codewrapper sourceCode" id="cb29">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="cf">for</span> key, asset <span class="kw">in</span> assets.items():</span>
-<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>key<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>asset<span class="sc">.</span>title<span class="sc">}</span><span class="ss">"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="cf">for</span> key, asset <span class="kw">in</span> assets.items():</span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>key<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>asset<span class="sc">.</span>title<span class="sc">}</span><span class="ss">"</span>)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -787,45 +951,71 @@ swir22-jp2: SWIR 2 (band 12) - 20m
 visual-jp2: True color image
 wvp-jp2: Water vapour (WVP)</code></pre>
 </div>
-<p>Among the others, assets include multiple raster data files (one per
-optical band, as acquired by the multi-spectral instrument), a
+<p>Among the other data files, assets include multiple raster data files
+(one per optical band, as acquired by the multi-spectral instrument), a
 thumbnail, a true-color image (“visual”), instrument metadata and
-scene-classification information (“SCL”). Let’s get the URL links to the
-actual asset:</p>
-<div class="codewrapper sourceCode" id="cb23">
+scene-classification information (“SCL”). Let’s get the URL link to the
+thumbnail, which gives us a glimpse of the Sentinel-2 scene:</p>
+<div class="codewrapper sourceCode" id="cb31">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="bu">print</span>(assets[<span class="st">"thumbnail"</span>].href)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="bu">print</span>(assets[<span class="st">"thumbnail"</span>].href)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/31/U/FU/2020/3/S2A_31UFU_20200328_0_L2A/thumbnail.jpg</code></pre>
+<pre class="output" tabindex="0"><code>https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/35/S/NA/2023/7/S2A_35SNA_20230708_0_L2A/thumbnail.jpg</code></pre>
 </div>
 <p>This can be used to download the corresponding file:</p>
-<figure><img src="../fig/E05/STAC-s2-preview.jpg" alt="thumbnail of the sentinel-2 scene" class="figure mx-auto d-block"><div class="figcaption">Overview of the true-color image
-(“thumbnail”)</div>
-</figure><p>Remote raster data can be directly opened via the
-<code>rioxarray</code> library. We will learn more about this library in
-the next episodes.</p>
-<div class="codewrapper sourceCode" id="cb25">
+<figure><img src="../fig/E05/STAC-s2-preview-before.jpg" alt="thumbnail of the sentinel-2 scene before the wildfires" class="figure mx-auto d-block"><div class="figcaption">Overview of the true-color image (“thumbnail”)
+before the wildfires on Rhodes</div>
+</figure><p>For comparison, we can check out the thumbnail of the most recent
+scene of the sequence considered (i.e. the first item in the item
+collection), which has been taken after the wildfires:</p>
+<div class="codewrapper sourceCode" id="cb33">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="im">import</span> rioxarray</span>
-<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>nir_href <span class="op">=</span> assets[<span class="st">"nir"</span>].href</span>
-<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>nir <span class="op">=</span> rioxarray.open_rasterio(nir_href)</span>
-<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a><span class="bu">print</span>(nir)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="bu">print</span>(items[<span class="dv">0</span>].assets[<span class="st">"thumbnail"</span>].href)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>&lt;xarray.DataArray (band: 1, y: 10980, x: 10980)&gt;
+<pre class="output" tabindex="0"><code>https://sentinel-cogs.s3.us-west-2.amazonaws.com/sentinel-s2-l2a-cogs/35/S/NA/2023/8/S2A_35SNA_20230827_0_L2A/thumbnail.jpg</code></pre>
+</div>
+<figure><img src="../fig/E05/STAC-s2-preview-after.jpg" alt="thumbnail of the sentinel-2 scene after the wildfires" class="figure mx-auto d-block"><div class="figcaption">Overview of the true-color image (“thumbnail”)
+after the wildfires on Rhodes</div>
+</figure><p>From the thumbnails alone we can already observe some dark spots on
+the island of Rhodes at the bottom right of the image!</p>
+<p>In order to open the high-resolution satellite images and investigate
+the scenes in more detail, we will be using the <a href="https://corteva.github.io/rioxarray" class="external-link"><code>rioxarray</code>
+library</a>. Note that this library can both work with local and remote
+raster data. At this moment, we will only quickly look at the
+functionality of this library. We will learn more about it in the next
+episode.</p>
+<p>Now let us focus on the red band by accessing the item
+<code>red</code> from the assets dictionary and get the Hypertext
+Reference (also known as URL) attribute using <code>.href</code> after
+the item selection.</p>
+<p>For now we are using <a href="https://corteva.github.io/rioxarray/stable/rioxarray.html#rioxarray-open-rasterio" class="external-link">rioxarray
+to open the raster file</a>.</p>
+<div class="codewrapper sourceCode" id="cb35">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="im">import</span> rioxarray</span>
+<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a>red_href <span class="op">=</span> assets[<span class="st">"red"</span>].href</span>
+<span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a>red <span class="op">=</span> rioxarray.open_rasterio(red_href)</span>
+<span id="cb35-4"><a href="#cb35-4" tabindex="-1"></a><span class="bu">print</span>(red)</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>&lt;xarray.DataArray (band: 1, y: 10980, x: 10980)&gt; Size: 241MB
 [120560400 values with dtype=uint16]
 Coordinates:
-  * band         (band) int64 1
-  * x            (x) float64 6e+05 6e+05 6e+05 ... 7.098e+05 7.098e+05 7.098e+05
-  * y            (y) float64 5.9e+06 5.9e+06 5.9e+06 ... 5.79e+06 5.79e+06
-    spatial_ref  int64 0
+  * band         (band) int32 4B 1
+  * x            (x) float64 88kB 5e+05 5e+05 5e+05 ... 6.098e+05 6.098e+05
+  * y            (y) float64 88kB 4.1e+06 4.1e+06 4.1e+06 ... 3.99e+06 3.99e+06
+    spatial_ref  int32 4B 0
 Attributes:
     AREA_OR_POINT:       Area
     OVR_RESAMPLING_ALG:  AVERAGE
@@ -833,27 +1023,38 @@ Attributes:
     scale_factor:        1.0
     add_offset:          0.0</code></pre>
 </div>
-<p>We can then save the data to disk:</p>
-<div class="codewrapper sourceCode" id="cb27">
+<p>Now we want to save the data to our local machine using the <a href="https://corteva.github.io/rioxarray/stable/rioxarray.html#rioxarray.raster_array.RasterArray.to_raster" class="external-link">to_raster</a>
+method:</p>
+<div class="codewrapper sourceCode" id="cb37">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="co"># save whole image to disk</span></span>
-<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a>nir.rio.to_raster(<span class="st">"nir.tif"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a><span class="co"># save whole image to disk</span></span>
+<span id="cb37-2"><a href="#cb37-2" tabindex="-1"></a>red.rio.to_raster(<span class="st">"red.tif"</span>)</span></code></pre>
 </div>
-<p>Since that might take a while, given there are over 10000 x 10000 = a
-hundred million pixels in the 10 meter NIR band, you can take a smaller
-subset before downloading it. Becuase the raster is a COG, we can
-download just what we need!</p>
-<p>Here, we specify that we want to download the first (and only) band
-in the tif file, and a slice of the width and height dimensions.</p>
-<div class="codewrapper sourceCode" id="cb28">
+<p>That might take a while, given there are over 10000 x 10000 = a
+hundred million pixels in the 10-meter NIR band. But we can take a
+smaller subset before downloading it. Because the raster is a COG, we
+can download just what we need!</p>
+<p>In order to do that, we are using rioxarray´s <a href="https://corteva.github.io/rioxarray/stable/examples/clip_box.html" class="external-link"><code>clip_box</code></a>
+with which you can set a bounding box defining the area you want.</p>
+<div class="codewrapper sourceCode" id="cb38">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="co"># save portion of an image to disk</span></span>
-<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a>nir[<span class="dv">0</span>,<span class="dv">1500</span>:<span class="dv">2200</span>,<span class="dv">1500</span>:<span class="dv">2200</span>].rio.to_raster(<span class="st">"nir_subset.tif"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a>red_subset <span class="op">=</span> red.rio.clip_box(</span>
+<span id="cb38-2"><a href="#cb38-2" tabindex="-1"></a>    minx<span class="op">=</span><span class="dv">560900</span>,</span>
+<span id="cb38-3"><a href="#cb38-3" tabindex="-1"></a>    miny<span class="op">=</span><span class="dv">3995000</span>,</span>
+<span id="cb38-4"><a href="#cb38-4" tabindex="-1"></a>    maxx<span class="op">=</span><span class="dv">570900</span>,</span>
+<span id="cb38-5"><a href="#cb38-5" tabindex="-1"></a>    maxy<span class="op">=</span><span class="dv">4015000</span></span>
+<span id="cb38-6"><a href="#cb38-6" tabindex="-1"></a>)</span></code></pre>
 </div>
-<p>The difference is 155 Megabytes for the large image vs about 1
-Megabyte for the subset.</p>
+<p>Next, we save the subset using <code>to_raster</code> again.</p>
+<div class="codewrapper sourceCode" id="cb39">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a>red_subset.rio.to_raster(<span class="st">"red_subset.tif"</span>)</span></code></pre>
+</div>
+<p>The difference is 241 Megabytes for the full image vs less than 10
+Megabytes for the subset.</p>
 <div id="exercise-downloading-landsat-8-assets" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
@@ -877,52 +1078,52 @@ Landsat 8 collection (<code>HLSL30.v2.0</code>) from February to March
 </ul></div>
 </div>
 </div>
-<div id="accordionSolution3" class="accordion challenge-accordion accordion-flush">
+<div id="accordionSolution4" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
-  <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
+  <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
 <div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb29">
+<div class="codewrapper sourceCode" id="cb40">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="co"># connect to the STAC endpoint</span></span>
-<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a>cmr_api_url <span class="op">=</span> <span class="st">"https://cmr.earthdata.nasa.gov/stac/LPCLOUD"</span></span>
-<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a>client <span class="op">=</span> Client.<span class="bu">open</span>(cmr_api_url)</span>
-<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a></span>
-<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a><span class="co"># setup search</span></span>
-<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a>search <span class="op">=</span> client.search(</span>
-<span id="cb29-7"><a href="#cb29-7" tabindex="-1"></a>    collections<span class="op">=</span>[<span class="st">"HLSL30.v2.0"</span>],</span>
-<span id="cb29-8"><a href="#cb29-8" tabindex="-1"></a>    intersects<span class="op">=</span>Point(<span class="op">-</span><span class="fl">73.97</span>, <span class="fl">40.78</span>),</span>
-<span id="cb29-9"><a href="#cb29-9" tabindex="-1"></a>    datetime<span class="op">=</span><span class="st">"2021-02-01/2021-03-30"</span>,</span>
-<span id="cb29-10"><a href="#cb29-10" tabindex="-1"></a>) <span class="co"># nasa cmr cloud cover filtering is currently broken: https://github.com/nasa/cmr-stac/issues/239</span></span>
-<span id="cb29-11"><a href="#cb29-11" tabindex="-1"></a></span>
-<span id="cb29-12"><a href="#cb29-12" tabindex="-1"></a><span class="co"># retrieve search results</span></span>
-<span id="cb29-13"><a href="#cb29-13" tabindex="-1"></a>items <span class="op">=</span> search.item_collection()</span>
-<span id="cb29-14"><a href="#cb29-14" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(items))</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a><span class="co"># connect to the STAC endpoint</span></span>
+<span id="cb40-2"><a href="#cb40-2" tabindex="-1"></a>cmr_api_url <span class="op">=</span> <span class="st">"https://cmr.earthdata.nasa.gov/stac/LPCLOUD"</span></span>
+<span id="cb40-3"><a href="#cb40-3" tabindex="-1"></a>client <span class="op">=</span> Client.<span class="bu">open</span>(cmr_api_url)</span>
+<span id="cb40-4"><a href="#cb40-4" tabindex="-1"></a></span>
+<span id="cb40-5"><a href="#cb40-5" tabindex="-1"></a><span class="co"># setup search</span></span>
+<span id="cb40-6"><a href="#cb40-6" tabindex="-1"></a>search <span class="op">=</span> client.search(</span>
+<span id="cb40-7"><a href="#cb40-7" tabindex="-1"></a>    collections<span class="op">=</span>[<span class="st">"HLSL30.v2.0"</span>],</span>
+<span id="cb40-8"><a href="#cb40-8" tabindex="-1"></a>    intersects<span class="op">=</span>Point(<span class="op">-</span><span class="fl">73.97</span>, <span class="fl">40.78</span>),</span>
+<span id="cb40-9"><a href="#cb40-9" tabindex="-1"></a>    datetime<span class="op">=</span><span class="st">"2021-02-01/2021-03-30"</span>,</span>
+<span id="cb40-10"><a href="#cb40-10" tabindex="-1"></a>) <span class="co"># nasa cmr cloud cover filtering is currently broken: https://github.com/nasa/cmr-stac/issues/239</span></span>
+<span id="cb40-11"><a href="#cb40-11" tabindex="-1"></a></span>
+<span id="cb40-12"><a href="#cb40-12" tabindex="-1"></a><span class="co"># retrieve search results</span></span>
+<span id="cb40-13"><a href="#cb40-13" tabindex="-1"></a>items <span class="op">=</span> search.item_collection()</span>
+<span id="cb40-14"><a href="#cb40-14" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(items))</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code><span><span class="fl">5</span></span></code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb31">
+<div class="codewrapper sourceCode" id="cb42">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a>items_sorted <span class="op">=</span> <span class="bu">sorted</span>(items, key<span class="op">=</span><span class="kw">lambda</span> x: x.properties[<span class="st">"eo:cloud_cover"</span>]) <span class="co"># sorting and then selecting by cloud cover</span></span>
-<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a>item <span class="op">=</span> items_sorted[<span class="dv">0</span>]</span>
-<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a><span class="bu">print</span>(item)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a>items_sorted <span class="op">=</span> <span class="bu">sorted</span>(items, key<span class="op">=</span><span class="kw">lambda</span> x: x.properties[<span class="st">"eo:cloud_cover"</span>]) <span class="co"># sorting and then selecting by cloud cover</span></span>
+<span id="cb42-2"><a href="#cb42-2" tabindex="-1"></a>item <span class="op">=</span> items_sorted[<span class="dv">0</span>]</span>
+<span id="cb42-3"><a href="#cb42-3" tabindex="-1"></a><span class="bu">print</span>(item)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code>&lt;Item id=HLS.L30.T18TWL.2021039T153324.v2.0&gt;</code></pre>
 </div>
-<div class="codewrapper sourceCode" id="cb33">
+<div class="codewrapper sourceCode" id="cb44">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="bu">print</span>(item.assets[<span class="st">"browse"</span>].href)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" tabindex="-1"></a><span class="bu">print</span>(item.assets[<span class="st">"browse"</span>].href)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -955,12 +1156,12 @@ steps in order to access data using Python:</p>
 <li>Set up a netrc file with your credentials, e.g. by using <a href="https://git.earthdata.nasa.gov/projects/LPDUR/repos/daac_data_download_python/browse/EarthdataLoginSetup.py" class="external-link">this
 script</a>;</li>
 <li>Define the following environment variables:</li>
-</ul><div class="codewrapper sourceCode" id="cb35">
+</ul><div class="codewrapper sourceCode" id="cb46">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a>os.environ[<span class="st">"GDAL_HTTP_COOKIEFILE"</span>] <span class="op">=</span> <span class="st">"./cookies.txt"</span></span>
-<span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a>os.environ[<span class="st">"GDAL_HTTP_COOKIEJAR"</span>] <span class="op">=</span> <span class="st">"./cookies.txt"</span></span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb46-2"><a href="#cb46-2" tabindex="-1"></a>os.environ[<span class="st">"GDAL_HTTP_COOKIEFILE"</span>] <span class="op">=</span> <span class="st">"./cookies.txt"</span></span>
+<span id="cb46-3"><a href="#cb46-3" tabindex="-1"></a>os.environ[<span class="st">"GDAL_HTTP_COOKIEJAR"</span>] <span class="op">=</span> <span class="st">"./cookies.txt"</span></span></code></pre>
 </div>
 </div>
 </div>
@@ -1022,7 +1223,7 @@ any links that you are not going to use.
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
 
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.10" class="external-link">sandpaper (0.16.10)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.7" class="external-link">pegboard (0.7.7)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.5" class="external-link">varnish (1.0.5)</a></p>
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.12" class="external-link">sandpaper (0.16.12)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.9" class="external-link">pegboard (0.7.9)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.6" class="external-link">varnish (1.0.6)</a></p>
 			</div>
 		</footer></div> <!-- / div.container -->
 	<div id="to-top">
@@ -1033,19 +1234,19 @@ any links that you are not going to use.
   <script type="application/ld+json">
     {
   "@context": "https://schema.org",
-  "@type": "TrainingMaterial",
+  "@type": "LearningResource",
   "@id": "https://carpentries-incubator.github.io/geospatial-python/instructor/05-access-data.html",
   "inLanguage": "en",
-  "dct:conformsTo": "https://bioschemas.org/profiles/TrainingMaterial/1.0-RELEASE",
+  "dct:conformsTo": "https://bioschemas.org/profiles/LearningResource/1.0-RELEASE",
   "description": "A Carpentries Lesson teaching foundational data and coding skills to researchers worldwide",
   "keywords": "software, data, lesson, The Carpentries",
   "name": "Access satellite imagery using Python",
   "creativeWorkStatus": "active",
   "url": "https://carpentries-incubator.github.io/geospatial-python/instructor/05-access-data.html",
   "identifier": "https://carpentries-incubator.github.io/geospatial-python/instructor/05-access-data.html",
-  "dateCreated": "2024-03-05",
-  "dateModified": "2023-08-29",
-  "datePublished": "2024-12-03"
+  "dateCreated": "2025-05-20",
+  "dateModified": "2025-05-20",
+  "datePublished": "2025-05-20"
 }
 
   </script><script>
