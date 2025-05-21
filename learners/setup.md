@@ -98,8 +98,16 @@ If you run into any difficulties, please request help before the workshop begins
 
 :::::::::::::::::::::::::
 
+### Setting up the workshop environment from Anaconda
+After installing Anaconda follow the steps below:
+1. Open [https://raw.githubusercontent.com/carpentries-incubator/geospatial-python/main/files/environment.yaml][https://raw.githubusercontent.com/carpentries-incubator/geospatial-python/main/files/environment.yaml] in your web browser, right-click on the page, and select Save As... Keep the default name and click Save.
+2. Open Anaconda-Navigator and click the **Environments** tab on the left of the GUI.
+3. Then while on the **Environments** tab, from the bottom of the GUI click **Import**.
+4. From the popup that appears, click the folder icon next to the local drive text field and choose the "environment.yaml" file downloaded earlier.
+5. Accept the default name, then click the ""Import"" button from the popup and wait while the environment is created.
+6. Now click the newly created **geospatial** environement. A play icon should appear next to it once activated.
 
-### Setting up the workshop environment
+### Setting up the workshop environment using conda
 
 If Anaconda was properly installed, you should have access to the `conda`
 command in your terminal (use the **Anaconda prompt** on **Windows**).
@@ -166,7 +174,17 @@ environment with `conda activate geospatial` to use the Python libraries
 required for the lesson and to start JupyterLab, which is also installed in the
 `geospatial` environment.
 
-### Starting JupyterLab
+### Starting JupyterLab from Anaconda-Navigator
+With the **geospatial** virtual environment selected from the **Environements** tab:
+Click the **Home** tab and then click the Launch button beneath JupyterLab.
+
+Once you have launched JupyterLab, create a new Python 3 notebook, type the following code snippet in a cell and press the "Play" button:
+
+```python
+import rioxarray
+```
+
+### Starting JupyterLab from the Command Line
 
 In order to follow the lesson, you should launch JupyterLab. After activating the
 geospatial conda environment, enter the following command in your terminal (use the **Anaconda prompt** on **Windows**):
