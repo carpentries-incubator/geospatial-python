@@ -28,5 +28,5 @@ The main python libraries that are used in this lesson are:
 - [dask](https://www.dask.org/)
 - [pystac-client](https://pystac-client.readthedocs.io/)
 
-[sentinel-2]: https://sentinel.esa.int/web/sentinel/missions/sentinel-2
+[sentinel-2]: https://dataspace.copernicus.eu/data-collections/copernicus-sentinel-data/sentinel-2
 [osm]: https://www.openstreetmap.org/#map=14/45.2935/18.7986
