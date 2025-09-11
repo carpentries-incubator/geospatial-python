@@ -128,7 +128,7 @@ of changes in resolution.
 ### Raster Data Format for this Workshop
 
 Raster data can come in many different formats. For this workshop, we will use
-one of the most common formats for raster data, i.e. the GeoTIFF format, which has the extension `.tif`. 
+one of the most common formats for raster data, i.e. the GeoTIFF format, which has the extension `.tif`.
 A `.tif` file stores metadata or attributes about the file as embedded `tif tags`. For instance, your camera
 might store a tag that describes the make and model of the camera or the date
 the photo was taken when it saves a `.tif`. A GeoTIFF is a standard `.tif` image
@@ -149,13 +149,13 @@ from a GeoTIFF file.
 ## More Resources on the  `.tif` format
 
 * [GeoTIFF on Wikipedia](https://en.wikipedia.org/wiki/GeoTIFF)
-* [OSGEO TIFF documentation](https://trac.osgeo.org/geotiff/)
+* [Open Geospatial Consortium (OGC) GeoTIFF standard](https://www.ogc.org/standards/geotiff/)
 :::
 
 ### Multi-band Raster Data
 
 A raster can contain one or more bands. One type of multi-band raster
-dataset that is familiar to many of us is a color image. A basic color 
+dataset that is familiar to many of us is a color image. A basic color
 image often consists of three bands: red, green, and blue (RGB). Each
 band represents light reflected from the red, green or blue portions of
 the electromagnetic spectrum. The pixel brightness for each band, when
