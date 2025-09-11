@@ -98,7 +98,7 @@ To decide if a projection is right for your data, answer these questions:
   *  What is the area of minimal distortion?
   *  What aspect of the data does it preserve?
 
-[Peter Dana from the University of Colorado at Boulder](https://foote.geography.uconn.edu/gcraft/notes/mapproj/mapproj_f.html) and the [Department of Geo-Information Processing](https://kartoweb.itc.nl/geometrics/Map%20projections/mappro.html) have a good discussion of these aspects of projections. Online tools like [Projection Wizard](https://projectionwizard.org/) can also help you discover projections that might be a good fit for your data.
+The [Department of Geo-Information Processing](https://kartoweb.itc.nl/geometrics/Map%20projections/mappro.html) has a good discussion of these aspects of projections. Online tools like [Projection Wizard](https://projectionwizard.org/) and the [Worldmapgenerator](https://www.worldmapgenerator.com) can also help you explore projections and discover what might be a good fit for your data.
 
 :::callout
 ## Data Tip
