@@ -14,7 +14,7 @@ As a case study for this lesson we will focus on wildfires. According to [the IP
 
 The data used in this lesson includes optical satellite images from [the Copernicus Sentinel-2 mission][sentinel-2] and topographical data from [OpenStreetMap (OSM)][osm]. These datasets are real-world open data sets that entail sufficient complexity to teach many aspects of data analysis and management. The datasets have been selected to allow participants to focus on the core ideas and skills being taught while offering the chance to encounter common challenges with geospatial data. Furthermore, we have selected datasets which are available anywhere on Earth.
 
-During this lesson we will setup an analysis pipeline which identifies scorched areas based on bands of satellite images collected after the disaster in July 2023. Next, we will calculate the [Normalized Difference Vegetation Index (NDVI)](https://en.wikipedia.org/wiki/Normalized_difference_vegetation_index) to assess the vegetation cover of the areas before and after the wildfire. To investigate the affected built-up areas and main roads, we will use OSM vector data and compare them with the previously identified scorched areas. 
+During this lesson we will setup an analysis pipeline which identifies scorched areas based on bands of satellite images collected after the disaster in July 2023. Next, we will calculate the [Normalized Difference Vegetation Index (NDVI)](https://en.wikipedia.org/wiki/Normalized_difference_vegetation_index) to assess the vegetation cover of the areas before and after the wildfire. To investigate the affected built-up areas and main roads, we will use OSM vector data and compare them with the previously identified scorched areas.
 
 To most effectively use this material, make sure to [download the data](learners/setup.md#data-sets) and follow [the software setup instructions](learners/setup.md#software-setup) before working through the lesson (this especially accounts for learners that follow this lesson in a workshop).
 
@@ -24,7 +24,7 @@ The main python libraries that are used in this lesson are:
 
 - [geopandas](https://geopandas.org/en/stable/)
 - [rioxarray](https://github.com/corteva/rioxarray)
-- [xarray-spatial](https://xarray-spatial.org/)
+- [xarray-spatial](https://xarray-spatial.readthedocs.io)
 - [dask](https://www.dask.org/)
 - [pystac-client](https://pystac-client.readthedocs.io/)
 
