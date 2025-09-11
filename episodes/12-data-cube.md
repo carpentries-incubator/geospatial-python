@@ -5,8 +5,8 @@ exercises: 0
 ---
 
 :::questions
-- Can I mosaic tiled raster datasets when my area of interest spans multiple files?   
-- Can I stack raster datasets that cover the same area along the time dimension in order to explore temporal changes of some quantities? 
+- Can I mosaic tiled raster datasets when my area of interest spans multiple files?
+- Can I stack raster datasets that cover the same area along the time dimension in order to explore temporal changes of some quantities?
 :::
 
 :::objectives
@@ -15,9 +15,9 @@ exercises: 0
 
 ## Introduction
 
-In the previous episodes we worked with satellite images with a fixed boundary on how they have been collected, however in many cases you would want to have an image that covers your area of interest which often does not align with boundaries of the collected images. If the phenomena you are interested in covers two images you could manually mosaic them, but sometimes you are interested in multiple images that overlapping.  
+In the previous episodes we worked with satellite images with a fixed boundary on how they have been collected, however in many cases you would want to have an image that covers your area of interest which often does not align with boundaries of the collected images. If the phenomena you are interested in covers two images you could manually mosaic them, but sometimes you are interested in multiple images that overlapping.
 
-ODC-STAC offers functionality that allows you to get a mosaic-ed image based on the a bounding box or a polygon containing the area of interest. In this lesson we show how [odc-stac](https://odc-stac.readthedocs.io/en/latest/?badge=latest) can be employed to re-tile and stack satellite images in what are sometimes referred to as "data cubes". 
+ODC-STAC offers functionality that allows you to get a mosaic-ed image based on the a bounding box or a polygon containing the area of interest. In this lesson we show how [odc-stac](https://odc-stac.readthedocs.io/en/latest/?badge=latest) can be employed to re-tile and stack satellite images in what are sometimes referred to as "data cubes".
 
 ## Create a data cube with ODC-STAC
 
@@ -97,7 +97,7 @@ Data variables: (12/18)
 
 ## Working with the data cube
 
-Like we did in the previous episode, let us calculate the NDVI for our study area. To do so we need to focus on the variables: the red band (`red`), the near infrared band (`nir`) and the scene classification map (`scl`). We will use the former two to calculated the NDVI for the AoI. The latter, we use as [a classification mask](https://sentinels.copernicus.eu/web/sentinel/technical-guides/sentinel-2-msi/level-2a/algorithm-overview) provided together with Sentinel-2 L2A products. In this mask, each pixel is classified according to a set of labels (see Figure 3 in [classification mask documentation](https://sentinels.copernicus.eu/web/sentinel/technical-guides/sentinel-2-msi/level-2a/algorithm-overview) ). 
+Like we did in the previous episode, let us calculate the NDVI for our study area. To do so we need to focus on the variables: the red band (`red`), the near infrared band (`nir`) and the scene classification map (`scl`). We will use the former two to calculated the NDVI for the AoI. The latter, we use as [a classification mask](https://sentiwiki.copernicus.eu/web/s2-processing#S2Processing-SceneClassification(SC)S2-Processing-Scene-Classificationtrue) provided together with Sentinel-2 L2A products. In this mask, each pixel is classified according to a set of labels (see Figure 2 in [classification mask documentation](https://sentiwiki.copernicus.eu/web/s2-processing#S2Processing-SceneClassification(SC)S2-Processing-Scene-Classificationtrue)).
 
 First we define the bands that we are interested in:
 
