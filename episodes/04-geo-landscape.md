@@ -65,7 +65,7 @@ The [Open Source Geospatial Foundation (OSGEO)](https://www.osgeo.org/) supports
   through their [DevLabs](https://developers.arcgis.com/). ArcGIS software can be
   installed using
   [Chef Cookbooks from Github](https://github.com/Esri/arcgis-cookbook). In addition, ESRI offers the [ArcPy Python library](https://pro.arcgis.com/en/pro-app/latest/arcpy/get-started/what-is-arcpy-.htm) as part of an ArcGIS Pro licence, allowing to translate operations in the ArcGIS Pro GUI to Python scripts.
-  * Pitney Bowes produce [MapInfo Professional](https://www.pitneybowes.com/us/location-intelligence/geographic-information-systems/mapinfo-pro.html),
+  * Precisely produces [MapInfo Professional](https://www.precisely.com/product/precisely-mapinfo/mapinfo-pro), formerly developed by Pitney Bowes Software,
   which was one of the earliest desktop GIS programs on the market.
   * [Hexagon Geospatial Power Portfolio](https://www.hexagongeospatial.com/products/products)
   includes many geospatial tools including ERDAS Imagine, powerful software for remote sensing.
