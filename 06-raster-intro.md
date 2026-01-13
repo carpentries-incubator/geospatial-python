@@ -191,7 +191,7 @@ rhodes_red_80.plot()
 ```
 ![Raster plot 80 x 80 meter resolution with rioxarray](fig/E06/rhodes_red_80_B04.png){alt="raster plot with defualt setting"}
 
-This plot shows the satellite measurement of the band `red` for Rhodes before the wildfire. According to the [Sentinel-2 documentaion](https://sentinels.copernicus.eu/web/sentinel/technical-guides/sentinel-2-msi/msi-instrument), this is a band with the central wavelength of 665nm. It has a spatial resolution of 10m. Note that the `band=1` in the image title refers to the ordering of all the bands in the  `DataArray`, not the Sentinel-2 band number `04` that we saw in the pystac search results.
+This plot shows the satellite measurement of the band `red` for Rhodes before the wildfire. According to the [Sentinel-2 documentaion](https://sentiwiki.copernicus.eu/web/s2-mission#S2-Mission-MSI-Instrument), this is a band with the central wavelength of 665nm. It has a spatial resolution of 10m. Note that the `band=1` in the image title refers to the ordering of all the bands in the  `DataArray`, not the Sentinel-2 band number `04` that we saw in the pystac search results.
 
 
 :::callout
