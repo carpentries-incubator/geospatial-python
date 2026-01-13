@@ -32,7 +32,7 @@ associated to accurate geographic coordinate information.
 In this episode we will explore how to access open satellite data using Python. In particular, we will
 consider [the Sentinel-2 data collection that is hosted on Amazon Web Services (AWS)](https://registry.opendata.aws/sentinel-2-l2a-cogs).
 This dataset consists of multi-band optical images acquired by the constellation of two satellites from
-[the Sentinel-2 mission](https://sentinel.esa.int/web/sentinel/missions/sentinel-2) and it is continuously updated with
+[the Sentinel-2 mission](https://dataspace.copernicus.eu/data-collections/copernicus-sentinel-data/sentinel-2) and it is continuously updated with
 new images.
 
 ## Search for satellite imagery

@@ -24,7 +24,7 @@ In this episode, we will introduce how to crop raster data into the desired area
 
 In this episode, we will work with both raster and vector data.
 
-As *raster data*, we will use satellite images from the search that we have carried out in [the episode: "Access satellite imagery using Python"](05-access-data.md) as well as Digital Elevation Model (DEM) data from the [Copernicus DEM GLO-30 dataset](https://spacedata.copernicus.eu/collections/copernicus-digital-elevation-model).
+As *raster data*, we will use satellite images from the search that we have carried out in [the episode: "Access satellite imagery using Python"](05-access-data.md) as well as Digital Elevation Model (DEM) data from the [Copernicus DEM GLO-30 dataset](https://dataspace.copernicus.eu/explore-data/data-collections/copernicus-contributing-missions/collections-description/COP-DEM).
 
 For the satellite images, we have searched for Sentinel-2 scenes of Rhodes from July 1st to August 31st 2023 that have less than 1% cloud coverage. The search resulted in 11 scenes. We focus here on the most recent scene (August 27th), since that would show the situation after the wildfire, and use this as an example to demonstrate raster data cropping.
 
@@ -169,7 +169,7 @@ visual_clip.plot.imshow()
 :::challenge
 ## Exercise: Clip the red band for Rhodes
 
-Now that you have seen how clip a raster using a polygon, we want you to do this for the red band of the satellite image. Use the shape of Rhodes from GADM and clip the red band with it. Furthermore, make sure to transform the no data values to not-a-number (NaN) values.     
+Now that you have seen how clip a raster using a polygon, we want you to do this for the red band of the satellite image. Use the shape of Rhodes from GADM and clip the red band with it. Furthermore, make sure to transform the no data values to not-a-number (NaN) values.
 
 ::::solution
 ```python

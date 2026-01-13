@@ -27,8 +27,7 @@ The [Open Source Geospatial Foundation (OSGEO)](https://www.osgeo.org/) supports
 
   * [QGIS](https://www.qgis.org/en/site/) is a professional GIS application that is
   built on top of and proud to be itself Free and Open Source Software (FOSS). QGIS is
-  written in Python and C++, has a python console interface, allows to develop plugins and has several interfaces written in R including
-  [RQGIS](https://cran.r-project.org/package=RQGIS).
+  written in Python and C++, has a python console interface and allows one to develop plugins.
   * [GRASS GIS](https://grass.osgeo.org/), commonly referred to as GRASS
   (Geographic Resources Analysis Support System), is a FOSS-GIS software suite used for
   geospatial data management and analysis, image processing, graphics and maps
@@ -66,7 +65,7 @@ The [Open Source Geospatial Foundation (OSGEO)](https://www.osgeo.org/) supports
   through their [DevLabs](https://developers.arcgis.com/). ArcGIS software can be
   installed using
   [Chef Cookbooks from Github](https://github.com/Esri/arcgis-cookbook). In addition, ESRI offers the [ArcPy Python library](https://pro.arcgis.com/en/pro-app/latest/arcpy/get-started/what-is-arcpy-.htm) as part of an ArcGIS Pro licence, allowing to translate operations in the ArcGIS Pro GUI to Python scripts.
-  * Pitney Bowes produce [MapInfo Professional](https://www.pitneybowes.com/us/location-intelligence/geographic-information-systems/mapinfo-pro.html),
+  * Precisely produces [MapInfo Professional](https://www.precisely.com/product/precisely-mapinfo/mapinfo-pro), formerly developed by Pitney Bowes Software,
   which was one of the earliest desktop GIS programs on the market.
   * [Hexagon Geospatial Power Portfolio](https://www.hexagongeospatial.com/products/products)
   includes many geospatial tools including ERDAS Imagine, powerful software for remote sensing.
@@ -90,7 +89,6 @@ The [Open Source Geospatial Foundation (OSGEO)](https://www.osgeo.org/) supports
 Private companies have released SDK platforms for large scale GIS analysis:
 
  * [Kepler.gl](https://kepler.gl/#/) is Uber's toolkit for handling large datasets (i.e. Uber's data archive).
- * [Boundless Geospatial](https://boundlessgeo.com/) is built upon OSGEO software for enterprise solutions.
 
 Publicly funded open-source platforms for large scale GIS analysis:
 
