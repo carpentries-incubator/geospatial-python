@@ -581,11 +581,14 @@ The authentication procedure for dataset with restricted access might differ dep
 NASA CMR, follow these steps in order to access data using Python:
 
 * Create a NASA Earthdata login account [here](https://urs.earthdata.nasa.gov);
-* Set up a netrc file with your credentials, e.g. by using [this script](https://git.earthdata.nasa.gov/projects/LPDUR/repos/daac_data_download_python/browse/EarthdataLoginSetup.py);
-* Define the following environment variables:
+* Set up a netrc file with your credentials, e.g. by using [earthaccess](https://earthaccess.readthedocs.io/en/latest/user/authenticate/), which can be executed interactively in a Jupyter session, and creates a `.netrc` file in your home directory;
+* Define the following environment variables in your Jupyter session:
 
 ```python
 import os
+# Note that the cookies.txt file does not exist at this stage
+# It is needed by rasterio.open_rasterio function, which calls GDAL in the background
+# GDAL needs the path to the cookies.txt to store cookies
 os.environ["GDAL_HTTP_COOKIEFILE"] = "./cookies.txt"
 os.environ["GDAL_HTTP_COOKIEJAR"] = "./cookies.txt"
 ```
