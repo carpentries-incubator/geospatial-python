@@ -17,10 +17,13 @@ exercises: 15
 - Open satellite imagery as raster data and save it to disk.
 :::
 
+::::::::::::::::::::::::::::::::::::: instructor
 
-## Considerations for the position of this episode in the workshop
+### Considerations for the position of this episode in the workshop
 
 *When this workshop is taught to learners with limited prior knowledge of Python, it might be better to place this episode after episode 11 and before episode 12. This episode contains an introduction to working with APIs and dictionaries, which can be perceived as challenging by some learners. Another consideration for placing this episode later in the workshop is when it is taught to learners with prior GIS knowledge who want to perform GIS-like operations with data they have already collected or for learners interested in working with raster data but less interested in satellite images.*
+
+:::::::::::::::::::::::::::::::::::::
 
 ## Introduction
 
@@ -196,6 +199,17 @@ print(search.matched())
 
 You will notice that more than 500 scenes match our search criteria. We are however interested in the period right before and after the wildfire of Rhodes. In the following exercise you will therefore have to add a time filter to
 our search criteria to narrow down our search for images of that period.
+
+::::::::::::::: instructor
+
+### Extra attention for the following exercise
+
+- The exercise **Exercise: Search satellite scenes using metadata filters** needs extra attention. Its output `search.json` is required for the later episodes. Therefore we recommend:
+  - Do not skip this exercise;
+  - Think twice when you would like to change the query arguments in this exercise;
+  - Make sure all the audience have the output `search.json` before continuing.
+
+::::::::::::::::
 
 ::: challenge
 ## Exercise: Search satellite scenes with a time filter
