@@ -1,0 +1,16 @@
+jupyterlab
+dask
+matplotlib
+numpy
+pandas
+graphviz
+xarray
+geopandas
+odc-stac
+pyproj
+pystac
+pystac-client
+rasterio
+shapely
+rioxarray
+xarray-spatial
