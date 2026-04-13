@@ -80,7 +80,7 @@ Then make sure you are inside the `geospatial-python` directory you created duri
 cd \Users\<Username>\Desktop\geospatial-python
 ```
 
-And replace the `<Username>` patter (including the angle brackets `<>`) with your Windows username.
+And replace the `<Username>` pattern (including the angle brackets `<>`) with your Windows username.
 Finally, run the following command to create a virtual environment and install the required dependencies:
 
 ```powershell
