@@ -253,8 +253,7 @@
 
     <div id="flush-collapsecurrent" class="accordion-collapse collapse show" aria-labelledby="flush-headingcurrent" data-bs-parent="#accordionFlushcurrent">
       <div class="accordion-body">
-        <ul><li><a href="#considerations-for-the-position-of-this-episode-in-the-workshop">Considerations for the position of this episode in the workshop</a></li>
-<li><a href="#introduction">Introduction</a></li>
+        <ul><li><a href="#introduction">Introduction</a></li>
 <li><a href="#search-for-satellite-imagery">Search for satellite imagery</a></li>
 <li><a href="#search-a-stac-catalog">Search a STAC catalog</a></li>
 <li><a href="#access-the-assets">Access the assets</a></li>
@@ -385,7 +384,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Access satellite imagery using Python</h1>
-        <p>Last updated on 2026-01-13 |
+        <p>Last updated on 2026-04-13 |
 
         <a href="https://github.com/carpentries-incubator/geospatial-python/edit/main/episodes/05-access-data.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -427,8 +426,14 @@ scene.</li>
 </div>
 </div>
 </div>
-<section><h2 class="section-heading" id="considerations-for-the-position-of-this-episode-in-the-workshop">Considerations for the position of this episode in the workshop<a class="anchor" aria-label="anchor" href="#considerations-for-the-position-of-this-episode-in-the-workshop"></a></h2>
-<hr class="half-width"><p><em>When this workshop is taught to learners with limited prior
+<div id="accordionInstructor1" class="accordion instructor-note accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
+  <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Considerations for the position of this episode in the workshop </h3>
+</button>
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div class="accordion-body">
+<p><em>When this workshop is taught to learners with limited prior
 knowledge of Python, it might be better to place this episode after
 episode 11 and before episode 12. This episode contains an introduction
 to working with APIs and dictionaries, which can be perceived as
@@ -437,7 +442,11 @@ episode later in the workshop is when it is taught to learners with
 prior GIS knowledge who want to perform GIS-like operations with data
 they have already collected or for learners interested in working with
 raster data but less interested in satellite images.</em></p>
-</section><section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a></h2>
+</div>
+</div>
+</div>
+</div>
+<section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a></h2>
 <hr class="half-width"><p>A number of satellites take snapshots of the Earth’s surface from
 space. The images recorded by these remote sensors represent a very
 precious data source for any activity that involves monitoring changes
@@ -687,6 +696,27 @@ We are however interested in the period right before and after the
 wildfire of Rhodes. In the following exercise you will therefore have to
 add a time filter to our search criteria to narrow down our search for
 images of that period.</p>
+<div id="accordionInstructor2" class="accordion instructor-note accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor2" aria-expanded="false" aria-controls="collapseInstructor2">
+  <h3 class="accordion-header" id="headingInstructor2">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Extra attention for the following exercise </h3>
+</button>
+<div id="collapseInstructor2" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor2" aria-labelledby="headingInstructor2">
+<div class="accordion-body">
+<ul><li>The exercise <strong>Exercise: Search satellite scenes using
+metadata filters</strong> needs extra attention. Its output
+<code>search.json</code> is required for the later episodes. Therefore
+we recommend:
+<ul><li>Do not skip this exercise;</li>
+<li>Think twice when you would like to change the query arguments in
+this exercise;</li>
+<li>Make sure all the audience have the output <code>search.json</code>
+before continuing.</li>
+</ul></li>
+</ul></div>
+</div>
+</div>
+</div>
 <div id="exercise-search-satellite-scenes-with-a-time-filter" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
@@ -1165,15 +1195,19 @@ is publicly accessible).</p>
 differ depending on the data provider. For the NASA CMR, follow these
 steps in order to access data using Python:</p>
 <ul><li>Create a NASA Earthdata login account <a href="https://urs.earthdata.nasa.gov" class="external-link">here</a>;</li>
-<li>Set up a netrc file with your credentials, e.g. by using <a href="https://git.earthdata.nasa.gov/projects/LPDUR/repos/daac_data_download_python/browse/EarthdataLoginSetup.py" class="external-link">this
-script</a>;</li>
-<li>Define the following environment variables:</li>
+<li>Set up a netrc file with your credentials, e.g. by using <a href="https://earthaccess.readthedocs.io/en/latest/user/authenticate/" class="external-link">earthaccess</a>,
+which can be executed interactively in a Jupyter session, and creates a
+<code>.netrc</code> file in your home directory;</li>
+<li>Define the following environment variables in your Jupyter
+session:</li>
 </ul><div class="codewrapper sourceCode" id="cb46">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" tabindex="-1"></a><span class="im">import</span> os</span>
-<span id="cb46-2"><a href="#cb46-2" tabindex="-1"></a>os.environ[<span class="st">"GDAL_HTTP_COOKIEFILE"</span>] <span class="op">=</span> <span class="st">"./cookies.txt"</span></span>
-<span id="cb46-3"><a href="#cb46-3" tabindex="-1"></a>os.environ[<span class="st">"GDAL_HTTP_COOKIEJAR"</span>] <span class="op">=</span> <span class="st">"./cookies.txt"</span></span></code></pre>
+<span id="cb46-2"><a href="#cb46-2" tabindex="-1"></a><span class="co"># These variables are needed by rasterio.open_rasterio function, which calls GDAL in the background</span></span>
+<span id="cb46-3"><a href="#cb46-3" tabindex="-1"></a><span class="co"># GDAL needs the path where to store cookies</span></span>
+<span id="cb46-4"><a href="#cb46-4" tabindex="-1"></a>os.environ[<span class="st">"GDAL_HTTP_COOKIEFILE"</span>] <span class="op">=</span> <span class="st">"./cookies.txt"</span></span>
+<span id="cb46-5"><a href="#cb46-5" tabindex="-1"></a>os.environ[<span class="st">"GDAL_HTTP_COOKIEJAR"</span>] <span class="op">=</span> <span class="st">"./cookies.txt"</span></span></code></pre>
 </div>
 </div>
 </div>
@@ -1259,7 +1293,7 @@ any links that you are not going to use.
   "url": "https://carpentries-incubator.github.io/geospatial-python/instructor/05-access-data.html",
   "identifier": "https://carpentries-incubator.github.io/geospatial-python/instructor/05-access-data.html",
   "dateCreated": "2026-04-13",
-  "dateModified": "2026-01-13",
+  "dateModified": "2026-04-13",
   "datePublished": "2026-04-13"
 }
 
