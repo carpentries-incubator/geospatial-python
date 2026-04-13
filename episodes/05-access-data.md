@@ -586,9 +586,8 @@ NASA CMR, follow these steps in order to access data using Python:
 
 ```python
 import os
-# Note that the cookies.txt file does not exist at this stage
-# It is needed by rasterio.open_rasterio function, which calls GDAL in the background
-# GDAL needs the path to the cookies.txt to store cookies
+# These variables are needed by rasterio.open_rasterio function, which calls GDAL in the background
+# GDAL needs the path where to store cookies
 os.environ["GDAL_HTTP_COOKIEFILE"] = "./cookies.txt"
 os.environ["GDAL_HTTP_COOKIEJAR"] = "./cookies.txt"
 ```
