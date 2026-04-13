@@ -20,7 +20,7 @@ Now you should have the following files in the `data` directory:
 
 [Python](https://python.org) is a popular language for scientific computing, and great for
 general-purpose programming as well. There are many ways to install Python and the
-required dependencies. In this workshop, we will use [`uv`](https://docs.astral.sh/uv/) 
+required dependencies. In this workshop, we suggest to use [`uv`](https://docs.astral.sh/uv/) 
 for its fast and easy installation process. 
 
 :::::::::::::::::::::::::::::::::::::::discussion
@@ -47,16 +47,16 @@ Open a terminal and install `uv` following the [official installation instructio
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-Then make sure you are inside the `geospatial-python` directory you created during the data setup step. If not, please do:
+Then make sure you are inside the `geospatial-python` directory you created during the data setup step by doing:
 
 ```sh
-cd <path-to-geospatial-python>
+cd ~/Desktop/geospatial-python
 ```
 
 Finally, run the following command to create a virtual environment and install the required dependencies:
 
 ```sh
-uv venv --python=3.12 && uv pip install -r https://raw.githubusercontent.com/esciencecenter-digital-skills/geospatial-python/uv_setup/files/requirements.txt
+uv venv --python=3.12 && uv pip install -r https://raw.githubusercontent.com/carpentries-incubator/geospatial-python/main/files/requirements.txt
 ```
 
 :::::::::::::::::::::::::
@@ -72,18 +72,19 @@ On Windows, first we install `uv` using PowerShell following the [official insta
 powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
 
-Sometimes after the installation, you may see suggestions powershell terminal like `$env:Path = "C:\Users\username\.local\bin;$env:Path"` This means you need to manually add the `uv` executable to your system's PATH variable. Please run the suggested command in your PowerShell terminal to add `uv` to your PATH. Otherswise PowerShell will not recognize the `uv` command in the next step.
+After the installation, you may see suggestions on the PowerShell terminal like `$env:Path = "C:\Users\username\.local\bin;$env:Path"` This means you need to manually add the `uv` executable to your system's PATH variable. Please run the suggested command in your PowerShell terminal to add `uv` to your PATH. Otherwise PowerShell will not recognize the `uv` command in the next step.
 
-Then make sure you are inside the `geospatial-python` directory you created during the data setup step. If not, please do:
+Then make sure you are inside the `geospatial-python` directory you created during the data setup step by doing:
 
 ```powershell
-cd <path-to-geospatial-python>
+cd \Users\<Username>\Desktop\geospatial-python
 ```
 
+And replace the `<Username>` patter (including the angle brackets `<>`) with your Windows username.
 Finally, run the following command to create a virtual environment and install the required dependencies:
 
 ```powershell
-uv venv --python=3.12; if ($LASTEXITCODE -eq 0) { uv pip install -r https://raw.githubusercontent.com/esciencecenter-digital-skills/geospatial-python/uv_setup/files/requirements.txt}
+uv venv --python=3.12; if ($LASTEXITCODE -eq 0) { uv pip install -r https://raw.githubusercontent.com/carpentries-incubator/geospatial-python/main/files/requirements.txt}
 ```
 
 :::::::::::::::::::::::::
@@ -92,7 +93,7 @@ After the installation, a `.venv` directory will be created in the current direc
 
 ### Testing the installation
 
-In order to follow the lesson, you should launch JupyterLab. Let's try it now to make sure everything is set up correctly. You can run the following command in your terminal from the `geospatial-python` directory:
+In order to follow the lesson, you should launch JupyterLab. Let's try it now to make sure everything is set up correctly. You should run the following command in your terminal from the `geospatial-python` directory:
 
 ```
 uv run jupyter lab

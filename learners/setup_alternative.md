@@ -2,8 +2,7 @@
 title: Software Setup using Anaconda
 ---
 
-Alternatively, you can install Python and all the required dependencies using 
-Anaconda.
+We advise to use `uv` to install Python and all required dependencies due to its speed and ease of use (see the main [Software Setup page](./setup.md#software-setup)). If you are already familiar with Anaconda or `conda`, and want to use those to setup your Python environment, you can follow these instructions (but you don't have to, if you have already correctly carried out the installation using `uv`).
 
 ::::::::::::::::::::::::::::::::::::::: discussion
 
