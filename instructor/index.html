@@ -100,7 +100,8 @@
           <button class="nav-link dropdown-toggle" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
             More <i data-feather="chevron-down"></i>
           </button>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown"><hr></ul></li>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown"><hr><li><a class="dropdown-item" href="setup_alternative.html">Software Setup using Anaconda</a></li>
+          </ul></li>
       </ul></div>
     <!--
     <form class="d-flex col-md-2 search-form">
@@ -337,7 +338,8 @@
                       <li>
                         <a href="../instructor/images.html">Extract All Images</a>
                       </li>
-                      <hr></ul></div>
+                      <hr><li><a class="dropdown-item" href="setup_alternative.html">Software Setup using Anaconda</a></li>
+                    </ul></div>
                 </div>
               </div>
             </div>
@@ -611,27 +613,27 @@ boundaries of Rhodes, downloaded from <a href="https://gadm.org/" class="externa
 polylines of Rhodes, downloaded from <a href="../www.openstreetmaps.org">Openstreetmaps</a> via <a href="https://www.geofabrik.de/data/download.html" class="external-link">Geofabrik</a> and
 modified for this lesson.</li>
 </ul></section><section><h2 class="section-heading" id="software-setup">Software Setup<a class="anchor" aria-label="anchor" href="#software-setup"></a></h2>
-<hr class="half-width"><div class="section level3">
-<h3 id="installing-python-using-anaconda">Installing Python Using Anaconda<a class="anchor" aria-label="anchor" href="#installing-python-using-anaconda"></a></h3>
-<p><a href="https://python.org" class="external-link">Python</a> is a popular language for
+<hr class="half-width"><p><a href="https://python.org" class="external-link">Python</a> is a popular language for
 scientific computing, and great for general-purpose programming as well.
-Installing all of its scientific packages individually can be a bit
-difficult, however, so we recommend the all-in-one installer <a href="https://www.anaconda.com/" class="external-link">Anaconda</a>.</p>
-<p>Regardless of how you choose to install it, please make sure you
-install Python version 3.x (e.g., 3.9 is fine). Also, please set up your
-python environment at least a day in advance of the workshop. If you
-encounter problems with the installation procedure, ask your workshop
-organizers via e-mail for assistance so you are ready to go as soon as
-the workshop begins.</p>
-<div id="installing-anaconda" class="callout discussion">
+There are many ways to install Python and the required dependencies. In
+this workshop, we suggest to use <a href="https://docs.astral.sh/uv/" class="external-link"><code>uv</code></a> for its fast and
+easy installation process.</p>
+<div id="software-setup-using-uv" class="callout discussion">
 <div class="callout-square">
 <i class="callout-icon" data-feather="message-circle"></i>
 </div>
 <span class="callout-header">Discussion</span>
-<div id="installing-anaconda" class="callout-inner">
-<h3 class="callout-title">Installing Anaconda</h3>
+<div id="software-setup-using-uv" class="callout-inner">
+<h3 class="callout-title">Software Setup using uv</h3>
 <div class="callout-content">
-
+<p>Please follow the instructions below according to your operating
+system.</p>
+<p>Regardless of how you choose to install it, please make sure you
+install Python version 3.x (e.g., 3.12 is fine). Also, please set up
+your python environment at least a day in advance of the workshop. If
+you encounter problems with the installation procedure, ask your
+workshop organizers via e-mail for assistance so you are ready to go as
+soon as the workshop begins.</p>
 </div>
 </div>
 </div>
@@ -639,26 +641,33 @@ the workshop begins.</p>
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">
-  Windows
+  Linux / MacOS
   </h4>
 </button>
 <div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
-<p><a href="https://www.youtube.com/watch?v=xxQ0mzZ8UvA" class="external-link">Video
-tutorial</a></p>
-<ol style="list-style-type: decimal"><li><p>Open <a href="https://www.anaconda.com/download/#windows" class="external-link">https://www.anaconda.com/download</a>
-with your web browser.</p></li>
-<li><p>Download the Anaconda for Windows installer with Python
-3.</p></li>
-<li><p>Install Python 3 by running the Anaconda Installer, using all of
-the defaults for installation <em>except</em> make sure that:</p></li>
-</ol><ul><li>
-<strong>Register Anaconda as my default Python 3.x</strong> option
-is checked (it should be in the latest version of Anaconda).</li>
-<li>
-<strong>Add Anaconda to my PATH environment variable</strong> is
-selected.</li>
-</ul></div>
+<p>Open a terminal and install <code>uv</code> following the <a href="https://docs.astral.sh/uv/getting-started/installation/" class="external-link">official
+installation instructions</a>:</p>
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">SH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode sh" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-LsSf</span> https://astral.sh/uv/install.sh <span class="kw">|</span> <span class="fu">sh</span></span></code></pre>
+</div>
+<p>Then make sure you are inside the <code>geospatial-python</code>
+directory you created during the data setup step by doing:</p>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">SH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode sh" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="bu">cd</span> ~/Desktop/geospatial-python</span></code></pre>
+</div>
+<p>Finally, run the following command to create a virtual environment
+and install the required dependencies:</p>
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">SH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode sh" tabindex="0"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="ex">uv</span> venv <span class="at">--python</span><span class="op">=</span>3.12 <span class="kw">&amp;&amp;</span> <span class="ex">uv</span> pip install <span class="at">-r</span> https://raw.githubusercontent.com/carpentries-incubator/geospatial-python/main/files/requirements.txt</span></code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -666,221 +675,86 @@ selected.</li>
 <div class="accordion-item">
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">
-  Mac OS
+  Windows
   </h4>
 </button>
 <div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
-<p><a href="https://www.youtube.com/watch?v=TcSAln46u9U" class="external-link">Video
-tutorial</a></p>
-<ol style="list-style-type: decimal"><li><p>Open <a href="https://www.anaconda.com/download/#macos" class="external-link">https://www.anaconda.com/download</a>
-with your web browser.</p></li>
-<li><p>Download the Anaconda installer with Python 3 for OS X. These
-instructions assume that you use the “Graphical Installer”
-<code>.pkg</code> file</p></li>
-<li><p>Follow the Python 3 installation instructions. Make sure that the
-install location is set to <strong>Install only for me</strong> so
-Anaconda will install its files locally, relative to your home
-directory. Installing the software for all users tends to create
-problems in the long run and should be avoided.</p></li>
-</ol></div>
-</div>
-</div>
-</div>
-<div id="accordionSolution3" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
-  <h4 class="accordion-header" id="headingSolution3">
-  Linux
-  </h4>
-</button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
-<div class="accordion-body">
-<p>Note that the following installation steps require you to work from
-the shell. If you run into any difficulties, please request help before
-the workshop begins.</p>
-<ol style="list-style-type: decimal"><li><p>Open <a href="https://www.anaconda.com/download/#linux" class="external-link">https://www.anaconda.com/download</a>
-with your web browser.</p></li>
-<li><p>Download the Anaconda installer with Python 3 for Linux.</p></li>
-<li><p>Open a terminal window and navigate to the directory where the
-executable is downloaded (e.g., <code>cd ~/Downloads</code>).</p></li>
-<li>
-<p>Type:</p>
-<div class="codewrapper sourceCode" id="cb1">
-<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">bash</span> Anaconda3-</span></code></pre>
-</div>
-<p>and press “Tab” to autocomplete the full file name. The name of file
-you just downloaded should appear.</p>
-</li>
-<li><p>Press “Enter” (or “Return” depending on your keyboard).</p></li>
-<li><p>Follow the text-only prompts. When the license agreement appears
-(a colon will be present at the bottom of the screen) press “Spacebar”
-until you see the bottom of the text. Type <code>yes</code> and press
-“Enter” to approve the license. Press “Enter” again to approve the
-default location for the files. Type <code>yes</code> and press “Enter”
-to prepend Anaconda to your <code>PATH</code> (this makes the Anaconda
-distribution your user’s default Python).</p></li>
-<li><p>Close the terminal window.</p></li>
-</ol></div>
-</div>
-</div>
-</div>
-</div>
-<div class="section level3">
-<h3 id="setting-up-the-workshop-environment">Setting up the workshop environment<a class="anchor" aria-label="anchor" href="#setting-up-the-workshop-environment"></a></h3>
-<p>If Anaconda was properly installed, you should have access to the
-<code>conda</code> command in your terminal (use the <strong>Anaconda
-prompt</strong> on <strong>Windows</strong>).</p>
-<ol style="list-style-type: decimal"><li>
-<p>Test that <code>conda</code> is correctly installed by
-typing:</p>
-<div class="codewrapper sourceCode" id="cb2">
-<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="ex">conda</span> <span class="at">--version</span></span></code></pre>
-</div>
-<p>which should print the version of conda that is currently installed,
-e.g. :</p>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>conda 22.9.0</code></pre>
-</div>
-</li>
-<li>
-<p>Run the following command:</p>
+<p>On Windows, first we install <code>uv</code> using PowerShell
+following the <a href="https://docs.astral.sh/uv/getting-started/installation/" class="external-link">official
+installation instructions</a>:</p>
 <div class="codewrapper sourceCode" id="cb4">
-<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">POWERSHELL<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="ex">conda</span> install <span class="at">-c</span> conda-forge mamba</span></code></pre>
+<pre class="sourceCode powershell" tabindex="0"><code class="sourceCode powershell"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>powershell <span class="op">-</span>ExecutionPolicy ByPass <span class="op">-</span>c <span class="st">"irm https://astral.sh/uv/install.ps1 | iex"</span></span></code></pre>
 </div>
-<p>IMPORTANT: If your terminal responds to the above command with
-<code>conda: command not found</code> see the <a href="#troubleshooting-conda-command-not-found">Troubleshooting
-section</a>.</p>
-</li>
-<li>
-<p>Create the Python environment for the workshop by running:</p>
+<p>After the installation, you may see suggestions on the PowerShell
+terminal like
+<code>$env:Path = "C:\Users\username\.local\bin;$env:Path"</code> This
+means you need to manually add the <code>uv</code> executable to your
+system’s PATH variable. Please run the suggested command in your
+PowerShell terminal to add <code>uv</code> to your PATH. Otherwise
+PowerShell will not recognize the <code>uv</code> command in the next
+step.</p>
+<p>Then make sure you are inside the <code>geospatial-python</code>
+directory you created during the data setup step by doing:</p>
 <div class="codewrapper sourceCode" id="cb5">
-<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">POWERSHELL<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="ex">mamba</span> env create <span class="at">-n</span> geospatial <span class="at">-f</span> https://raw.githubusercontent.com/carpentries-incubator/geospatial-python/main/files/environment.yaml</span></code></pre>
+<pre class="sourceCode powershell" tabindex="0"><code class="sourceCode powershell"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">cd</span> \Users\<span class="op">&lt;</span>Username<span class="op">&gt;</span>\Desktop\geospatial-python</span></code></pre>
 </div>
-<p>Note that this step can take several minutes.</p>
-</li>
-<li>
-<p>When installation has finished you should see the following
-message in the terminal:</p>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<p>And replace the <code>&lt;Username&gt;</code> pattern (including the
+angle brackets <code>&lt;&gt;</code>) with your Windows username.
+Finally, run the following command to create a virtual environment and
+install the required dependencies:</p>
+<div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">POWERSHELL<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code><span><span class="co"># To activate this environment, use</span></span>
-<span><span class="co">#    $ conda activate geospatial</span></span>
-<span><span class="co">#</span></span>
-<span><span class="co"># To deactivate an active environment, use</span></span>
-<span><span class="co">#    $ conda deactivate</span></span></code></pre>
+<pre class="sourceCode powershell" tabindex="0"><code class="sourceCode powershell"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>uv venv <span class="op">--</span>python<span class="op">=</span><span class="dv">3.12</span><span class="op">;</span> <span class="cf">if</span> <span class="op">(</span><span class="va">$LASTEXITCODE</span> <span class="op">-eq</span> <span class="dv">0</span><span class="op">)</span> <span class="op">{</span> uv pip install <span class="op">-</span>r https<span class="op">://</span>raw<span class="op">.</span><span class="fu">githubusercontent</span><span class="op">.</span><span class="fu">com</span><span class="op">/</span>carpentries-incubator<span class="op">/</span>geospatial-python<span class="op">/</span>main<span class="op">/</span>files<span class="op">/</span>requirements<span class="op">.</span><span class="fu">txt</span><span class="op">}</span></span></code></pre>
 </div>
-</li>
-<li>
-<p>Now Activate the <code>geospatial</code> environment by
-running:</p>
-<div class="codewrapper sourceCode" id="cb7">
-<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="ex">conda</span> activate geospatial</span></code></pre>
 </div>
-</li>
-</ol><p>If successful, the text <code>(base)</code> in your terminal prompt
-will now read <code>(geospatial)</code> indicating that you are now in
-the Anaconda virtual environment named <code>geospatial</code>. The
-command <code>which python</code> should confirm that we’re using the
-Python installation in the <code>geospatial</code> virtual environment.
-For example:</p>
-<div class="codewrapper sourceCode" id="cb8">
-<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">which</span> python</span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>/Users/your-username/anaconda3/envs/geospatial/bin/python</code></pre>
 </div>
-<p>IMPORTANT: If you close the terminal, you will need to reactivate
-this environment with <code>conda activate geospatial</code> to use the
-Python libraries required for the lesson and to start JupyterLab, which
-is also installed in the <code>geospatial</code> environment.</p>
 </div>
+<p>After the installation, a <code>.venv</code> directory will be
+created in the current directory, which contains the virtual environment
+with all the required dependencies.</p>
 <div class="section level3">
-<h3 id="starting-jupyterlab">Starting JupyterLab<a class="anchor" aria-label="anchor" href="#starting-jupyterlab"></a></h3>
-<p>In order to follow the lesson, you should launch JupyterLab. After
-activating the geospatial conda environment, enter the following command
-in your terminal (use the <strong>Anaconda prompt</strong> on
-<strong>Windows</strong>):</p>
-<div class="codewrapper sourceCode" id="cb10">
-<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="ex">jupyter</span> lab</span></code></pre>
-</div>
+<h3 id="testing-the-installation">Testing the installation<a class="anchor" aria-label="anchor" href="#testing-the-installation"></a></h3>
+<p>In order to follow the lesson, you should launch JupyterLab. Let’s
+try it now to make sure everything is set up correctly. You should run
+the following command in your terminal from the
+<code>geospatial-python</code> directory:</p>
+<pre><code>uv run jupyter lab</code></pre>
 <p>Once you have launched JupyterLab, create a new Python 3 notebook,
 type the following code snippet in a cell and press the “Play”
 button:</p>
-<div class="codewrapper sourceCode" id="cb11">
+<div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="im">import</span> rioxarray</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="im">import</span> rioxarray</span></code></pre>
 </div>
 <p>If all the steps above completed successfully you are ready to follow
 along with the lesson!</p>
+<div id="alternative-software-setup-using-anaconda" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
 </div>
-<div class="section level3">
-<h3 id="troubleshooting-conda-command-not-found">Troubleshooting <code>conda: command not found</code>
-<a class="anchor" aria-label="anchor" href="#troubleshooting-conda-command-not-found"></a></h3>
-<ul><li>
-<p><strong>Mac OS and Linux users:</strong></p>
-<ol style="list-style-type: decimal"><li>
-<p>First, find out where Anaconda is installed.</p>
-<p>The typical install location is in your <code>$HOME</code> directory
-(i.e., <code>/Users/your-username/</code>) so use <code>ls ~</code> to
-check whether an <code>anaconda3</code> directory is present in your
-home directory:</p>
-<div class="codewrapper sourceCode" id="cb12">
-<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">ls</span> ~</span></code></pre>
+<span class="callout-header">Callout</span>
+<div id="alternative-software-setup-using-anaconda" class="callout-inner">
+<h3 class="callout-title">Alternative: software setup using
+Anaconda</h3>
+<div class="callout-content">
+<p>If you prefer to use Anaconda, you can follow the alternative setup
+instructions on <a href="./setup_alternative.html">this page</a>.</p>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>Applications      Downloads       Pictures
-anaconda3         Library         Public
-Desktop           Movies
-Documents         Music</code></pre>
 </div>
-<p>If, like above, you see a directory called <code>anaconda3</code> in
-the output we’re in good shape. If not, <strong>contact the instructor
-for help</strong>.</p>
-</li>
-<li>
-<p>Activate the <code>conda</code> command-line program by entering
-the following command:</p>
-<div class="codewrapper sourceCode" id="cb14">
-<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="bu">source</span> ~/anaconda3/bin/activate</span></code></pre>
 </div>
-<p>If all goes well, nothing will print to the terminal and your prompt
-will now have <code>(base)</code> floating around somewhere on the left.
-This is an indication that you are in the base Anaconda environment.</p>
-<p>Continue from the beginning of step 3 to complete the creation of the
-<code>geospatial</code> virtual environment.</p>
-</li>
-</ol></li>
-</ul><!--
+<!--
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
- --></div>
+ -->
+</div>
 </section></section></main><nav class="bottom-pagination mx-md-4" aria-label="Next Chapter"><!-- content for small screens --><div class="d-block d-sm-block d-md-none">
         <a class="chapter-link float-end" href="../instructor/01-intro-raster-data.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
       </div>
@@ -931,9 +805,9 @@ any links that you are not going to use.
   "creativeWorkStatus": "active",
   "url": "https://carpentries-incubator.github.io/geospatial-python/instructor/index.html",
   "identifier": "https://carpentries-incubator.github.io/geospatial-python/instructor/index.html",
-  "dateCreated": "2026-01-13",
-  "dateModified": "2026-04-07",
-  "datePublished": "2026-04-07"
+  "dateCreated": "2026-04-13",
+  "dateModified": "2026-04-13",
+  "datePublished": "2026-04-13"
 }
 
   </script><script>
