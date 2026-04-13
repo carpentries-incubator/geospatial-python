@@ -4,13 +4,6 @@ title: Instructor Notes
 
 ## Instructor notes
 
-### Episode 1
-
-- The exercise **Exercise: Search satellite scenes using metadata filters** needs extra attention. Its output `search.json` is required for the later episodes. Therefore we recommend:
-  - Do not skip this exercise;
-  - Think twice when you would like to change the query arguments in this exercise;
-  - Make sure all the audience have the output `search.json` before continuing.
-
 ### Episode 3
 
 -  `brpgewaspercelen_definitief_2020_small.gpkg` was created because the original file was too large to download and load. Original file, which was ~500Mb could take several minutes to load, and could crash the Jupyter terminal.
