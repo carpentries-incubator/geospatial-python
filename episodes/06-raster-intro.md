@@ -547,23 +547,47 @@ rhodes_visual.plot.imshow()
 
 ![Overview of the true-color image (multi-band raster)](fig/E06/rhodes_multiband_80.png){alt="true-color image overview"}
 
-Note that the `DataArray.plot.imshow()` function makes assumptions about the shape of the input DataArray, that since it has three channels, the correct colormap for these channels is RGB. It does not work directly on image arrays with more than 3 channels. One can replace one of the RGB channels with another band, to make a false-color image.
-
-:::challenge
-## Exercise: set the plotting aspect ratio
-As seen in the figure above, the true-color image is stretched. Let's visualize it with the right aspect ratio. You can use the [documentation](https://xarray.pydata.org/en/stable/generated/xarray.DataArray.plot.imshow.html) of `DataArray.plot.imshow()`.
-
-::::solution
-Since we know the height/width ratio is 1:1 (check the `rio.height` and `rio.width` attributes), we can set the aspect ratio to be 1. For example, we can choose the size to be 5 inches, and set `aspect=1`. Note that according to the [documentation](https://xarray.pydata.org/en/stable/generated/xarray.DataArray.plot.imshow.html) of `DataArray.plot.imshow()`, when specifying the `aspect` argument, `size` also needs to be provided.
+One can also specify the size of the plot, the aspect ratio, and use the `robust` option to set the color limits:
 
 ```python
-rhodes_visual.plot.imshow(size=5, aspect=1)
+rhodes_visual.plot.imshow(size=5, aspect=1, robust=True)
 ```
 
 ![Overview of the true-color image with the correct aspect ratio](fig/E06/rhodes_multiband_80_equal_aspect.png){alt="raster plot with correct aspect ratio"}
 
+
+
+:::challenge
+## Exercise: what is the correct order of the color channels?
+
+We just visualized the true-color image `rhodes_visual`, which has three color channels: red, green, and blue. Apparently, the `plot.imshow()` function makes assumptions on the order of the channels in `rhodes_visual` and plots a true-color image. Can you figure out this order?
+
+There are multiple ways to do this.
+
+Hints:
+
+1. You can use the [documentation](https://xarray.pydata.org/en/stable/generated/xarray.DataArray.plot.imshow.html) of `DataArray.plot.imshow()`, or
+
+2. You can experiment this by yourself by mannually replacing values in one channel and see how the image changes. 
+
+:::solution
+
+The order is red, green, blue.
+
+To replace values of one channel, for example you can do:
+
+```python
+# The following code generates a red-ish image
+# Therefore we know that the first channel is red.
+rhodes_visual_modified = rhodes_visual.copy()
+rhodes_visual_modified.values[0,:,:] = 255  # set the values to maximum
+```
+
 ::::
 :::
+
+In conclusion, the `DataArray.plot.imshow()` function makes assumptions about the shape of the input DataArray, and the order of these channels. The correct colormap for these channels is RGB. It does not work directly on image arrays with more than 3 channels. One can also replace one of the RGB channels with another, to make a false-color image.
+
 
 :::keypoints
 - `rioxarray` and `xarray` are for working with multidimensional arrays like pandas is for working with tabular data.
