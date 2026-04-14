@@ -173,7 +173,9 @@ downloading high-resolution images when only quick previews are required.
 
 Overviews are often computed using powers of 2 as down-sampling (or zoom) factors. So, typically, the first level
 overview (index 0) corresponds to a zoom factor of 2, the second level overview (index 1) corresponds to a zoom factor
-of 4, and so on. Here, we open the third level overview (index 2, zoom factor 8) and check that the resolution is about 80 m:
+of 4, and so on. According to [GDAL documentation](https://gdal.org/en/stable/drivers/raster/cog.html#drivers/raster/cog-co-RESAMPLING), the default resampling method for non-paletted images is `CUBIC`, for paletted images it is `NEAREST`.
+
+Here, we open the third level overview (index 2, zoom factor 8) and check that the resolution is about 80 m:
 
 ```python
 import rioxarray
@@ -560,7 +562,7 @@ rhodes_visual.plot.imshow(size=5, aspect=1, robust=True)
 :::challenge
 ## Exercise: what is the correct order of the color channels?
 
-We just visualized the true-color image `rhodes_visual`, which has three color channels: red, green, and blue. Apparently, the `plot.imshow()` function makes assumptions on the order of the channels in `rhodes_visual` and plots a true-color image. Can you figure out this order?
+We just visualized the true-color image `rhodes_visual`, which has three color channels: red, green, and blue. Apparently, the `plot.imshow()` function makes assumptions on the order of the channels in `rhodes_visual` to plot a true-color image. Can you figure out this order?
 
 There are multiple ways to do this.
 
