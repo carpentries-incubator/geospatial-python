@@ -549,8 +549,7 @@ rhodes_visual.plot.imshow()
 
 ![Overview of the true-color image (multi-band raster)](fig/E06/rhodes_multiband_80.png){alt="true-color image overview"}
 
-One can also specify the size of the plot, the aspect ratio, and use the `robust` option to set the color limits:
-
+One can also specify the size of the plot, the aspect ratio:
 ```python
 rhodes_visual.plot.imshow(size=5, aspect=1)
 ```
