@@ -552,7 +552,7 @@ rhodes_visual.plot.imshow()
 One can also specify the size of the plot, the aspect ratio, and use the `robust` option to set the color limits:
 
 ```python
-rhodes_visual.plot.imshow(size=5, aspect=1, robust=True)
+rhodes_visual.plot.imshow(size=5, aspect=1)
 ```
 
 ![Overview of the true-color image with the correct aspect ratio](fig/E06/rhodes_multiband_80_equal_aspect.png){alt="raster plot with correct aspect ratio"}
