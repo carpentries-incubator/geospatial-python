@@ -217,6 +217,44 @@ More options can be consulted [here](https://docs.xarray.dev/en/v2024.02.0/gener
 
 :::
 
+:::challenge
+## Exercise: visualize the NIR band
+
+There are other bands in the downloaded Sentinel-2 scene in `data/sentinel2/` directory. In this exercise, let's look in to the NIR (near-infrared) band `data/sentinel2/nir.tif`. Please perform the following steps:
+
+1. Load the NIR band using `rioxarray.open_rasterio()`, what is the dimension of the NIR band? What is the resolution?
+2. Based on the dimension and resolution, load the NIR band again with the appropriate `overview_level` for visualization.
+3. Use the `plot` method to visualize the NIR band. Do you see interesting patterns in the image? What do you think they are?
+
+::::solution
+
+We can use the same techniques that we have used for the red band to explore the NIR band, then inspect the dimension and resolution.
+
+```python
+rhodes_nir = rioxarray.open_rasterio("./data/sentinel2/nir.tif")
+print(rhodes_nir.sizes)
+print(rhodes_nir.rio.resolution())
+```
+
+```output
+Frozen({'band': 1, 'y': 10980, 'x': 10980})
+(10.0, -10.0)
+```
+
+So it turned out that the NIR band has the same dimension and resolution as the red band. Therefore, we can load the NIR band with `overview_level=2` for visualization.
+
+```python
+rhodes_nir_80 = rioxarray.open_rasterio("./data/sentinel2/nir.tif", overview_level=2)
+rhodes_nir_80.plot(robust=True)
+```
+
+![](fig/E06/rhodes_nir_80.png){alt="NIR band 80m resolution"}
+
+As we can see in the image, there is a pattern of low values in NIR band on Rhodes Island, which is likely to be the burned area. We will further explore this in [episode 9](/episodes/09-raster-calculations.md).
+
+::::
+:::
+
 ## View Raster Coordinate Reference System (CRS) in Python
 Another information that we're interested in is the CRS, and it can be accessed with `.rio.crs`. We introduced the concept of a CRS in [an earlier
 episode](03-crs.md). Now we will see how features of the CRS appear in our data file and what
@@ -278,15 +316,7 @@ crs.area_of_use
 AreaOfUse(west=24.0, south=0.0, east=30.0, north=84.0, name='Between 24°E and 30°E, northern hemisphere between equator and 84°N, onshore and offshore. Belarus. Bulgaria. Central African Republic. Democratic Republic of the Congo (Zaire). Egypt. Estonia. Finland. Greece. Latvia. Lesotho. Libya. Lithuania. Moldova. Norway. Poland. Romania. Russian Federation. Sudan. Svalbard. Türkiye (Turkey). Uganda. Ukraine.')
 ```
 
-:::challenge
-## Exercise: find the axes units of the CRS
-What units are our data in? See if you can find a method to examine this information using `help(crs)` or `dir(crs)`
 
-::::solution
-`crs.axis_info` tells us that the CRS for our raster has two axis and both are in meters.
-We could also get this information from the attribute `rhodes_red_80.rio.crs.linear_units`.
-::::
-:::
 
 ### Understanding pyproj CRS Summary
 Let's break down the pieces of the `pyproj` CRS summary. The string contains all of the individual CRS elements that Python or another GIS might need, separated into distinct sections, and datum.
