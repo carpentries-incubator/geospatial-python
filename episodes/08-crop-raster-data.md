@@ -194,7 +194,7 @@ gdf_rhodes = gdf_rhodes.to_crs(red.rio.crs)
 
 red_clip = red.rio.clip(gdf_rhodes["geometry"])
 
-# Step 5 - assing nan values to no data
+# Step 5 - assign nan values to no data
 
 red_clip_nan = red_clip.where(red_clip!=red_clip.rio.nodata)
 

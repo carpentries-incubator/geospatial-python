@@ -56,7 +56,7 @@ degrees) and defines the starting point (i.e. where is [0,0]?) so the angles
 reference a meaningful spot on the earth. Common global datums are WGS84 and
 NAD83. Datums can also be local - fit to a particular area of the globe, but
 ill-fitting outside the area of intended use. For instance local cadastre, land registry and mapping agencies require a high quality for their datasets, which can be obtained using a local system. In this lesson, we will use the
-[WGS84 datum](https://www.linz.govt.nz/data/geodetic-system/datums-projections-and-heights/geodetic-datums/world-geodetic-system-1984-wgs84). The datum is often also refered to as the Geographical Coordinate System.
+[WGS84 datum](https://www.linz.govt.nz/data/geodetic-system/datums-projections-and-heights/geodetic-datums/world-geodetic-system-1984-wgs84). The datum is often also referred to as the Geographical Coordinate System.
 
 * **Projection:** A mathematical transformation of the angular measurements on a
 round earth to a flat surface (i.e. paper or a computer screen). The units
@@ -91,7 +91,7 @@ stem of the fruit. What other parameters could be included in this analogy?
 
 ## Which projection should I use?
 
-A well know projection is the [Mercator projection](https://en.wikipedia.org/wiki/Mercator_projection) introduced by the Flemisch cartographer Gerardus Mercator in the 16th Century. This is a so-called cilindrical projection, meaning that a virtual cilinder is placed around the globe to flatten it. This type of projections are relatively accurate near to the equator, but towards the poles blows things up (more info on cylindrical projections [here](https://gisgeography.com/cylindrical-projection/). The main advantage of the Mercator projection is that it is very suitable for navigation purposes since it always shows North as *up* and South and as *down* - in the 17th century this projection was essential for sailors to navigate the oceans.
+A well know projection is the [Mercator projection](https://en.wikipedia.org/wiki/Mercator_projection) introduced by the Flemisch cartographer Gerardus Mercator in the 16th Century. This is a so-called cylindrical projection, meaning that a virtual cylinder is placed around the globe to flatten it. This type of projections are relatively accurate near to the equator, but towards the poles blows things up (more info on cylindrical projections [here](https://gisgeography.com/cylindrical-projection/). The main advantage of the Mercator projection is that it is very suitable for navigation purposes since it always shows North as *up* and South and as *down* - in the 17th century this projection was essential for sailors to navigate the oceans.
 
 To decide if a projection is right for your data, answer these questions:
 

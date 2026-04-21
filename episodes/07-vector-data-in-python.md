@@ -21,7 +21,7 @@ questions:
 
 In the preceding episodes, we have prepared, selected and downloaded raster data from before and after the wildfire event in the summer of 2023 on the Greek island of Rhodes. To evaluate the impact of this wildfire on the vital infrastructure and built-up areas we are going to create a subset of vector data representing these assets. In this episode you will learn how to extract vector data with specific characteristics like the type of attributes or their locations. The dataset that we will generate in this episode can lateron be confronted with scorched areas which we determine by analyzing the satellite images [Episode 9: Raster Calculations in Python](09-raster-calculations.md).
 
-We'll be examining vector datasets that represent the valuable assests of Rhodes. As mentioned in [Episode 2: Introduction to Vector Data](02-intro-vector-data.md), vector data uses points, lines, and polygons to depict specific features on the Earth's surface. These geographic elements can have one or more attributes, like 'name' and 'population' for a city. In this episode we'll be using two open data sources: the Database of Global Administrative Areas (GADM) dataset to generate a polygon for the island of Rhodes and and Open Street Map data for the vital infrastructure and valuable assets.
+We'll be examining vector datasets that represent the valuable assets of Rhodes. As mentioned in [Episode 2: Introduction to Vector Data](02-intro-vector-data.md), vector data uses points, lines, and polygons to depict specific features on the Earth's surface. These geographic elements can have one or more attributes, like 'name' and 'population' for a city. In this episode we'll be using two open data sources: the Database of Global Administrative Areas (GADM) dataset to generate a polygon for the island of Rhodes and and Open Street Map data for the vital infrastructure and valuable assets.
 
 To handle the vector data in python we use the package [`geopandas`](https://geopandas.org/en/stable/). This package allows us to open, manipulate, and write vector dataset through python.
 
@@ -81,7 +81,7 @@ GID_3 GID_0 COUNTRY    GID_1                       NAME_1  \
 [326 rows x 17 columns]
 ```
 
-The data are read into the variable fields as a `GeoDataFrame`. This is an extened data format of `pandas.DataFrame`, with an extra column `geometry`. To explore the dataframe you can call this variable just like a `pandas dataframe` by using functions like `.shape`, `.head` and `.tail` etc.
+The data are read into the variable fields as a `GeoDataFrame`. This is an extended data format of `pandas.DataFrame`, with an extra column `geometry`. To explore the dataframe you can call this variable just like a `pandas dataframe` by using functions like `.shape`, `.head` and `.tail` etc.
 
 To visualize the polygons we can use the [`plot()`](https://geopandas.org/en/stable/docs/user_guide/mapping.html) function to the `GeoDataFrame` we have loaded `gdf_greece`:
 
@@ -127,7 +127,7 @@ gdf_rhodes.to_file('rhodes.gpkg')
 Now that we have the boundary of our study area, we will make use this to select the main roads in our study area. We will make the following processing steps:
 
 1. Select roads of study area
-2. Select key infrastruture: 'primary', 'secondary', 'tertiary'
+2. Select key infrastructure: 'primary', 'secondary', 'tertiary'
 3. Create a 100m buffer around the rounds. This buffer will be regarded as the infrastructure region. (note that this buffer is arbitrary and can be changed afterwards if you want!)
 
 #### Step 1: Select roads of study area
@@ -164,9 +164,9 @@ gdf_roads.explore()
 
 ![](fig/E07/rhodes_highways.png){alt="rhodes_highways"}
 
-#### Step 2: Select key infrastruture
+#### Step 2: Select key infrastructure
 
-As you will find out while exploring the roads dataset, information about the type of roads is stored in the `fclass` column. To get an overview of the different values that are present in the collumn `fclass` , we can use the [`unique()`](https://pandas.pydata.org/docs/reference/api/pandas.unique.html) function from pandas:
+As you will find out while exploring the roads dataset, information about the type of roads is stored in the `fclass` column. To get an overview of the different values that are present in the column `fclass` , we can use the [`unique()`](https://pandas.pydata.org/docs/reference/api/pandas.unique.html) function from pandas:
 
 ```python
 gdf_roads['fclass'].unique()
@@ -206,7 +206,7 @@ key_infra.plot()
 
 Now that we selected the key infrastructure, we want to create a 100m buffer around them. This buffer will be regarded as the infrastructure region.
 
-As you might have notice, the numbers on the x and y axis of our plots represent Lon Lat coordinates, meaning that the data is not yet projected. The current data has a geographic coordinate system with measures in degrees but not meter. Creating a buffer of 100 meters is not possible. Therfore, in order to create a 100m buffer, we first need to project our data. In our case we decided to project the data as
+As you might have notice, the numbers on the x and y axis of our plots represent Lon Lat coordinates, meaning that the data is not yet projected. The current data has a geographic coordinate system with measures in degrees but not meter. Creating a buffer of 100 meters is not possible. Therefore, in order to create a 100m buffer, we first need to project our data. In our case we decided to project the data as
 WGS 84 / UTM zone 31N, with EPSG code 32631 ([see chapter 03 for more information about the CRS and EPSG codes](/episodes/03-crs.md).
 
 To project our data we use [.to_crs](https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoDataFrame.to_crs.html). We first define a variable with the EPSG value (in our case 32631), which we then us in the to_crs function.
@@ -300,9 +300,9 @@ key_infra_buffer_200 = buffer_crs(key_infra, 200)
 
 Now that we have a buffered dataset for the key infrastructure of Rhodes, our next step is to create a dataset with all the built-up areas. To do so we will use the land use data from OSM, which we prepared for you in the file `data/osm_landuse.gpkg`. This file includes the land use data for the entire Greece. We assume the built-up regions to be the union of three types of land use: "commercial", "industrial", and "residential".
 
-Note that for the simplicity of this course, we limit the built-up regions to these three types of land use. In reality, the built-up regions can be more complex also there is definately more high quality (e.g. local government).
+Note that for the simplicity of this course, we limit the built-up regions to these three types of land use. In reality, the built-up regions can be more complex also there is definitely more high quality (e.g. local government).
 
-Now it will be up to you to create a dataset with valueable assets. You should be able to complete this task by yourself with the knowledge you have gained from the previous steps and links to the documentation we provided.
+Now it will be up to you to create a dataset with valuable assets. You should be able to complete this task by yourself with the knowledge you have gained from the previous steps and links to the documentation we provided.
 
 :::challenge
 ## Exercise: Get the built-up regions

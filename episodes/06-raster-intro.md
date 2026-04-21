@@ -159,7 +159,7 @@ This can give us a quick view of the values of our array, but only at the corner
 rhodes_red.plot()
 ```
 
-![Raster plot with rioxarray](fig/E06/rhodes_red_B04.png){alt="raster plot with defualt setting"}
+![Raster plot with rioxarray](fig/E06/rhodes_red_B04.png){alt="raster plot with default setting"}
 
 Notice that `rioxarray` helpfully allows us to plot this raster with spatial coordinates on the x and y axis (this is not the default in many cases with other functions or libraries). Nice plot! However, it probably took a while for it to load therefore it would make sense to resample it.
 
@@ -189,9 +189,9 @@ Lets plot this one.
 ```python
 rhodes_red_80.plot()
 ```
-![Raster plot 80 x 80 meter resolution with rioxarray](fig/E06/rhodes_red_80_B04.png){alt="raster plot with defualt setting"}
+![Raster plot 80 x 80 meter resolution with rioxarray](fig/E06/rhodes_red_80_B04.png){alt="raster plot with default setting"}
 
-This plot shows the satellite measurement of the band `red` for Rhodes before the wildfire. According to the [Sentinel-2 documentaion](https://sentiwiki.copernicus.eu/web/s2-mission#S2-Mission-MSI-Instrument), this is a band with the central wavelength of 665nm. It has a spatial resolution of 10m. Note that the `band=1` in the image title refers to the ordering of all the bands in the  `DataArray`, not the Sentinel-2 band number `04` that we saw in the pystac search results.
+This plot shows the satellite measurement of the band `red` for Rhodes before the wildfire. According to the [Sentinel-2 documentation](https://sentiwiki.copernicus.eu/web/s2-mission#S2-Mission-MSI-Instrument), this is a band with the central wavelength of 665nm. It has a spatial resolution of 10m. Note that the `band=1` in the image title refers to the ordering of all the bands in the  `DataArray`, not the Sentinel-2 band number `04` that we saw in the pystac search results.
 
 
 :::callout
@@ -205,7 +205,7 @@ rhodes_red_80.plot(robust=True)
 
 Now the color limit is set in a way fitting most of the values in the image. We have a better view of the ground pixels.
 
-For a customized displaying range, you can also manually specifying the keywords `vmin` and `vmax`. For example ploting between `100` and `2000`:
+For a customized displaying range, you can also manually specifying the keywords `vmin` and `vmax`. For example plotting between `100` and `2000`:
 
 ```python
 rhodes_red_80.plot(vmin=100, vmax=2000)
@@ -382,7 +382,7 @@ You may notice that `rhodes_red_80.quantile` and `numpy.percentile` didn't requi
 :::
 
 ## Dealing with Missing Data
-So far, we have visualized a band of a Sentinel-2 scene and calculated its statistics. However, as you can see on the image it also contains an artificial band to the top left where data is missing. In order to calculate meaningfull statistics, we need to take missing data into account. Raster data often has a "no data value" associated with it and for raster datasets read in by `rioxarray`. This value is referred to as `nodata`. This is a value assigned to pixels where data is missing or no data were collected. There can be different cases that cause missing data, and it's common for other values in a raster to represent different cases. The most common example is missing data at the edges of rasters.
+So far, we have visualized a band of a Sentinel-2 scene and calculated its statistics. However, as you can see on the image it also contains an artificial band to the top left where data is missing. In order to calculate meaningful statistics, we need to take missing data into account. Raster data often has a "no data value" associated with it and for raster datasets read in by `rioxarray`. This value is referred to as `nodata`. This is a value assigned to pixels where data is missing or no data were collected. There can be different cases that cause missing data, and it's common for other values in a raster to represent different cases. The most common example is missing data at the edges of rasters.
 
 By default the shape of a raster is always rectangular. So if we have a dataset that has a shape that isn't rectangular, like most satellite images, some pixels at the edge of the raster will have no data values. This often happens when the data were collected by a sensor which only flew over some part of a defined region and is also almost by default because of the fact that the earth is not flat and that we work with geographic and projected coordinate system.
 
