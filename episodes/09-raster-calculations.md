@@ -33,7 +33,7 @@ $$ NDVI = \frac{NIR - red}{NIR + red} $$
 
 $$ NDWI = \frac{green - NIR}{green + NIR} $$
 
-* A custom index derived from two of the **short-wave infrared (SWIR)** bands (with wavelenght ~1600 nm and ~2200 nm,
+* A custom index derived from two of the **short-wave infrared (SWIR)** bands (with wavelength ~1600 nm and ~2200 nm,
   respectively):
 
 $$ INDEX = \frac{SWIR_{16} - SWIR_{22}}{SWIR_{16} + SWIR_{22}}$$
