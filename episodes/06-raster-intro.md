@@ -163,7 +163,7 @@ rhodes_red.plot()
 
 Notice that `rioxarray` helpfully allows us to plot this raster with spatial coordinates on the x and y axis (this is not the default in many cases with other functions or libraries). Nice plot! However, it probably took a while for it to load therefore it would make sense to resample it.
 
-# Resampling the raster image
+## Resampling the raster image
 
 The red band image is available as a raster file with 10 m resolution, which makes it a relatively large file (few hundreds MBs).
 In order to keep calculations "manageable" (reasonable execution time and memory usage) we select here a lower resolution version of the image, taking
