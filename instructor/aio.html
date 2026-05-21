@@ -90,7 +90,7 @@
 </div>
     </div>
   </div>
-  <hr></header><nav class="navbar navbar-expand-xl bottom-nav incubator" aria-label="Main Navigation"><div class="container-fluid nav-container">
+</header><nav class="navbar navbar-expand-xl bottom-nav incubator" aria-label="Main Navigation"><div class="container-fluid nav-container">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle Navigation">
       <span class="navbar-toggler-icon"></span>
       <span class="menu-title">Menu</span>
@@ -208,8 +208,7 @@
             </div>
 <!--/div.col -->
 
-            <hr>
-</div>
+          </div>
 <!--/div.mobile-row -->
 
           <div class="accordion accordion-flush" id="accordion-chapters-toggle">
@@ -578,7 +577,7 @@ the small group discussions.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>Raster data has some important advantages:</p>
 <ul>
@@ -632,7 +631,7 @@ If not, which object(s) have a different extent?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>The lines and polygon objects have the same extent. The extent for
 the points object is smaller in the vertical direction than the other
@@ -856,7 +855,7 @@ represented by which vector type.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>State boundaries are shown as polygons. The Fisher Tower location is
 represented by a purple point. There are no line features shown. Note,
@@ -1277,7 +1276,7 @@ collected from?</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <ul>
 <li>Projection is UTM, zone 18, datum is WGS84, ellipsoid is WGS84.</li>
@@ -2623,7 +2622,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-06-raster-intro"><p>Content from <a href="06-raster-intro.html">Read and visualize raster data</a></p>
 <hr>
-<p>Last updated on 2026-01-13 |
+<p>Last updated on 2026-05-21 |
 
         <a href="https://github.com/carpentries-incubator/geospatial-python/edit/main/episodes/06-raster-intro.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 100 minutes</p>
@@ -2915,9 +2914,9 @@ raster with spatial coordinates on the x and y axis (this is not the
 default in many cases with other functions or libraries). Nice plot!
 However, it probably took a while for it to load therefore it would make
 sense to resample it.</p>
-</section><div class="section level1">
-<h1 id="resampling-the-raster-image">Resampling the raster image<a class="anchor" aria-label="anchor" href="#resampling-the-raster-image"></a>
-</h1>
+</section><section><h2 class="section-heading" id="resampling-the-raster-image">Resampling the raster image<a class="anchor" aria-label="anchor" href="#resampling-the-raster-image"></a>
+</h2>
+<hr class="half-width">
 <p>The red band image is available as a raster file with 10 m
 resolution, which makes it a relatively large file (few hundreds MBs).
 In order to keep calculations “manageable” (reasonable execution time
@@ -2998,9 +2997,9 @@ explain more about this below.</p>
 </div>
 </div>
 </div>
-<div class="section level2">
-<h2 id="view-raster-coordinate-reference-system-crs-in-python">View Raster Coordinate Reference System (CRS) in Python<a class="anchor" aria-label="anchor" href="#view-raster-coordinate-reference-system-crs-in-python"></a>
+</section><section><h2 class="section-heading" id="view-raster-coordinate-reference-system-crs-in-python">View Raster Coordinate Reference System (CRS) in Python<a class="anchor" aria-label="anchor" href="#view-raster-coordinate-reference-system-crs-in-python"></a>
 </h2>
+<hr class="half-width">
 <p>Another information that we’re interested in is the CRS, and it can
 be accessed with <code>.rio.crs</code>. We introduced the concept of a
 CRS in <a href="03-crs.html">an earlier episode</a>. Now we will see how
@@ -3159,10 +3158,9 @@ States (Chrismurf at English Wikipedia, via <a href="https://en.wikipedia.org/wi
 Commons</a> (CC-BY))</div>
 </figure>
 </div>
-</div>
-<div class="section level2">
-<h2 id="calculate-raster-statistics">Calculate Raster Statistics<a class="anchor" aria-label="anchor" href="#calculate-raster-statistics"></a>
+</section><section><h2 class="section-heading" id="calculate-raster-statistics">Calculate Raster Statistics<a class="anchor" aria-label="anchor" href="#calculate-raster-statistics"></a>
 </h2>
+<hr class="half-width">
 <p>It is useful to know the minimum or maximum values of a raster
 dataset. We can compute these and other descriptive statistics with
 <code>min</code>, <code>max</code>, <code>mean</code>, and
@@ -3249,10 +3247,9 @@ or jupyter lab.</p>
 </div>
 </div>
 </div>
-</div>
-<div class="section level2">
-<h2 id="dealing-with-missing-data">Dealing with Missing Data<a class="anchor" aria-label="anchor" href="#dealing-with-missing-data"></a>
+</section><section><h2 class="section-heading" id="dealing-with-missing-data">Dealing with Missing Data<a class="anchor" aria-label="anchor" href="#dealing-with-missing-data"></a>
 </h2>
+<hr class="half-width">
 <p>So far, we have visualized a band of a Sentinel-2 scene and
 calculated its statistics. However, as you can see on the image it also
 contains an artificial band to the top left where data is missing. In
@@ -3371,10 +3368,9 @@ data: the data type of the <code>DataArray</code> was changed from
 integers to float (as can be seen when we printed the statistics). This
 needs to be taken into consideration when the data type matters in your
 application.</p>
-</div>
-<div class="section level2">
-<h2 id="raster-bands">Raster Bands<a class="anchor" aria-label="anchor" href="#raster-bands"></a>
+</section><section><h2 class="section-heading" id="raster-bands">Raster Bands<a class="anchor" aria-label="anchor" href="#raster-bands"></a>
 </h2>
+<hr class="half-width">
 <p>So far we looked into a single band raster, i.e. the <code>red</code>
 band of a Sentinel-2 scene. However, for certain applications it is
 helpful to visualize the true-color image of the region. This is
@@ -3506,8 +3502,7 @@ handled with care for statistics and visualization.</li>
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
  -->
-</div>
-</div></section><section id="aio-07-vector-data-in-python"><p>Content from <a href="07-vector-data-in-python.html">Vector data in Python</a></p>
+</section></section><section id="aio-07-vector-data-in-python"><p>Content from <a href="07-vector-data-in-python.html">Vector data in Python</a></p>
 <hr>
 <p>Last updated on 2025-05-20 |
 
@@ -4835,7 +4830,7 @@ indices?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -5922,7 +5917,7 @@ any links that you are not going to use.
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
 
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.20.1" class="external-link">sandpaper (0.20.1)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.9" class="external-link">pegboard (0.7.9)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.1.0" class="external-link">varnish (1.1.0)</a></p>
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.20.2" class="external-link">sandpaper (0.20.2)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.9" class="external-link">pegboard (0.7.9)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.1.1" class="external-link">varnish (1.1.1)</a></p>
 		</div>
 		</footer>
 </div> <!-- / div.container -->
@@ -5944,9 +5939,9 @@ any links that you are not going to use.
   "creativeWorkStatus": "active",
   "url": "https://carpentries-incubator.github.io/geospatial-python/instructor/aio.html",
   "identifier": "https://carpentries-incubator.github.io/geospatial-python/instructor/aio.html",
-  "dateCreated": "2026-04-13",
-  "dateModified": "2026-05-19",
-  "datePublished": "2026-05-19"
+  "dateCreated": "2026-05-21",
+  "dateModified": "2026-05-21",
+  "datePublished": "2026-05-21"
 }
 
   </script><script>
