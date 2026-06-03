@@ -373,7 +373,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Crop raster data with rioxarray and geopandas</h1>
-        <p>Last updated on 2026-01-13 |
+        <p>Last updated on 2026-06-03 |
 
         <a href="https://github.com/carpentries-incubator/geospatial-python/edit/main/episodes/08-crop-raster-data.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -679,7 +679,7 @@ to transform the no data values to not-a-number (NaN) values.</p>
 <span id="cb15-19"><a href="#cb15-19" tabindex="-1" aria-label="code-block-15-19"></a></span>
 <span id="cb15-20"><a href="#cb15-20" tabindex="-1" aria-label="code-block-15-20"></a>red_clip <span class="op">=</span> red.rio.clip(gdf_rhodes[<span class="st">"geometry"</span>])</span>
 <span id="cb15-21"><a href="#cb15-21" tabindex="-1" aria-label="code-block-15-21"></a></span>
-<span id="cb15-22"><a href="#cb15-22" tabindex="-1" aria-label="code-block-15-22"></a><span class="co"># Step 5 - assing nan values to no data</span></span>
+<span id="cb15-22"><a href="#cb15-22" tabindex="-1" aria-label="code-block-15-22"></a><span class="co"># Step 5 - assign nan values to no data</span></span>
 <span id="cb15-23"><a href="#cb15-23" tabindex="-1" aria-label="code-block-15-23"></a></span>
 <span id="cb15-24"><a href="#cb15-24" tabindex="-1" aria-label="code-block-15-24"></a>red_clip_nan <span class="op">=</span> red_clip.where(red_clip<span class="op">!=</span>red_clip.rio.nodata)</span>
 <span id="cb15-25"><a href="#cb15-25" tabindex="-1" aria-label="code-block-15-25"></a></span>
@@ -844,9 +844,9 @@ any links that you are not going to use.
   "creativeWorkStatus": "active",
   "url": "https://carpentries-incubator.github.io/geospatial-python/08-crop-raster-data.html",
   "identifier": "https://carpentries-incubator.github.io/geospatial-python/08-crop-raster-data.html",
-  "dateCreated": "2026-05-21",
-  "dateModified": "2026-01-13",
-  "datePublished": "2026-06-02"
+  "dateCreated": "2026-06-03",
+  "dateModified": "2026-06-03",
+  "datePublished": "2026-06-03"
 }
 
   </script><script>

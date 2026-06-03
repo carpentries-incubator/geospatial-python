@@ -376,7 +376,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Vector data in Python</h1>
-        <p>Last updated on 2025-05-20 |
+        <p>Last updated on 2026-06-03 |
 
         <a href="https://github.com/carpentries-incubator/geospatial-python/edit/main/episodes/07-vector-data-in-python.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -427,15 +427,15 @@ dataset that we will generate in this episode can lateron be confronted
 with scorched areas which we determine by analyzing the satellite images
 <a href="09-raster-calculations.html">Episode 9: Raster Calculations in
 Python</a>.</p>
-<p>We’ll be examining vector datasets that represent the valuable
-assests of Rhodes. As mentioned in <a href="02-intro-vector-data.html">Episode 2: Introduction to Vector
-Data</a>, vector data uses points, lines, and polygons to depict
-specific features on the Earth’s surface. These geographic elements can
-have one or more attributes, like ‘name’ and ‘population’ for a city. In
-this episode we’ll be using two open data sources: the Database of
-Global Administrative Areas (GADM) dataset to generate a polygon for the
-island of Rhodes and and Open Street Map data for the vital
-infrastructure and valuable assets.</p>
+<p>We’ll be examining vector datasets that represent the valuable assets
+of Rhodes. As mentioned in <a href="02-intro-vector-data.html">Episode
+2: Introduction to Vector Data</a>, vector data uses points, lines, and
+polygons to depict specific features on the Earth’s surface. These
+geographic elements can have one or more attributes, like ‘name’ and
+‘population’ for a city. In this episode we’ll be using two open data
+sources: the Database of Global Administrative Areas (GADM) dataset to
+generate a polygon for the island of Rhodes and and Open Street Map data
+for the vital infrastructure and valuable assets.</p>
 <p>To handle the vector data in python we use the package <a href="https://geopandas.org/en/stable/" class="external-link"><code>geopandas</code></a>. This
 package allows us to open, manipulate, and write vector dataset through
 python.</p>
@@ -523,7 +523,7 @@ Note that geopandas is often abbreviated as gpd.</p>
 [326 rows x 17 columns]</code></pre>
 </div>
 <p>The data are read into the variable fields as a
-<code>GeoDataFrame</code>. This is an extened data format of
+<code>GeoDataFrame</code>. This is an extended data format of
 <code>pandas.DataFrame</code>, with an extra column
 <code>geometry</code>. To explore the dataframe you can call this
 variable just like a <code>pandas dataframe</code> by using functions
@@ -583,7 +583,7 @@ the <code>to_file()</code> function save this file for future use.</p>
 this to select the main roads in our study area. We will make the
 following processing steps:</p>
 <ol style="list-style-type: decimal"><li>Select roads of study area</li>
-<li>Select key infrastruture: ‘primary’, ‘secondary’, ‘tertiary’</li>
+<li>Select key infrastructure: ‘primary’, ‘secondary’, ‘tertiary’</li>
 <li>Create a 100m buffer around the rounds. This buffer will be regarded
 as the infrastructure region. (note that this buffer is arbitrary and
 can be changed afterwards if you want!)</li>
@@ -635,10 +635,10 @@ above.</p>
 </div>
 <figure><img src="fig/E07/rhodes_highways.png" alt="rhodes_highways" class="figure mx-auto d-block"></figure></div>
 <div class="section level4">
-<h4 id="step-2-select-key-infrastruture">Step 2: Select key infrastruture<a class="anchor" aria-label="anchor" href="#step-2-select-key-infrastruture"></a></h4>
+<h4 id="step-2-select-key-infrastructure">Step 2: Select key infrastructure<a class="anchor" aria-label="anchor" href="#step-2-select-key-infrastructure"></a></h4>
 <p>As you will find out while exploring the roads dataset, information
 about the type of roads is stored in the <code>fclass</code> column. To
-get an overview of the different values that are present in the collumn
+get an overview of the different values that are present in the column
 <code>fclass</code> , we can use the <a href="https://pandas.pydata.org/docs/reference/api/pandas.unique.html" class="external-link"><code>unique()</code></a>
 function from pandas:</p>
 <div class="codewrapper sourceCode" id="cb13">
@@ -689,7 +689,7 @@ region.</p>
 plots represent Lon Lat coordinates, meaning that the data is not yet
 projected. The current data has a geographic coordinate system with
 measures in degrees but not meter. Creating a buffer of 100 meters is
-not possible. Therfore, in order to create a 100m buffer, we first need
+not possible. Therefore, in order to create a 100m buffer, we first need
 to project our data. In our case we decided to project the data as WGS
 84 / UTM zone 31N, with EPSG code 32631 (<a href="/episodes/03-crs.html">see chapter 03 for more information about
 the CRS and EPSG codes</a>.</p>
@@ -812,9 +812,9 @@ built-up regions to be the union of three types of land use:
 “commercial”, “industrial”, and “residential”.</p>
 <p>Note that for the simplicity of this course, we limit the built-up
 regions to these three types of land use. In reality, the built-up
-regions can be more complex also there is definately more high quality
+regions can be more complex also there is definitely more high quality
 (e.g. local government).</p>
-<p>Now it will be up to you to create a dataset with valueable assets.
+<p>Now it will be up to you to create a dataset with valuable assets.
 You should be able to complete this task by yourself with the knowledge
 you have gained from the previous steps and links to the documentation
 we provided.</p>
@@ -1018,9 +1018,9 @@ any links that you are not going to use.
   "creativeWorkStatus": "active",
   "url": "https://carpentries-incubator.github.io/geospatial-python/07-vector-data-in-python.html",
   "identifier": "https://carpentries-incubator.github.io/geospatial-python/07-vector-data-in-python.html",
-  "dateCreated": "2026-05-21",
-  "dateModified": "2025-05-20",
-  "datePublished": "2026-06-02"
+  "dateCreated": "2026-06-03",
+  "dateModified": "2026-06-03",
+  "datePublished": "2026-06-03"
 }
 
   </script><script>

@@ -380,7 +380,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Read and visualize raster data</h1>
-        <p>Last updated on 2026-05-21 |
+        <p>Last updated on 2026-06-03 |
 
         <a href="https://github.com/carpentries-incubator/geospatial-python/edit/main/episodes/06-raster-intro.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -661,7 +661,7 @@ pandas <code>DataFrame</code> with <code>DataArray.plot()</code>.</p>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1" aria-label="code-block-13-1"></a>rhodes_red.plot()</span></code></pre>
 </div>
-<figure><img src="fig/E06/rhodes_red_B04.png" alt="raster plot with defualt setting" class="figure mx-auto d-block"><div class="figcaption">Raster plot with rioxarray</div>
+<figure><img src="fig/E06/rhodes_red_B04.png" alt="raster plot with default setting" class="figure mx-auto d-block"><div class="figcaption">Raster plot with rioxarray</div>
 </figure><p>Notice that <code>rioxarray</code> helpfully allows us to plot this
 raster with spatial coordinates on the x and y axis (this is not the
 default in many cases with other functions or libraries). Nice plot!
@@ -701,11 +701,11 @@ about 80 m:</p>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" tabindex="-1" aria-label="code-block-16-1"></a>rhodes_red_80.plot()</span></code></pre>
 </div>
-<figure><img src="fig/E06/rhodes_red_80_B04.png" alt="raster plot with defualt setting" class="figure mx-auto d-block"><div class="figcaption">Raster plot 80 x 80 meter resolution with
+<figure><img src="fig/E06/rhodes_red_80_B04.png" alt="raster plot with default setting" class="figure mx-auto d-block"><div class="figcaption">Raster plot 80 x 80 meter resolution with
 rioxarray</div>
 </figure><p>This plot shows the satellite measurement of the band
 <code>red</code> for Rhodes before the wildfire. According to the <a href="https://sentiwiki.copernicus.eu/web/s2-mission#S2-Mission-MSI-Instrument" class="external-link">Sentinel-2
-documentaion</a>, this is a band with the central wavelength of 665nm.
+documentation</a>, this is a band with the central wavelength of 665nm.
 It has a spatial resolution of 10m. Note that the <code>band=1</code> in
 the image title refers to the ordering of all the bands in the
 <code>DataArray</code>, not the Sentinel-2 band number <code>04</code>
@@ -731,7 +731,7 @@ every case.</p>
 image. We have a better view of the ground pixels.</p>
 <p>For a customized displaying range, you can also manually specifying
 the keywords <code>vmin</code> and <code>vmax</code>. For example
-ploting between <code>100</code> and <code>2000</code>:</p>
+plotting between <code>100</code> and <code>2000</code>:</p>
 <div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -994,7 +994,7 @@ or jupyter lab.</p>
 <hr class="half-width"><p>So far, we have visualized a band of a Sentinel-2 scene and
 calculated its statistics. However, as you can see on the image it also
 contains an artificial band to the top left where data is missing. In
-order to calculate meaningfull statistics, we need to take missing data
+order to calculate meaningful statistics, we need to take missing data
 into account. Raster data often has a “no data value” associated with it
 and for raster datasets read in by <code>rioxarray</code>. This value is
 referred to as <code>nodata</code>. This is a value assigned to pixels
@@ -1297,9 +1297,9 @@ any links that you are not going to use.
   "creativeWorkStatus": "active",
   "url": "https://carpentries-incubator.github.io/geospatial-python/06-raster-intro.html",
   "identifier": "https://carpentries-incubator.github.io/geospatial-python/06-raster-intro.html",
-  "dateCreated": "2026-05-21",
-  "dateModified": "2026-05-21",
-  "datePublished": "2026-06-02"
+  "dateCreated": "2026-06-03",
+  "dateModified": "2026-06-03",
+  "datePublished": "2026-06-03"
 }
 
   </script><script>
