@@ -31,7 +31,7 @@ We have created `assets.gpkg` in Episode "Vector data in Python",  which contain
 import rioxarray
 burned = rioxarray.open_rasterio('burned.tif')
 
-# Load assests polygons
+# Load assets polygons
 import geopandas as gpd
 assets = gpd.read_file('assets.gpkg')
 ```
