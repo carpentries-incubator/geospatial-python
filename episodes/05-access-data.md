@@ -521,7 +521,7 @@ in the NASA Common Metadata Repository (CMR) and it can be accessed from the STA
 `https://cmr.earthdata.nasa.gov/stac/LPCLOUD`.
 
 - Using `pystac_client`, search for all assets of the Landsat 8 collection (`HLSL30.v2.0`) from February to March
-  2021, intersecting the point with longitude/latitute coordinates (-73.97, 40.78) deg.
+  2021, intersecting the point with longitude/latitude coordinates (-73.97, 40.78) deg.
 - Visualize an item's thumbnail (asset key `browse`).
 
 :::: solution
