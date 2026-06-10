@@ -173,7 +173,9 @@ downloading high-resolution images when only quick previews are required.
 
 Overviews are often computed using powers of 2 as down-sampling (or zoom) factors. So, typically, the first level
 overview (index 0) corresponds to a zoom factor of 2, the second level overview (index 1) corresponds to a zoom factor
-of 4, and so on. Here, we open the third level overview (index 2, zoom factor 8) and check that the resolution is about 80 m:
+of 4, and so on. According to [GDAL documentation](https://gdal.org/en/stable/drivers/raster/cog.html#drivers/raster/cog-co-RESAMPLING), the default resampling method for non-paletted images is `CUBIC`, for paletted images it is `NEAREST`.
+
+Here, we open the third level overview (index 2, zoom factor 8) and check that the resolution is about 80 m:
 
 ```python
 import rioxarray
@@ -215,6 +217,44 @@ rhodes_red_80.plot(vmin=100, vmax=2000)
 
 More options can be consulted [here](https://docs.xarray.dev/en/v2024.02.0/generated/xarray.plot.imshow.html). You will notice that these parameters are part of the `imshow` method from the plot function. Since plot originates from matplotlib and is so widely used, your python environment helps you to interpret the parameters without having to specify the method. It is a service to help you, but can be confusing when teaching it. We will explain more about this below.
 
+:::
+
+:::challenge
+## Exercise: visualize the NIR band
+
+There are other bands in the downloaded Sentinel-2 scene in `data/sentinel2/` directory. In this exercise, let's look in to the NIR (near-infrared) band `data/sentinel2/nir.tif`. Please perform the following steps:
+
+1. Load the NIR band using `rioxarray.open_rasterio()`, what is the dimension of the NIR band? What is the resolution?
+2. Based on the dimension and resolution, load the NIR band again with the appropriate `overview_level` for visualization.
+3. Use the `plot` method to visualize the NIR band. Do you see interesting patterns in the image? What do you think they are?
+
+::::solution
+
+We can use the same techniques that we have used for the red band to explore the NIR band, then inspect the dimension and resolution.
+
+```python
+rhodes_nir = rioxarray.open_rasterio("./data/sentinel2/nir.tif")
+print(rhodes_nir.sizes)
+print(rhodes_nir.rio.resolution())
+```
+
+```output
+Frozen({'band': 1, 'y': 10980, 'x': 10980})
+(10.0, -10.0)
+```
+
+So it turned out that the NIR band has the same dimension and resolution as the red band. Therefore, we can load the NIR band with `overview_level=2` for visualization.
+
+```python
+rhodes_nir_80 = rioxarray.open_rasterio("./data/sentinel2/nir.tif", overview_level=2)
+rhodes_nir_80.plot(robust=True)
+```
+
+![](fig/E06/rhodes_nir_80.png){alt="NIR band 80m resolution"}
+
+As we can see in the image, there is a pattern of low values in NIR band on Rhodes Island, which is likely to be the burned area. We will further explore this in [episode 9](/episodes/09-raster-calculations.md).
+
+::::
 :::
 
 ## View Raster Coordinate Reference System (CRS) in Python
@@ -278,15 +318,7 @@ crs.area_of_use
 AreaOfUse(west=24.0, south=0.0, east=30.0, north=84.0, name='Between 24°E and 30°E, northern hemisphere between equator and 84°N, onshore and offshore. Belarus. Bulgaria. Central African Republic. Democratic Republic of the Congo (Zaire). Egypt. Estonia. Finland. Greece. Latvia. Lesotho. Libya. Lithuania. Moldova. Norway. Poland. Romania. Russian Federation. Sudan. Svalbard. Türkiye (Turkey). Uganda. Ukraine.')
 ```
 
-:::challenge
-## Exercise: find the axes units of the CRS
-What units are our data in? See if you can find a method to examine this information using `help(crs)` or `dir(crs)`
 
-::::solution
-`crs.axis_info` tells us that the CRS for our raster has two axis and both are in meters.
-We could also get this information from the attribute `rhodes_red_80.rio.crs.linear_units`.
-::::
-:::
 
 ### Understanding pyproj CRS Summary
 Let's break down the pieces of the `pyproj` CRS summary. The string contains all of the individual CRS elements that Python or another GIS might need, separated into distinct sections, and datum.
@@ -517,23 +549,46 @@ rhodes_visual.plot.imshow()
 
 ![Overview of the true-color image (multi-band raster)](fig/E06/rhodes_multiband_80.png){alt="true-color image overview"}
 
-Note that the `DataArray.plot.imshow()` function makes assumptions about the shape of the input DataArray, that since it has three channels, the correct colormap for these channels is RGB. It does not work directly on image arrays with more than 3 channels. One can replace one of the RGB channels with another band, to make a false-color image.
-
-:::challenge
-## Exercise: set the plotting aspect ratio
-As seen in the figure above, the true-color image is stretched. Let's visualize it with the right aspect ratio. You can use the [documentation](https://xarray.pydata.org/en/stable/generated/xarray.DataArray.plot.imshow.html) of `DataArray.plot.imshow()`.
-
-::::solution
-Since we know the height/width ratio is 1:1 (check the `rio.height` and `rio.width` attributes), we can set the aspect ratio to be 1. For example, we can choose the size to be 5 inches, and set `aspect=1`. Note that according to the [documentation](https://xarray.pydata.org/en/stable/generated/xarray.DataArray.plot.imshow.html) of `DataArray.plot.imshow()`, when specifying the `aspect` argument, `size` also needs to be provided.
-
+One can also specify the size of the plot, the aspect ratio:
 ```python
 rhodes_visual.plot.imshow(size=5, aspect=1)
 ```
 
 ![Overview of the true-color image with the correct aspect ratio](fig/E06/rhodes_multiband_80_equal_aspect.png){alt="raster plot with correct aspect ratio"}
 
+
+
+:::challenge
+## Exercise: what is the correct order of the color channels?
+
+We just visualized the true-color image `rhodes_visual`, which has three color channels: red, green, and blue. Apparently, the `plot.imshow()` function makes assumptions on the order of the channels in `rhodes_visual` to plot a true-color image. Can you figure out this order?
+
+There are multiple ways to do this.
+
+Hints:
+
+1. You can use the [documentation](https://xarray.pydata.org/en/stable/generated/xarray.DataArray.plot.imshow.html) of `DataArray.plot.imshow()`, or
+
+2. You can experiment this by yourself by mannually replacing values in one channel and see how the image changes. 
+
+:::solution
+
+The order is red, green, blue.
+
+To replace values of one channel, for example you can do:
+
+```python
+# The following code generates a red-ish image
+# Therefore we know that the first channel is red.
+rhodes_visual_modified = rhodes_visual.copy()
+rhodes_visual_modified.values[0,:,:] = 255  # set the values to maximum
+```
+
 ::::
 :::
+
+In conclusion, the `DataArray.plot.imshow()` function makes assumptions about the shape of the input DataArray, and the order of these channels. The correct colormap for these channels is RGB. It does not work directly on image arrays with more than 3 channels. One can also replace one of the RGB channels with another, to make a false-color image.
+
 
 :::keypoints
 - `rioxarray` and `xarray` are for working with multidimensional arrays like pandas is for working with tabular data.
